@@ -1,0 +1,9 @@
+{
+	"name": "@campaign-buddy/game-systems",
+	"version": "0.1.0",
+	"author": "Joseph Stewart",
+	"license": "MIT",
+	"dependencies": {
+		"typescript": "^4.2.4"
+	}
+}
