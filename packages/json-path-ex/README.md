@@ -6,7 +6,9 @@ Note: Arbitrary script execution via `()` is *not supported* because it's an XSS
 
 ## `<?()>` key filter expression
 
-`<?()>` allows you to build filter expression based off of keys. Take the following JSON
+`<?()>` allows you to build filter expression based off of keys.
+
+### Example
 
 ```json
 {
@@ -22,11 +24,39 @@ Note: Arbitrary script execution via `()` is *not supported* because it's an XSS
 }
 ```
 
-`$..<?(@ != "bar")>.baz` would recursively search the root for every property that isn't `bar` and try to access a property called `baz`. The result would be the following.
+```
+query: "$..<?(@ != 'bar')>.baz"
 
-```json
-[
+result: [
 	1,
 	3
 ]
+```
+
+```
+query: "$.<?(@ == 'bar')>.baz"
+result: [
+	2
+]
+```
+
+## `{}` Sub-query
+
+Sub-query allow you to dynamically reference JSON properties within your query by resolving. Sub queries must resolve to a primitive type (number, string, or boolean) or else they will return null
+
+### Example
+
+```json
+{
+	"levels": [
+		{ "acBoost": 1 },
+		{ "acBoost": 2 },
+	],
+	"currentLevel": 1
+}
+```
+
+```
+query: "$.levels[{$.currentLevel}].acBoost"
+result: 2
 ```
