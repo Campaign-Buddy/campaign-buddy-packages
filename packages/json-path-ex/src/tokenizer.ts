@@ -1,10 +1,11 @@
-enum TokenKind {
+export enum TokenKind {
 	// Keyword tokens
 	Root,
 	ChildSelector,
 	RecursiveDescent,
 	CurrentElement,
 	Colon,
+	WildCard,
 
 	// Grouping Tokens
 	BracketStart,
@@ -27,6 +28,10 @@ function getNextToken(query: string): [kind: TokenKind, content: string, remaini
 
 	if (query.startsWith('$')) {
 		return [TokenKind.Root, '$', query.substring(1)];
+	}
+
+	if (query.startsWith('*')) {
+		return [TokenKind.WildCard, '*', query.substring(1)];
 	}
 
 	if (query.startsWith('..')) {

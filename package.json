@@ -9,5 +9,11 @@
 			"packages/game-systems",
 			"packages/json-path-ex"
 		]
+	},
+	"devDependencies": {
+		"@types/babel__core": "^7.1.14",
+		"@types/jest": "^26.0.22",
+		"jest": "^26.6.3",
+		"ts-jest": "^26.5.5"
 	}
 }
