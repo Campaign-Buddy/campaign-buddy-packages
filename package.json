@@ -6,7 +6,8 @@
 	"workspaces": {
 		"packages": [
 			"packages/form-generator",
-			"packages/game-systems"
+			"packages/game-systems",
+			"packages/json-path-ex"
 		]
 	}
 }
