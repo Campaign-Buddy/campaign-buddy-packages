@@ -1,0 +1,10 @@
+{
+	"extends": "./tsconfig.build.json",
+	"compilerOptions": {
+		"baseUrl": "./packages",
+		"paths": {
+			"@campaign-buddy/form-generator": ["form-generator/src/index"],
+			"@campaign-buddy/game-systems": ["game-systems/src/index"]
+		}
+	}
+}

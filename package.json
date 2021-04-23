@@ -1,10 +1,12 @@
 {
-  "name": "campaign-buddy-frontend",
-  "version": "1.0.0",
-  "license": "MIT",
-  "private": true,
-  "workspaces": [
-	  "packages/game-systems",
-	  "packages/layout-systems"
-  ]
+	"name": "campaign-buddy-frontend",
+	"version": "1.0.0",
+	"license": "MIT",
+	"private": true,
+	"workspaces": {
+		"packages": [
+			"packages/form-generator",
+			"packages/game-systems"
+		]
+	}
 }

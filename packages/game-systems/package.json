@@ -4,6 +4,10 @@
 	"author": "Joseph Stewart",
 	"license": "MIT",
 	"dependencies": {
+		"@campaign-buddy/form-generator": "0.1.0",
 		"typescript": "^4.2.4"
+	},
+	"scripts": {
+		"build": "tsc --build"
 	}
 }
