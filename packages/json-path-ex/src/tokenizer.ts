@@ -15,6 +15,8 @@ export enum TokenKind {
 	FilterExpressionStart,
 	ExpressionStart,
 	ExpressionEnd,
+	CurlyBraceStart,
+	CurlyBraceEnd,
 
 	// Unrecognized tokens,
 	// could be an accessor
@@ -26,28 +28,12 @@ function getNextToken(query: string): [kind: TokenKind, content: string, remaini
 		return;
 	}
 
-	if (query.startsWith('$')) {
-		return [TokenKind.Root, '$', query.substring(1)];
+	if (query.startsWith('{')) {
+		return [TokenKind.CurlyBraceStart, '{', query.substring(1)];
 	}
 
-	if (query.startsWith('*')) {
-		return [TokenKind.WildCard, '*', query.substring(1)];
-	}
-
-	if (query.startsWith('..')) {
-		return [TokenKind.RecursiveDescent, '..', query.substring(2)];
-	}
-
-	if (query.startsWith('.')) {
-		return [TokenKind.ChildSelector, '.', query.substring(1)];
-	}
-
-	if (query.startsWith('@')) {
-		return [TokenKind.CurrentElement, '@', query.substring(1)];
-	}
-
-	if (query.startsWith(':')) {
-		return [TokenKind.Colon, ':', query.substring(1)];
+	if (query.startsWith('}')) {
+		return [TokenKind.CurlyBraceEnd, '}', query.substring(1)];
 	}
 
 	if (query.startsWith('[')) {
@@ -78,7 +64,31 @@ function getNextToken(query: string): [kind: TokenKind, content: string, remaini
 		return [TokenKind.ExpressionEnd, ')', query.substring(1)];
 	}
 
-	const match = /^[^\.:@\<\>\?\(\)@$\[\]]+/.exec(query);
+	if (query.startsWith('$')) {
+		return [TokenKind.Root, '$', query.substring(1)];
+	}
+
+	if (query.startsWith('*')) {
+		return [TokenKind.WildCard, '*', query.substring(1)];
+	}
+
+	if (query.startsWith('..')) {
+		return [TokenKind.RecursiveDescent, '..', query.substring(2)];
+	}
+
+	if (query.startsWith('.')) {
+		return [TokenKind.ChildSelector, '.', query.substring(1)];
+	}
+
+	if (query.startsWith('@')) {
+		return [TokenKind.CurrentElement, '@', query.substring(1)];
+	}
+
+	if (query.startsWith(':')) {
+		return [TokenKind.Colon, ':', query.substring(1)];
+	}
+
+	const match = /^[^\{\}\.:@\<\>\?\(\)@$\[\]]+/.exec(query);
 
 	if (!match) {
 		throw new Error(`Unexpected token: ${query}`);

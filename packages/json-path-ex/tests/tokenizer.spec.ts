@@ -70,6 +70,16 @@ const cases: [query: string, tokenization: [kind: TokenKind, content: string][]]
 			[TokenKind.ChildSelector, '.'],
 			[TokenKind.ExpressionContent, 'foo'],
 		]
+	],
+	[
+		'{$.foo}',
+		[
+			[TokenKind.CurlyBraceStart, '{'],
+			[TokenKind.Root, '$'],
+			[TokenKind.ChildSelector, '.'],
+			[TokenKind.ExpressionContent, 'foo'],
+			[TokenKind.CurlyBraceEnd, '}'],
+		]
 	]
 ]
 
