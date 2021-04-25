@@ -29,12 +29,12 @@ export function query(json: any, q: string): any | undefined {
 			allResults = evaluateWildCard(allResults);
 		}
 
+		if (allResults.length === 0) {
+			return undefined;
+		}
+
 		i++;
 		expressionResult = popQueryExpression(remainingQuery);
-	}
-
-	if (allResults.length === 0) {
-		return undefined;
 	}
 
 	if (allResults.length === 1) {

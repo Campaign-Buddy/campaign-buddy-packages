@@ -242,9 +242,35 @@ const testCases: TestCase[] = [
 		query: '$.[foo]',
 		expected: 'bar',
 	},
+	{
+		json: {
+			foo: 'bar',
+		},
+		query: '$.baz',
+		expected: undefined,
+	},
+	{
+		json: {
+			foo: {
+				bar: 'baz',
+			},
+		},
+		query: '$.bar.baz',
+		expected: undefined,
+	},
 ];
 
 describe('query', () => {
+	it('does lazy expression evaluation and early returns when there are no results', () => {
+		const json = {
+			foo: 'baz',
+		};
+
+		const result = query(json, '$.bar[?ruhoh]');
+
+		expect(result).toBeUndefined();
+	});
+
 	for (const testCase of testCases) {
 		it(`works for ${testCase.query}`, () => {
 			const result = query(testCase.json, testCase.query);
