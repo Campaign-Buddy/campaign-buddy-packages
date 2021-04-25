@@ -1,8 +1,8 @@
 # json-path-ex
 
-`json-path-ex` is an implementation of [Goessners JsonPath](https://goessner.net/articles/JsonPath/) with some extensions. It supports the full specification (or at least what specification exists) for JsonPath along with the following syntax additions.
+`json-path-ex` is an implementation of [Goessners JsonPath](https://goessner.net/articles/JsonPath/) with some extensions. It supports the full specification* (or at least what specification exists) for JsonPath along with the following syntax additions.
 
-Note: Arbitrary script execution via `()` is *not supported* because it's an XSS vector.
+**\*Note**: Script expressions are not supported by json-path-ex
 
 ## `<?()>` key filter expression
 
