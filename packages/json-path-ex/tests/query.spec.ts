@@ -156,6 +156,92 @@ const testCases: TestCase[] = [
 			3,
 		],
 	},
+	{
+		json: {
+			foo: [
+				1,
+				2,
+				3,
+				4,
+				5,
+			],
+		},
+		query: '$.foo[?(@ % 2 === 0)]',
+		expected: [
+			2,
+			4,
+		],
+	},
+	{
+		json: {
+			foo: [
+				1,
+				'abc',
+				undefined,
+				{
+					bar: 2,
+				},
+				true,
+				{
+					bar: 3,
+				},
+				{
+					bar: 'hi',
+				}
+			],
+		},
+		query: '$.foo[?(typeof @.bar === "number")]',
+		expected: [
+			{
+				bar: 2,
+			},
+			{
+				bar: 3,
+			}
+		],
+	},
+	{
+		json: {
+			foo: 'bar',
+		},
+		query: '$["foo"]',
+		expected: 'bar',
+	},
+	{
+		json: {
+			foo: 'bar',
+		},
+		query: '$.["foo"]',
+		expected: 'bar',
+	},
+	{
+		json: {
+			foo: 'bar',
+		},
+		query: '$[\'foo\']',
+		expected: 'bar',
+	},
+	{
+		json: {
+			foo: 'bar',
+		},
+		query: '$.[\'foo\']',
+		expected: 'bar',
+	},
+	{
+		json: {
+			foo: 'bar',
+		},
+		query: '$[foo]',
+		expected: 'bar',
+	},
+	{
+		json: {
+			foo: 'bar',
+		},
+		query: '$.[foo]',
+		expected: 'bar',
+	},
 ];
 
 describe('query', () => {

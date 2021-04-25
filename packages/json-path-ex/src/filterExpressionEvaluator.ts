@@ -31,5 +31,9 @@ export function evaluateFilterExpression(expression: string, currentElement: any
 
 	const normalizedExpression = `return ${expression.replace(/@/g, '_$')}`;
 
-	return Boolean(compileCode(normalizedExpression)({ ['_$']: currentElement, ['$']: root }));
+	try {
+		return Boolean(compileCode(normalizedExpression)({ ['_$']: currentElement, ['$']: root }));
+	} catch {
+		return false;
+	}
 }
