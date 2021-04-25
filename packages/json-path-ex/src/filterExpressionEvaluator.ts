@@ -29,7 +29,7 @@ export function evaluateFilterExpression(expression: string, currentElement: any
 		throw new Error('Filter expression must not contain \'_$\'. It is reserved for the internal filter expression implementation.');
 	}
 
-	const normalizedExpression = `return ${expression.replaceAll('@', '_$')}`;
+	const normalizedExpression = `return ${expression.replace(/@/g, '_$')}`;
 
 	return Boolean(compileCode(normalizedExpression)({ ['_$']: currentElement, ['$']: root }));
 }

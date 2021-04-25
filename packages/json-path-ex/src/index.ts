@@ -29,6 +29,7 @@ export function query(json: any, q: string): any | undefined {
 			allResults = evaluateWildCard(allResults);
 		}
 
+		i++;
 		expressionResult = popQueryExpression(remainingQuery);
 	}
 
@@ -54,20 +55,20 @@ function evaluateWildCard(jsonResults: any[]): any[] {
 	return allResults;
 }
 
-function evaluateRecursiveDescent(jsonResults: any[]): any[] {
+function evaluateRecursiveDescent(jsonResults: any[], isFirstCall = true): any[] {
 	const allResults = [];
 
 	for (const result of jsonResults) {
 		const values = Object.values(result);
 
-		for (const value of values) {
-			if (typeof value === 'function') {
-				throw new Error('Cannot recurse function properties');
-			}
+		if (typeof result === 'object' && isFirstCall) {
+			allResults.push(result);
+		}
 
+		for (const value of values) {
 			if (typeof value === 'object') {
 				allResults.push(value);
-				allResults.push(...evaluateRecursiveDescent([value]));
+				allResults.push(...evaluateRecursiveDescent([value], false));
 			}
 		}
 	}
@@ -95,7 +96,7 @@ function evaluateKeyFilter(jsonResults: any[], filterExpression: string, root: a
 	const allResults = [];
 
 	for (const result of jsonResults) {
-		const keys = Object.keys(jsonResults);
+		const keys = Object.keys(result);
 
 		for (const key of keys) {
 			if (evaluateFilterExpression(filterExpression, key, root)) {
