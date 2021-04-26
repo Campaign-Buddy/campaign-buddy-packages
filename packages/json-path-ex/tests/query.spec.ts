@@ -405,6 +405,44 @@ const testCases: TestCase[] = [
 		query: '$["foo.bar"].baz',
 		expected: true,
 	},
+	{
+		json: {
+			['foo.bar']: {
+				baz: true,
+			}
+		},
+		query: '$.foo.bar.baz',
+		expected: undefined,
+	},
+	{
+		json: {
+			foo: [
+				1,
+				2,
+				3
+			],
+			bar: {
+				a: 'a',
+				b: 'b',
+				c: 'c',
+			},
+			baz: true,
+		},
+		query: '$.*',
+		expected: [
+			[
+				1,
+				2,
+				3,
+			],
+			{
+				a: 'a',
+				b: 'b',
+				c: 'c',
+			},
+			true
+		]
+	}
 ];
 
 const errorTestCases: ErrorTestCase[] = [
@@ -506,7 +544,7 @@ const errorTestCases: ErrorTestCase[] = [
 	},
 	{
 		json: {
-			['foo.bar']: {
+			['foo bar']: {
 				baz: true,
 			}
 		},
