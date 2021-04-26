@@ -6,6 +6,7 @@ export enum QueryExpressionKind {
 	KeyFilter,
 	PropertyAccessor,
 	WildCard,
+	Slice,
 }
 
 interface QueryExpression {
@@ -75,18 +76,32 @@ export function popQueryExpression(query: string): [expression: QueryExpression,
 	}
 
 	if (query.startsWith('[')) {
-		const match = /^\[((?:'|")?)([^\.\$\?\[\]\(\)'"]+)\1\]/.exec(query);
+		const sliceMatch = /^\[(\d+)?:(\d+)?(?::(\d+))?\]/.exec(query);
 
-		if (!match) {
+		if (sliceMatch) {
+			const [match, start, end, increment] = sliceMatch;
+
+			return [
+				{
+					kind: QueryExpressionKind.Slice,
+					content: `${start ?? '0'}:${end ?? ''}:${increment ?? '1'}`,
+				},
+				query.substring(match.length),
+			]
+		}
+
+		const propertyAccessor = /^\[((?:'|")?)([^\.\$\?\[\]\(\)'":]+)\1\]/.exec(query);
+
+		if (!propertyAccessor) {
 			throw new Error('Invalid property accessor expression');
 		}
 
 		return [
 			{
 				kind: QueryExpressionKind.PropertyAccessor,
-				content: match[2],
+				content: propertyAccessor[2],
 			},
-			query.substring(match[0].length),
+			query.substring(propertyAccessor[0].length),
 		];
 	}
 

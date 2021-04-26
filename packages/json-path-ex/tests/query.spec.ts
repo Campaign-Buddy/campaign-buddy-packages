@@ -258,6 +258,130 @@ const testCases: TestCase[] = [
 		query: '$.bar.baz',
 		expected: undefined,
 	},
+	{
+		json: {
+			foo: [
+				0,
+				1,
+				2,
+				3,
+			]
+		},
+		query: '$.foo[1:3]',
+		expected: [
+			1,
+			2,
+		],
+	},
+	{
+		json: {
+			foo: [
+				0,
+				1,
+				2,
+				3,
+			]
+		},
+		query: '$.foo[:3]',
+		expected: [
+			0,
+			1,
+			2,
+		],
+	},
+	{
+		json: {
+			foo: [
+				0,
+				1,
+				2,
+				3,
+			]
+		},
+		query: '$.foo[1:]',
+		expected: [
+			1,
+			2,
+			3
+		],
+	},
+	{
+		json: {
+			foo: [
+				0,
+				1,
+				2,
+				3,
+			]
+		},
+		query: '$.foo[:]',
+		expected: [
+			0,
+			1,
+			2,
+			3
+		],
+	},
+	{
+		json: {
+			foo: [
+				0,
+				1,
+				2,
+				3,
+			]
+		},
+		query: '$.foo[1:4:2]',
+		expected: [
+			1,
+			3
+		],
+	},
+	{
+		json: {
+			foo: [
+				0,
+				1,
+				2,
+				3,
+			]
+		},
+		query: '$.foo[1::2]',
+		expected: [
+			1,
+			3
+		],
+	},
+	{
+		json: {
+			foo: [
+				0,
+				1,
+				2,
+				3,
+			]
+		},
+		query: '$.foo[::2]',
+		expected: [
+			0,
+			2,
+		],
+	},
+	{
+		json: {
+			foo: [
+				0,
+				1,
+				2,
+				3,
+			]
+		},
+		query: '$.foo[:3:2]',
+		expected: [
+			0,
+			2,
+		],
+	},
 ];
 
 describe('query', () => {

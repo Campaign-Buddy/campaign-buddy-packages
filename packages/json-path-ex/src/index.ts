@@ -27,6 +27,8 @@ export function query(json: any, q: string): any | undefined {
 			allResults = evaluatePropertyAccessor(allResults, expression.content);
 		} else if (expression.kind === QueryExpressionKind.WildCard) {
 			allResults = evaluateWildCard(allResults);
+		} else if (expression.kind === QueryExpressionKind.Slice) {
+			allResults = evaluateSlice(allResults, expression.content);
 		}
 
 		if (allResults.length === 0) {
@@ -114,6 +116,35 @@ function evaluatePropertyAccessor(jsonResults: any[], property: string): any[] {
 	for (const result of jsonResults) {
 		if (typeof result === 'object' && result[property] !== undefined && result[property] !== null) {
 			allResults.push(result[property]);
+		}
+	}
+
+	return allResults;
+}
+
+function evaluateSlice(jsonResults: any[], content: string): any[] {
+	const allResults = [];
+
+	const [startRaw, endRaw, stepRaw] = content.split(':');
+	const start = parseInt(startRaw);
+	const end = endRaw ? parseInt(endRaw) : Infinity;
+	const step = parseInt(stepRaw);
+
+	if (step <= 0) {
+		throw new Error('Step must be a positive non-zero integer');
+	}
+
+	if (start > end) {
+		return [];
+	}
+
+	for (const result of jsonResults) {
+		if (typeof result === 'object' && Array.isArray(result)) {
+			const trueEnd = Math.min(result.length, end);			
+
+			for (let i = start; i < trueEnd; i += step) {
+				allResults.push(result[i]);
+			}
 		}
 	}
 
