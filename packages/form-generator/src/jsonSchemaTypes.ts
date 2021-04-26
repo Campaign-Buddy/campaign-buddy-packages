@@ -16,6 +16,10 @@ export const number: CampaignBuddySchema = {
 	type: 'number',
 };
 
+export const genericObject: CampaignBuddySchema = {
+	type: 'object',
+};
+
 export const object: (object: { [k: string]: CampaignBuddySchema }) => CampaignBuddySchema = (object) => ({
 	type: 'object',
 	properties: object,
@@ -43,6 +47,14 @@ export const richText: CampaignBuddySchema = {
 	$uiWidget: Widgets.RichText,
 }
 
+export const icon: CampaignBuddySchema = {
+	type: 'object',
+	properties: {
+		url: string,
+	},
+	$uiWidget: Widgets.Icon,
+}
+
 const _arrayOf: (object: CampaignBuddySchema) => CampaignBuddySchema = (object) => ({
 	type: 'array',
 	items: object,
@@ -56,4 +68,25 @@ export const arrayOf = {
 	entities: (ent: EntityDefinition) => _arrayOf(entity(ent)),
 	stats: _arrayOf(stat),
 	richTexts: _arrayOf(richText),
-}
+	genericObjects: _arrayOf(genericObject),
+	custom: (obj: CampaignBuddySchema) => _arrayOf(obj),
+};
+
+export const choice: (obj: CampaignBuddySchema) => CampaignBuddySchema = (obj) => ({
+	type: 'object',
+	properties: {
+		name: string,
+		value: obj,
+	},
+	$uiWidget: Widgets.Select,
+})
+
+export const multiChoice: (obj: CampaignBuddySchema) => CampaignBuddySchema = (obj) => ({
+	type: 'object',
+	properties: {
+		selected: _arrayOf(obj),
+		options: arrayOf.custom(choice(obj)),
+		maxChoices: number,
+	},
+	$uiWidget: Widgets.MultiSelect,
+});
