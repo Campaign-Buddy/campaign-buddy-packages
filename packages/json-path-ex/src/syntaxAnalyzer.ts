@@ -90,7 +90,7 @@ export function popQueryExpression(query: string): [expression: QueryExpression,
 			]
 		}
 
-		const propertyAccessor = /^\[((?:'|")?)([^\.\$\?\[\]\(\)'":]+)\1\]/.exec(query);
+		const propertyAccessor = /^\[((?:'|")?)([^\[\]'"]+)\1\]/.exec(query);
 
 		if (!propertyAccessor) {
 			throw new Error('Invalid property accessor expression');
@@ -125,6 +125,10 @@ export function popQueryExpression(query: string): [expression: QueryExpression,
 
 	if (!match) {
 		throw new Error('Invalid property accessor');
+	}
+
+	if (/\s/.test(match[0])) {
+		throw new Error('Direct property accessor must not contain whitespace');
 	}
 
 	return [

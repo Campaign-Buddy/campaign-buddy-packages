@@ -6,6 +6,11 @@ interface TestCase {
 	expected: any;
 }
 
+interface ErrorTestCase {
+	query: string;
+	json: any;
+}
+
 const testCases: TestCase[] = [
 	{
 		json: {
@@ -382,7 +387,132 @@ const testCases: TestCase[] = [
 			2,
 		],
 	},
+	{
+		json: {
+			['foo bar']: {
+				baz: true,
+			}
+		},
+		query: '$["foo bar"].baz',
+		expected: true,
+	},
+	{
+		json: {
+			['foo.bar']: {
+				baz: true,
+			}
+		},
+		query: '$["foo.bar"].baz',
+		expected: true,
+	},
 ];
+
+const errorTestCases: ErrorTestCase[] = [
+	{
+		json: {
+			foo: {
+				bar: 'baz',
+			},
+		},
+		query: '$.foo.$',
+	},
+	{
+		json: {
+			foo: {
+				bar: 'baz',
+			},
+		},
+		query: '$.[]',
+	},
+	{
+		json: {
+			foo: {
+				bar: 'baz',
+			},
+		},
+		query: '$[?@.foo.bar === "baz"]',
+	},
+	{
+		json: {
+			foo: {
+				bar: 'baz',
+			},
+		},
+		query: '$[?(@.foo.bar === "baz"]',
+	},
+	{
+		json: {
+			foo: {
+				bar: 'baz',
+			},
+		},
+		query: '$[?@.foo.bar === "baz")]',
+	},
+	{
+		json: {
+			foo: {
+				bar: 'baz',
+			},
+		},
+		query: '$[?(@.foo.bar === "baz")',
+	},
+	{
+		json: {
+			foo: {
+				bar: 'baz',
+			},
+		},
+		query: '$?(@.foo.bar === "baz")]',
+	},
+	{
+		json: {
+			foo: {
+				bar: 'baz',
+			},
+		},
+		query: '$<?@ === "foo">',
+	},
+	{
+		json: {
+			foo: {
+				bar: 'baz',
+			},
+		},
+		query: '$<?(@ === "foo">',
+	},
+	{
+		json: {
+			foo: {
+				bar: 'baz',
+			},
+		},
+		query: '$<?@ === "foo")>',
+	},
+	{
+		json: {
+			foo: {
+				bar: 'baz',
+			},
+		},
+		query: '$<?(@ === "foo")',
+	},
+	{
+		json: {
+			foo: {
+				bar: 'baz',
+			},
+		},
+		query: '$?(@ === "foo")>',
+	},
+	{
+		json: {
+			['foo.bar']: {
+				baz: true,
+			}
+		},
+		query: '$.foo bar.baz',
+	},
+]
 
 describe('query', () => {
 	it('does lazy expression evaluation and early returns when there are no results', () => {
@@ -406,6 +536,13 @@ describe('query', () => {
 			} else {
 				expect(result).toStrictEqual(testCase.expected);
 			}
+		})
+	}
+
+	for (const errorCase of errorTestCases) {
+		it(`throws an error for ${errorCase.query}`, () =>{
+			const getResult = () => query(errorCase.json, errorCase.query);
+			expect(getResult).toThrow();
 		})
 	}
 })
