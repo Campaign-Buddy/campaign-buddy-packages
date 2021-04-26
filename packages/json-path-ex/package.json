@@ -6,7 +6,10 @@
 	"dependencies": {
 		"typescript": "^4.2.4"
 	},
-	"main": "build/src/index",
+	"main": "dist/src/index",
+	"files": [
+		"dist/"
+	],
 	"scripts": {
 		"build": "tsc --build",
 		"test": "jest"

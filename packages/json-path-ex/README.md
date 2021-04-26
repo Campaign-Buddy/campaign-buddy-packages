@@ -42,7 +42,7 @@ result: [
 
 ## `{}` Sub-query
 
-Sub-query allow you to dynamically reference JSON properties within your query by resolving. Sub queries must resolve to a primitive type (number, string, or boolean) or else they will return null
+Sub-query allow you to dynamically reference JSON properties within your query by resolving. Sub queries must resolve to a single primitive type (number, string, or boolean) or else the whole query will return undefined.
 
 ### Example
 

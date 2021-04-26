@@ -442,7 +442,80 @@ const testCases: TestCase[] = [
 			},
 			true
 		]
-	}
+	},
+	{
+		json: {
+			index: 1,
+			arr: [
+				'a',
+				'b',
+				'c',
+			]
+		},
+		query: '$.arr[{$.index}]',
+		expected: 'b',
+	},
+	{
+		json: {
+			index: 1,
+			arr: [
+				'a',
+				'b',
+				'c',
+			],
+			foo: {
+				index: 2,
+			}
+		},
+		query: '$.arr[{$..index}]',
+		expected: undefined,
+	},
+	{
+		json: {
+			index: 0,
+			indicies: [
+				1,
+				2,
+				3,
+			],
+			arr: [
+				'a',
+				'b',
+				'c,'
+			]
+		},
+		query: '$.arr[{$.indicies[{$.index}]}]',
+		expected: 'b',
+	},
+	{
+		json: {
+			index: 2,
+			arr: [
+				'a',
+				'b',
+				'c',
+			]
+		},
+		query: '$.arr[{$.idex}]',
+		expected: undefined,
+	},
+	{
+		json: {
+			index: 0,
+			indicies: [
+				1,
+				2,
+				3,
+			],
+			arr: [
+				'a',
+				'b',
+				'c,'
+			]
+		},
+		query: '$.arr[{$.indicies[{$.idex}]}]',
+		expected: undefined,
+	},
 ];
 
 const errorTestCases: ErrorTestCase[] = [

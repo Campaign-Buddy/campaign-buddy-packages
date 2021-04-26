@@ -1,9 +1,53 @@
 import { evaluateFilterExpression } from './filterExpressionEvaluator';
 import { popQueryExpression, QueryExpressionKind } from './syntaxAnalyzer';
 
-export function query(json: any, q: string): any | undefined {
+export function query(json: any, q: string) {
 	if (!q) {
-		return json;
+		return undefined;
+	}
+
+	const cleanedQuery = resolveSubQueries(json, q);
+
+	if (!cleanedQuery) {
+		return undefined;
+	}
+
+	return _query(json, cleanedQuery);
+}
+
+function resolveSubQueries(json: any, q: string): string | undefined {
+	let curQuery = q;
+	let prevQuery = '';
+	const errorMessage = 'SubQuery must resolve to a single primitive';
+
+	while (prevQuery !== curQuery) {
+		prevQuery = curQuery;
+
+		try {
+			curQuery = curQuery.replace(/\{([^\{\}]+)\}/g, (match, subQuery) => {
+				const result = _query(json, subQuery);
+		
+				if (typeof result === 'object' || result === undefined) {
+					throw new Error(errorMessage);
+				}
+		
+				return result;
+			});
+		} catch (err) {
+			if (err.message === errorMessage) {
+				return undefined;
+			}
+
+			throw err;
+		}
+	}
+
+	return curQuery;
+}
+
+function _query(json: any, q: string): any | undefined {
+	if (!q) {
+		return undefined;
 	}
 
 	let allResults = [json];
