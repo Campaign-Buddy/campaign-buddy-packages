@@ -7,5 +7,6 @@ export const feat: EntityDefinition = {
 		modifiers,
 		name: types.string,
 		description: types.string,
+		additionalProperties: types.genericObject,
 	}),
 }

@@ -20,6 +20,11 @@ export const genericObject: CampaignBuddySchema = {
 	type: 'object',
 };
 
+export const dynamicallyResolvedType: (expression: string) => CampaignBuddySchema = (expression) => ({
+	type: 'object',
+	$dynamicTypeExpression: expression,
+});
+
 export const object: (object: { [k: string]: CampaignBuddySchema }) => CampaignBuddySchema = (object) => ({
 	type: 'object',
 	properties: object,

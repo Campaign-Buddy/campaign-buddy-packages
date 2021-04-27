@@ -8,4 +8,5 @@ export interface CampaignBuddySchema extends JSONSchema4 {
 	items?: CampaignBuddySchema;
 	$uiWidget?: Widgets;
 	$entity?: string;
+	$dynamicTypeExpression?: string;
 }
