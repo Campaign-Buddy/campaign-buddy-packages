@@ -4,21 +4,21 @@ import { CampaignBuddySchema } from './CampaignBuddySchema';
 
 /* Primitive Types */
 
-export const string: CampaignBuddySchema = {
+export const string: () => CampaignBuddySchema = () => ({
 	type: 'string',
-};
+});
 
-export const boolean: CampaignBuddySchema = {
+export const boolean: () => CampaignBuddySchema = () => ({
 	type: 'boolean',
-};
+});
 
-export const number: CampaignBuddySchema = {
+export const number: () => CampaignBuddySchema = () => ({
 	type: 'number',
-};
+});
 
-export const genericObject: CampaignBuddySchema = {
+export const genericObject: () => CampaignBuddySchema = () => ({
 	type: 'object',
-};
+});
 
 export const dynamicallyResolvedType: (expression: string) => CampaignBuddySchema = (expression) => ({
 	type: 'object',
@@ -29,7 +29,6 @@ export const object: (object: { [k: string]: CampaignBuddySchema }) => CampaignB
 	type: 'object',
 	properties: object,
 });
-
 /* Complex Types */
 
 export const entity: (entity: EntityDefinition) => CampaignBuddySchema = (object) => ({
@@ -38,27 +37,27 @@ export const entity: (entity: EntityDefinition) => CampaignBuddySchema = (object
 	$uiWidget: Widgets.EntityPicker
 });
 
-export const stat: CampaignBuddySchema = {
+export const stat: () => CampaignBuddySchema = () => ({
 	type: 'number',
 	$uiWidget: Widgets.Stat,
-}
+});
 
-export const richText: CampaignBuddySchema = {
+export const richText: () => CampaignBuddySchema = () => ({
 	type: 'object',
 	properties: {
 		html: string,
 		plain: string,
 	},
 	$uiWidget: Widgets.RichText,
-}
+});
 
-export const icon: CampaignBuddySchema = {
+export const icon: () => CampaignBuddySchema = () => ({
 	type: 'object',
 	properties: {
 		url: string,
 	},
 	$uiWidget: Widgets.Icon,
-}
+});
 
 const _arrayOf: (object: CampaignBuddySchema) => CampaignBuddySchema = (object) => ({
 	type: 'array',
@@ -66,14 +65,14 @@ const _arrayOf: (object: CampaignBuddySchema) => CampaignBuddySchema = (object) 
 });
 
 export const arrayOf = {
-	numbers: _arrayOf(number),
-	strings: _arrayOf(string),
-	booleans: _arrayOf(boolean),
+	numbers: () => _arrayOf(number()),
+	strings: () => _arrayOf(string()),
+	booleans: () => _arrayOf(boolean()),
 	objects: (obj: { [k: string]: CampaignBuddySchema }) => _arrayOf(object(obj)),
 	entities: (ent: EntityDefinition) => _arrayOf(entity(ent)),
-	stats: _arrayOf(stat),
-	richTexts: _arrayOf(richText),
-	genericObjects: _arrayOf(genericObject),
+	stats: () => _arrayOf(stat()),
+	richTexts: () => _arrayOf(richText()),
+	genericObjects: () => _arrayOf(genericObject()),
 	custom: (obj: CampaignBuddySchema) => _arrayOf(obj),
 };
 

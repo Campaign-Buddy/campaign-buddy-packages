@@ -6,15 +6,15 @@ import { spell } from './spell';
 export const race: EntityDefinition = {
 	name: 'race',
 	schema: types.object({
-		name: types.string,
-		description: types.string,
+		name: types.string(),
+		description: types.string(),
 		modifiers,
 		feats: types.arrayOf.entities(feat),
 		choices: types.object({
 			feats: types.arrayOf.entities(feat),
 			spells: types.arrayOf.entities(spell),
 		}),
-		gainedSpellSlots: types.arrayOf.numbers,
-		additionalProperties: types.genericObject,
+		gainedSpellSlots: types.arrayOf.numbers(),
+		additionalProperties: types.genericObject(),
 	}),
 };
