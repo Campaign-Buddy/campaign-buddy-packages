@@ -4,6 +4,7 @@
 	"author": "Joseph Stewart",
 	"license": "MIT",
 	"dependencies": {
+		"@campaign-buddy/json-path-ex": "0.1.0",
 		"typescript": "^4.2.4"
 	},
 	"main": "dist/src/index",
