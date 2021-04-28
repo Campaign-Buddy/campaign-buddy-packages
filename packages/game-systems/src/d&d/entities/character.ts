@@ -1,4 +1,4 @@
-import { EntityDefinition, types } from '@campaign-buddy/form-generator';
+import { EntityDefinition, types } from '@campaign-buddy/json-schema-core';
 import { sumModifier } from '../aggregate-utilities';
 import { classEntity } from './classEntity';
 import { feat } from './feat';

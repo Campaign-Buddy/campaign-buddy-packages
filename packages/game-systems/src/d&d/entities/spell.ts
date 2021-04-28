@@ -1,4 +1,4 @@
-import { EntityDefinition, types } from '@campaign-buddy/form-generator';
+import { EntityDefinition, types } from '@campaign-buddy/json-schema-core';
 
 export const spell: EntityDefinition = {
 	name: 'spell',

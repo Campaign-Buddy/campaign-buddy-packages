@@ -1,4 +1,4 @@
-import { EntityDefinition, types } from '@campaign-buddy/form-generator';
+import { EntityDefinition, types } from '@campaign-buddy/json-schema-core';
 import { modifiers } from '../templates';
 
 export const feat: EntityDefinition = {

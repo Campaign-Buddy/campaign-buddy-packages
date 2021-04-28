@@ -1,4 +1,4 @@
-import { types, CampaignBuddySchema } from '@campaign-buddy/form-generator';
+import { types, CampaignBuddySchema } from '@campaign-buddy/json-schema-core';
 
 export const modifiers: CampaignBuddySchema = types.object({
 	wis: types.number(),

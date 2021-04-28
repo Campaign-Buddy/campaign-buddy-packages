@@ -10,6 +10,6 @@
 	],
 
 	"references": [
-		{ "path": "../form-generator/tsconfig.json" }
+		{ "path": "../json-schema-core/tsconfig.json" }
 	]
 }
