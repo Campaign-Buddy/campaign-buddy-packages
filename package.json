@@ -5,10 +5,7 @@
   "private": true,
   "workspaces": {
     "packages": [
-      "packages/json-schema-core",
-      "packages/game-systems",
-      "packages/json-path-ex",
-      "packages/form-generator"
+      "packages/*"
     ]
   },
   "devDependencies": {

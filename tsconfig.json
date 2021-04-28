@@ -3,10 +3,7 @@
 	"compilerOptions": {
 		"baseUrl": "./packages",
 		"paths": {
-			"@campaign-buddy/json-schema-core": ["json-schema-core/src/index"],
-			"@campaign-buddy/game-systems": ["game-systems/src/index"],
-			"@campaign-buddy/json-path-ex": ["json-path-ex/src/index"],
-			"@campaign-buddy/form-generator": ["form-generator/src/index"]
+			"@campaign-buddy/*": ["*/src/index"]
 		}
 	}
 }
