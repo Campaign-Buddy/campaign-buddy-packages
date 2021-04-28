@@ -6,7 +6,7 @@ export const feat: EntityDefinition = {
 	schema: types.object({
 		modifiers,
 		name: types.string(),
-		description: types.string(),
-		additionalProperties: types.genericObject(),
+		description: types.richText(),
+		additionalProperties: types.schema(),
 	}),
-}
+};

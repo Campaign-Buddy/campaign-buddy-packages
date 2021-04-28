@@ -7,7 +7,7 @@ export const race: EntityDefinition = {
 	name: 'race',
 	schema: types.object({
 		name: types.string(),
-		description: types.string(),
+		description: types.richText(),
 		modifiers,
 		feats: types.arrayOf.entities(feat),
 		choices: types.object({
@@ -15,6 +15,6 @@ export const race: EntityDefinition = {
 			spells: types.arrayOf.entities(spell),
 		}),
 		gainedSpellSlots: types.arrayOf.numbers(),
-		additionalProperties: types.genericObject(),
+		additionalProperties: types.schema(),
 	}),
 };

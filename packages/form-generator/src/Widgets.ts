@@ -5,4 +5,5 @@ export enum Widgets {
 	MultiSelect = 'MultiSelect',
 	Select = 'Select',
 	Icon = 'Icon',
+	SchemaBuilder = 'SchemaBuilder',
 }

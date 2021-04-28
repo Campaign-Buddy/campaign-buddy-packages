@@ -6,4 +6,6 @@ export const Components: { [key in Widgets]: string } = {
 	MultiSelect: 'MultiSelect',
 	RichText: 'RichText',
 	Select: 'Select',
+	Icon: 'Icon',
+	SchemaBuilder: 'SchemaBuilder',
 }

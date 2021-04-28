@@ -25,6 +25,12 @@ export const dynamicallyResolvedType: (expression: string) => CampaignBuddySchem
 	$dynamicTypeExpression: expression,
 });
 
+// TODO: Actually return a schema representing a CampaignBuddySchema
+export const schema: () => CampaignBuddySchema = () => ({
+	type: 'object',
+	$uiWidget: Widgets.SchemaBuilder,
+})
+
 export const object: (object: { [k: string]: CampaignBuddySchema }) => CampaignBuddySchema = (object) => ({
 	type: 'object',
 	properties: object,
