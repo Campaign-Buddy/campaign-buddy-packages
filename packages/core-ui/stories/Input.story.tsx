@@ -11,8 +11,8 @@ const Template: Story = () => {
 	const [value, setValue] = useState('');
 
 	return (
-		<Input value={value} onChange={setValue} />
+		<Input value={value} onChange={setValue} label="Please fill me out" />
 	);
 };
 
-export const Primary = Template.bind({});
+export const Primary = Template.bind({})

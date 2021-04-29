@@ -14,6 +14,7 @@ const Template: Story = () => {
 		<TextArea
 			value={value}
 			onChange={setValue}
+			label="Please fill me out"
 		/>
 	);
 };
