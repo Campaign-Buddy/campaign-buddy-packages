@@ -4,10 +4,17 @@
 	"author": "Joseph Stewart",
 	"license": "MIT",
 	"dependencies": {
-		"@campaign-buddy/json-path-ex": "0.1.0"
+		"@blueprintjs/core": "^3.44.0",
+		"@blueprintjs/icons": "^3.26.0",
+		"@campaign-buddy/json-path-ex": "0.1.0",
+		"@types/react": "^17.0.4",
+		"@types/react-dom": "^17.0.3",
+		"styled-components": "^5.2.3"
 	},
 	"devDependencies": {
-		"typescript": "^4.2.4"
+		"typescript": "^4.2.4",
+		"react": "^17.0.2",
+		"react-dom": "^17.0.2"
 	},
 	"main": "dist/src/index",
 	"files": [
@@ -16,5 +23,9 @@
 	"scripts": {
 		"build": "tsc --build",
 		"test": "jest"
+	},
+	"peerDependencies": {
+		"react": "^17.0.2",
+		"react-dom": "^17.0.2"
 	}
 }
