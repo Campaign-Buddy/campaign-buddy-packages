@@ -9,6 +9,7 @@ export default {
 
 const Template: Story = () => {
 	const [value, setValue] = useState('');
+
 	return (
 		<TextArea
 			value={value}

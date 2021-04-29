@@ -4,10 +4,14 @@
 	"compilerOptions": {
 		"outDir": "./dist",
 		"composite": true,
-		"skipDefaultLibCheck": true
+		"skipDefaultLibCheck": true,
+		"typeRoots": [
+			"theme.d.ts"
+		]
 	},
 	"include": [
-		"src/**/*"
+		"src/**/*",
+		"theme.d.ts"
 	],
 	"references": [
 		{ "path": "../json-path-ex/tsconfig.json" }
