@@ -1,4 +1,3 @@
-import React from 'react';
 import styled from 'styled-components';
 import { FormGroup as FormGroupCore } from '@blueprintjs/core';
 import { defaultTheme } from '../theme';
@@ -13,4 +12,4 @@ StyledFormGroup.defaultProps = {
 	theme: defaultTheme,
 };
 
-export { FormGroupCore as FormGroup };
+export { StyledFormGroup as FormGroup };

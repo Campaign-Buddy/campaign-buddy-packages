@@ -2327,6 +2327,11 @@
   dependencies:
     "@types/react" "*"
 
+"@types/math-expression-evaluator@^1.2.0":
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/@types/math-expression-evaluator/-/math-expression-evaluator-1.2.0.tgz#e061c7df5a54dfbdb6ef64735ede0a6a361bc9a8"
+  integrity sha512-vpigE82yKFHZO50AVQ88JSU4ABZYuX/lzPGhKhebFMfFQGjLifE1a9uy/M66nLhO/vxegsefn6pkysSUTdiDjg==
+
 "@types/mdast@^3.0.0":
   version "3.0.3"
   resolved "https://registry.yarnpkg.com/@types/mdast/-/mdast-3.0.3.tgz#2d7d671b1cd1ea3deb306ea75036c2a0407d2deb"
@@ -7234,6 +7239,11 @@ markdown-to-jsx@^7.1.0:
   version "7.1.2"
   resolved "https://registry.yarnpkg.com/markdown-to-jsx/-/markdown-to-jsx-7.1.2.tgz#19d3da4cd8864045cdd13a0d179147fbd6a088d4"
   integrity sha512-O8DMCl32V34RrD+ZHxcAPc2+kYytuDIoQYjY36RVdsLK7uHjgNVvFec4yv0X6LgB4YEZgSvK5QtFi5YVqEpoMA==
+
+math-expression-evaluator@^1.3.7:
+  version "1.3.7"
+  resolved "https://registry.yarnpkg.com/math-expression-evaluator/-/math-expression-evaluator-1.3.7.tgz#1b62225db86af06f7ea1fd9576a34af605a5b253"
+  integrity sha512-nrbaifCl42w37hYd6oRLvoymFK42tWB+WQTMFtksDGQMi5GvlJwnz/CsS30FFAISFLtX+A0csJ0xLiuuyyec7w==
 
 md5.js@^1.3.4:
   version "1.3.5"
