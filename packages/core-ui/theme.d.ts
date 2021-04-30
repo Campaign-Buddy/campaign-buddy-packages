@@ -7,6 +7,8 @@ declare module 'styled-components' {
 		colors: {
 			inputBackground: string;
 			text: string;
+			primary: string;
+			primaryHover: string;
 		}
 	}
 }
