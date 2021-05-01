@@ -35,6 +35,7 @@ export const object: (object: { [k: string]: CampaignBuddySchema }) => CampaignB
 	type: 'object',
 	properties: object,
 });
+
 /* Complex Types */
 
 export const entity: (entity: EntityDefinition) => CampaignBuddySchema = (object) => ({

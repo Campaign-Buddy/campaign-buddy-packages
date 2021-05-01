@@ -4,6 +4,7 @@ export const spell: EntityDefinition = {
 	name: 'spell',
 	schema: types.object({
 		name: types.string(),
+		level: types.number(),
 		description: types.richText(),
 		school: types.string(),
 		components: types.object({
@@ -13,6 +14,6 @@ export const spell: EntityDefinition = {
 		}),
 		duration: types.number(),
 		classes: types.arrayOf.strings(),
-		level: types.number(),
+		atHigherLevels: types.richText(),
 	}),
 };
