@@ -4,9 +4,7 @@ import { Switch as SwitchCore } from '@blueprintjs/core';
 import { defaultTheme } from '../theme';
 
 const StyledSwitch = styled(SwitchCore)`
-	label {
-		color: ${({ theme }) => theme.colors.text};
-	}
+	color: ${({ theme }) => theme.colors.text};
 
 	&.bp3-control.bp3-switch input:checked ~ .bp3-control-indicator {
 		background-color: ${({ theme }) => theme.colors.primary};
