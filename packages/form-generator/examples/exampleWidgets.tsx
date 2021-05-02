@@ -1,34 +1,33 @@
 import React from 'react';
 import { WidgetLookup, WidgetProps } from '../src';
+import {
+	Input,
+	NumberInput,
+	Switch,
+} from '@campaign-buddy/core-ui';
 
 const StringWidget: React.FC<WidgetProps<string>> = ({ value, onChange, label }) => (
-	<input
-		style={{ display: 'block' }}
+	<Input
 		value={value}
-		onChange={e => onChange((e.target as any).value)}
-		placeholder={label}
+		onChange={onChange}
+		label={label}
 	/>
 );
 
 const NumberWidget: React.FC<WidgetProps<number>> = ({ value, onChange, label }) => (
-	<input
-		style={{ display: 'block' }}
+	<NumberInput
 		value={value}
-		onChange={e => onChange(parseInt((e.target as any).value))}
-		type="number"
-		placeholder={label}
+		onChange={onChange}
+		label={label}
 	/>
 );
 
 const BooleanWidget: React.FC<WidgetProps<boolean>> = ({ value, onChange, label }) => (
-	<div>
-		<input
-			checked={value}
-			onChange={e => onChange((e.target as any).checked)}
-			type="checkbox"
-		/>
-		<label>{label}</label>
-	</div>
+	<Switch
+		value={value}
+		onChange={onChange}
+		label={label}
+	/>
 );
 
 const AraryWidget: React.FC<WidgetProps<any>> = () => (

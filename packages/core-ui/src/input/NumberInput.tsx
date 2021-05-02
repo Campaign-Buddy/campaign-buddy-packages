@@ -14,7 +14,7 @@ const StyledInput = styled(InputGroup)`
 	}
 
 	& .bp3-button {
-		margin: 1px;
+		margin: 1px !important;
 
 		&:first-child {
 			border-radius: 0 3px 0 0 !important;
@@ -37,7 +37,7 @@ interface NumberInputProps {
 }
 
 export const NumberInput: React.FC<NumberInputProps> = ({ value, onChange, label }) => {
-	const [internalValue, setInternalValue] = useState(`${value}`);
+	const [internalValue, setInternalValue] = useState(`${value ?? 0}`);
 	const id = useHtmlId();
 
 	// When the value is changed from the outside, then

@@ -3,6 +3,7 @@ import { FormGeneratorProps } from './FormGeneratorProps';
 import { generateUiLayout } from './utility/generateUiLayout';
 import { useDataUpdater } from './useDataUpdater';
 import { FormUiLayout } from './FormUiLayout';
+import styled from 'styled-components';
 
 export const FormGenerator: React.FC<FormGeneratorProps> = ({
 	schema,
@@ -22,12 +23,24 @@ export const FormGenerator: React.FC<FormGeneratorProps> = ({
 	const updateData = useDataUpdater(schema, data, onChange);
 
 	return (
-		<FormUiLayout
-			uiLayout={uiLayout}
-			schema={schema}
-			widgetLookup={widgets}
-			updateValue={updateData}
-			data={data}
-		/>
+		<FormRoot>
+			<FormUiLayout
+				uiLayout={uiLayout}
+				schema={schema}
+				widgetLookup={widgets}
+				updateValue={updateData}
+				data={data}
+			/>
+		</FormRoot>
 	)
 };
+
+const FormRoot = styled.div`
+	& > * {
+		margin-bottom: 4px;
+
+		&:last-child {
+			margin-bottom: 0;
+		}
+	}
+`;

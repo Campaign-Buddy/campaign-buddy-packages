@@ -4,6 +4,7 @@
 	"author": "Joseph Stewart",
 	"license": "MIT",
 	"dependencies": {
+		"@campaign-buddy/core-ui": "0.1.0",
 		"@campaign-buddy/json-path-ex": "0.1.0",
 		"@campaign-buddy/json-schema-core": "0.1.0",
 		"lodash.clonedeep": "^4.5.0",

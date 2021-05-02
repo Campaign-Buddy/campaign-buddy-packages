@@ -4,6 +4,7 @@ import { FormGenerator } from '../src';
 import { exampleSchema } from '../examples/exampleSchema';
 import { exampleWidgets } from '../examples/exampleWidgets';
 import { useCallback, useState } from 'react';
+import '@campaign-buddy/core-ui/src/main.css';
 
 export default {
 	title: 'form-generator/FormGenerator',

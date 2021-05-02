@@ -126,6 +126,10 @@ const FormWidget: React.FC<FormWidgetProps> = ({
 const FormRow = styled.div`
 	display: flex;
 	flex-wrap: wrap;
+	row-gap: 4px;
+	gap: 4px;
+	
+	margin: 16px 0 !important;
 	
 	& > * {
 		flex-grow: 1;
