@@ -36,7 +36,7 @@ export const FormUiLayout: React.FC<FormUiLayoutProps> = ({
 
 			nodes.push(
 				<FormWidget
-					schema={schema}
+					schema={subSchema}
 					widgetLookup={widgetLookup}
 					path={element}
 					updateValue={updateValue}

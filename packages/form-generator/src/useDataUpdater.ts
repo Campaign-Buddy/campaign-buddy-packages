@@ -16,7 +16,7 @@ type DataUpdater = (path: string, update: any) => any;
  * @param onChange 
  * @param debounceTime 
  */
-export function useDataUpdater(schema: JSONSchema4, data: any, onChange: (data: any) => void, debounceTime = 250): DataUpdater {
+export function useDataUpdater(schema: JSONSchema4, data: any, onChange: (data: any) => void, debounceTime = 300): DataUpdater {
 	const pendingUpdates = useRef<Update[]>([]);
 	const timer = useRef<NodeJS.Timeout | undefined>();
 	const handleOnChange = useRef(onChange);
@@ -74,7 +74,7 @@ export function useDataUpdater(schema: JSONSchema4, data: any, onChange: (data: 
 		}
 
 		pendingUpdates.current.push({ path, update });
-		setTimeout(executeUpdates, debounceTime);
+		timer.current = setTimeout(executeUpdates, debounceTime);
 	}, [debounceTime]);
 
 	return addUpdate;
