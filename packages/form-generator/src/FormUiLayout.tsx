@@ -35,13 +35,15 @@ export const FormUiLayout: React.FC<FormUiLayoutProps> = ({
 			const dataForPath = getDataForPath(element, data, subSchema);
 
 			nodes.push(
-				<FormWidget
-					schema={subSchema}
-					widgetLookup={widgetLookup}
-					path={element}
-					updateValue={updateValue}
-					data={dataForPath}
-				/>
+				<FormCell>
+					<FormWidget
+						schema={subSchema}
+						widgetLookup={widgetLookup}
+						path={element}
+						updateValue={updateValue}
+						data={dataForPath}
+					/>
+				</FormCell>
 			);
 		} else if (typeof element === 'object' && !Array.isArray(element)) {
 			nodes.push(
@@ -123,12 +125,15 @@ const FormWidget: React.FC<FormWidgetProps> = ({
 	)
 };
 
+const FormCell = styled.div`
+	margin-bottom: 4px;
+`;
+
 const FormRow = styled.div`
 	display: flex;
 	flex-wrap: wrap;
 	width: 100%;
-	gap: 4px;
-	margin-bottom: 4px;
+	column-gap: 8px;
 	
 	& > * {
 		flex-grow: 1;

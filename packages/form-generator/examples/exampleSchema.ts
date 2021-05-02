@@ -16,10 +16,10 @@ export const exampleSchema = types.object({
 
 export const exampleLayout: UiLayout = [
 	['name', 'description'],
-	['phoneNumber'],
+	'phoneNumber',
 	[
 		['address.street', 'address.apt'],
 		['address.city', 'address.state', 'address.zip'],
 	],
-	['canMail']
+	'canMail'
 ];
