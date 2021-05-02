@@ -43,7 +43,7 @@ export const NumberInput: React.FC<NumberInputProps> = ({ value, onChange, label
 	// When the value is changed from the outside, then
 	// we want to update our internal input
 	useEffect(() => {
-		setInternalValue(`${value}`);
+		setInternalValue(`${value ?? 0}`);
 	}, [value]);
 
 	const onConfirm = useCallback(() => {
