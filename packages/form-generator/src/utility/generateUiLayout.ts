@@ -4,6 +4,10 @@ import { JSONSchema4 } from 'json-schema';
 export function generateUiLayout(schema: JSONSchema4): UiLayout {
 	const results = _generateUiLayout(schema, '$');
 
+	if (results.length === 0) {
+		return results;
+	}
+
 	if (schema.type === 'object') {
 		return results[0] as UiLayout;
 	} else {
@@ -23,9 +27,11 @@ function _generateUiLayout(schema: JSONSchema4, path: string): UiLayout {
 		}
 
 		return [subResults];
-	} else {
+	} else if (schema.title) {
 		return [path];
 	}
+
+	return [];
 }
 
 class InvalidSchemaError extends Error {
