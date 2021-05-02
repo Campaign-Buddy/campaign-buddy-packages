@@ -1,9 +1,8 @@
 import React from 'react';
 import { UiLayout } from '@campaign-buddy/json-schema-core';
 import { JSONSchema4 } from 'json-schema';
-import { WidgetLookup, WidgetProps } from '.';
-import { getDataForPath } from './getDataForPath';
-import { getSchemaForPath } from './getSchemaForPath';
+import { WidgetLookup, WidgetProps } from './FormGeneratorProps';
+import { getDataForPath, getSchemaForPath } from './utility';
 import styled from 'styled-components';
 import { DebouncedWidget } from './DebouncedWidget';
 

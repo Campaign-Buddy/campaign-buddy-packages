@@ -17,9 +17,12 @@ export const exampleSchema = types.object({
 export const exampleLayout: UiLayout = [
 	['name', 'description'],
 	'phoneNumber',
-	[
-		['address.street', 'address.apt'],
-		['address.city', 'address.state', 'address.zip'],
-	],
+	{
+		title: 'Address',
+		uiLayout: [
+			['address.street', 'address.apt'],
+			['address.city', 'address.state', 'address.zip'],
+		],
+	},
 	'canMail'
 ];

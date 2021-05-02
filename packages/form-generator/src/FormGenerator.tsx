@@ -1,7 +1,6 @@
 import React, { useMemo } from 'react';
 import { FormGeneratorProps } from './FormGeneratorProps';
-import { generateUiLayout } from './utility/generateUiLayout';
-import { useDataUpdater } from './useDataUpdater';
+import { generateUiLayout, useDataUpdater } from './utility';
 import { FormUiLayout } from './FormUiLayout';
 import styled from 'styled-components';
 

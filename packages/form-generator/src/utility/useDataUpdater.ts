@@ -10,12 +10,6 @@ interface Update {
 
 type DataUpdater = (path: string, update: any) => any;
 
-/**
- * 
- * @param schema The schema being generated, this should never change between renders
- * @param onChange 
- * @param debounceTime 
- */
 export function useDataUpdater(schema: JSONSchema4, data: any, onChange: (data: any) => void, debounceTime = 300): DataUpdater {
 	const pendingUpdates = useRef<Update[]>([]);
 	const timer = useRef<NodeJS.Timeout | undefined>();
@@ -64,8 +58,8 @@ export function useDataUpdater(schema: JSONSchema4, data: any, onChange: (data: 
 	 * When we update data at some point in the schema,
 	 * we don't necessarily want to update the whole form
 	 * right away as that will lead to unnecessary re-renders.
-	 * Debounce the updates because each widget will store it's
-	 * own internal state
+	 * We can debounce the updates because each widget will
+	 * store it's own internal state
 	 */
 	const addUpdate = useCallback((path: string, update: any) => {
 		if (timer.current) {
