@@ -1,7 +1,7 @@
 import React from 'react';
 import { Meta, Story } from '@storybook/react';
 import { FormGenerator } from '../src';
-import { exampleSchema } from '../examples/exampleSchema';
+import { exampleSchema, exampleLayout } from '../examples/exampleSchema';
 import { exampleWidgets } from '../examples/exampleWidgets';
 import { useCallback, useState } from 'react';
 import '@campaign-buddy/core-ui/src/main.css';
@@ -28,6 +28,7 @@ const Template: Story = () => {
 			data={data}
 			onChange={handleUpdate}
 			widgets={exampleWidgets}
+			uiLayout={exampleLayout}
 		/>
 	);
 };

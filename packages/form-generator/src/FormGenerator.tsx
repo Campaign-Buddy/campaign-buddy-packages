@@ -36,11 +36,6 @@ export const FormGenerator: React.FC<FormGeneratorProps> = ({
 };
 
 const FormRoot = styled.div`
-	& > * {
-		margin-bottom: 4px;
-
-		&:last-child {
-			margin-bottom: 0;
-		}
-	}
+	display: flex;
+	flex-direction: column;
 `;

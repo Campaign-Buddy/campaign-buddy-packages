@@ -1,4 +1,4 @@
-import { types } from '@campaign-buddy/json-schema-core';
+import { types, UiLayout } from '@campaign-buddy/json-schema-core';
 
 export const exampleSchema = types.object({
 	name: types.string({ title: 'Name' }),
@@ -13,3 +13,13 @@ export const exampleSchema = types.object({
 	}),
 	canMail: types.boolean({ title: 'Can we mail you?' }),
 });
+
+export const exampleLayout: UiLayout = [
+	['name', 'description'],
+	['phoneNumber'],
+	[
+		['address.street', 'address.apt'],
+		['address.city', 'address.state', 'address.zip'],
+	],
+	['canMail']
+];
