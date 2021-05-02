@@ -7,6 +7,10 @@ export function getDataForPath(path: string, data: any, schemaForPath: JSONSchem
 	for (let i = 0; i < parts.length; i++) {
 		const part = parts[i];
 
+		if (part === '$' && i === 0) {
+			continue;
+		}
+
 		if (!cur[part]) {
 			return schemaForPath.default;
 		}

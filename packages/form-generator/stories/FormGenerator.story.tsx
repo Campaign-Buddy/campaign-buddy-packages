@@ -12,7 +12,10 @@ export default {
 } as Meta;
 
 const Template: Story = () => {
-	const [data, setData] = useState({});
+	const [data, setData] = useState({
+		name: 'Joseph Stewart',
+		description: 'This is a description',
+	});
 
 	const handleUpdate = useCallback((update) => {
 		console.log(update);
