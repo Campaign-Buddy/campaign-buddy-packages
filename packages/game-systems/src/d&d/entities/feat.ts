@@ -5,8 +5,8 @@ export const feat: EntityDefinition = {
 	name: 'feat',
 	schema: types.object({
 		modifiers,
-		name: types.string(),
-		description: types.richText(),
-		additionalProperties: types.schema(),
+		name: types.string({ title: 'Name' }),
+		description: types.richText({ title: 'Description' }),
+		additionalProperties: types.schema({ title: 'Additional Properties' }),
 	}),
 };
