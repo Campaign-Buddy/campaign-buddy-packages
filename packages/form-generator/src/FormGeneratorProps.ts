@@ -3,10 +3,7 @@ import { UiLayout } from '@campaign-buddy/json-schema-core';
 import React from 'react';
 
 export interface UiSectionProps {
-	isOpen: boolean;
-	isCollapsible: boolean;
 	title: string;
-	toggleIsOpen: () => void;
 }
 
 export interface WidgetLookup {

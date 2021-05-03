@@ -80,13 +80,9 @@ export const FormUiLayout: React.FC<FormUiLayoutProps> = ({
 			if (UiSection) {
 				nodes.push(
 					<FormRow>
-						<FormUiSection
-							title={element.title}
-							UiSection={UiSection}
-							isCollapsible={element.isCollapsible}
-						>
+						<UiSection title={element.title}>
 							{layout}
-						</FormUiSection>
+						</UiSection>
 					</FormRow>
 				)
 			} else {
@@ -117,28 +113,6 @@ export const FormUiLayout: React.FC<FormUiLayoutProps> = ({
 			{nodes}
 		</>
 	);
-}
-
-interface FormUiSectionProps {
-	UiSection: React.FC<UiSectionProps>;
-	isCollapsible?: boolean;
-	title: string;
-}
-
-const FormUiSection: React.FC<FormUiSectionProps> = ({ UiSection, children, title, isCollapsible }) => {
-	const [isOpen, setIsOpen] = useState(true);
-	const toggleIsOpen = useCallback(() => setIsOpen(prev => !prev), []);
-
-	return (
-		<UiSection
-			isOpen={isOpen}
-			title={title}
-			isCollapsible={isCollapsible ?? false}
-			toggleIsOpen={toggleIsOpen}
-		>
-			{children}
-		</UiSection>
-	)
 }
 
 interface FormWidgetProps {

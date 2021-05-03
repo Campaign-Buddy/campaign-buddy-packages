@@ -6,9 +6,8 @@ const Header = styled.div`
 	display: flex;
 `;
 
-const Container = styled.div<{ isOpen: boolean }>`
+const Container = styled.div`
 	width: 100%;
-	${({ isOpen }) => !isOpen && `margin-bottom: 8px;`}
 `
 
 const Content = styled.div`
@@ -16,9 +15,6 @@ const Content = styled.div`
 `;
 
 export const ExampleUiSection: React.FC<UiSectionProps> = ({
-	isCollapsible,
-	isOpen,
-	toggleIsOpen,
 	title,
 	children,
 }) => {
@@ -27,10 +23,10 @@ export const ExampleUiSection: React.FC<UiSectionProps> = ({
 	}
 
 	return (
-		<Container isOpen={isOpen}>
-			<Header><h2>{title}</h2>{isCollapsible && <button onClick={toggleIsOpen}>toggle</button>}</Header>
+		<Container>
+			<Header><h2>{title}</h2></Header>
 			<Content>
-				{isOpen && children}
+				{children}
 			</Content>
 		</Container>
 	);
