@@ -28,9 +28,5 @@ export const exampleLayout: UiLayout = [
 		isCollapsible: true,
 	},
 	'canMail',
-	{
-		title: 'Custom Properties',
-		uiLayout: ['customProperties'],
-		isCollapsible: true,
-	}
+	'customProperties',
 ];
