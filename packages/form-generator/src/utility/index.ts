@@ -4,3 +4,4 @@ export { getSchemaForPath } from './getSchemaForPath';
 export { useDataUpdater } from './useDataUpdater';
 export { resolveDynamicSchemas } from './resolveDynamicSchemas';
 export { hasDynamicSchemas } from './hasDynamicSchemas';
+export { cleanUiLayout } from './cleanUiLayout';

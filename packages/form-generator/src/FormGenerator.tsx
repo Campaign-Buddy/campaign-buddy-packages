@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import { FormGeneratorProps } from './FormGeneratorProps';
-import { generateUiLayout, useDataUpdater, hasDynamicSchemas, resolveDynamicSchemas } from './utility';
+import { generateUiLayout, useDataUpdater, hasDynamicSchemas, resolveDynamicSchemas, cleanUiLayout } from './utility';
 import { FormUiLayout } from './FormUiLayout';
 import styled from 'styled-components';
 
@@ -22,10 +22,10 @@ export const FormGenerator: React.FC<FormGeneratorProps> = ({
 
 	const uiLayout = useMemo(() => {
 		if (!providedUiLayout) {
-			return generateUiLayout(resolvedSchema)
+			return generateUiLayout(resolvedSchema);
 		}
 
-		return providedUiLayout;
+		return cleanUiLayout(providedUiLayout, resolvedSchema);
 	}, [providedUiLayout, resolvedSchema]);
 
 	const updateData = useDataUpdater(schema, data, onChange);

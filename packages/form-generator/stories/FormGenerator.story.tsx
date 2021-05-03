@@ -6,7 +6,6 @@ import { exampleWidgets } from '../examples/exampleWidgets';
 import { ExampleUiSection } from '../examples/ExampleUiSection';
 import { useCallback, useState } from 'react';
 import '@campaign-buddy/core-ui/src/main.css';
-import { types } from '@campaign-buddy/json-schema-core';
 
 export default {
 	title: 'form-generator/FormGenerator',
@@ -17,6 +16,16 @@ const Template: Story = () => {
 	const [data, setData] = useState({
 		name: 'Joseph Stewart',
 		description: 'This is a description',
+		additionalProperties: {
+			abc: {
+				type: 'string',
+				title: 'ABC',
+			},
+			easyAs123: {
+				type: 'number',
+				title: 'Easy as 123',
+			}
+		}
 	});
 
 	const handleUpdate = useCallback((update) => {
@@ -30,8 +39,8 @@ const Template: Story = () => {
 			data={data}
 			onChange={handleUpdate}
 			widgets={exampleWidgets}
-			uiLayout={exampleLayout}
 			UiSection={ExampleUiSection}
+			uiLayout={exampleLayout}
 		/>
 	);
 };

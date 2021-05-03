@@ -13,23 +13,8 @@ export const exampleSchema = types.object({
 	}),
 	canMail: types.boolean({ title: 'Can we mail you?' }),
 	additionalProperties: types.schema(),
-	customProperties: types.dynamicallyResolvedType('$.additionalProperties'),
+	customProperties: types.dynamicallyResolvedType('$.additionalProperties', { title: 'Custom Properties' }),
 });
-
-const data = {
-	name: 'Joseph',
-	additionalProperties: {
-		birthday: {
-			type: 'string',
-		},
-		favoriteColor: {
-			type: 'string',
-		},
-		canCall: {
-			type: 'boolean',
-		}
-	},
-}
 
 export const exampleLayout: UiLayout = [
 	['name', 'description'],
@@ -45,7 +30,7 @@ export const exampleLayout: UiLayout = [
 	'canMail',
 	{
 		title: 'Custom Properties',
-		uiLayout: ['customProperties.canText'],
+		uiLayout: ['customProperties'],
 		isCollapsible: true,
 	}
 ];
