@@ -3,6 +3,7 @@ import { Meta, Story } from '@storybook/react';
 import { FormGenerator } from '../src';
 import { exampleSchema, exampleLayout } from '../examples/exampleSchema';
 import { exampleWidgets } from '../examples/exampleWidgets';
+import { ExampleUiSection } from '../examples/ExampleUiSection';
 import { useCallback, useState } from 'react';
 import '@campaign-buddy/core-ui/src/main.css';
 
@@ -29,6 +30,7 @@ const Template: Story = () => {
 			onChange={handleUpdate}
 			widgets={exampleWidgets}
 			uiLayout={exampleLayout}
+			UiSection={ExampleUiSection}
 		/>
 	);
 };

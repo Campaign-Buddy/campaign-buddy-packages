@@ -23,6 +23,7 @@ export const exampleLayout: UiLayout = [
 			['address.street', 'address.apt'],
 			['address.city', 'address.state', 'address.zip'],
 		],
+		isCollapsible: true,
 	},
 	'canMail'
 ];

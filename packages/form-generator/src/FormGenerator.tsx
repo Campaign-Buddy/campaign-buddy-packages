@@ -10,6 +10,7 @@ export const FormGenerator: React.FC<FormGeneratorProps> = ({
 	onChange,
 	widgets,
 	uiLayout: providedUiLayout,
+	UiSection,
 }) => {
 	const uiLayout = useMemo(() => {
 		if (!providedUiLayout) {
@@ -29,6 +30,7 @@ export const FormGenerator: React.FC<FormGeneratorProps> = ({
 				widgetLookup={widgets}
 				updateValue={updateData}
 				data={data}
+				UiSection={UiSection}
 			/>
 		</FormRoot>
 	)

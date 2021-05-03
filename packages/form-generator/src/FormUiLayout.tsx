@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useCallback, useState } from 'react';
 import { UiLayout } from '@campaign-buddy/json-schema-core';
 import { JSONSchema4 } from 'json-schema';
-import { WidgetLookup, WidgetProps } from './FormGeneratorProps';
+import { UiSectionProps, WidgetLookup, WidgetProps } from './FormGeneratorProps';
 import { getDataForPath, getSchemaForPath } from './utility';
 import styled from 'styled-components';
 import { DebouncedWidget } from './DebouncedWidget';
@@ -12,6 +12,7 @@ interface FormUiLayoutProps {
 	widgetLookup: WidgetLookup;
 	updateValue: (path: string, data: any) => void;
 	data: any;
+	UiSection?: React.FC<UiSectionProps>;
 }
 
 export const FormUiLayout: React.FC<FormUiLayoutProps> = ({
@@ -20,6 +21,7 @@ export const FormUiLayout: React.FC<FormUiLayoutProps> = ({
 	widgetLookup,
 	updateValue,
 	data,
+	UiSection,
 }) => {
 	const nodes: React.ReactElement[] = [];
 
@@ -45,17 +47,35 @@ export const FormUiLayout: React.FC<FormUiLayoutProps> = ({
 				</FormCell>
 			);
 		} else if (typeof element === 'object' && !Array.isArray(element)) {
-			nodes.push(
-				<FormRow>
-					<FormUiLayout
-						uiLayout={element.uiLayout}
-						schema={schema}
-						widgetLookup={widgetLookup}
-						updateValue={updateValue}
-						data={data}
-					/>
-				</FormRow>
+			const layout = (
+				<FormUiLayout
+					uiLayout={element.uiLayout}
+					schema={schema}
+					widgetLookup={widgetLookup}
+					updateValue={updateValue}
+					data={data}
+				/>
 			);
+			
+			if (UiSection) {
+				nodes.push(
+					<FormRow>
+						<FormUiSection
+							title={element.title}
+							UiSection={UiSection}
+							isCollapsible={element.isCollapsible}
+						>
+							{layout}
+						</FormUiSection>
+					</FormRow>
+				)
+			} else {
+				nodes.push(
+					<FormRow>
+						{layout}
+					</FormRow>
+				);
+			}
 		} else {
 			nodes.push(
 				<FormRow>
@@ -76,6 +96,28 @@ export const FormUiLayout: React.FC<FormUiLayoutProps> = ({
 			{nodes}
 		</>
 	);
+}
+
+interface FormUiSectionProps {
+	UiSection: React.FC<UiSectionProps>;
+	isCollapsible?: boolean;
+	title: string;
+}
+
+const FormUiSection: React.FC<FormUiSectionProps> = ({ UiSection, children, title, isCollapsible }) => {
+	const [isOpen, setIsOpen] = useState(true);
+	const toggleIsOpen = useCallback(() => setIsOpen(prev => !prev), []);
+
+	return (
+		<UiSection
+			isOpen={isOpen}
+			title={title}
+			isCollapsible={isCollapsible ?? false}
+			toggleIsOpen={toggleIsOpen}
+		>
+			{children}
+		</UiSection>
+	)
 }
 
 interface FormWidgetProps {

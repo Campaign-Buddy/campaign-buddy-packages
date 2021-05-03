@@ -1,2 +1,2 @@
-export { WidgetLookup, WidgetProps } from './FormGeneratorProps';
+export { WidgetLookup, WidgetProps, UiSectionProps } from './FormGeneratorProps';
 export { FormGenerator } from './FormGenerator';

@@ -1,5 +1,13 @@
 import { JSONSchema4 } from 'json-schema';
 import { UiLayout } from '@campaign-buddy/json-schema-core';
+import React from 'react';
+
+export interface UiSectionProps {
+	isOpen: boolean;
+	isCollapsible: boolean;
+	title: string;
+	toggleIsOpen: () => void;
+}
 
 export interface WidgetLookup {
 	string: React.FC<WidgetProps<string>>;
@@ -22,4 +30,5 @@ export interface FormGeneratorProps {
 	onChange: (data: any) => void;
 	widgets: WidgetLookup;
 	uiLayout?: UiLayout;
+	UiSection?: React.FC<UiSectionProps>;
 }
