@@ -12,7 +12,24 @@ export const exampleSchema = types.object({
 		zip: types.number({ title: 'Zip Code' }),
 	}),
 	canMail: types.boolean({ title: 'Can we mail you?' }),
+	additionalProperties: types.schema(),
+	customProperties: types.dynamicallyResolvedType('$.additionalProperties'),
 });
+
+const data = {
+	name: 'Joseph',
+	additionalProperties: {
+		birthday: {
+			type: 'string',
+		},
+		favoriteColor: {
+			type: 'string',
+		},
+		canCall: {
+			type: 'boolean',
+		}
+	},
+}
 
 export const exampleLayout: UiLayout = [
 	['name', 'description'],
@@ -25,5 +42,10 @@ export const exampleLayout: UiLayout = [
 		],
 		isCollapsible: true,
 	},
-	'canMail'
+	'canMail',
+	{
+		title: 'Custom Properties',
+		uiLayout: ['customProperties.canText'],
+		isCollapsible: true,
+	}
 ];

@@ -21,11 +21,17 @@ export const ExampleUiSection: React.FC<UiSectionProps> = ({
 	toggleIsOpen,
 	title,
 	children,
-}) => (
-	<Container isOpen={isOpen}>
-		<Header><h2>{title}</h2>{isCollapsible && <button onClick={toggleIsOpen}>toggle</button>}</Header>
-		<Content>
-			{isOpen && children}
-		</Content>
-	</Container>
-)
+}) => {
+	if (React.Children.count(children) === 0) {
+		return null;
+	}
+
+	return (
+		<Container isOpen={isOpen}>
+			<Header><h2>{title}</h2>{isCollapsible && <button onClick={toggleIsOpen}>toggle</button>}</Header>
+			<Content>
+				{isOpen && children}
+			</Content>
+		</Container>
+	);
+}

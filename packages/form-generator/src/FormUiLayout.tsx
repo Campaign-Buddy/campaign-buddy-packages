@@ -2,7 +2,7 @@ import React, { useCallback, useState } from 'react';
 import { UiLayout } from '@campaign-buddy/json-schema-core';
 import { JSONSchema4 } from 'json-schema';
 import { UiSectionProps, WidgetLookup, WidgetProps } from './FormGeneratorProps';
-import { getDataForPath, getSchemaForPath } from './utility';
+import { generateUiLayout, getDataForPath, getSchemaForPath } from './utility';
 import styled from 'styled-components';
 import { DebouncedWidget } from './DebouncedWidget';
 
@@ -29,23 +29,42 @@ export const FormUiLayout: React.FC<FormUiLayoutProps> = ({
 		if (typeof element === 'string') {
 			const subSchema = getSchemaForPath(element, schema);
 
-			if (!subSchema) {
+			if (!subSchema || (subSchema.type === 'object' && !subSchema.properties)) {
 				continue;
 			}
 
 			const dataForPath = getDataForPath(element, data, subSchema);
 
-			nodes.push(
-				<FormCell>
-					<FormWidget
-						schema={subSchema}
-						widgetLookup={widgetLookup}
-						path={element}
-						updateValue={updateValue}
-						data={dataForPath}
-					/>
-				</FormCell>
-			);
+			// So that we don't have to manually type out all properties in an object
+			// if the default layout is good enough
+			if (subSchema.type === 'object' && !subSchema['$uiWidget']) {
+				const subLayout = generateUiLayout(subSchema, element);
+
+				nodes.push(
+					<FormRow>
+						<FormUiLayout
+							uiLayout={subLayout}
+							schema={schema}
+							widgetLookup={widgetLookup}
+							updateValue={updateValue}
+							data={data}
+							UiSection={UiSection}
+						/>
+					</FormRow>
+				)
+			} else {
+				nodes.push(
+					<FormCell>
+						<FormWidget
+							schema={subSchema}
+							widgetLookup={widgetLookup}
+							path={element}
+							updateValue={updateValue}
+							data={dataForPath}
+						/>
+					</FormCell>
+				);
+			}
 		} else if (typeof element === 'object' && !Array.isArray(element)) {
 			const layout = (
 				<FormUiLayout
@@ -54,6 +73,7 @@ export const FormUiLayout: React.FC<FormUiLayoutProps> = ({
 					widgetLookup={widgetLookup}
 					updateValue={updateValue}
 					data={data}
+					UiSection={UiSection}
 				/>
 			);
 			
@@ -85,6 +105,7 @@ export const FormUiLayout: React.FC<FormUiLayoutProps> = ({
 						widgetLookup={widgetLookup}
 						updateValue={updateValue}
 						data={data}
+						UiSection={UiSection}
 					/>
 				</FormRow>
 			);

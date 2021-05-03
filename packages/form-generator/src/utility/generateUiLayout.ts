@@ -1,8 +1,8 @@
 import { UiLayout } from '@campaign-buddy/json-schema-core';
 import { JSONSchema4 } from 'json-schema';
 
-export function generateUiLayout(schema: JSONSchema4): UiLayout {
-	const results = _generateUiLayout(schema, '$');
+export function generateUiLayout(schema: JSONSchema4, beginningPath?: string): UiLayout {
+	const results = _generateUiLayout(schema, beginningPath ?? '$');
 
 	if (results.length === 0) {
 		return results;
@@ -26,7 +26,16 @@ function _generateUiLayout(schema: JSONSchema4, path: string): UiLayout {
 			subResults.push(..._generateUiLayout(value, `${path}.${key}`))
 		}
 
-		return [subResults];
+		if (schema.title) {
+			return [[
+				{
+					title: schema.title,
+					uiLayout: subResults,
+				}
+			]]
+		} else {
+			return [subResults];
+		}
 	} else if (schema.title) {
 		return [path];
 	}
