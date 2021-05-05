@@ -3,7 +3,7 @@ import styled, { css } from 'styled-components';
 import { Button as ButtonCore, IconName } from '@blueprintjs/core';
 import { defaultTheme } from '../theme';
 
-type ButtonStyle = 'primary' | 'minimal';
+export type ButtonStyle = 'primary' | 'minimal';
 
 interface ButtonProps {
 	icon?: IconName;
