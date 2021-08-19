@@ -1,5 +1,5 @@
 import { EntityDefinition, types } from '@campaign-buddy/json-schema-core';
-import { sumModifier } from '../aggregate-utilities';
+import { sumGainedActiveProperties, sumModifier } from '../aggregate-utilities';
 import { classEntity } from './classEntity';
 import { feat } from './feat';
 import { race } from './race';
@@ -30,7 +30,7 @@ export const characterEntity: EntityDefinition = {
 			weight: types.string({ title: 'Weight' }),
 		}),
 		knownSpells: types.multiChoice(
-			types.entity(spell, { title: 'Available Spell' }),
+			types.entity(spell),
 			{ title: 'Known Spells' },
 		),
 		spellSlots: types.arrayOf.numbers({ title: 'Total Spell Slots' }),
@@ -57,16 +57,16 @@ export const characterEntity: EntityDefinition = {
 			options: '{$..choices.spells}'
 		},
 		spellSlots: {
-			0: 'SUM({$..gainedSpellSlots[0]})',
-			1: 'SUM({$..gainedSpellSlots[1]})',
-			2: 'SUM({$..gainedSpellSlots[2]})',
-			3: 'SUM({$..gainedSpellSlots[3]})',
-			4: 'SUM({$..gainedSpellSlots[4]})',
-			5: 'SUM({$..gainedSpellSlots[5]})',
-			6: 'SUM({$..gainedSpellSlots[6]})',
-			7: 'SUM({$..gainedSpellSlots[7]})',
-			8: 'SUM({$..gainedSpellSlots[8]})',
-			9: 'SUM({$..gainedSpellSlots[9]})',
+			0: sumGainedActiveProperties('gainedSpellSlots[0]'),
+			1: sumGainedActiveProperties('gainedSpellSlots[1]'),
+			2: sumGainedActiveProperties('gainedSpellSlots[2]'),
+			3: sumGainedActiveProperties('gainedSpellSlots[3]'),
+			4: sumGainedActiveProperties('gainedSpellSlots[4]'),
+			5: sumGainedActiveProperties('gainedSpellSlots[5]'),
+			6: sumGainedActiveProperties('gainedSpellSlots[6]'),
+			7: sumGainedActiveProperties('gainedSpellSlots[7]'),
+			8: sumGainedActiveProperties('gainedSpellSlots[8]'),
+			9: sumGainedActiveProperties('gainedSpellSlots[9]'),
 		},
 	},
 };
