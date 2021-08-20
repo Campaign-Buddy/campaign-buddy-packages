@@ -22,7 +22,7 @@
 		"dist/"
 	],
 	"scripts": {
-		"build": "tsc --build",
+		"build": "tsc -b",
 		"test": "jest"
 	},
 	"peerDependencies": {
