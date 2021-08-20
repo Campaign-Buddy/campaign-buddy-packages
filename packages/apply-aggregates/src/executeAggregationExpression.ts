@@ -36,6 +36,7 @@ function _executeAggregationExpression(expression: string, baseValue: any): any 
 			base: baseValue,
 		});
 	} catch {
+		console.error(`Could not execute expression: ${expression}`);
 		return undefined;
 	}
 }

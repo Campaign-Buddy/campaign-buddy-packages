@@ -18,10 +18,6 @@ function _applyAggregates(data: any, aggregates: EntityDefinition['aggregates'],
 	for (const key of Object.keys(aggregates)) {
 		const aggregation = aggregates[key];
 
-		if (!data[key]) {
-			continue;
-		}
-
 		if (typeof aggregation === 'object') {
 			if (typeof data[key] !== 'object') {
 				continue;
