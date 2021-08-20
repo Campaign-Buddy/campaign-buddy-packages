@@ -9,5 +9,5 @@ jobs:
         with:
           node-version: 14.x
       - run: yarn
-      - run: yarn workspaces run build
+      - run: yarn workspaces run build --build
       - run: yarn test
