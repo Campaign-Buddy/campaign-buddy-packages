@@ -15,7 +15,7 @@ export function query(json: any, q: string) {
 	return _query(json, cleanedQuery);
 }
 
-function resolveSubQueries(json: any, q: string): string | undefined {
+export function resolveSubQueries(json: any, q: string, serializeObject?: (obj: any) => string): string | undefined {
 	let curQuery = q;
 	let prevQuery = '';
 	const errorMessage = 'SubQuery must resolve to a single primitive';
@@ -28,7 +28,11 @@ function resolveSubQueries(json: any, q: string): string | undefined {
 				const result = _query(json, subQuery);
 		
 				if (typeof result === 'object' || result === undefined) {
-					throw new Error(errorMessage);
+					if (!serializeObject) {
+						throw new Error(errorMessage);
+					}
+
+					return serializeObject(result);
 				}
 		
 				return result;
