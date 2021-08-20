@@ -6,4 +6,5 @@ export enum Widgets {
 	Select = 'Select',
 	Icon = 'Icon',
 	SchemaBuilder = 'SchemaBuilder',
+	NumericResource = 'NumericResource',
 }

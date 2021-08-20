@@ -29,6 +29,26 @@ export const number: CBSchemaFunc = (info) => ({
 	description: info?.description,
 });
 
+/**
+ * Numeric resources are properties that have a maximum value
+ * and can be spent or regained over time (e.g. health, spell slots
+ * bardic inspirations).
+ */
+export const numericResource: CBSchemaFunc = (info) => ({
+	type: 'object',
+	title: info?.title,
+	description: info?.description,
+	$uiWidget: Widgets.NumericResource,
+	properties: {
+		max: {
+			type: 'number',
+		},
+		current: {
+			type: 'number',
+		}
+	}
+})
+
 export const genericObject: CBSchemaFunc = (info) => ({
 	type: 'object',
 	title: info?.title,
@@ -98,6 +118,7 @@ const _arrayOf: (object: CampaignBuddySchema, info?: DisplayInfo) => CampaignBud
 	items: object,
 	title: info?.title,
 	description: info?.description,
+	$uiWidget: object.$uiWidget,
 });
 
 export const arrayOf = {
@@ -109,6 +130,7 @@ export const arrayOf = {
 	stats: (info?: DisplayInfo) => _arrayOf(stat(), info),
 	richTexts: (info?: DisplayInfo) => _arrayOf(richText(), info),
 	genericObjects: (info?: DisplayInfo) => _arrayOf(genericObject(), info),
+	numericResources: (info?: DisplayInfo) => _arrayOf(numericResource(), info),
 	custom: (obj: CampaignBuddySchema, info?: DisplayInfo) => _arrayOf(obj, info),
 };
 

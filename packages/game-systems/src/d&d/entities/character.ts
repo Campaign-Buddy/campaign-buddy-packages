@@ -20,6 +20,7 @@ export const characterEntity: EntityDefinition = {
 			dex: types.stat({ title: 'DEX' }),
 			str: types.stat({ title: 'STR' }),
 		}),
+		hp: types.numericResource({ title: 'HP' }),
 		ac: types.number({ title: 'AC' }),
 		availableOptions: types.object({
 			feats: types.multiChoice(types.entity(feat), { title: 'Optional Feats' }),
@@ -33,7 +34,7 @@ export const characterEntity: EntityDefinition = {
 			types.entity(spell),
 			{ title: 'Known Spells' },
 		),
-		spellSlots: types.arrayOf.numbers({ title: 'Total Spell Slots' }),
+		spellSlots: types.arrayOf.numericResources({ title: 'Total Spell Slots' }),
 		classProperties: types.dynamicallyResolvedType('$.class.levels[0:{$.level}].additionalProperties', { title: 'Class Specific Properties' }),
 		raceProperties: types.dynamicallyResolvedType('$.race.additionalProperties', { title: 'Race Specific Properties' }),
 		featProperties: types.dynamicallyResolvedType('$..<?(@ !== "choices" && @ !== "options")>..feats..additionalProperties', { title: 'Feat Specific Properties' }),
@@ -57,16 +58,36 @@ export const characterEntity: EntityDefinition = {
 			options: '{$..choices.spells}'
 		},
 		spellSlots: {
-			0: sumGainedActiveProperties('gainedSpellSlots[0]'),
-			1: sumGainedActiveProperties('gainedSpellSlots[1]'),
-			2: sumGainedActiveProperties('gainedSpellSlots[2]'),
-			3: sumGainedActiveProperties('gainedSpellSlots[3]'),
-			4: sumGainedActiveProperties('gainedSpellSlots[4]'),
-			5: sumGainedActiveProperties('gainedSpellSlots[5]'),
-			6: sumGainedActiveProperties('gainedSpellSlots[6]'),
-			7: sumGainedActiveProperties('gainedSpellSlots[7]'),
-			8: sumGainedActiveProperties('gainedSpellSlots[8]'),
-			9: sumGainedActiveProperties('gainedSpellSlots[9]'),
+			0: {
+				max: sumGainedActiveProperties('gainedSpellSlots[0]'),
+			},
+			1: {
+				max: sumGainedActiveProperties('gainedSpellSlots[1]'),
+			},
+			2: {
+				max: sumGainedActiveProperties('gainedSpellSlots[2]'),
+			},
+			3: {
+				max: sumGainedActiveProperties('gainedSpellSlots[3]'),
+			},
+			4: {
+				max: sumGainedActiveProperties('gainedSpellSlots[4]'),
+			},
+			5: {
+				max: sumGainedActiveProperties('gainedSpellSlots[5]'),
+			},
+			6: {
+				max: sumGainedActiveProperties('gainedSpellSlots[6]'),
+			},
+			7: {
+				max: sumGainedActiveProperties('gainedSpellSlots[7]'),
+			},
+			8: {
+				max: sumGainedActiveProperties('gainedSpellSlots[8]'),
+			},
+			9: {
+				max: sumGainedActiveProperties('gainedSpellSlots[9]'),
+			},
 		},
 	},
 };
