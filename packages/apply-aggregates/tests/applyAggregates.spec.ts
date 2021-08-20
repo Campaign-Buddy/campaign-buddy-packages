@@ -20,7 +20,7 @@ describe('applyAggregates', () => {
 
 		expect(result.foo.bar).toEqual(20);
 		expect(result.foo.baz).toEqual(10);
-		expect(result.foo.bing).toEqual('bang');
+		expect(result.bing).toEqual('bang');
 	});
 
 	it('can reference data via json-path-ex queries', () => {
