@@ -31,3 +31,25 @@ export function JOIN(separator: string, ...messages: (string[] | string)[]): str
 
 	return result.substring(separator.length);
 }
+
+export function TO_NUMBER(...numbers: (string | string[])[]): number {
+	if (numbers.length !== 1) {
+		return 0
+	}
+
+	let value = numbers[0];
+
+	if (Array.isArray(value)) {
+		if (value.length !== 1) {
+			return 0;
+		}
+
+		value = value[0];
+	}
+
+	if (!isNaN(parseInt(value))) {
+		return parseInt(value);
+	}
+
+	return 0;
+}

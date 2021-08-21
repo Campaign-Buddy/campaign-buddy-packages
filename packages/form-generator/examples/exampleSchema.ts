@@ -2,6 +2,7 @@ import { Aggregates, types, UiLayout } from '@campaign-buddy/json-schema-core';
 
 export const exampleSchema = types.object({
 	name: types.string({ title: 'Name' }),
+	age: types.number({ title: 'Age' }),
 	nickName: types.string({ title: 'Nickname' }),
 	description: types.string({ title: 'Description' }),
 	phoneNumber: types.string({ title: 'Phone Number' }),
@@ -13,18 +14,20 @@ export const exampleSchema = types.object({
 		zip: types.number({ title: 'Zip Code' }),
 	}),
 	canMail: types.boolean({ title: 'Can we mail you?' }),
+	favoriteNumber: types.number({ title: 'Favorite number' }),
 	additionalProperties: types.schema(),
 	customProperties: types.dynamicallyResolvedType('$.additionalProperties', { title: 'Custom Properties' }),
 });
 
 export const exampleAggregation: Aggregates = {
 	nickName: 'typeof <base> === "string" ? <base> : {$.name}',
-	canMail: '{$.address.street} && {$.address.city} && {$.address.state} && {$.address.zip}'
+	canMail: '{$.address.street} && {$.address.city} && {$.address.state} && {$.address.zip}',
+	favoriteNumber: 'TO_NUMBER({$.age}) + TO_NUMBER(<base>)'
 }
 
 export const exampleLayout: UiLayout = [
-	['name', 'description'],
-	'nickName',
+	['name', 'nickName', 'age'],
+	'description',
 	'phoneNumber',
 	{
 		title: 'Address',
@@ -34,5 +37,11 @@ export const exampleLayout: UiLayout = [
 		],
 	},
 	'canMail',
+	{
+		title: 'Personal details',
+		uiLayout: [
+			'favoriteNumber',
+		],
+	},
 	'customProperties',
 ];
