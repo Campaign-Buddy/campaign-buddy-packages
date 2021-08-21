@@ -11,6 +11,125 @@ interface ErrorTestCase {
 	json: any;
 }
 
+interface CustomDataAccessTestCase {
+	label: string;
+	dataReplacementMap: Record<string, any>;
+	json: any;
+	query: string;
+	expected: any;
+}
+
+const customDataAccessTestCases: CustomDataAccessTestCase[] = [
+	{
+		label: 'primitive property accessor',
+		dataReplacementMap: {
+			'$.foo': 'bar',
+		},
+		json: {
+			foo: 'foo',
+		},
+		query: '$.foo',
+		expected: 'bar',
+	},
+	{
+		label: 'object property accessors',
+		dataReplacementMap: {
+			'$.foo': { baz: 'baz' },
+		},
+		json: {
+			foo: {
+				bar: 'bar',
+			}
+		},
+		query: '$.foo.baz',
+		expected: 'baz',
+	},
+	{
+		label: 'recursive descent',
+		dataReplacementMap: {
+			'$.foo': { baz: 'baz' }
+		},
+		json: {
+			foo: {
+				bar: 'bar',
+			},
+			bar: {
+				foo: 'foo',
+			},
+		},
+		query: '$..baz',
+		expected: 'baz'
+	},
+	{
+		label: 'wildcard',
+		dataReplacementMap: {
+			'$.foo': { baz: 'baz' },
+		},
+		json: {
+			foo: {
+				bar: 'bar',
+			},
+			bar: {
+				baz: 'baz',
+			}
+		},
+		query: '$.*.baz',
+		expected: [
+			'baz',
+			'baz',
+		]
+	},
+	{
+		label: 'array slicing',
+		dataReplacementMap: {
+			'$.foo.1.bar': 'baz',
+		},
+		json: {
+			foo: [
+				{ bar: 'bar' },
+				{ bar: 'bar' },
+				{ bar: 'bar' },
+				{ bar: 'bar' },
+			],
+		},
+		query: '$.foo[0:3].bar',
+		expected: [
+			'bar',
+			'baz',
+			'bar',
+		],
+	},
+	{
+		label: 'value filtering',
+		dataReplacementMap: {
+			'$.foo.1': 2,
+		},
+		json: {
+			foo: [
+				1,
+				1,
+				1,
+			]
+		},
+		query: '$.foo[?(@ === 2)]',
+		expected: 2,
+	},
+	{
+		label: 'key filtering',
+		dataReplacementMap: {
+			'$.foo': { baz: 'baz' },
+		},
+		json: {
+			foo: {
+				bar: 'bar',
+				bop: 'bop',
+			},
+		},
+		query: '$.foo.<?(@ === "baz")>',
+		expected: 'baz',
+	},
+];
+
 const testCases: TestCase[] = [
 	{
 		json: {
@@ -636,6 +755,26 @@ describe('query', () => {
 		expect(result).toBeUndefined();
 	});
 
+	for (const testCase of customDataAccessTestCases) {
+		it(`custom data access works for ${testCase.label} (query = ${testCase.query})`, () => {
+			const result = query(
+				testCase.json,
+				testCase.query,
+				{
+					customDataAccessor: (path, data) => testCase.dataReplacementMap[path] ?? data,
+				}
+			);
+
+			if (typeof testCase.expected === 'object') {
+				expect(result).toMatchObject(testCase.expected);
+			} else if (typeof testCase.expected === 'undefined') {
+				expect(result).toBeUndefined();
+			} else {
+				expect(result).toStrictEqual(testCase.expected);
+			}
+		});
+	}
+
 	for (const testCase of testCases) {
 		it(`works for ${testCase.query}`, () => {
 			const result = query(testCase.json, testCase.query);
@@ -647,7 +786,7 @@ describe('query', () => {
 			} else {
 				expect(result).toStrictEqual(testCase.expected);
 			}
-		})
+		});
 	}
 
 	for (const errorCase of errorTestCases) {
