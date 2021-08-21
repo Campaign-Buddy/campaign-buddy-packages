@@ -1,5 +1,5 @@
-import React, { useCallback, useState } from 'react';
-import { UiLayout } from '@campaign-buddy/json-schema-core';
+import React from 'react';
+import { EntityDefinition, UiLayout } from '@campaign-buddy/json-schema-core';
 import { JSONSchema4 } from 'json-schema';
 import { UiSectionProps, WidgetLookup, WidgetProps } from './FormGeneratorProps';
 import { generateUiLayout, getDataForPath, getSchemaForPath } from './utility';
@@ -12,6 +12,8 @@ interface FormUiLayoutProps {
 	widgetLookup: WidgetLookup;
 	updateValue: (path: string, data: any) => void;
 	data: any;
+	aggregatedData: any;
+	aggregates: EntityDefinition['aggregates'];
 	UiSection?: React.FC<UiSectionProps>;
 }
 
@@ -22,6 +24,8 @@ export const FormUiLayout: React.FC<FormUiLayoutProps> = ({
 	updateValue,
 	data,
 	UiSection,
+	aggregatedData,
+	aggregates,
 }) => {
 	const nodes: React.ReactElement[] = [];
 
@@ -34,6 +38,9 @@ export const FormUiLayout: React.FC<FormUiLayoutProps> = ({
 			}
 
 			const dataForPath = getDataForPath(element, data, subSchema);
+			const aggregatedDataForPath = getDataForPath(element, aggregatedData, undefined) ?? dataForPath;
+			const aggregation = getDataForPath(element, aggregates ?? {}, undefined);
+			const isDataEditable = typeof aggregation !== 'string' || /\<\s*base\s*\>/i.test(aggregation);
 
 			// So that we don't have to manually type out all properties in an object
 			// if the default layout is good enough
@@ -49,6 +56,8 @@ export const FormUiLayout: React.FC<FormUiLayoutProps> = ({
 							updateValue={updateValue}
 							data={data}
 							UiSection={UiSection}
+							aggregatedData={aggregatedData}
+							aggregates={aggregates}
 						/>
 					</FormRow>
 				)
@@ -61,6 +70,8 @@ export const FormUiLayout: React.FC<FormUiLayoutProps> = ({
 							path={element}
 							updateValue={updateValue}
 							data={dataForPath}
+							aggregatedData={aggregatedDataForPath}
+							isEditable={isDataEditable}
 						/>
 					</FormCell>
 				);
@@ -74,6 +85,8 @@ export const FormUiLayout: React.FC<FormUiLayoutProps> = ({
 					updateValue={updateValue}
 					data={data}
 					UiSection={UiSection}
+					aggregatedData={aggregatedData}
+					aggregates={aggregates}
 				/>
 			);
 			
@@ -102,6 +115,8 @@ export const FormUiLayout: React.FC<FormUiLayoutProps> = ({
 						updateValue={updateValue}
 						data={data}
 						UiSection={UiSection}
+						aggregatedData={aggregatedData}
+						aggregates={aggregates}
 					/>
 				</FormRow>
 			);
@@ -121,6 +136,8 @@ interface FormWidgetProps {
 	path: string;
 	updateValue: (path: string, data: any) => void;
 	data: any;
+	aggregatedData: any;
+	isEditable: boolean;
 }
 
 const FormWidget: React.FC<FormWidgetProps> = ({
@@ -129,6 +146,8 @@ const FormWidget: React.FC<FormWidgetProps> = ({
 	path,
 	updateValue,
 	data,
+	aggregatedData,
+	isEditable,
 }) => {
 	let Widget: React.FC<WidgetProps<any>> = () => null;
 
@@ -157,6 +176,8 @@ const FormWidget: React.FC<FormWidgetProps> = ({
 			value={data}
 			Widget={Widget}
 			label={schema.title ?? ''}
+			aggregatedValue={aggregatedData}
+			isEditable={isEditable}
 		/>
 	)
 };

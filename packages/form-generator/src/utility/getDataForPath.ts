@@ -1,6 +1,11 @@
 import { JSONSchema4 } from 'json-schema';
 
-export function getDataForPath(path: string, data: any, schemaForPath: JSONSchema4): any {
+/**
+ * @param path The path to locate the data
+ * @param data The root object to search
+ * @param schemaForPath The JSON schema describing this data (used for default values)
+ */
+export function getDataForPath(path: string, data: any, schemaForPath: JSONSchema4 | undefined): any {
 	const parts = path.split('.');
 	let cur = data;
 
@@ -12,7 +17,7 @@ export function getDataForPath(path: string, data: any, schemaForPath: JSONSchem
 		}
 
 		if (!cur[part]) {
-			return schemaForPath.default;
+			return schemaForPath?.default;
 		}
 
 		cur = cur[part];

@@ -8,6 +8,6 @@ export interface EntityDefinition {
 	uiLayout?: UiLayout;
 }
 
-interface Aggregates {
+export interface Aggregates {
 	[key: string]: string | Aggregates;
 }
