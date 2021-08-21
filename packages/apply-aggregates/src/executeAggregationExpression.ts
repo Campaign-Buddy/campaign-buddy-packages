@@ -36,13 +36,19 @@ function _executeAggregationExpression(expression: string, baseValue: any): any 
 			base: baseValue,
 		});
 	} catch {
-		console.error(`Could not execute expression: ${expression}`);
 		return undefined;
 	}
 }
 
-export function executeAggregationExpression(expression: string, rootData: any, curValue: any): any {
-	const cleanedExpression = resolveSubQueries(rootData, expression, JSON.stringify);
+export function executeAggregationExpression(expression: string, rootData: any, curValue: any, customDataAccessor: (path: string, value: any) => any): any {
+	const cleanedExpression = resolveSubQueries(
+		rootData,
+		expression,
+		{
+			serializeObjectsInSubQuery: JSON.stringify,
+			customDataAccessor,
+		}
+	);
 
 	return _executeAggregationExpression(cleanedExpression ?? expression, curValue);
 }
