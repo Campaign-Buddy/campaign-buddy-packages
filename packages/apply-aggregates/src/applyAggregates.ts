@@ -2,6 +2,7 @@ import type { EntityDefinition } from '@campaign-buddy/json-schema-core';
 import cloneDeep = require('lodash.clonedeep');
 import { executeAggregationExpression } from './executeAggregationExpression';
 import { flattenAggregations, FlattenedAggregation } from './flattenAggregations';
+import { preFillDataForAggregation } from './preFillDataForAggregation';
 
 export function applyAggregates(data: any, aggregates: EntityDefinition['aggregates']): any {
 	if (!aggregates) {
@@ -10,7 +11,17 @@ export function applyAggregates(data: any, aggregates: EntityDefinition['aggrega
 
 	const flattenedAggregations = flattenAggregations(aggregates);
 	const allAggregatedPaths = new Set(flattenedAggregations.map((x) => x.path));
-	return _applyAggregates(cloneDeep(data), aggregates, cloneDeep(data), allAggregatedPaths, flattenedAggregations);
+
+	const dataToAggregate = cloneDeep(data ?? {});
+
+	// This adds property paths so that json-path-ex queries
+	// work on properties that exist in the aggregate structure
+	// but not in the source data
+	preFillDataForAggregation(dataToAggregate, aggregates);
+
+	const rootData = cloneDeep(dataToAggregate);
+
+	return _applyAggregates(dataToAggregate, aggregates, rootData, allAggregatedPaths, flattenedAggregations);
 }
 
 function _applyAggregates(data: any, aggregates: EntityDefinition['aggregates'], root: any, allAggregatedPaths: Set<string>, flattenedAggregations: FlattenedAggregation[]): any {
@@ -23,7 +34,7 @@ function _applyAggregates(data: any, aggregates: EntityDefinition['aggregates'],
 
 		if (typeof aggregation === 'object') {
 			if (typeof data[key] !== 'object') {
-				continue;
+				data[key] = {};
 			}
 
 			data[key] = _applyAggregates(data[key], aggregation, root, allAggregatedPaths, flattenedAggregations);

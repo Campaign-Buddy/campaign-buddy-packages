@@ -181,12 +181,39 @@ describe('applyAggregates', () => {
 	});
 
 	it('applies aggregations for paths missing from source data', () => {
-		// TODO
-		fail();
+		const data = {
+			baz: 'baz',
+		};
+
+		const aggregates = {
+			foo: {
+				bar: '{$.baz}',
+			},
+		};
+
+		const result = applyAggregates(data, aggregates);
+
+		expect(result.foo?.bar).toEqual('baz');
+		expect(result.baz).toEqual('baz');
 	});
 
 	it('resolves nested aggregated properties for paths missing from source data', () => {
-		// TODO
-		fail();
+		const data = {
+			bar: 'abc',
+			result: '',
+		};
+
+		const aggregate = {
+			result: '{$.deeply.nested.prop}',
+			deeply: {
+				nested: {
+					prop: 'JOIN("", {$.bar}, "def")',
+				},
+			},
+		};
+
+		const result = applyAggregates(data, aggregate);
+
+		expect(result.result).toEqual('abcdef');
 	});
 });
