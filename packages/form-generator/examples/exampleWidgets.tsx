@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback, useState } from 'react';
 import { WidgetLookup, WidgetProps } from '../src';
 import {
 	Input,
@@ -6,29 +6,74 @@ import {
 	Switch,
 } from '@campaign-buddy/core-ui';
 
-const StringWidget: React.FC<WidgetProps<string>> = ({ value, onChange, label }) => (
-	<Input
-		value={value}
-		onChange={onChange}
-		label={label}
-	/>
-);
+const StringWidget: React.FC<WidgetProps<string>> = ({
+	value,
+	onChange,
+	label,
+	aggregatedValue,
+	isEditable,
+}) => {
+	const [isFocused, setIsFocused] = useState(false);
+	const onBlur = useCallback(() => setIsFocused(false), []);
+	const onFocus = useCallback(() => setIsFocused(true), []);
 
-const NumberWidget: React.FC<WidgetProps<number>> = ({ value, onChange, label }) => (
-	<NumberInput
-		value={value}
-		onChange={onChange}
-		label={label}
-	/>
-);
+	return (
+		<Input
+			value={!isEditable || !isFocused ? aggregatedValue : value}
+			onChange={onChange}
+			label={label}
+			onFocus={onFocus}
+			onBlur={onBlur}
+			disabled={!isEditable}
+		/>
+	)
+};
 
-const BooleanWidget: React.FC<WidgetProps<boolean>> = ({ value, onChange, label }) => (
-	<Switch
-		value={value}
-		onChange={onChange}
-		label={label}
-	/>
-);
+const NumberWidget: React.FC<WidgetProps<number>> = ({
+	value,
+	onChange,
+	label,
+	aggregatedValue,
+	isEditable,
+}) => {
+	const [isFocused, setIsFocused] = useState(false);
+	const onBlur = useCallback(() => setIsFocused(false), []);
+	const onFocus = useCallback(() => setIsFocused(true), []);
+
+	return (
+		<NumberInput
+			value={!isEditable || !isFocused ? aggregatedValue : value}
+			onChange={onChange}
+			label={label}
+			onFocus={onFocus}
+			onBlur={onBlur}
+			disabled={!isEditable}
+		/>
+	);
+}
+
+const BooleanWidget: React.FC<WidgetProps<boolean>> = ({
+	value,
+	onChange,
+	label,
+	isEditable,
+	aggregatedValue,
+}) => {
+	const [isFocused, setIsFocused] = useState(false);
+	const onBlur = useCallback(() => setIsFocused(false), []);
+	const onFocus = useCallback(() => setIsFocused(true), []);
+	
+	return (
+		<Switch
+			value={!isEditable || !isFocused ? aggregatedValue : value}
+			onChange={onChange}
+			label={label}
+			onFocus={onFocus}
+			onBlur={onBlur}
+			disabled={!isEditable}
+		/>
+	);
+}
 
 const AraryWidget: React.FC<WidgetProps<any>> = () => (
 	<p>Derp</p>

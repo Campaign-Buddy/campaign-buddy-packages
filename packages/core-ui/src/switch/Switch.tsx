@@ -2,6 +2,7 @@ import React, { useCallback } from 'react';
 import styled from 'styled-components';
 import { Switch as SwitchCore } from '@blueprintjs/core';
 import { defaultTheme } from '../theme';
+import { BaseInputProps } from '../BaseInputProps';
 
 const StyledSwitch = styled(SwitchCore)`
 	color: ${({ theme }) => theme.colors.text};
@@ -19,13 +20,9 @@ StyledSwitch.defaultProps = {
 	theme: defaultTheme,
 };
 
-interface SwitchProps {
-	value: boolean;
-	onChange: (value: boolean) => void;
-	label: string;
-}
+type SwitchProps = BaseInputProps<boolean>;
 
-export const Switch: React.FC<SwitchProps> = ({ value, onChange, label }) => {
+export const Switch: React.FC<SwitchProps> = ({ value, onChange, label, ...rest }) => {
 	const handleChange = useCallback((event) => onChange(event.target.checked), [onChange]);
 
 	return (
@@ -33,6 +30,7 @@ export const Switch: React.FC<SwitchProps> = ({ value, onChange, label }) => {
 			checked={value}
 			onChange={handleChange}
 			label={label}
+			{...rest}
 		/>
 	)
 }

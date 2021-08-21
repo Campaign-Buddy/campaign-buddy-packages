@@ -72,6 +72,7 @@ export const FormUiLayout: React.FC<FormUiLayoutProps> = ({
 							data={dataForPath}
 							aggregatedData={aggregatedDataForPath}
 							isEditable={isDataEditable}
+							hasAggregation={typeof aggregation === 'string'}
 						/>
 					</FormCell>
 				);
@@ -138,6 +139,7 @@ interface FormWidgetProps {
 	data: any;
 	aggregatedData: any;
 	isEditable: boolean;
+	hasAggregation: boolean;
 }
 
 const FormWidget: React.FC<FormWidgetProps> = ({
@@ -148,6 +150,7 @@ const FormWidget: React.FC<FormWidgetProps> = ({
 	data,
 	aggregatedData,
 	isEditable,
+	hasAggregation,
 }) => {
 	let Widget: React.FC<WidgetProps<any>> = () => null;
 
@@ -178,6 +181,7 @@ const FormWidget: React.FC<FormWidgetProps> = ({
 			label={schema.title ?? ''}
 			aggregatedValue={aggregatedData}
 			isEditable={isEditable}
+			hasAggregation={hasAggregation}
 		/>
 	)
 };

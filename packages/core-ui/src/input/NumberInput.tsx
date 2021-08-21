@@ -6,6 +6,7 @@ import { Button } from '../button';
 import { FormGroup } from '../form-group';
 import { defaultTheme } from '../theme';
 import { useHtmlId } from '../hooks';
+import { BaseInputProps } from '../BaseInputProps';
 
 const StyledInput = styled(InputGroup)`
 	input {
@@ -30,13 +31,16 @@ StyledInput.defaultProps = {
 	theme: defaultTheme,
 }
 
-interface NumberInputProps {
-	value: number;
-	onChange: (value: number) => void;
-	label: string;
-}
+type NumberInputProps = BaseInputProps<number>;
 
-export const NumberInput: React.FC<NumberInputProps> = ({ value, onChange, label }) => {
+export const NumberInput: React.FC<NumberInputProps> = ({
+	value,
+	label,
+	onChange,
+	onBlur: onBlurProps,
+	onKeyDown: onKeyDownProps,
+	...rest
+ }) => {
 	const [internalValue, setInternalValue] = useState(`${value ?? 0}`);
 	const id = useHtmlId();
 
@@ -92,7 +96,14 @@ export const NumberInput: React.FC<NumberInputProps> = ({ value, onChange, label
 		} else if (event.keyCode === Keys.ARROW_UP) {
 			stepUp();
 		}
-	}, [onConfirm]);
+
+		onKeyDownProps?.(event);
+	}, [onConfirm, onKeyDownProps]);
+
+	const onBlur = useCallback((event) => {
+		onConfirm();
+		onBlurProps?.(event);
+	}, [onConfirm, onBlurProps]);
 
 	const handleChange = useCallback((event) => {
 		setInternalValue(event.target.value);
@@ -113,7 +124,7 @@ export const NumberInput: React.FC<NumberInputProps> = ({ value, onChange, label
 				value={internalValue}
 				onChange={handleChange}
 				onKeyDown={onKeyDown}
-				onBlur={onConfirm}
+				onBlur={onBlur}
 				fill
 				id={id}
 				className={Classes.NUMERIC_INPUT}
@@ -123,6 +134,7 @@ export const NumberInput: React.FC<NumberInputProps> = ({ value, onChange, label
 						<Button style="minimal" onClick={stepDown} icon="chevron-down" />
 					</ButtonGroup>
 				}
+				{...rest}
 			/>
 		</FormGroup>
 	)

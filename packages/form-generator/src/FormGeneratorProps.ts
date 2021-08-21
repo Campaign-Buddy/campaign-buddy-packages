@@ -18,6 +18,7 @@ export interface WidgetLookup {
 export interface WidgetProps<T> {
 	onChange: (value: T) => void;
 	label: string;
+	hasAggregation: boolean;
 
 	/**
 	 * The value from the form data (i.e.

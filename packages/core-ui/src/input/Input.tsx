@@ -4,6 +4,7 @@ import { InputGroup } from '@blueprintjs/core';
 import { FormGroup } from '../form-group';
 import { defaultTheme } from '../theme';
 import { useHtmlId } from '../hooks';
+import { BaseInputProps } from '../BaseInputProps';
 
 const StyledInputGroup = styled(InputGroup)`
 	input {
@@ -16,10 +17,7 @@ StyledInputGroup.defaultProps = {
 	theme: defaultTheme,
 };
 
-interface InputProps {
-	value: string;
-	onChange: (value: string) => void;
-	label: string;
+interface InputProps extends BaseInputProps<string> {
 	placeholder?: string;
 }
 
@@ -27,6 +25,7 @@ export const Input: React.FC<InputProps> = ({
 	value,
 	onChange,
 	label,
+	...rest
 }) => {
 	const handleOnChange = useCallback((event) => {
 		onChange(event.target.value);
@@ -42,6 +41,7 @@ export const Input: React.FC<InputProps> = ({
 				value={value}
 				onChange={handleOnChange}
 				id={id}
+				{...rest}
 			/>
 		</FormGroup>
 	)

@@ -4,6 +4,7 @@ import { TextArea as TextAreaCore } from '@blueprintjs/core';
 import { FormGroup } from '../form-group';
 import { defaultTheme } from '../theme';
 import { useHtmlId } from '../hooks';
+import { BaseInputProps } from '../BaseInputProps';
 
 const StyledTextArea = styled(TextAreaCore)`
 	background-color: ${({ theme }) => theme.colors.inputBackground};
@@ -16,13 +17,14 @@ StyledTextArea.defaultProps = {
 	theme: defaultTheme,
 }
 
-interface TextAreaProps {
-	value: string;
-	onChange: (value: string) => void;
-	label: string;
-}
+type TextAreaProps = BaseInputProps<string, 'textarea'>;
 
-export const TextArea: React.FC<TextAreaProps> = ({ value, onChange, label }) => {
+export const TextArea: React.FC<TextAreaProps> = ({
+	value,
+	onChange,
+	label,
+	...rest
+}) => {
 	const handleOnChange = useCallback((event) => onChange(event.target.value), [onChange]);
 	const id = useHtmlId();
 	return (
@@ -35,6 +37,7 @@ export const TextArea: React.FC<TextAreaProps> = ({ value, onChange, label }) =>
 				onChange={handleOnChange}
 				fill
 				id={id}
+				{...rest}
 			/>
 		</FormGroup>
 	);

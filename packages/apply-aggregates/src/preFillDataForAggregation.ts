@@ -20,7 +20,7 @@ export function preFillDataForAggregation(data: any, aggregates: EntityDefinitio
 		} else if (typeof data[key] === 'undefined') {
 			// A placeholder since this data will be overridden
 			// by the aggregation
-			data[key] = '';
+			data[key] = undefined;
 		}
 	}
 }
