@@ -1,6 +1,11 @@
 import { evaluateFilterExpression } from './filterExpressionEvaluator';
 import { popQueryExpression, QueryExpressionKind } from './syntaxAnalyzer';
 
+interface EvaluationResult {
+	path: string;
+	data: any;
+}
+
 export function query(json: any, q: string) {
 	if (!q) {
 		return undefined;
@@ -54,7 +59,13 @@ function _query(json: any, q: string): any | undefined {
 		return undefined;
 	}
 
-	let allResults = [json];
+	let allResults: EvaluationResult[] = [
+		{
+			path: '$',
+			data: json,
+		},
+	];
+
 	let expressionResult = popQueryExpression(q);
 	let i = 0;
 
@@ -88,37 +99,47 @@ function _query(json: any, q: string): any | undefined {
 	}
 
 	if (allResults.length === 1) {
-		return allResults[0];
+		return allResults[0].data;
+	}
+
+	return allResults.map(({ data }) => data);
+}
+
+function evaluateWildCard(jsonResults: EvaluationResult[]): EvaluationResult[] {
+	const allResults: EvaluationResult[] = [];
+
+	for (const result of jsonResults) {
+		const entries = Object.entries(result.data);
+		allResults.push(...entries.map(([key, value]) => ({
+			path: `${result.path}.${key}`,
+			data: value,
+		})));
 	}
 
 	return allResults;
 }
 
-function evaluateWildCard(jsonResults: any[]): any[] {
-	const allResults = [];
+function evaluateRecursiveDescent(jsonResults: EvaluationResult[], isFirstCall = true): EvaluationResult[] {
+	const allResults: EvaluationResult[] = [];
 
 	for (const result of jsonResults) {
-		const values = Object.values(result);
-		allResults.push(...values);
-	}
+		const entries = Object.entries(result.data);
 
-	return allResults;
-}
-
-function evaluateRecursiveDescent(jsonResults: any[], isFirstCall = true): any[] {
-	const allResults = [];
-
-	for (const result of jsonResults) {
-		const values = Object.values(result);
-
-		if (typeof result === 'object' && isFirstCall) {
+		if (typeof result.data === 'object' && isFirstCall) {
 			allResults.push(result);
 		}
 
-		for (const value of values) {
+		for (const [key, value] of entries) {
 			if (typeof value === 'object') {
-				allResults.push(value);
-				allResults.push(...evaluateRecursiveDescent([value], false));
+				allResults.push({
+					path: `${result.path}.${key}`,
+					data: value,
+				});
+
+				allResults.push(...evaluateRecursiveDescent([{
+					path: `${result.path}.${key}`,
+					data: value,
+				}], false));
 			}
 		}
 	}
@@ -126,15 +147,18 @@ function evaluateRecursiveDescent(jsonResults: any[], isFirstCall = true): any[]
 	return allResults;
 }
 
-function evaluateValueFilter(jsonResults: any[], filterExpression: string, root: any): any[] {
-	const allResults = [];
+function evaluateValueFilter(jsonResults: EvaluationResult[], filterExpression: string, root: any): EvaluationResult[] {
+	const allResults: EvaluationResult[] = [];
 
 	for (const result of jsonResults) {
-		const values = Object.values(result);
+		const values = Object.entries(result.data);
 
-		for (const value of values) {
+		for (const [key, value] of values) {
 			if (evaluateFilterExpression(filterExpression, value, root)) {
-				allResults.push(value);
+				allResults.push({
+					path: `${result.path}.${key}`,
+					data: value,
+				});
 			}
 		}
 	}
@@ -142,15 +166,18 @@ function evaluateValueFilter(jsonResults: any[], filterExpression: string, root:
 	return allResults;
 }
 
-function evaluateKeyFilter(jsonResults: any[], filterExpression: string, root: any): any[] {
-	const allResults = [];
+function evaluateKeyFilter(jsonResults: EvaluationResult[], filterExpression: string, root: any): EvaluationResult[] {
+	const allResults: EvaluationResult[] = [];
 
 	for (const result of jsonResults) {
-		const keys = Object.keys(result);
+		const entries = Object.entries(result.data);
 
-		for (const key of keys) {
+		for (const [key, value] of entries) {
 			if (evaluateFilterExpression(filterExpression, key, root)) {
-				allResults.push(result[key]);
+				allResults.push({
+					path: `${result.path}.${key}`,
+					data: value,
+				});
 			}
 		}
 	}
@@ -158,20 +185,23 @@ function evaluateKeyFilter(jsonResults: any[], filterExpression: string, root: a
 	return allResults;
 }
 
-function evaluatePropertyAccessor(jsonResults: any[], property: string): any[] {
-	const allResults = [];
+function evaluatePropertyAccessor(jsonResults: EvaluationResult[], property: string): EvaluationResult[] {
+	const allResults: EvaluationResult[] = [];
 
 	for (const result of jsonResults) {
-		if (typeof result === 'object' && result[property] !== undefined && result[property] !== null) {
-			allResults.push(result[property]);
+		if (typeof result.data === 'object' && result.data[property] !== undefined && result.data[property] !== null) {
+			allResults.push({
+				path: `${result.path}.${property}`,
+				data: result.data[property],
+			});
 		}
 	}
 
 	return allResults;
 }
 
-function evaluateSlice(jsonResults: any[], content: string): any[] {
-	const allResults = [];
+function evaluateSlice(jsonResults: EvaluationResult[], content: string): EvaluationResult[] {
+	const allResults: EvaluationResult[] = [];
 
 	const [startRaw, endRaw, stepRaw] = content.split(':');
 	const start = parseInt(startRaw);
@@ -187,11 +217,14 @@ function evaluateSlice(jsonResults: any[], content: string): any[] {
 	}
 
 	for (const result of jsonResults) {
-		if (typeof result === 'object' && Array.isArray(result)) {
-			const trueEnd = Math.min(result.length, end);			
+		if (typeof result.data === 'object' && Array.isArray(result.data)) {
+			const trueEnd = Math.min(result.data.length, end);			
 
 			for (let i = start; i < trueEnd; i += step) {
-				allResults.push(result[i]);
+				allResults.push({
+					path: `${result.path}.${i}`,
+					data: result.data[i],
+				});
 			}
 		}
 	}
