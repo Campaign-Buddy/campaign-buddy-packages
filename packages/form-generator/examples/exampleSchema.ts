@@ -3,6 +3,7 @@ import { Aggregates, types, UiLayout } from '@campaign-buddy/json-schema-core';
 export const exampleSchema = types.object({
 	name: types.string({ title: 'Name' }),
 	age: types.number({ title: 'Age' }),
+	gender: types.string({ title: 'Gender' }),
 	nickName: types.string({ title: 'Nickname' }),
 	description: types.string({ title: 'Description' }),
 	phoneNumber: types.string({ title: 'Phone Number' }),
@@ -14,7 +15,7 @@ export const exampleSchema = types.object({
 		zip: types.number({ title: 'Zip Code' }),
 	}),
 	canMail: types.boolean({ title: 'Can we mail you?' }),
-	favoriteNumber: types.number({ title: 'Favorite number' }),
+	favoriteNumber: types.number({ title: 'Armor class' }),
 	additionalProperties: types.schema(),
 	customProperties: types.dynamicallyResolvedType('$.additionalProperties', { title: 'Custom Properties' }),
 });
@@ -26,7 +27,7 @@ export const exampleAggregation: Aggregates = {
 }
 
 export const exampleLayout: UiLayout = [
-	['name', 'nickName', 'age'],
+	['name', 'nickName', 'age', 'gender'],
 	'description',
 	'phoneNumber',
 	{

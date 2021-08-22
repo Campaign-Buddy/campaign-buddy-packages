@@ -84,4 +84,5 @@ export const exampleWidgets: WidgetLookup = {
 	number: NumberWidget,
 	boolean: BooleanWidget,
 	array: AraryWidget,
+	randoType: StringWidget,
 };

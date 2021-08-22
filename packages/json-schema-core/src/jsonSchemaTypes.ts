@@ -86,7 +86,15 @@ export const entity: (entity: EntityDefinition, info?: DisplayInfo) => CampaignB
 });
 
 export const stat: CBSchemaFunc = (info) => ({
-	type: 'number',
+	type: 'object',
+	properties: {
+		base: {
+			type: 'number',
+		},
+		bonus: {
+			type: 'number',
+		}
+	},
 	$uiWidget: Widgets.Stat,
 	title: info?.title,
 	description: info?.description,
