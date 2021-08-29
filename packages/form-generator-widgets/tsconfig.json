@@ -10,9 +10,7 @@
 		"src/**/*"
 	],
 	"references": [
-		{ "path": "../json-path-ex/tsconfig.json" },
 		{ "path": "../json-schema-core/tsconfig.json" },
 		{ "path": "../core-ui/tsconfig.json" },
-		{ "path": "../apply-aggregates/tsconfig.json" }
 	]
 }
