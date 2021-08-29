@@ -3,7 +3,7 @@ import React from 'react';
 interface InputProps<T> {
 	value: T;
 	onChange: (value: T) => void;
-	label: string;
+	label?: string;
 }
 
 export type BaseInputProps<T, TInputType extends keyof JSX.IntrinsicElements = 'input'> =

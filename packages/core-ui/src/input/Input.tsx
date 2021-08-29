@@ -25,12 +25,14 @@ export const Input: React.FC<InputProps> = ({
 	value,
 	onChange,
 	label,
+	id: idProp,
 	...rest
 }) => {
 	const handleOnChange = useCallback((event) => {
 		onChange(event.target.value);
 	}, [onChange]);
-	const id = useHtmlId();
+	const generatedId = useHtmlId();
+	const id = idProp ?? generatedId;
 
 	return (
 		<FormGroup

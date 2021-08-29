@@ -39,10 +39,12 @@ export const NumberInput: React.FC<NumberInputProps> = ({
 	onChange,
 	onBlur: onBlurProps,
 	onKeyDown: onKeyDownProps,
+	id: idProp,
 	...rest
  }) => {
 	const [internalValue, setInternalValue] = useState(`${value ?? 0}`);
-	const id = useHtmlId();
+	const generatedId = useHtmlId();
+	const id = idProp ?? generatedId;
 
 	// When the value is changed from the outside, then
 	// we want to update our internal input

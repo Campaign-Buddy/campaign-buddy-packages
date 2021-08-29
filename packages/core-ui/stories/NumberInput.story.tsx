@@ -19,7 +19,6 @@ const Template: Story = () => {
 		<NumberInput
 			value={state}
 			onChange={handleSetState}
-			label="Please fill me out"
 		/>
 	);
 };

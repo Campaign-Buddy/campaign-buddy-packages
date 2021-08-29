@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { FormGroup as FormGroupCore } from '@blueprintjs/core';
 import { defaultTheme } from '../theme';
+import React from 'react';
 
 const StyledFormGroup = styled(FormGroupCore)`
 	label {
@@ -12,4 +13,17 @@ StyledFormGroup.defaultProps = {
 	theme: defaultTheme,
 };
 
-export { StyledFormGroup as FormGroup };
+interface FormGroupProps {
+	label?: string;
+	labelFor?: string;
+}
+
+export const FormGroup: React.FC<FormGroupProps> = ({
+	label,
+	labelFor,
+	children
+}) => (
+	<FormGroupCore label={label} labelFor={labelFor}>
+		{children}
+	</FormGroupCore>
+);

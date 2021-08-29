@@ -23,10 +23,13 @@ export const TextArea: React.FC<TextAreaProps> = ({
 	value,
 	onChange,
 	label,
+	id: idProp,
 	...rest
 }) => {
 	const handleOnChange = useCallback((event) => onChange(event.target.value), [onChange]);
-	const id = useHtmlId();
+	const generatedId = useHtmlId();
+	const id = idProp ?? generatedId;
+
 	return (
 		<FormGroup
 			label={label}
