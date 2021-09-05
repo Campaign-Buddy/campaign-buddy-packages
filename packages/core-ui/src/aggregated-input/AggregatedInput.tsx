@@ -65,7 +65,9 @@ export const AggregatedInput = <T extends any, TInputType extends keyof JSX.Intr
 	const [isEditButtonFocused, onEditButtonFocus, onEditButtonBlur] = useBooleanState();
 	const [isHovering, onMouseEnter, onMouseLeave] = useBooleanState();
 
-	const editButtonState = isEditButtonFocused || isHovering ? 'visible' : 'hidden';
+	const editButtonState = (isEditButtonFocused || isHovering) && !isPopoverOpen
+		? 'visible'
+		: 'hidden';
 
 	const popoverContentRef = useRef<HTMLDivElement>(null);
 	const buttonRef = useRef<HTMLButtonElement>(null);

@@ -12,18 +12,13 @@ const Template: Story = () => {
 
 	const aggregatedValue = state + 10;
 
-	const handleSetState = useCallback((val: number) => {
-		console.log(val);
-		setState(val);
-	}, []);
-
 	return (
 		<>
 		<Input value="Hi" onChange={console.log} />
 		<AggregatedNumberInput
 			value={state}
 			label="Add ten aggregation"
-			onChange={handleSetState}
+			onChange={setState}
 			aggregatedDisplayValue={`${aggregatedValue}`}
 			baseValueLabel="Base value"
 			aggregationDescription="Computed value = <base> + 10"
