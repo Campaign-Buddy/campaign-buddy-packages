@@ -1,16 +1,31 @@
 import React, { useCallback, useRef, useState } from 'react';
 import { Icon } from '@blueprintjs/core';
+import { Tooltip2 } from '@blueprintjs/popover2';
+import { Variants } from 'framer-motion';
 import { BaseInputProps } from '../BaseInputProps';
 import { FormGroup } from '../form-group';
 import { Popover } from '../popover';
-import { Tooltip2 } from '@blueprintjs/popover2';
 import { Button } from '../button';
 import {
 	AggregatedDisplayText,
 	PopoverContentRoot,
 	AggregationPreviewText,
 	DisplayValueContainer,
+	AnimatedButtonContainer,
 } from './AggregatedInput.styled';
+
+const editButtonVariants: Variants = {
+	hidden: {
+		width: 0,
+		marginLeft: 0,
+		opacity: 0,
+	},
+	visible: {
+		width: 'auto',
+		marginLeft: '4px',
+		opacity: 1,
+	},
+};
 
 interface AggregatedInputPropsCore<T, TInputType extends keyof JSX.IntrinsicElements> {
 	InputComponent: React.FC<BaseInputProps<T, TInputType>>;
@@ -46,8 +61,14 @@ export const AggregatedInput = <T extends any, TInputType extends keyof JSX.Intr
 	...rest
 }: AggregatedInputProps<T, TInputType>) => {
 	const [isPopoverOpen, setIsPopoverOpen] = useState(false);
+	const [editButtonState, setEditButtonState] = useState<'hidden' | 'visible'>('hidden');
+
 	const popoverContentRef = useRef<HTMLDivElement>(null);
 	const buttonRef = useRef<HTMLButtonElement>(null);
+
+	const showEditButton = useCallback(() => setEditButtonState('visible'), []);
+	const hideEditButton = useCallback(() => setEditButtonState('hidden'), []);
+
 	const closePopover = useCallback(() => {
 		setIsPopoverOpen(false);
 		buttonRef.current?.focus();
@@ -79,7 +100,7 @@ export const AggregatedInput = <T extends any, TInputType extends keyof JSX.Intr
 
 	return (
 		<FormGroup label={label} className={className} onClick={openPopover}>
-			<DisplayValueContainer>
+			<DisplayValueContainer onMouseEnter={showEditButton} onMouseLeave={hideEditButton}>
 				<Popover
 					isOpen={isPopoverOpen}
 					onClose={closePopover}
@@ -89,13 +110,21 @@ export const AggregatedInput = <T extends any, TInputType extends keyof JSX.Intr
 						{aggregatedDisplayValue}
 					</AggregatedDisplayText>
 				</Popover>
-				<Button
-					icon="edit"
-					onClick={openPopover}
-					style="minimal"
-					buttonRef={buttonRef}
-					size="small"
-				/>
+				<AnimatedButtonContainer
+					variants={editButtonVariants}
+					initial="unfocused"
+					animate={editButtonState}
+				>
+					<Button
+						icon="edit"
+						onClick={openPopover}
+						onFocus={showEditButton}
+						onBlur={hideEditButton}
+						style="minimal"
+						buttonRef={buttonRef}
+						size="small"
+					/>
+				</AnimatedButtonContainer>
 			</DisplayValueContainer>
 		</FormGroup>
 	);

@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { motion } from 'framer-motion';
 import { defaultTheme } from '../theme';
 
 export const AggregatedDisplayText = styled.p`
@@ -35,4 +36,9 @@ AggregationPreviewText.defaultProps = {
 export const DisplayValueContainer = styled.div`
 	display: flex;
 	align-items: center;
+`;
+
+export const AnimatedButtonContainer = styled(motion.div)`
+	overflow: hidden;
+	padding: 3px;
 `;

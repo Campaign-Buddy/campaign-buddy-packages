@@ -5,7 +5,7 @@ import { defaultTheme } from '../theme';
 
 export type ButtonStyle = 'primary' | 'minimal';
 
-interface ButtonProps {
+interface ButtonProps extends Omit<React.ComponentProps<'button'>, 'style' | 'onClick' | 'ref'> {
 	icon?: IconName;
 	onClick: () => void;
 	style?: ButtonStyle;
@@ -64,6 +64,7 @@ export const Button: React.FC<ButtonProps> = ({
 	style,
 	buttonRef,
 	size,
+	...rest
 }) => (
 	<StyledButton
 		icon={icon}
@@ -73,6 +74,7 @@ export const Button: React.FC<ButtonProps> = ({
 		large={size === 'large'}
 		small={size === 'small'}
 		_style={style}
+		{...rest}
 	>
 		{children}
 	</StyledButton>
