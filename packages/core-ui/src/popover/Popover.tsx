@@ -55,6 +55,8 @@ export const Popover: React.FC<PopoverProps> = ({
 				modifiers={popoverModifiers as any}
 				popoverClassName="bp-overrides-popover"
 				placement={placement}
+				openOnTargetFocus={false}
+				enforceFocus={false}
 			>
 				{children}
 			</PopoverCore>

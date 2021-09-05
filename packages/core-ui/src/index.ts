@@ -1,6 +1,7 @@
-export { Input, TextArea, NumberInput } from './input';
-export { Switch } from './switch';
-export { Button } from './button';
-export { Modal } from './modal';
-export { Popover } from './popover';
-export { FormGroup } from './form-group';
+export * from './input';
+export * from './switch';
+export * from './button';
+export * from './modal';
+export * from './popover';
+export * from './form-group';
+export * from './aggregated-input';

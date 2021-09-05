@@ -1,11 +1,12 @@
 import styled from 'styled-components';
 import { FormGroup as FormGroupCore } from '@blueprintjs/core';
 import { defaultTheme } from '../theme';
-import React from 'react';
+import React, { useCallback } from 'react';
 
 const StyledFormGroup = styled(FormGroupCore)`
-	label {
+	label.bp3-label {
 		color: ${({ theme }) => theme.colors.text};
+		font-weight: 500;
 	}
 `;
 
@@ -16,14 +17,32 @@ StyledFormGroup.defaultProps = {
 interface FormGroupProps {
 	label?: string;
 	labelFor?: string;
+	className?: string;
+	onClick?: () => void;
 }
 
 export const FormGroup: React.FC<FormGroupProps> = ({
 	label,
 	labelFor,
-	children
-}) => (
-	<FormGroupCore label={label} labelFor={labelFor}>
-		{children}
-	</FormGroupCore>
-);
+	children,
+	className,
+	onClick,
+}) => {
+	const handleClick = useCallback(() => onClick?.(), [onClick]);
+
+	return (
+		<StyledFormGroup
+			label={(
+				onClick ? (
+					<span onClick={handleClick}>{label}</span>
+				) : (
+					label
+				)
+			)}
+			labelFor={labelFor}
+			className={className}
+		>
+			{children}
+		</StyledFormGroup>
+	);
+};

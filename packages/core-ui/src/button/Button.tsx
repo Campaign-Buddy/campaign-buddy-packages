@@ -9,6 +9,8 @@ interface ButtonProps {
 	icon?: IconName;
 	onClick: () => void;
 	style?: ButtonStyle;
+	buttonRef?: React.RefObject<HTMLButtonElement>;
+	size?: 'small' | 'normal' | 'large';
 }
 
 const primaryStyles = css`
@@ -55,11 +57,21 @@ StyledButton.defaultProps = {
 	theme: defaultTheme,
 }
 
-export const Button: React.FC<ButtonProps> = ({ icon, onClick, children, style }) => (
+export const Button: React.FC<ButtonProps> = ({
+	icon,
+	onClick,
+	children,
+	style,
+	buttonRef,
+	size,
+}) => (
 	<StyledButton
 		icon={icon}
 		onClick={onClick}
 		minimal={style === 'minimal'}
+		elementRef={buttonRef}
+		large={size === 'large'}
+		small={size === 'small'}
 		_style={style}
 	>
 		{children}
