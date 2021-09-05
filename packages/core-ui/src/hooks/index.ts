@@ -1,3 +1,2 @@
-import { useHtmlId } from './useHtmlId';
-
 export { useHtmlId } from './useHtmlId';
+export { useBooleanState } from './useBooleanState';

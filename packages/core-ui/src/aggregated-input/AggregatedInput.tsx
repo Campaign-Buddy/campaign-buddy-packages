@@ -13,6 +13,7 @@ import {
 	DisplayValueContainer,
 	AnimatedButtonContainer,
 } from './AggregatedInput.styled';
+import { useBooleanState } from '../hooks';
 
 const editButtonVariants: Variants = {
 	hidden: {
@@ -61,13 +62,13 @@ export const AggregatedInput = <T extends any, TInputType extends keyof JSX.Intr
 	...rest
 }: AggregatedInputProps<T, TInputType>) => {
 	const [isPopoverOpen, setIsPopoverOpen] = useState(false);
-	const [editButtonState, setEditButtonState] = useState<'hidden' | 'visible'>('hidden');
+	const [isEditButtonFocused, onEditButtonFocus, onEditButtonBlur] = useBooleanState();
+	const [isHovering, onMouseEnter, onMouseLeave] = useBooleanState();
+
+	const editButtonState = isEditButtonFocused || isHovering ? 'visible' : 'hidden';
 
 	const popoverContentRef = useRef<HTMLDivElement>(null);
 	const buttonRef = useRef<HTMLButtonElement>(null);
-
-	const showEditButton = useCallback(() => setEditButtonState('visible'), []);
-	const hideEditButton = useCallback(() => setEditButtonState('hidden'), []);
 
 	const closePopover = useCallback(() => {
 		setIsPopoverOpen(false);
@@ -100,7 +101,7 @@ export const AggregatedInput = <T extends any, TInputType extends keyof JSX.Intr
 
 	return (
 		<FormGroup label={label} className={className} onClick={openPopover}>
-			<DisplayValueContainer onMouseEnter={showEditButton} onMouseLeave={hideEditButton}>
+			<DisplayValueContainer onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
 				<Popover
 					isOpen={isPopoverOpen}
 					onClose={closePopover}
@@ -118,8 +119,8 @@ export const AggregatedInput = <T extends any, TInputType extends keyof JSX.Intr
 					<Button
 						icon="edit"
 						onClick={openPopover}
-						onFocus={showEditButton}
-						onBlur={hideEditButton}
+						onFocus={onEditButtonFocus}
+						onBlur={onEditButtonBlur}
 						style="minimal"
 						buttonRef={buttonRef}
 						size="small"
