@@ -1,6 +1,9 @@
 import React from 'react';
-import { EntityDefinition, UiLayout } from '@campaign-buddy/json-schema-core';
-import { JSONSchema4 } from 'json-schema';
+import {
+	EntityDefinition,
+	UiLayout,
+	CampaignBuddySchema,
+} from '@campaign-buddy/json-schema-core';
 import {
 	UiSectionProps,
 	WidgetLookup,
@@ -9,10 +12,11 @@ import {
 import { generateUiLayout, getDataForPath, getSchemaForPath } from './utility';
 import styled from 'styled-components';
 import { DebouncedWidget } from './DebouncedWidget';
+import { getDefaultColSize } from './utility/getDefaultColSize';
 
 interface FormUiLayoutProps {
 	uiLayout: UiLayout;
-	schema: JSONSchema4;
+	schema: CampaignBuddySchema;
 	widgetLookup: WidgetLookup;
 	updateValue: (path: string, data: any) => void;
 	data: any;
@@ -71,8 +75,11 @@ export const FormUiLayout: React.FC<FormUiLayoutProps> = ({
 					</FormRow>
 				);
 			} else {
+				const cols =
+					subSchema['$uiCols'] ?? getDefaultColSize(uiLayout, schema, element);
+				console.log(`cols: ${cols}`);
 				nodes.push(
-					<FormCell>
+					<FormCell cols={cols}>
 						<FormWidget
 							schema={subSchema}
 							widgetLookup={widgetLookup}
@@ -131,7 +138,7 @@ export const FormUiLayout: React.FC<FormUiLayoutProps> = ({
 };
 
 interface FormWidgetProps {
-	schema: JSONSchema4;
+	schema: CampaignBuddySchema;
 	widgetLookup: WidgetLookup;
 	path: string;
 	updateValue: (path: string, data: any) => void;
@@ -188,9 +195,14 @@ const FormWidget: React.FC<FormWidgetProps> = ({
 	);
 };
 
-const FormCell = styled.div`
+function calculateFlex(cols: number) {
+	return `1 0 calc(${Math.floor((cols / 12) * 100)}% - 8px)`;
+}
+
+const FormCell = styled.div<{ cols: number }>`
 	margin-bottom: 4px;
-	flex-basis: 0;
+	flex: ${({ cols }) => calculateFlex(cols)};
+	min-width: 150px;
 `;
 
 const FormRow = styled.div`
@@ -198,8 +210,4 @@ const FormRow = styled.div`
 	flex-wrap: wrap;
 	width: 100%;
 	column-gap: 8px;
-
-	& > * {
-		flex-grow: 1;
-	}
 `;
