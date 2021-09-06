@@ -53,3 +53,21 @@ export function TO_NUMBER(...numbers: (string | string[])[]): number {
 
 	return 0;
 }
+
+export function TO_BOOLEAN(...values: (string | string[])[]): boolean {
+	if (values.length !== 1) {
+		return false;
+	}
+
+	let value = values[0];
+
+	if (Array.isArray(value)) {
+		if (value.length !== 1) {
+			return false;
+		}
+
+		value = value[0];
+	}
+
+	return Boolean(value);
+}
