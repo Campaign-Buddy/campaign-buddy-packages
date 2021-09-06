@@ -31,7 +31,7 @@ export const number: CBSchemaFunc = (info) => ({
 
 /**
  * Numeric resources are properties that have a maximum value
- * and can be spent or regained over time (e.g. health, spell slots
+ * and can be spent or regained over time (e.g. health, spell slots,
  * bardic inspirations).
  */
 export const numericResource: CBSchemaFunc = (info) => ({
