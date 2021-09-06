@@ -88,6 +88,8 @@ function _query(json: any, q: string, options: QueryOptions): any | undefined {
 			}));
 		}
 
+		allResults = allResults.filter(hasData);
+
 		if (expression.kind === QueryExpressionKind.Root) {
 			if (i !== 0) {
 				throw new Error('Root accessor must only be at the beginning of a query')
@@ -120,6 +122,8 @@ function _query(json: any, q: string, options: QueryOptions): any | undefined {
 			data: options.customDataAccessor?.(x.path, x.data),
 		}));
 	}
+
+	allResults = allResults.filter(hasData);
 
 	if (allResults.length === 1) {
 		return allResults[0].data;
@@ -216,7 +220,7 @@ function evaluatePropertyAccessor(jsonResults: EvaluationResult[], property: str
 	const allResults: EvaluationResult[] = [];
 
 	for (const result of jsonResults) {
-		if (typeof result.data === 'object' && result.data[property] !== undefined && result.data[property] !== null) {
+		if (typeof result.data === 'object') {
 			allResults.push({
 				path: `${result.path}.${property}`,
 				data: result.data[property],
@@ -257,4 +261,8 @@ function evaluateSlice(jsonResults: EvaluationResult[], content: string): Evalua
 	}
 
 	return allResults;
+}
+
+function hasData(x: EvaluationResult) {
+	return x.data !== undefined && x.data !== null;
 }
