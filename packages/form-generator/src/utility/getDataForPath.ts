@@ -5,7 +5,11 @@ import { JSONSchema4 } from 'json-schema';
  * @param data The root object to search
  * @param schemaForPath The JSON schema describing this data (used for default values)
  */
-export function getDataForPath(path: string, data: any, schemaForPath: JSONSchema4 | undefined): any {
+export function getDataForPath(
+	path: string,
+	data: any,
+	schemaForPath: JSONSchema4 | undefined
+): any {
 	const parts = path.split('.');
 	let cur = data;
 

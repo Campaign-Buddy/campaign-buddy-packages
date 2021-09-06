@@ -8,7 +8,7 @@ export const spell: EntityDefinition = {
 		description: types.richText({ title: 'Description' }),
 		school: types.string({ title: 'School' }),
 		components: types.object({
-			material: types.boolean({ title: 'Has Material Components'}),
+			material: types.boolean({ title: 'Has Material Components' }),
 			somatic: types.boolean({ title: 'Has Somatic Component' }),
 			verbal: types.boolean({ title: 'Has Verbal Component' }),
 		}),

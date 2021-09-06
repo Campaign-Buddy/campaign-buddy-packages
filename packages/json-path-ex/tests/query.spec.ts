@@ -1,22 +1,22 @@
 import { query } from '../src';
 
 interface TestCase {
-	query: string;
-	json: any;
-	expected: any;
+  query: string;
+  json: any;
+  expected: any;
 }
 
 interface ErrorTestCase {
-	query: string;
-	json: any;
+  query: string;
+  json: any;
 }
 
 interface CustomDataAccessTestCase {
-	label: string;
-	dataReplacementMap: Record<string, any>;
-	json: any;
-	query: string;
-	expected: any;
+  label: string;
+  dataReplacementMap: Record<string, any>;
+  json: any;
+  query: string;
+  expected: any;
 }
 
 const customDataAccessTestCases: CustomDataAccessTestCase[] = [
@@ -39,7 +39,7 @@ const customDataAccessTestCases: CustomDataAccessTestCase[] = [
 		json: {
 			foo: {
 				bar: 'bar',
-			}
+			},
 		},
 		query: '$.foo.baz',
 		expected: 'baz',
@@ -47,7 +47,7 @@ const customDataAccessTestCases: CustomDataAccessTestCase[] = [
 	{
 		label: 'recursive descent',
 		dataReplacementMap: {
-			'$.foo': { baz: 'baz' }
+			'$.foo': { baz: 'baz' },
 		},
 		json: {
 			foo: {
@@ -58,7 +58,7 @@ const customDataAccessTestCases: CustomDataAccessTestCase[] = [
 			},
 		},
 		query: '$..baz',
-		expected: 'baz'
+		expected: 'baz',
 	},
 	{
 		label: 'wildcard',
@@ -71,13 +71,10 @@ const customDataAccessTestCases: CustomDataAccessTestCase[] = [
 			},
 			bar: {
 				baz: 'baz',
-			}
+			},
 		},
 		query: '$.*.baz',
-		expected: [
-			'baz',
-			'baz',
-		]
+		expected: ['baz', 'baz'],
 	},
 	{
 		label: 'array slicing',
@@ -85,19 +82,10 @@ const customDataAccessTestCases: CustomDataAccessTestCase[] = [
 			'$.foo.1.bar': 'baz',
 		},
 		json: {
-			foo: [
-				{ bar: 'bar' },
-				{ bar: 'bar' },
-				{ bar: 'bar' },
-				{ bar: 'bar' },
-			],
+			foo: [{ bar: 'bar' }, { bar: 'bar' }, { bar: 'bar' }, { bar: 'bar' }],
 		},
 		query: '$.foo[0:3].bar',
-		expected: [
-			'bar',
-			'baz',
-			'bar',
-		],
+		expected: ['bar', 'baz', 'bar'],
 	},
 	{
 		label: 'value filtering',
@@ -105,11 +93,7 @@ const customDataAccessTestCases: CustomDataAccessTestCase[] = [
 			'$.foo.1': 2,
 		},
 		json: {
-			foo: [
-				1,
-				1,
-				1,
-			]
+			foo: [1, 1, 1],
 		},
 		query: '$.foo[?(@ === 2)]',
 		expected: 2,
@@ -143,7 +127,7 @@ const testCases: TestCase[] = [
 		json: {
 			foo: {
 				bar: 'baz',
-			}
+			},
 		},
 		query: '$.foo.bar',
 		expected: 'baz',
@@ -155,8 +139,8 @@ const testCases: TestCase[] = [
 				baz: {
 					other: 2,
 					nested: 3,
-				}
-			}
+				},
+			},
 		},
 		query: '$.foo..nested',
 		expected: 3,
@@ -170,17 +154,14 @@ const testCases: TestCase[] = [
 					nested: {
 						other: 3,
 					},
-				}
+				},
 			},
 			nested: {
 				other: 4,
-			}
+			},
 		},
 		query: '$..nested.other',
-		expected: [
-			4,
-			3,
-		],
+		expected: [4, 3],
 	},
 	{
 		json: {
@@ -191,18 +172,14 @@ const testCases: TestCase[] = [
 					nested: {
 						other: 3,
 					},
-				}
+				},
 			},
 			nested: {
 				other: 4,
-			}
+			},
 		},
 		query: '$..other',
-		expected: [
-			2,
-			3,
-			4
-		],
+		expected: [2, 3, 4],
 	},
 	{
 		json: {
@@ -210,13 +187,10 @@ const testCases: TestCase[] = [
 				a: 1,
 				b: 2,
 				c: 3,
-			}
+			},
 		},
 		query: '$.foo.<?(@ !== "b")>',
-		expected: [
-			1,
-			3,
-		],
+		expected: [1, 3],
 	},
 	{
 		json: {
@@ -224,13 +198,10 @@ const testCases: TestCase[] = [
 				a: 1,
 				b: 2,
 				c: 3,
-			}
+			},
 		},
 		query: '$.foo.<?(@ !== \'b\')>',
-		expected: [
-			1,
-			3,
-		],
+		expected: [1, 3],
 	},
 	{
 		json: {
@@ -246,15 +217,11 @@ const testCases: TestCase[] = [
 				},
 				bar: {
 					bar: 4,
-				}
-			}
+				},
+			},
 		},
 		query: '$..<?(@.length === 1)>.bar',
-		expected: [
-			1,
-			2,
-			3,
-		],
+		expected: [1, 2, 3],
 	},
 	{
 		json: {
@@ -270,31 +237,18 @@ const testCases: TestCase[] = [
 				},
 				bar: {
 					bar: 4,
-				}
-			}
+				},
+			},
 		},
 		query: '$..<?(@ === "a" || @ === "b" || @ === "c")>.bar',
-		expected: [
-			1,
-			2,
-			3,
-		],
+		expected: [1, 2, 3],
 	},
 	{
 		json: {
-			foo: [
-				1,
-				2,
-				3,
-				4,
-				5,
-			],
+			foo: [1, 2, 3, 4, 5],
 		},
 		query: '$.foo[?(@ % 2 === 0)]',
-		expected: [
-			2,
-			4,
-		],
+		expected: [2, 4],
 	},
 	{
 		json: {
@@ -311,7 +265,7 @@ const testCases: TestCase[] = [
 				},
 				{
 					bar: 'hi',
-				}
+				},
 			],
 		},
 		query: '$.foo[?(typeof @.bar === "number")]',
@@ -321,7 +275,7 @@ const testCases: TestCase[] = [
 			},
 			{
 				bar: 3,
-			}
+			},
 		],
 	},
 	{
@@ -384,133 +338,65 @@ const testCases: TestCase[] = [
 	},
 	{
 		json: {
-			foo: [
-				0,
-				1,
-				2,
-				3,
-			]
+			foo: [0, 1, 2, 3],
 		},
 		query: '$.foo[1:3]',
-		expected: [
-			1,
-			2,
-		],
+		expected: [1, 2],
 	},
 	{
 		json: {
-			foo: [
-				0,
-				1,
-				2,
-				3,
-			]
+			foo: [0, 1, 2, 3],
 		},
 		query: '$.foo[:3]',
-		expected: [
-			0,
-			1,
-			2,
-		],
+		expected: [0, 1, 2],
 	},
 	{
 		json: {
-			foo: [
-				0,
-				1,
-				2,
-				3,
-			]
+			foo: [0, 1, 2, 3],
 		},
 		query: '$.foo[1:]',
-		expected: [
-			1,
-			2,
-			3
-		],
+		expected: [1, 2, 3],
 	},
 	{
 		json: {
-			foo: [
-				0,
-				1,
-				2,
-				3,
-			]
+			foo: [0, 1, 2, 3],
 		},
 		query: '$.foo[:]',
-		expected: [
-			0,
-			1,
-			2,
-			3
-		],
+		expected: [0, 1, 2, 3],
 	},
 	{
 		json: {
-			foo: [
-				0,
-				1,
-				2,
-				3,
-			]
+			foo: [0, 1, 2, 3],
 		},
 		query: '$.foo[1:4:2]',
-		expected: [
-			1,
-			3
-		],
+		expected: [1, 3],
 	},
 	{
 		json: {
-			foo: [
-				0,
-				1,
-				2,
-				3,
-			]
+			foo: [0, 1, 2, 3],
 		},
 		query: '$.foo[1::2]',
-		expected: [
-			1,
-			3
-		],
+		expected: [1, 3],
 	},
 	{
 		json: {
-			foo: [
-				0,
-				1,
-				2,
-				3,
-			]
+			foo: [0, 1, 2, 3],
 		},
 		query: '$.foo[::2]',
-		expected: [
-			0,
-			2,
-		],
+		expected: [0, 2],
 	},
 	{
 		json: {
-			foo: [
-				0,
-				1,
-				2,
-				3,
-			]
+			foo: [0, 1, 2, 3],
 		},
 		query: '$.foo[:3:2]',
-		expected: [
-			0,
-			2,
-		],
+		expected: [0, 2],
 	},
 	{
 		json: {
 			['foo bar']: {
 				baz: true,
-			}
+			},
 		},
 		query: '$["foo bar"].baz',
 		expected: true,
@@ -519,7 +405,7 @@ const testCases: TestCase[] = [
 		json: {
 			['foo.bar']: {
 				baz: true,
-			}
+			},
 		},
 		query: '$["foo.bar"].baz',
 		expected: true,
@@ -528,18 +414,14 @@ const testCases: TestCase[] = [
 		json: {
 			['foo.bar']: {
 				baz: true,
-			}
+			},
 		},
 		query: '$.foo.bar.baz',
 		expected: undefined,
 	},
 	{
 		json: {
-			foo: [
-				1,
-				2,
-				3
-			],
+			foo: [1, 2, 3],
 			bar: {
 				a: 'a',
 				b: 'b',
@@ -549,27 +431,19 @@ const testCases: TestCase[] = [
 		},
 		query: '$.*',
 		expected: [
-			[
-				1,
-				2,
-				3,
-			],
+			[1, 2, 3],
 			{
 				a: 'a',
 				b: 'b',
 				c: 'c',
 			},
-			true
-		]
+			true,
+		],
 	},
 	{
 		json: {
 			index: 1,
-			arr: [
-				'a',
-				'b',
-				'c',
-			]
+			arr: ['a', 'b', 'c'],
 		},
 		query: '$.arr[{$.index}]',
 		expected: 'b',
@@ -577,14 +451,10 @@ const testCases: TestCase[] = [
 	{
 		json: {
 			index: 1,
-			arr: [
-				'a',
-				'b',
-				'c',
-			],
+			arr: ['a', 'b', 'c'],
 			foo: {
 				index: 2,
-			}
+			},
 		},
 		query: '$.arr[{$..index}]',
 		expected: undefined,
@@ -592,16 +462,8 @@ const testCases: TestCase[] = [
 	{
 		json: {
 			index: 0,
-			indicies: [
-				1,
-				2,
-				3,
-			],
-			arr: [
-				'a',
-				'b',
-				'c,'
-			]
+			indicies: [1, 2, 3],
+			arr: ['a', 'b', 'c,'],
 		},
 		query: '$.arr[{$.indicies[{$.index}]}]',
 		expected: 'b',
@@ -609,11 +471,7 @@ const testCases: TestCase[] = [
 	{
 		json: {
 			index: 2,
-			arr: [
-				'a',
-				'b',
-				'c',
-			]
+			arr: ['a', 'b', 'c'],
 		},
 		query: '$.arr[{$.idex}]',
 		expected: undefined,
@@ -621,16 +479,8 @@ const testCases: TestCase[] = [
 	{
 		json: {
 			index: 0,
-			indicies: [
-				1,
-				2,
-				3,
-			],
-			arr: [
-				'a',
-				'b',
-				'c,'
-			]
+			indicies: [1, 2, 3],
+			arr: ['a', 'b', 'c,'],
 		},
 		query: '$.arr[{$.indicies[{$.idex}]}]',
 		expected: undefined,
@@ -738,7 +588,7 @@ const errorTestCases: ErrorTestCase[] = [
 		json: {
 			['foo bar']: {
 				baz: true,
-			}
+			},
 		},
 		query: '$.foo bar.baz',
 	},
@@ -757,13 +607,10 @@ describe('query', () => {
 
 	for (const testCase of customDataAccessTestCases) {
 		it(`custom data access works for ${testCase.label} (query = ${testCase.query})`, () => {
-			const result = query(
-				testCase.json,
-				testCase.query,
-				{
-					customDataAccessor: (path, data) => testCase.dataReplacementMap[path] ?? data,
-				}
-			);
+			const result = query(testCase.json, testCase.query, {
+				customDataAccessor: (path, data) =>
+					testCase.dataReplacementMap[path] ?? data,
+			});
 
 			if (typeof testCase.expected === 'object') {
 				expect(result).toMatchObject(testCase.expected);
@@ -790,7 +637,7 @@ describe('query', () => {
 	}
 
 	for (const errorCase of errorTestCases) {
-		it(`throws an error for ${errorCase.query}`, () =>{
+		it(`throws an error for ${errorCase.query}`, () => {
 			const getResult = () => query(errorCase.json, errorCase.query);
 			expect(getResult).toThrow();
 		});

@@ -8,39 +8,45 @@ import { getSchemaForPath } from './getSchemaForPath';
 
 // widgets that don't exist
 export function cleanUiLayout(layout: UiLayout, schema: JSONSchema4): UiLayout {
-	return layout.map(element => {
-		if (typeof element === 'string') {
-			const subSchema = getSchemaForPath(element, schema);
-			if (!subSchema) {
-				return '';
+	return layout
+		.map((element) => {
+			if (typeof element === 'string') {
+				const subSchema = getSchemaForPath(element, schema);
+				if (!subSchema) {
+					return '';
+				}
+
+				if (
+					subSchema.type === 'object' &&
+          (!subSchema.properties ||
+            Object.keys(subSchema.properties).length === 0)
+				) {
+					return '';
+				}
+
+				return element;
 			}
 
-			if (subSchema.type === 'object' && (!subSchema.properties || Object.keys(subSchema.properties).length === 0)) {
-				return '';
+			if (Array.isArray(element)) {
+				const result = cleanUiLayout(element, schema);
+
+				if (result.length === 0) {
+					return '';
+				}
+
+				return result;
+			} else {
+				const result = cleanUiLayout(element.uiLayout, schema);
+
+				if (result.length === 0) {
+					return '';
+				}
+
+				return {
+					...element,
+					uiLayout: result,
+				};
 			}
-
-			return element;
-		}
-
-		if (Array.isArray(element)) {
-			const result = cleanUiLayout(element, schema);
-
-			if (result.length === 0) {
-				return '';
-			}
-
-			return result;
-		} else {
-			const result = cleanUiLayout(element.uiLayout, schema);
-
-			if (result.length === 0) {
-				return '';
-			}
-
-			return {
-				...element,
-				uiLayout: result,
-			};
-		}
-	}).filter(x => x !== '');
+		})
+		.filter((x) => x !== '');
 }

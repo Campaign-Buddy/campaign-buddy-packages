@@ -8,5 +8,5 @@ export const defaultTheme: DefaultTheme = {
 		primaryHover: '#902413',
 		primaryActive: '#7E1F10',
 		background: '#EFE1C6',
-	}
+	},
 };

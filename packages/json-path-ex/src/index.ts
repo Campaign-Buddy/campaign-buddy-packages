@@ -2,13 +2,13 @@ import { evaluateFilterExpression } from './filterExpressionEvaluator';
 import { popQueryExpression, QueryExpressionKind } from './syntaxAnalyzer';
 
 interface EvaluationResult {
-	path: string;
-	data: any;
+  path: string;
+  data: any;
 }
 
 interface QueryOptions {
-	customDataAccessor?: (path: string, data: any) => any;
-	serializeObjectsInSubQuery?: (obj: any) => string;
+  customDataAccessor?: (path: string, data: any) => any;
+  serializeObjectsInSubQuery?: (obj: any) => string;
 }
 
 export function query(json: any, q: string, options?: QueryOptions) {
@@ -31,14 +31,16 @@ export function query(json: any, q: string, options?: QueryOptions) {
 	return result;
 }
 
-export function resolveSubQueries(json: any, q: string, options?: QueryOptions): string | undefined {
+export function resolveSubQueries(
+	json: any,
+	q: string,
+	options?: QueryOptions
+): string | undefined {
 	let curQuery = q;
 	let prevQuery = '';
 	const errorMessage = 'SubQuery must resolve to a single primitive';
 
-	const {
-		serializeObjectsInSubQuery
-	} = options ?? {};
+	const { serializeObjectsInSubQuery } = options ?? {};
 
 	while (prevQuery !== curQuery) {
 		prevQuery = curQuery;
@@ -46,7 +48,7 @@ export function resolveSubQueries(json: any, q: string, options?: QueryOptions):
 		try {
 			curQuery = curQuery.replace(/\{([^{}]+)\}/g, (match, subQuery) => {
 				const result = _query(json, subQuery, options ?? {});
-		
+
 				if (typeof result === 'object' || result === undefined) {
 					if (!serializeObjectsInSubQuery) {
 						throw new Error(errorMessage);
@@ -54,7 +56,7 @@ export function resolveSubQueries(json: any, q: string, options?: QueryOptions):
 
 					return serializeObjectsInSubQuery(result);
 				}
-		
+
 				return JSON.stringify(result);
 			});
 		} catch (err) {
@@ -98,12 +100,19 @@ function _query(json: any, q: string, options: QueryOptions): any | undefined {
 
 		if (expression.kind === QueryExpressionKind.Root) {
 			if (i !== 0) {
-				throw new Error('Root accessor must only be at the beginning of a query');
+				throw new Error(
+					'Root accessor must only be at the beginning of a query'
+				);
 			}
 		} else if (expression.kind === QueryExpressionKind.RecursiveDescent) {
 			allResults = evaluateRecursiveDescent(allResults);
 		} else if (expression.kind === QueryExpressionKind.ValueFilter) {
-			allResults = evaluateValueFilter(allResults, expression.content, json, options);
+			allResults = evaluateValueFilter(
+				allResults,
+				expression.content,
+				json,
+				options
+			);
 		} else if (expression.kind === QueryExpressionKind.KeyFilter) {
 			allResults = evaluateKeyFilter(allResults, expression.content, json);
 		} else if (expression.kind === QueryExpressionKind.PropertyAccessor) {
@@ -143,16 +152,21 @@ function evaluateWildCard(jsonResults: EvaluationResult[]): EvaluationResult[] {
 
 	for (const result of jsonResults) {
 		const entries = Object.entries(result.data);
-		allResults.push(...entries.map(([key, value]) => ({
-			path: `${result.path}.${key}`,
-			data: value,
-		})));
+		allResults.push(
+			...entries.map(([key, value]) => ({
+				path: `${result.path}.${key}`,
+				data: value,
+			}))
+		);
 	}
 
 	return allResults;
 }
 
-function evaluateRecursiveDescent(jsonResults: EvaluationResult[], isFirstCall = true): EvaluationResult[] {
+function evaluateRecursiveDescent(
+	jsonResults: EvaluationResult[],
+	isFirstCall = true
+): EvaluationResult[] {
 	const allResults: EvaluationResult[] = [];
 
 	for (const result of jsonResults) {
@@ -169,10 +183,17 @@ function evaluateRecursiveDescent(jsonResults: EvaluationResult[], isFirstCall =
 					data: value,
 				});
 
-				allResults.push(...evaluateRecursiveDescent([{
-					path: `${result.path}.${key}`,
-					data: value,
-				}], false));
+				allResults.push(
+					...evaluateRecursiveDescent(
+						[
+							{
+								path: `${result.path}.${key}`,
+								data: value,
+							},
+						],
+						false
+					)
+				);
 			}
 		}
 	}
@@ -180,7 +201,12 @@ function evaluateRecursiveDescent(jsonResults: EvaluationResult[], isFirstCall =
 	return allResults;
 }
 
-function evaluateValueFilter(jsonResults: EvaluationResult[], filterExpression: string, root: any, options?: QueryOptions): EvaluationResult[] {
+function evaluateValueFilter(
+	jsonResults: EvaluationResult[],
+	filterExpression: string,
+	root: any,
+	options?: QueryOptions
+): EvaluationResult[] {
 	const allResults: EvaluationResult[] = [];
 
 	for (const result of jsonResults) {
@@ -203,7 +229,11 @@ function evaluateValueFilter(jsonResults: EvaluationResult[], filterExpression: 
 	return allResults;
 }
 
-function evaluateKeyFilter(jsonResults: EvaluationResult[], filterExpression: string, root: any): EvaluationResult[] {
+function evaluateKeyFilter(
+	jsonResults: EvaluationResult[],
+	filterExpression: string,
+	root: any
+): EvaluationResult[] {
 	const allResults: EvaluationResult[] = [];
 
 	for (const result of jsonResults) {
@@ -222,7 +252,10 @@ function evaluateKeyFilter(jsonResults: EvaluationResult[], filterExpression: st
 	return allResults;
 }
 
-function evaluatePropertyAccessor(jsonResults: EvaluationResult[], property: string): EvaluationResult[] {
+function evaluatePropertyAccessor(
+	jsonResults: EvaluationResult[],
+	property: string
+): EvaluationResult[] {
 	const allResults: EvaluationResult[] = [];
 
 	for (const result of jsonResults) {
@@ -237,7 +270,10 @@ function evaluatePropertyAccessor(jsonResults: EvaluationResult[], property: str
 	return allResults;
 }
 
-function evaluateSlice(jsonResults: EvaluationResult[], content: string): EvaluationResult[] {
+function evaluateSlice(
+	jsonResults: EvaluationResult[],
+	content: string
+): EvaluationResult[] {
 	const allResults: EvaluationResult[] = [];
 
 	const [startRaw, endRaw, stepRaw] = content.split(':');
@@ -255,7 +291,7 @@ function evaluateSlice(jsonResults: EvaluationResult[], content: string): Evalua
 
 	for (const result of jsonResults) {
 		if (typeof result.data === 'object' && Array.isArray(result.data)) {
-			const trueEnd = Math.min(result.data.length, end);			
+			const trueEnd = Math.min(result.data.length, end);
 
 			for (let i = start; i < trueEnd; i += step) {
 				allResults.push({

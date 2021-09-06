@@ -3,8 +3,8 @@ import { Widgets } from './Widgets';
 import { CampaignBuddySchema } from './CampaignBuddySchema';
 
 interface DisplayInfo {
-	title: string;
-	description?: string;
+  title: string;
+  description?: string;
 }
 
 type CBSchemaFunc = (info?: DisplayInfo) => CampaignBuddySchema;
@@ -45,8 +45,8 @@ export const numericResource: CBSchemaFunc = (info) => ({
 		},
 		current: {
 			type: 'number',
-		}
-	}
+		},
+	},
 });
 
 export const genericObject: CBSchemaFunc = (info) => ({
@@ -55,7 +55,10 @@ export const genericObject: CBSchemaFunc = (info) => ({
 	description: info?.description,
 });
 
-export const dynamicallyResolvedType: (expression: string, info?: DisplayInfo) => CampaignBuddySchema = (expression, info) => ({
+export const dynamicallyResolvedType: (
+  expression: string,
+  info?: DisplayInfo
+) => CampaignBuddySchema = (expression, info) => ({
 	type: 'object',
 	$dynamicTypeExpression: expression,
 	title: info?.title,
@@ -70,14 +73,19 @@ export const schema: CBSchemaFunc = (info) => ({
 	description: info?.description,
 });
 
-export const object: (object: { [k: string]: CampaignBuddySchema }) => CampaignBuddySchema = (object) => ({
+export const object: (object: {
+  [k: string]: CampaignBuddySchema;
+}) => CampaignBuddySchema = (object) => ({
 	type: 'object',
 	properties: object,
 });
 
 /* Complex Types */
 
-export const entity: (entity: EntityDefinition, info?: DisplayInfo) => CampaignBuddySchema = (object, info) => ({
+export const entity: (
+  entity: EntityDefinition,
+  info?: DisplayInfo
+) => CampaignBuddySchema = (object, info) => ({
 	type: 'object',
 	$entity: object.name,
 	$uiWidget: Widgets.EntityPicker,
@@ -93,7 +101,7 @@ export const stat: CBSchemaFunc = (info) => ({
 		},
 		bonus: {
 			type: 'number',
-		}
+		},
 	},
 	$uiWidget: Widgets.Stat,
 	title: info?.title,
@@ -121,7 +129,10 @@ export const icon: CBSchemaFunc = (info) => ({
 	description: info?.description,
 });
 
-const _arrayOf: (object: CampaignBuddySchema, info?: DisplayInfo) => CampaignBuddySchema = (object, info) => ({
+const _arrayOf: (
+  object: CampaignBuddySchema,
+  info?: DisplayInfo
+) => CampaignBuddySchema = (object, info) => ({
 	type: 'array',
 	items: object,
 	title: info?.title,
@@ -133,8 +144,10 @@ export const arrayOf = {
 	numbers: (info?: DisplayInfo) => _arrayOf(number(), info),
 	strings: (info?: DisplayInfo) => _arrayOf(string(), info),
 	booleans: (info?: DisplayInfo) => _arrayOf(boolean(), info),
-	objects: (obj: { [k: string]: CampaignBuddySchema }, info?: DisplayInfo) => _arrayOf(object(obj), info),
-	entities: (ent: EntityDefinition, info?: DisplayInfo) => _arrayOf(entity(ent), info),
+	objects: (obj: { [k: string]: CampaignBuddySchema }, info?: DisplayInfo) =>
+		_arrayOf(object(obj), info),
+	entities: (ent: EntityDefinition, info?: DisplayInfo) =>
+		_arrayOf(entity(ent), info),
 	stats: (info?: DisplayInfo) => _arrayOf(stat(), info),
 	richTexts: (info?: DisplayInfo) => _arrayOf(richText(), info),
 	genericObjects: (info?: DisplayInfo) => _arrayOf(genericObject(), info),
@@ -142,7 +155,10 @@ export const arrayOf = {
 	custom: (obj: CampaignBuddySchema, info?: DisplayInfo) => _arrayOf(obj, info),
 };
 
-export const choice: (obj: CampaignBuddySchema, info?: DisplayInfo) => CampaignBuddySchema = (obj, info) => ({
+export const choice: (
+  obj: CampaignBuddySchema,
+  info?: DisplayInfo
+) => CampaignBuddySchema = (obj, info) => ({
 	type: 'object',
 	properties: {
 		name: string,
@@ -153,7 +169,10 @@ export const choice: (obj: CampaignBuddySchema, info?: DisplayInfo) => CampaignB
 	description: info?.description,
 });
 
-export const multiChoice: (obj: CampaignBuddySchema, info?: DisplayInfo) => CampaignBuddySchema = (obj, info) => ({
+export const multiChoice: (
+  obj: CampaignBuddySchema,
+  info?: DisplayInfo
+) => CampaignBuddySchema = (obj, info) => ({
 	type: 'object',
 	properties: {
 		selected: _arrayOf(obj, info),

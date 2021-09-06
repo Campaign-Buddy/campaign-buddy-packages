@@ -1,32 +1,32 @@
 {
-	"name": "@campaign-buddy/form-generator",
-	"version": "0.1.0",
-	"author": "Joseph Stewart",
-	"license": "MIT",
-	"dependencies": {
-		"@campaign-buddy/apply-aggregates": "0.1.0",
-		"@campaign-buddy/json-path-ex": "0.1.0",
-		"lodash.clonedeep": "^4.5.0",
-		"styled-components": "^5.2.3"
-	},
-	"devDependencies": {
-		"@campaign-buddy/core-ui": "0.1.0",
-		"@campaign-buddy/json-schema-core": "0.1.0",
-		"@types/json-schema": "^7.0.7",
-		"@types/lodash": "^4.14.168",
-		"@types/lodash.clonedeep": "^4.5.6",
-		"react": "^17.0.2",
-		"typescript": "^4.2.4"
-	},
-	"main": "dist/src/index",
-	"files": [
-		"dist/"
-	],
-	"scripts": {
-		"build": "tsc -b",
-		"test": "jest"
-	},
-	"peerDependencies": {
-		"react": "^17.0.2"
-	}
+  "name": "@campaign-buddy/form-generator",
+  "version": "0.1.0",
+  "author": "Joseph Stewart",
+  "license": "MIT",
+  "dependencies": {
+    "@campaign-buddy/apply-aggregates": "0.1.0",
+    "@campaign-buddy/json-path-ex": "0.1.0",
+    "lodash.clonedeep": "^4.5.0",
+    "styled-components": "^5.2.3"
+  },
+  "devDependencies": {
+    "@campaign-buddy/core-ui": "0.1.0",
+    "@campaign-buddy/json-schema-core": "0.1.0",
+    "@types/json-schema": "^7.0.7",
+    "@types/lodash": "^4.14.168",
+    "@types/lodash.clonedeep": "^4.5.6",
+    "react": "^17.0.2",
+    "typescript": "^4.2.4"
+  },
+  "main": "dist/src/index",
+  "files": [
+    "dist/"
+  ],
+  "scripts": {
+    "build": "tsc -b",
+    "test": "jest"
+  },
+  "peerDependencies": {
+    "react": "^17.0.2"
+  }
 }

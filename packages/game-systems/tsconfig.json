@@ -1,15 +1,11 @@
 {
-	"extends": "../../tsconfig.build.json",
+  "extends": "../../tsconfig.build.json",
 
-	"compilerOptions": {
-		"outDir": "./dist",
-		"composite": true
-	},
-	"include": [
-		"src/**/*"
-	],
+  "compilerOptions": {
+    "outDir": "./dist",
+    "composite": true
+  },
+  "include": ["src/**/*"],
 
-	"references": [
-		{ "path": "../json-schema-core/tsconfig.json" }
-	]
+  "references": [{ "path": "../json-schema-core/tsconfig.json" }]
 }

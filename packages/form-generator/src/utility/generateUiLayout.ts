@@ -1,7 +1,10 @@
 import { UiLayout } from '@campaign-buddy/json-schema-core';
 import { JSONSchema4 } from 'json-schema';
 
-export function generateUiLayout(schema: JSONSchema4, beginningPath?: string): UiLayout {
+export function generateUiLayout(
+	schema: JSONSchema4,
+	beginningPath?: string
+): UiLayout {
 	const results = _generateUiLayout(schema, beginningPath ?? '$');
 
 	if (results.length === 0) {
@@ -27,12 +30,14 @@ function _generateUiLayout(schema: JSONSchema4, path: string): UiLayout {
 		}
 
 		if (schema.title) {
-			return [[
-				{
-					title: schema.title,
-					uiLayout: subResults,
-				}
-			]];
+			return [
+				[
+					{
+						title: schema.title,
+						uiLayout: subResults,
+					},
+				],
+			];
 		} else {
 			return [subResults];
 		}

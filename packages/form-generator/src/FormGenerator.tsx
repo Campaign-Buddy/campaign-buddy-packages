@@ -38,7 +38,10 @@ export const FormGenerator: React.FC<FormGeneratorProps> = ({
 
 	const updateData = useDataUpdater(schema, data, onChange);
 
-	const aggregatedData = useMemo(() => applyAggregates(data, aggregates), [data, aggregates]);
+	const aggregatedData = useMemo(
+		() => applyAggregates(data, aggregates),
+		[data, aggregates]
+	);
 
 	return (
 		<FormRoot>
@@ -57,6 +60,6 @@ export const FormGenerator: React.FC<FormGeneratorProps> = ({
 };
 
 const FormRoot = styled.div`
-	display: flex;
-	flex-direction: column;
+  display: flex;
+  flex-direction: column;
 `;

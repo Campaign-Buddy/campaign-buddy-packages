@@ -1,10 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import { WidgetLookup, WidgetProps } from '../src';
-import {
-	Input,
-	NumberInput,
-	Switch,
-} from '@campaign-buddy/core-ui';
+import { Input, NumberInput, Switch } from '@campaign-buddy/core-ui';
 
 const StringWidget: React.FC<WidgetProps<string>> = ({
 	value,
@@ -62,7 +58,7 @@ const BooleanWidget: React.FC<WidgetProps<boolean>> = ({
 	const [isFocused, setIsFocused] = useState(false);
 	const onBlur = useCallback(() => setIsFocused(false), []);
 	const onFocus = useCallback(() => setIsFocused(true), []);
-	
+
 	return (
 		<Switch
 			value={!isEditable || !isFocused ? aggregatedValue : value}
@@ -75,9 +71,7 @@ const BooleanWidget: React.FC<WidgetProps<boolean>> = ({
 	);
 };
 
-const AraryWidget: React.FC<WidgetProps<any>> = () => (
-	<p>Derp</p>
-);
+const AraryWidget: React.FC<WidgetProps<any>> = () => <p>Derp</p>;
 
 export const exampleWidgets: WidgetLookup = {
 	string: StringWidget,

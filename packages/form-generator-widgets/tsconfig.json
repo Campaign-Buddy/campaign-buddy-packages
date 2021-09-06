@@ -1,17 +1,15 @@
 {
-	"extends": "../../tsconfig.build.json",
+  "extends": "../../tsconfig.build.json",
 
-	"compilerOptions": {
-		"outDir": "./dist",
-		"composite": true,
-		"skipDefaultLibCheck": true
-	},
-	"include": [
-		"src/**/*"
-	],
-	"references": [
-		{ "path": "../json-schema-core/tsconfig.json" },
-		{ "path": "../core-ui/tsconfig.json" },
-		{ "path": "../form-generator/tsconfig.json" }
-	]
+  "compilerOptions": {
+    "outDir": "./dist",
+    "composite": true,
+    "skipDefaultLibCheck": true
+  },
+  "include": ["src/**/*"],
+  "references": [
+    { "path": "../json-schema-core/tsconfig.json" },
+    { "path": "../core-ui/tsconfig.json" },
+    { "path": "../form-generator/tsconfig.json" }
+  ]
 }

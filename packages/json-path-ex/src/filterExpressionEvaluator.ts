@@ -20,19 +20,27 @@ function get(target: any, key: any) {
 	return target[key];
 }
 
-export function evaluateFilterExpression(expression: string, currentElement: any, root: any): boolean {
+export function evaluateFilterExpression(
+	expression: string,
+	currentElement: any,
+	root: any
+): boolean {
 	if (expression.includes('return')) {
 		throw new Error('Filter expression must not contain return statement');
 	}
-	
+
 	if (/[^\w\d]_\$[^\w\d]|^_\$[^\w\d]|[^\w\d]_\$$|^_\$$/.test(expression)) {
-		throw new Error('Filter expression must not contain \'_$\'. It is reserved for the internal filter expression implementation.');
+		throw new Error(
+			'Filter expression must not contain \'_$\'. It is reserved for the internal filter expression implementation.'
+		);
 	}
 
 	const normalizedExpression = `return ${expression.replace(/@/g, '_$')}`;
 
 	try {
-		return Boolean(compileCode(normalizedExpression)({ ['_$']: currentElement, ['$']: root }));
+		return Boolean(
+			compileCode(normalizedExpression)({ ['_$']: currentElement, ['$']: root })
+		);
 	} catch {
 		return false;
 	}

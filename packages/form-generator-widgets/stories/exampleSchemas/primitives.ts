@@ -1,8 +1,4 @@
-import {
-	Aggregates,
-	types,
-	UiLayout,
-} from '@campaign-buddy/json-schema-core';
+import { Aggregates, types, UiLayout } from '@campaign-buddy/json-schema-core';
 
 export const primitiveSchema = types.object({
 	name: types.string({ title: 'Name' }),

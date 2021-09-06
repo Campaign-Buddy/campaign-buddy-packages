@@ -11,11 +11,7 @@ const Template: Story = () => {
 	const [value, setValue] = useState('');
 
 	return (
-		<TextArea
-			value={value}
-			onChange={setValue}
-			label="Please fill me out"
-		/>
+		<TextArea value={value} onChange={setValue} label="Please fill me out" />
 	);
 };
 

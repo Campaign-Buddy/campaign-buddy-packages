@@ -18,10 +18,10 @@ GlobalStyle.defaultProps = {
 };
 
 interface PopoverProps {
-	content: JSX.Element | string;
-	isOpen: boolean;
-	onClose: () => void;
-	placement?: Placement;
+  content: JSX.Element | string;
+  isOpen: boolean;
+  onClose: () => void;
+  placement?: Placement;
 }
 
 const popoverModifiers = {
@@ -44,11 +44,7 @@ export const Popover: React.FC<PopoverProps> = ({
 		<>
 			<GlobalStyle />
 			<PopoverCore
-				content={(
-					<div>
-						{content}
-					</div>
-				)}
+				content={<div>{content}</div>}
 				isOpen={isOpen}
 				onClose={onClose}
 				minimal

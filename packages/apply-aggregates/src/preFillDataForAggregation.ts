@@ -3,7 +3,10 @@ import { EntityDefinition } from '@campaign-buddy/json-schema-core';
 /**
  * Note: **This function is mutative**
  */
-export function preFillDataForAggregation(data: any, aggregates: EntityDefinition['aggregates']) {
+export function preFillDataForAggregation(
+	data: any,
+	aggregates: EntityDefinition['aggregates']
+) {
 	if (!aggregates) {
 		return data;
 	}

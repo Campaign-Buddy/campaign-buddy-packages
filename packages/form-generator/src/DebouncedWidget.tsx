@@ -3,13 +3,13 @@ import { useState, useEffect, useCallback } from 'react';
 import { WidgetProps } from './FormGeneratorProps';
 
 interface DebouncedWidgetProps<T> extends Omit<WidgetProps<T>, 'onChange'> {
-	path: string;
-	updateValue: (path: string, data: T) => void;
-	value: T;
-	aggregatedValue: T;
-	hasAggregation: boolean;
-	isEditable: boolean;
-	Widget: React.FC<WidgetProps<T>>;
+  path: string;
+  updateValue: (path: string, data: T) => void;
+  value: T;
+  aggregatedValue: T;
+  hasAggregation: boolean;
+  isEditable: boolean;
+  Widget: React.FC<WidgetProps<T>>;
 }
 
 export const DebouncedWidget: React.FC<DebouncedWidgetProps<any>> = ({
@@ -28,10 +28,13 @@ export const DebouncedWidget: React.FC<DebouncedWidgetProps<any>> = ({
 		setValue(propsValue);
 	}, [propsValue]);
 
-	const updateValue = useCallback((data: any) => {
-		setValue(data);
-		propsUpdateValue(path, data);
-	}, [propsUpdateValue]);
+	const updateValue = useCallback(
+		(data: any) => {
+			setValue(data);
+			propsUpdateValue(path, data);
+		},
+		[propsUpdateValue]
+	);
 
 	return (
 		<Widget

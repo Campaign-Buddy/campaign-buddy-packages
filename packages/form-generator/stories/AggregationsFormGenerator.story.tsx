@@ -1,7 +1,11 @@
 import React from 'react';
 import { Meta, Story } from '@storybook/react';
 import { FormGenerator } from '../src';
-import { exampleSchema, exampleLayout, exampleAggregation } from '../examples/exampleSchema';
+import {
+	exampleSchema,
+	exampleLayout,
+	exampleAggregation,
+} from '../examples/exampleSchema';
 import { exampleWidgets } from '../examples/exampleWidgets';
 import { ExampleUiSection } from '../examples/ExampleUiSection';
 import { useCallback, useState } from 'react';
@@ -23,8 +27,8 @@ const Template: Story = () => {
 			easyAs123: {
 				type: 'number',
 				title: 'Easy as 123',
-			}
-		}
+			},
+		},
 	});
 
 	const handleUpdate = useCallback((update) => {

@@ -17,7 +17,9 @@ const Template: Story = () => {
 			isOpen={isPopoverOpen}
 			placement="bottom"
 		>
-			<Button onClick={() => setIsPopoverOpen(prev => !prev)}>Hi there</Button>
+			<Button onClick={() => setIsPopoverOpen((prev) => !prev)}>
+        Hi there
+			</Button>
 		</Popover>
 	);
 };

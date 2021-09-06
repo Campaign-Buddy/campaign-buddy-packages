@@ -23,8 +23,8 @@ const Template: Story = () => {
 			easyAs123: {
 				type: 'number',
 				title: 'Easy as 123',
-			}
-		}
+			},
+		},
 	});
 
 	const handleUpdate = useCallback((update) => {

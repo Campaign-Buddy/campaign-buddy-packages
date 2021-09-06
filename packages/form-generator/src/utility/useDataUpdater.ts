@@ -4,13 +4,18 @@ import { useCallback, useEffect, useRef } from 'react';
 import { getSchemaForPath } from './getSchemaForPath';
 
 interface Update {
-	path: string;
-	update: any;
+  path: string;
+  update: any;
 }
 
 type DataUpdater = (path: string, update: any) => any;
 
-export function useDataUpdater(schema: JSONSchema4, data: any, onChange: (data: any) => void, debounceTime = 300): DataUpdater {
+export function useDataUpdater(
+	schema: JSONSchema4,
+	data: any,
+	onChange: (data: any) => void,
+	debounceTime = 300
+): DataUpdater {
 	const pendingUpdates = useRef<Update[]>([]);
 	const timer = useRef<NodeJS.Timeout | undefined>();
 	const handleOnChange = useRef(onChange);
@@ -33,12 +38,10 @@ export function useDataUpdater(schema: JSONSchema4, data: any, onChange: (data: 
 
 	const deduplicateUpdates = useCallback(() => {
 		return Object.values(
-			pendingUpdates
-				.current
-				.reduce<{ [k: string]: Update }>((map, cur) => {
-					map[cur.path] = cur;
-					return map;
-				}, {})
+			pendingUpdates.current.reduce<{ [k: string]: Update }>((map, cur) => {
+				map[cur.path] = cur;
+				return map;
+			}, {})
 		);
 	}, []);
 
@@ -55,26 +58,34 @@ export function useDataUpdater(schema: JSONSchema4, data: any, onChange: (data: 
 	}, [deduplicateUpdates]);
 
 	/**
-	 * When we update data at some point in the schema,
-	 * we don't necessarily want to update the whole form
-	 * right away as that will lead to unnecessary re-renders.
-	 * We can debounce the updates because each widget will
-	 * store it's own internal state
-	 */
-	const addUpdate = useCallback((path: string, update: any) => {
-		if (timer.current) {
-			clearTimeout(timer.current);
-			timer.current = undefined;
-		}
+   * When we update data at some point in the schema,
+   * we don't necessarily want to update the whole form
+   * right away as that will lead to unnecessary re-renders.
+   * We can debounce the updates because each widget will
+   * store it's own internal state
+   */
+	const addUpdate = useCallback(
+		(path: string, update: any) => {
+			if (timer.current) {
+				clearTimeout(timer.current);
+				timer.current = undefined;
+			}
 
-		pendingUpdates.current.push({ path, update });
-		timer.current = setTimeout(executeUpdates, debounceTime);
-	}, [debounceTime]);
+			pendingUpdates.current.push({ path, update });
+			timer.current = setTimeout(executeUpdates, debounceTime);
+		},
+		[debounceTime]
+	);
 
 	return addUpdate;
 }
 
-function applyUpdate(data: any, path: string, update: any, schema: JSONSchema4): void {
+function applyUpdate(
+	data: any,
+	path: string,
+	update: any,
+	schema: JSONSchema4
+): void {
 	const parts = path.split('.');
 	let cur = data;
 	let curPath = '$';
@@ -87,7 +98,7 @@ function applyUpdate(data: any, path: string, update: any, schema: JSONSchema4):
 		}
 
 		curPath = `${curPath}.${part}`;
-		
+
 		const nextType = typeof cur[part];
 
 		if (nextType === 'undefined') {
@@ -99,7 +110,10 @@ function applyUpdate(data: any, path: string, update: any, schema: JSONSchema4):
 				cur[part] = {};
 			}
 		} else if (nextType !== 'object') {
-			console.error(`navigation error, tried to traverse ${nextType} using path ${path}`, update);
+			console.error(
+				`navigation error, tried to traverse ${nextType} using path ${path}`,
+				update
+			);
 			return;
 		}
 

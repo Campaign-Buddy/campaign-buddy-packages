@@ -1,6 +1,6 @@
 # json-path-ex
 
-`json-path-ex` is an implementation of [Goessners JsonPath](https://goessner.net/articles/JsonPath/) with some extensions. It supports the full specification* (or at least what specification exists) for JsonPath along with the following syntax additions.
+`json-path-ex` is an implementation of [Goessners JsonPath](https://goessner.net/articles/JsonPath/) with some extensions. It supports the full specification\* (or at least what specification exists) for JsonPath along with the following syntax additions.
 
 **\*Note**: Script expressions are not supported by json-path-ex
 
@@ -12,15 +12,15 @@
 
 ```json
 {
-	"foo": {
-		"baz": 1
-	},
-	"bar": {
-		"baz": 2
-	},
-	"other": {
-		"baz": 3
-	}
+  "foo": {
+    "baz": 1
+  },
+  "bar": {
+    "baz": 2
+  },
+  "other": {
+    "baz": 3
+  }
 }
 ```
 
@@ -48,11 +48,8 @@ Sub-query allow you to dynamically reference JSON properties within your query b
 
 ```json
 {
-	"levels": [
-		{ "acBoost": 1 },
-		{ "acBoost": 2 },
-	],
-	"currentLevel": 1
+  "levels": [{ "acBoost": 1 }, { "acBoost": 2 }],
+  "currentLevel": 1
 }
 ```
 

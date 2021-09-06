@@ -56,7 +56,7 @@ describe('applyAggregates', () => {
 		};
 
 		const aggregates = {
-			result: 'SUM({$..foo})'
+			result: 'SUM({$..foo})',
 		};
 
 		const result = applyAggregates(data, aggregates);
@@ -81,10 +81,7 @@ describe('applyAggregates', () => {
 
 		const result = applyAggregates(data, aggregates);
 
-		expect(result.result).toEqual([
-			1,
-			1,
-		]);
+		expect(result.result).toEqual([1, 1]);
 	});
 
 	it('can aggregate strings', () => {
@@ -104,10 +101,7 @@ describe('applyAggregates', () => {
 
 	it('can join strings', () => {
 		const data = {
-			messages: [
-				'hello',
-				'world',
-			],
+			messages: ['hello', 'world'],
 			result: '',
 		};
 
@@ -124,11 +118,7 @@ describe('applyAggregates', () => {
 		const data = {
 			foo: {
 				bar: 'bar',
-				letters: [
-					'a',
-					'b',
-					'c'
-				]
+				letters: ['a', 'b', 'c'],
 			},
 			baz: '123',
 			result: '',
@@ -144,11 +134,7 @@ describe('applyAggregates', () => {
 		const result = applyAggregates(data, aggregates);
 
 		expect(result.baz).toEqual('123');
-		expect(result.foo.bar).toEqual([
-			'a',
-			'b',
-			'c',
-		]);
+		expect(result.foo.bar).toEqual(['a', 'b', 'c']);
 		expect(result.result).toEqual('123 abc');
 	});
 
@@ -172,9 +158,17 @@ describe('applyAggregates', () => {
 
 		try {
 			const result = applyAggregates(data, aggregates);
-			fail(`expected an exception when circular reference exists instead got\n\n${JSON.stringify(result, null, 2)}`);
+			fail(
+				`expected an exception when circular reference exists instead got\n\n${JSON.stringify(
+					result,
+					null,
+					2
+				)}`
+			);
 		} catch (err) {
-			expect(err.message).toEqual('circular reference detected when trying to resolve $.baz');
+			expect(err.message).toEqual(
+				'circular reference detected when trying to resolve $.baz'
+			);
 		}
 	});
 

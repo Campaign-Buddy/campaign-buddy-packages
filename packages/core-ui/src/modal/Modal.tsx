@@ -7,21 +7,21 @@ import {
 	ModalContent,
 	ModalFooter,
 	ModalTitle,
-	ScrollStyle
+	ScrollStyle,
 } from './Modal.styled';
 
 interface ModalButton {
-	text: string;
-	onClick: () => void;
-	style?: ButtonStyle;
+  text: string;
+  onClick: () => void;
+  style?: ButtonStyle;
 }
 
 interface ModalProps {
-	title: string;
-	onClose: () => void;
-	isOpen: boolean;
-	footerButtons: ModalButton[];
-	scrollStyle?: ScrollStyle;
+  title: string;
+  onClose: () => void;
+  isOpen: boolean;
+  footerButtons: ModalButton[];
+  scrollStyle?: ScrollStyle;
 }
 
 export const Modal: React.FC<ModalProps> = ({
@@ -37,12 +37,16 @@ export const Modal: React.FC<ModalProps> = ({
 	}, []);
 
 	return (
-		<Overlay
-			isOpen={isOpen}
-			onClose={onClose}
-		>
-			<OverlayBackground onClick={onClose} scrollStyle={scrollStyle ?? 'content'}>
-				<ModalRoot className={Classes.ELEVATION_3} onClick={captureClick} scrollStyle={scrollStyle ?? 'content'}>
+		<Overlay isOpen={isOpen} onClose={onClose}>
+			<OverlayBackground
+				onClick={onClose}
+				scrollStyle={scrollStyle ?? 'content'}
+			>
+				<ModalRoot
+					className={Classes.ELEVATION_3}
+					onClick={captureClick}
+					scrollStyle={scrollStyle ?? 'content'}
+				>
 					<ModalTitle>
 						<h1>{title}</h1>
 						<Button icon="cross" onClick={onClose} style="minimal" />
@@ -51,7 +55,7 @@ export const Modal: React.FC<ModalProps> = ({
 						{children}
 					</ModalContent>
 					<ModalFooter>
-						{footerButtons.map(button => (
+						{footerButtons.map((button) => (
 							<Button
 								key={button.text}
 								style={button.style}

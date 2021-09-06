@@ -7,10 +7,10 @@ import { useHtmlId } from '../hooks';
 import { BaseInputProps } from '../BaseInputProps';
 
 const StyledTextArea = styled(TextAreaCore)`
-	background-color: ${({ theme }) => theme.colors.inputBackground};
-	color: ${({ theme }) => theme.colors.text};
-	resize: vertical;
-	min-height: 75px;
+  background-color: ${({ theme }) => theme.colors.inputBackground};
+  color: ${({ theme }) => theme.colors.text};
+  resize: vertical;
+  min-height: 75px;
 `;
 
 StyledTextArea.defaultProps = {
@@ -26,15 +26,15 @@ export const TextArea: React.FC<TextAreaProps> = ({
 	id: idProp,
 	...rest
 }) => {
-	const handleOnChange = useCallback((event) => onChange(event.target.value), [onChange]);
+	const handleOnChange = useCallback(
+		(event) => onChange(event.target.value),
+		[onChange]
+	);
 	const generatedId = useHtmlId();
 	const id = idProp ?? generatedId;
 
 	return (
-		<FormGroup
-			label={label}
-			labelFor={id}
-		>
+		<FormGroup label={label} labelFor={id}>
 			<StyledTextArea
 				value={value}
 				onChange={handleOnChange}

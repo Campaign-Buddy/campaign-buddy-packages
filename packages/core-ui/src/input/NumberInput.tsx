@@ -9,22 +9,22 @@ import { useHtmlId } from '../hooks';
 import { BaseInputProps } from '../BaseInputProps';
 
 const StyledInput = styled(InputGroup)`
-	input {
-		background-color: ${({ theme }) => theme.colors.inputBackground};
-		color: ${({ theme }) => theme.colors.text};
-	}
+  input {
+    background-color: ${({ theme }) => theme.colors.inputBackground};
+    color: ${({ theme }) => theme.colors.text};
+  }
 
-	& .bp3-button {
-		margin: 1px !important;
+  & .bp3-button {
+    margin: 1px !important;
 
-		&:first-child {
-			border-radius: 0 3px 0 0 !important;
-		}
+    &:first-child {
+      border-radius: 0 3px 0 0 !important;
+    }
 
-		&:last-child {
-			border-radius: 0 0 3px 0 !important;
-		}
-	}
+    &:last-child {
+      border-radius: 0 0 3px 0 !important;
+    }
+  }
 `;
 
 StyledInput.defaultProps = {
@@ -54,17 +54,20 @@ export const NumberInput: React.FC<NumberInputProps> = ({
 
 	const onConfirm = useCallback(() => {
 		try {
-			const cleaned = internalValue.replace(/(\d+)?d(\d+)/g, (match, quantityRaw, diceRaw) => {
-				const quantity = parseInt(quantityRaw ?? '1');
-				const dice = parseInt(diceRaw);
+			const cleaned = internalValue.replace(
+				/(\d+)?d(\d+)/g,
+				(match, quantityRaw, diceRaw) => {
+					const quantity = parseInt(quantityRaw ?? '1');
+					const dice = parseInt(diceRaw);
 
-				let sum = 0;
-				for (let i = 0; i < quantity; i++) {
-					sum += Math.floor(Math.random() * dice) + 1;
+					let sum = 0;
+					for (let i = 0; i < quantity; i++) {
+						sum += Math.floor(Math.random() * dice) + 1;
+					}
+
+					return `${sum}`;
 				}
-
-				return `${sum}`;
-			});
+			);
 
 			const val = parseFloat(mexpr.eval(cleaned));
 
@@ -78,36 +81,45 @@ export const NumberInput: React.FC<NumberInputProps> = ({
 		}
 	}, [internalValue]);
 
-	const step = useCallback((value: number) => {
-		const internalNumValue = parseFloat(internalValue);
-		if (isNaN(internalNumValue)) {
-			setInternalValue(`${value}`);
-			onChange(value);
-		} else {
-			setInternalValue(`${internalNumValue + value}`);
-			onChange(internalNumValue + value);
-		}
-	}, [onChange, internalValue]);
+	const step = useCallback(
+		(value: number) => {
+			const internalNumValue = parseFloat(internalValue);
+			if (isNaN(internalNumValue)) {
+				setInternalValue(`${value}`);
+				onChange(value);
+			} else {
+				setInternalValue(`${internalNumValue + value}`);
+				onChange(internalNumValue + value);
+			}
+		},
+		[onChange, internalValue]
+	);
 
 	const stepUp = useCallback(() => step(1), [step]);
 	const stepDown = useCallback(() => step(-1), [step]);
 
-	const onKeyDown = useCallback((event) => {
-		if (event.keyCode === Keys.ENTER) {
+	const onKeyDown = useCallback(
+		(event) => {
+			if (event.keyCode === Keys.ENTER) {
+				onConfirm();
+			} else if (event.keyCode === Keys.ARROW_DOWN) {
+				stepDown();
+			} else if (event.keyCode === Keys.ARROW_UP) {
+				stepUp();
+			}
+
+			onKeyDownProps?.(event);
+		},
+		[onConfirm, onKeyDownProps]
+	);
+
+	const onBlur = useCallback(
+		(event) => {
 			onConfirm();
-		} else if (event.keyCode === Keys.ARROW_DOWN) {
-			stepDown();
-		} else if (event.keyCode === Keys.ARROW_UP) {
-			stepUp();
-		}
-
-		onKeyDownProps?.(event);
-	}, [onConfirm, onKeyDownProps]);
-
-	const onBlur = useCallback((event) => {
-		onConfirm();
-		onBlurProps?.(event);
-	}, [onConfirm, onBlurProps]);
+			onBlurProps?.(event);
+		},
+		[onConfirm, onBlurProps]
+	);
 
 	const handleChange = useCallback((event) => {
 		setInternalValue(event.target.value);
@@ -120,10 +132,7 @@ export const NumberInput: React.FC<NumberInputProps> = ({
 	}, []);
 
 	return (
-		<FormGroup
-			label={label}
-			labelFor={id}
-		>
+		<FormGroup label={label} labelFor={id}>
 			<StyledInput
 				value={internalValue}
 				onChange={handleChange}

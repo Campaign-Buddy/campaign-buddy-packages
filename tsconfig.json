@@ -1,9 +1,9 @@
 {
-	"extends": "./tsconfig.build.json",
-	"compilerOptions": {
-		"baseUrl": "./packages",
-		"paths": {
-			"@campaign-buddy/*": ["*/src/index"]
-		}
-	}
+  "extends": "./tsconfig.build.json",
+  "compilerOptions": {
+    "baseUrl": "./packages",
+    "paths": {
+      "@campaign-buddy/*": ["*/src/index"]
+    }
+  }
 }

@@ -14,7 +14,7 @@ export const race: EntityDefinition = {
 			feats: types.arrayOf.entities(feat, { title: 'Available Feats' }),
 			spells: types.arrayOf.entities(spell, { title: 'Available Spells' }),
 		}),
-		gainedSpellSlots: types.arrayOf.numbers({ title: 'Gained Spell Slots'}),
+		gainedSpellSlots: types.arrayOf.numbers({ title: 'Gained Spell Slots' }),
 		additionalProperties: types.schema({ title: 'Additional Properties' }),
 	}),
 };

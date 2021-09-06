@@ -2,7 +2,11 @@ import React, { useState } from 'react';
 import { FormGenerator } from '@campaign-buddy/form-generator';
 import { Meta, Story } from '@storybook/react';
 import { widgets } from '../src';
-import { primitiveAggregates, primitiveSchema, primitiveUiLayout } from './exampleSchemas';
+import {
+	primitiveAggregates,
+	primitiveSchema,
+	primitiveUiLayout,
+} from './exampleSchemas';
 
 export default {
 	title: 'form-generator-widgets/Primitives',

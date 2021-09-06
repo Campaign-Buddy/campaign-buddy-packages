@@ -23,12 +23,18 @@ function get(target: any, key: any) {
 	return target[key];
 }
 
-function _executeAggregationExpression(expression: string, baseValue: any): any {
+function _executeAggregationExpression(
+	expression: string,
+	baseValue: any
+): any {
 	if (expression.includes('return')) {
 		throw new Error('Filter expression must not contain return statement');
 	}
 
-	const normalizedExpression = `return (${expression.replace(/<base>/gi, 'base')});`;
+	const normalizedExpression = `return (${expression.replace(
+		/<base>/gi,
+		'base'
+	)});`;
 
 	try {
 		return compileCode(normalizedExpression)({
@@ -40,15 +46,19 @@ function _executeAggregationExpression(expression: string, baseValue: any): any 
 	}
 }
 
-export function executeAggregationExpression(expression: string, rootData: any, curValue: any, customDataAccessor: (path: string, value: any) => any): any {
-	const cleanedExpression = resolveSubQueries(
-		rootData,
-		expression,
-		{
-			serializeObjectsInSubQuery: JSON.stringify,
-			customDataAccessor,
-		}
-	);
+export function executeAggregationExpression(
+	expression: string,
+	rootData: any,
+	curValue: any,
+	customDataAccessor: (path: string, value: any) => any
+): any {
+	const cleanedExpression = resolveSubQueries(rootData, expression, {
+		serializeObjectsInSubQuery: JSON.stringify,
+		customDataAccessor,
+	});
 
-	return _executeAggregationExpression(cleanedExpression ?? expression, curValue);
+	return _executeAggregationExpression(
+		cleanedExpression ?? expression,
+		curValue
+	);
 }

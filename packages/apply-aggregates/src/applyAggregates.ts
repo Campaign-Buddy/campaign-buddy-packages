@@ -1,10 +1,16 @@
 import type { EntityDefinition } from '@campaign-buddy/json-schema-core';
 import cloneDeep = require('lodash.clonedeep');
 import { executeAggregationExpression } from './executeAggregationExpression';
-import { flattenAggregations, FlattenedAggregation } from './flattenAggregations';
+import {
+	flattenAggregations,
+	FlattenedAggregation,
+} from './flattenAggregations';
 import { preFillDataForAggregation } from './preFillDataForAggregation';
 
-export function applyAggregates(data: any, aggregates: EntityDefinition['aggregates']): any {
+export function applyAggregates(
+	data: any,
+	aggregates: EntityDefinition['aggregates']
+): any {
 	if (!aggregates) {
 		return data;
 	}
@@ -21,10 +27,22 @@ export function applyAggregates(data: any, aggregates: EntityDefinition['aggrega
 
 	const rootData = cloneDeep(dataToAggregate);
 
-	return _applyAggregates(dataToAggregate, aggregates, rootData, allAggregatedPaths, flattenedAggregations);
+	return _applyAggregates(
+		dataToAggregate,
+		aggregates,
+		rootData,
+		allAggregatedPaths,
+		flattenedAggregations
+	);
 }
 
-function _applyAggregates(data: any, aggregates: EntityDefinition['aggregates'], root: any, allAggregatedPaths: Set<string>, flattenedAggregations: FlattenedAggregation[]): any {
+function _applyAggregates(
+	data: any,
+	aggregates: EntityDefinition['aggregates'],
+	root: any,
+	allAggregatedPaths: Set<string>,
+	flattenedAggregations: FlattenedAggregation[]
+): any {
 	if (!aggregates) {
 		return data;
 	}
@@ -37,26 +55,50 @@ function _applyAggregates(data: any, aggregates: EntityDefinition['aggregates'],
 				data[key] = {};
 			}
 
-			data[key] = _applyAggregates(data[key], aggregation, root, allAggregatedPaths, flattenedAggregations);
+			data[key] = _applyAggregates(
+				data[key],
+				aggregation,
+				root,
+				allAggregatedPaths,
+				flattenedAggregations
+			);
 			continue;
 		}
 
-		const customDataAccessor = getCustomDataAccessor(root, allAggregatedPaths, flattenedAggregations, []);
-		data[key] = executeAggregationExpression(aggregation, root, data[key], customDataAccessor);
+		const customDataAccessor = getCustomDataAccessor(
+			root,
+			allAggregatedPaths,
+			flattenedAggregations,
+			[]
+		);
+		data[key] = executeAggregationExpression(
+			aggregation,
+			root,
+			data[key],
+			customDataAccessor
+		);
 	}
 
 	return data;
 }
 
 // Resolves json queries that reference aggregated properties
-function getCustomDataAccessor(rootData: any, allAggregatedPaths: Set<string>, flattenedAggregations: FlattenedAggregation[], forbiddenPaths: string[]) {
+function getCustomDataAccessor(
+	rootData: any,
+	allAggregatedPaths: Set<string>,
+	flattenedAggregations: FlattenedAggregation[],
+	forbiddenPaths: string[]
+) {
 	const customDataAccessor = (path: string, data: any) => {
 		if (allAggregatedPaths.has(path)) {
 			if (forbiddenPaths.includes(path)) {
-				throw new Error(`circular reference detected when trying to resolve ${path}`);
+				throw new Error(
+					`circular reference detected when trying to resolve ${path}`
+				);
 			}
 
-			const { aggregation } = flattenedAggregations.find((x) => x.path === path) ?? {};
+			const { aggregation } =
+        flattenedAggregations.find((x) => x.path === path) ?? {};
 
 			if (!aggregation) {
 				return data;
@@ -69,7 +111,12 @@ function getCustomDataAccessor(rootData: any, allAggregatedPaths: Set<string>, f
 				[...forbiddenPaths, path]
 			);
 
-			return executeAggregationExpression(aggregation, rootData, data, safeDataAccessor);
+			return executeAggregationExpression(
+				aggregation,
+				rootData,
+				data,
+				safeDataAccessor
+			);
 		}
 
 		return data;

@@ -11,7 +11,7 @@ export async function getGoogleAccessToken() {
 	return token;
 }
 
-(async function() {
+(async function () {
 	console.log('getting access token');
 	console.log(await getGoogleAccessToken());
 	console.log('bye');

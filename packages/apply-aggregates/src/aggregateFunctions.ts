@@ -12,7 +12,10 @@ export function SUM(...numbers: (number[] | number)[]): number {
 	}, 0);
 }
 
-export function JOIN(separator: string, ...messages: (string[] | string)[]): string {
+export function JOIN(
+	separator: string,
+	...messages: (string[] | string)[]
+): string {
 	const result = messages.reduce<string>((all, cur) => {
 		if (Array.isArray(cur)) {
 			return `${all}${separator}${JOIN(separator, ...cur)}`;

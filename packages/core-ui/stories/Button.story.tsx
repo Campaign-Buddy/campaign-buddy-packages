@@ -9,7 +9,9 @@ export default {
 	component: Button,
 } as Meta;
 
-const Template: Story<ComponentProps<typeof Button>> = (props) => <Button {...props} />;
+const Template: Story<ComponentProps<typeof Button>> = (props) => (
+	<Button {...props} />
+);
 
 // eslint-disable-next-line @typescript-eslint/no-empty-function
 const onClick = () => {};
@@ -22,5 +24,5 @@ export const PrimaryStyle = makeStory(Template, {
 export const MinimalStyle = makeStory(Template, {
 	children: 'Click Me',
 	onClick,
-	style: 'minimal'
+	style: 'minimal',
 });

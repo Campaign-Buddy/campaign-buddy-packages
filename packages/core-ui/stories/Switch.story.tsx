@@ -11,13 +11,7 @@ export default {
 const Template: Story = () => {
 	const [value, setValue] = useState(false);
 
-	return (
-		<Switch
-			value={value}
-			onChange={setValue}
-			label="Please check me"
-		/>
-	);
+	return <Switch value={value} onChange={setValue} label="Please check me" />;
 };
 
 export const Primary = Template.bind({});

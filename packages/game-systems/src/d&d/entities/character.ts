@@ -30,14 +30,22 @@ export const characterEntity: EntityDefinition = {
 			height: types.string({ title: 'Height' }),
 			weight: types.string({ title: 'Weight' }),
 		}),
-		knownSpells: types.multiChoice(
-			types.entity(spell),
-			{ title: 'Known Spells' },
-		),
+		knownSpells: types.multiChoice(types.entity(spell), {
+			title: 'Known Spells',
+		}),
 		spellSlots: types.arrayOf.numericResources({ title: 'Total Spell Slots' }),
-		classProperties: types.dynamicallyResolvedType('$.class.levels[0:{$.level}].additionalProperties', { title: 'Class Specific Properties' }),
-		raceProperties: types.dynamicallyResolvedType('$.race.additionalProperties', { title: 'Race Specific Properties' }),
-		featProperties: types.dynamicallyResolvedType('$..<?(@ !== "choices" && @ !== "options")>..feats..additionalProperties', { title: 'Feat Specific Properties' }),
+		classProperties: types.dynamicallyResolvedType(
+			'$.class.levels[0:{$.level}].additionalProperties',
+			{ title: 'Class Specific Properties' }
+		),
+		raceProperties: types.dynamicallyResolvedType(
+			'$.race.additionalProperties',
+			{ title: 'Race Specific Properties' }
+		),
+		featProperties: types.dynamicallyResolvedType(
+			'$..<?(@ !== "choices" && @ !== "options")>..feats..additionalProperties',
+			{ title: 'Feat Specific Properties' }
+		),
 	}),
 	aggregates: {
 		stats: {
@@ -55,7 +63,7 @@ export const characterEntity: EntityDefinition = {
 			},
 		},
 		knownSpells: {
-			options: '{$..choices.spells}'
+			options: '{$..choices.spells}',
 		},
 		spellSlots: {
 			0: {

@@ -3,15 +3,15 @@ import styled from 'styled-components';
 import { UiSectionProps } from '../src';
 
 const Header = styled.div`
-	display: flex;
+  display: flex;
 `;
 
 const Container = styled.div`
-	width: 100%;
+  width: 100%;
 `;
 
 const Content = styled.div`
-	width: 100%;
+  width: 100%;
 `;
 
 export const ExampleUiSection: React.FC<UiSectionProps> = ({
@@ -24,10 +24,10 @@ export const ExampleUiSection: React.FC<UiSectionProps> = ({
 
 	return (
 		<Container>
-			<Header><h2>{title}</h2></Header>
-			<Content>
-				{children}
-			</Content>
+			<Header>
+				<h2>{title}</h2>
+			</Header>
+			<Content>{children}</Content>
 		</Container>
 	);
 };

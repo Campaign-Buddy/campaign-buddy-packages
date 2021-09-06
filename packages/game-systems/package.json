@@ -1,15 +1,15 @@
 {
-	"name": "@campaign-buddy/game-systems",
-	"version": "0.1.0",
-	"author": "Joseph Stewart",
-	"license": "MIT",
-	"dependencies": {
-		"@campaign-buddy/json-schema-core": "0.1.0"
-	},
-	"devDependencies": {
-		"typescript": "^4.2.4"
-	},
-	"scripts": {
-		"build": "tsc -b"
-	}
+  "name": "@campaign-buddy/game-systems",
+  "version": "0.1.0",
+  "author": "Joseph Stewart",
+  "license": "MIT",
+  "dependencies": {
+    "@campaign-buddy/json-schema-core": "0.1.0"
+  },
+  "devDependencies": {
+    "typescript": "^4.2.4"
+  },
+  "scripts": {
+    "build": "tsc -b"
+  }
 }

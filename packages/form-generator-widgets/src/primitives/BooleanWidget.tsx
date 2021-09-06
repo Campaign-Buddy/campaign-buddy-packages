@@ -4,9 +4,9 @@ import React from 'react';
 import styled from 'styled-components';
 
 const SwitchContainer = styled.div`
-	display: flex;
-	align-items: center;
-	height: 100%;
+  display: flex;
+  align-items: center;
+  height: 100%;
 `;
 
 export const BooleanWidget: React.FC<WidgetProps<boolean>> = ({

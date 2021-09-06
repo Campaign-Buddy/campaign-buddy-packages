@@ -1,20 +1,24 @@
 import React from 'react';
 import { EntityDefinition, UiLayout } from '@campaign-buddy/json-schema-core';
 import { JSONSchema4 } from 'json-schema';
-import { UiSectionProps, WidgetLookup, WidgetProps } from './FormGeneratorProps';
+import {
+	UiSectionProps,
+	WidgetLookup,
+	WidgetProps,
+} from './FormGeneratorProps';
 import { generateUiLayout, getDataForPath, getSchemaForPath } from './utility';
 import styled from 'styled-components';
 import { DebouncedWidget } from './DebouncedWidget';
 
 interface FormUiLayoutProps {
-	uiLayout: UiLayout;
-	schema: JSONSchema4;
-	widgetLookup: WidgetLookup;
-	updateValue: (path: string, data: any) => void;
-	data: any;
-	aggregatedData: any;
-	aggregates: EntityDefinition['aggregates'];
-	UiSection?: React.FC<UiSectionProps>;
+  uiLayout: UiLayout;
+  schema: JSONSchema4;
+  widgetLookup: WidgetLookup;
+  updateValue: (path: string, data: any) => void;
+  data: any;
+  aggregatedData: any;
+  aggregates: EntityDefinition['aggregates'];
+  UiSection?: React.FC<UiSectionProps>;
 }
 
 export const FormUiLayout: React.FC<FormUiLayoutProps> = ({
@@ -33,14 +37,19 @@ export const FormUiLayout: React.FC<FormUiLayoutProps> = ({
 		if (typeof element === 'string') {
 			const subSchema = getSchemaForPath(element, schema);
 
-			if (!subSchema || (subSchema.type === 'object' && !subSchema.properties)) {
+			if (
+				!subSchema ||
+        (subSchema.type === 'object' && !subSchema.properties)
+			) {
 				continue;
 			}
 
 			const dataForPath = getDataForPath(element, data, subSchema);
-			const aggregatedDataForPath = getDataForPath(element, aggregatedData, undefined) ?? dataForPath;
+			const aggregatedDataForPath =
+        getDataForPath(element, aggregatedData, undefined) ?? dataForPath;
 			const aggregation = getDataForPath(element, aggregates ?? {}, undefined);
-			const isDataEditable = typeof aggregation !== 'string' || /<\s*base\s*>/i.test(aggregation);
+			const isDataEditable =
+        typeof aggregation !== 'string' || /<\s*base\s*>/i.test(aggregation);
 
 			// So that we don't have to manually type out all properties in an object
 			// if the default layout is good enough
@@ -90,21 +99,15 @@ export const FormUiLayout: React.FC<FormUiLayoutProps> = ({
 					aggregates={aggregates}
 				/>
 			);
-			
+
 			if (UiSection) {
 				nodes.push(
 					<FormRow>
-						<UiSection title={element.title}>
-							{layout}
-						</UiSection>
+						<UiSection title={element.title}>{layout}</UiSection>
 					</FormRow>
 				);
 			} else {
-				nodes.push(
-					<FormRow>
-						{layout}
-					</FormRow>
-				);
+				nodes.push(<FormRow>{layout}</FormRow>);
 			}
 		} else {
 			nodes.push(
@@ -124,22 +127,18 @@ export const FormUiLayout: React.FC<FormUiLayoutProps> = ({
 		}
 	}
 
-	return (
-		<>
-			{nodes}
-		</>
-	);
+	return <>{nodes}</>;
 };
 
 interface FormWidgetProps {
-	schema: JSONSchema4;
-	widgetLookup: WidgetLookup;
-	path: string;
-	updateValue: (path: string, data: any) => void;
-	data: any;
-	aggregatedData: any;
-	isEditable: boolean;
-	hasAggregation: boolean;
+  schema: JSONSchema4;
+  widgetLookup: WidgetLookup;
+  path: string;
+  updateValue: (path: string, data: any) => void;
+  data: any;
+  aggregatedData: any;
+  isEditable: boolean;
+  hasAggregation: boolean;
 }
 
 const FormWidget: React.FC<FormWidgetProps> = ({
@@ -163,7 +162,10 @@ const FormWidget: React.FC<FormWidgetProps> = ({
 	}
 
 	if (!Widget) {
-		console.error(`Could not find widget for schema definition at ${path}`, schema);
+		console.error(
+			`Could not find widget for schema definition at ${path}`,
+			schema
+		);
 		return null;
 	}
 
@@ -187,17 +189,17 @@ const FormWidget: React.FC<FormWidgetProps> = ({
 };
 
 const FormCell = styled.div`
-	margin-bottom: 4px;
-	flex-basis: 0;
+  margin-bottom: 4px;
+  flex-basis: 0;
 `;
 
 const FormRow = styled.div`
-	display: flex;
-	flex-wrap: wrap;
-	width: 100%;
-	column-gap: 8px;
-	
-	& > * {
-		flex-grow: 1;
-	}
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  column-gap: 8px;
+
+  & > * {
+    flex-grow: 1;
+  }
 `;

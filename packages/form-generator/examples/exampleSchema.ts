@@ -17,13 +17,16 @@ export const exampleSchema = types.object({
 	canMail: types.boolean({ title: 'Can we mail you?' }),
 	favoriteNumber: types.number({ title: 'Armor class' }),
 	additionalProperties: types.schema(),
-	customProperties: types.dynamicallyResolvedType('$.additionalProperties', { title: 'Custom Properties' }),
+	customProperties: types.dynamicallyResolvedType('$.additionalProperties', {
+		title: 'Custom Properties',
+	}),
 });
 
 export const exampleAggregation: Aggregates = {
 	nickName: 'typeof <base> === "string" ? <base> : {$.name}',
-	canMail: '{$.address.street} && {$.address.city} && {$.address.state} && {$.address.zip}',
-	favoriteNumber: 'TO_NUMBER({$.age}) + TO_NUMBER(<base>)'
+	canMail:
+    '{$.address.street} && {$.address.city} && {$.address.state} && {$.address.zip}',
+	favoriteNumber: 'TO_NUMBER({$.age}) + TO_NUMBER(<base>)',
 };
 
 export const exampleLayout: UiLayout = [
@@ -40,9 +43,7 @@ export const exampleLayout: UiLayout = [
 	'canMail',
 	{
 		title: 'Personal details',
-		uiLayout: [
-			'favoriteNumber',
-		],
+		uiLayout: ['favoriteNumber'],
 	},
 	'customProperties',
 ];

@@ -2,7 +2,10 @@ import { JSONSchema4 } from 'json-schema';
 import cloneDeep from 'lodash.clonedeep';
 import { query } from '@campaign-buddy/json-path-ex';
 
-export function resolveDynamicSchemas(schema: JSONSchema4, data: any): JSONSchema4 {
+export function resolveDynamicSchemas(
+	schema: JSONSchema4,
+	data: any
+): JSONSchema4 {
 	const schemaClone = cloneDeep(schema);
 	_resolveDynamicSchemas(schemaClone, data);
 	return schemaClone;
@@ -15,7 +18,10 @@ function _resolveDynamicSchemas(schema: JSONSchema4, data: any) {
 
 	for (const key of Object.keys(schema.properties)) {
 		if (schema.properties[key]['$dynamicTypeExpression']) {
-			const resolvedSchemas = query(data, schema.properties[key]['$dynamicTypeExpression']);
+			const resolvedSchemas = query(
+				data,
+				schema.properties[key]['$dynamicTypeExpression']
+			);
 
 			if (!resolvedSchemas) {
 				delete schema.properties[key];
@@ -23,7 +29,10 @@ function _resolveDynamicSchemas(schema: JSONSchema4, data: any) {
 			}
 
 			let properties = {};
-			if (typeof resolvedSchemas === 'object' && Array.isArray(resolvedSchemas)) {
+			if (
+				typeof resolvedSchemas === 'object' &&
+        Array.isArray(resolvedSchemas)
+			) {
 				for (const resolvedSchema of resolvedSchemas) {
 					if (typeof resolvedSchema !== 'object') {
 						continue;
@@ -42,7 +51,7 @@ function _resolveDynamicSchemas(schema: JSONSchema4, data: any) {
 				type: 'object',
 				properties,
 				title: schema.properties[key].title,
-				description: schema.properties[key].description
+				description: schema.properties[key].description,
 			};
 		} else if (schema.properties[key].type === 'object') {
 			_resolveDynamicSchemas(schema.properties[key], data);

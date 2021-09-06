@@ -7,10 +7,10 @@ import { useHtmlId } from '../hooks';
 import { BaseInputProps } from '../BaseInputProps';
 
 const StyledInputGroup = styled(InputGroup)`
-	input {
-		background-color: ${({ theme }) => theme.colors.inputBackground};
-		color: ${({ theme }) => theme.colors.text};
-	}
+  input {
+    background-color: ${({ theme }) => theme.colors.inputBackground};
+    color: ${({ theme }) => theme.colors.text};
+  }
 `;
 
 StyledInputGroup.defaultProps = {
@@ -18,7 +18,7 @@ StyledInputGroup.defaultProps = {
 };
 
 interface InputProps extends BaseInputProps<string> {
-	placeholder?: string;
+  placeholder?: string;
 }
 
 export const Input: React.FC<InputProps> = ({
@@ -28,17 +28,17 @@ export const Input: React.FC<InputProps> = ({
 	id: idProp,
 	...rest
 }) => {
-	const handleOnChange = useCallback((event) => {
-		onChange(event.target.value);
-	}, [onChange]);
+	const handleOnChange = useCallback(
+		(event) => {
+			onChange(event.target.value);
+		},
+		[onChange]
+	);
 	const generatedId = useHtmlId();
 	const id = idProp ?? generatedId;
 
 	return (
-		<FormGroup
-			label={label}
-			labelFor={id}
-		>
+		<FormGroup label={label} labelFor={id}>
 			<StyledInputGroup
 				value={value}
 				onChange={handleOnChange}

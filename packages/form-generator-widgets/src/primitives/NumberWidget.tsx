@@ -31,4 +31,3 @@ export const NumberWidget: React.FC<WidgetProps<number>> = ({
 		/>
 	);
 };
-
