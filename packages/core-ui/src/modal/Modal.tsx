@@ -11,17 +11,17 @@ import {
 } from './Modal.styled';
 
 interface ModalButton {
-  text: string;
-  onClick: () => void;
-  style?: ButtonStyle;
+	text: string;
+	onClick: () => void;
+	style?: ButtonStyle;
 }
 
 interface ModalProps {
-  title: string;
-  onClose: () => void;
-  isOpen: boolean;
-  footerButtons: ModalButton[];
-  scrollStyle?: ScrollStyle;
+	title: string;
+	onClose: () => void;
+	isOpen: boolean;
+	footerButtons: ModalButton[];
+	scrollStyle?: ScrollStyle;
 }
 
 export const Modal: React.FC<ModalProps> = ({

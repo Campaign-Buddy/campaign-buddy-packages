@@ -60,6 +60,6 @@ export const FormGenerator: React.FC<FormGeneratorProps> = ({
 };
 
 const FormRoot = styled.div`
-  display: flex;
-  flex-direction: column;
+	display: flex;
+	flex-direction: column;
 `;

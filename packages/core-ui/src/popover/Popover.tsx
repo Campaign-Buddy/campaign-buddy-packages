@@ -18,10 +18,10 @@ GlobalStyle.defaultProps = {
 };
 
 interface PopoverProps {
-  content: JSX.Element | string;
-  isOpen: boolean;
-  onClose: () => void;
-  placement?: Placement;
+	content: JSX.Element | string;
+	isOpen: boolean;
+	onClose: () => void;
+	placement?: Placement;
 }
 
 const popoverModifiers = {

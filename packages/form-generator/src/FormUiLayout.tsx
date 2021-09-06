@@ -11,14 +11,14 @@ import styled from 'styled-components';
 import { DebouncedWidget } from './DebouncedWidget';
 
 interface FormUiLayoutProps {
-  uiLayout: UiLayout;
-  schema: JSONSchema4;
-  widgetLookup: WidgetLookup;
-  updateValue: (path: string, data: any) => void;
-  data: any;
-  aggregatedData: any;
-  aggregates: EntityDefinition['aggregates'];
-  UiSection?: React.FC<UiSectionProps>;
+	uiLayout: UiLayout;
+	schema: JSONSchema4;
+	widgetLookup: WidgetLookup;
+	updateValue: (path: string, data: any) => void;
+	data: any;
+	aggregatedData: any;
+	aggregates: EntityDefinition['aggregates'];
+	UiSection?: React.FC<UiSectionProps>;
 }
 
 export const FormUiLayout: React.FC<FormUiLayoutProps> = ({
@@ -39,17 +39,17 @@ export const FormUiLayout: React.FC<FormUiLayoutProps> = ({
 
 			if (
 				!subSchema ||
-        (subSchema.type === 'object' && !subSchema.properties)
+				(subSchema.type === 'object' && !subSchema.properties)
 			) {
 				continue;
 			}
 
 			const dataForPath = getDataForPath(element, data, subSchema);
 			const aggregatedDataForPath =
-        getDataForPath(element, aggregatedData, undefined) ?? dataForPath;
+				getDataForPath(element, aggregatedData, undefined) ?? dataForPath;
 			const aggregation = getDataForPath(element, aggregates ?? {}, undefined);
 			const isDataEditable =
-        typeof aggregation !== 'string' || /<\s*base\s*>/i.test(aggregation);
+				typeof aggregation !== 'string' || /<\s*base\s*>/i.test(aggregation);
 
 			// So that we don't have to manually type out all properties in an object
 			// if the default layout is good enough
@@ -131,14 +131,14 @@ export const FormUiLayout: React.FC<FormUiLayoutProps> = ({
 };
 
 interface FormWidgetProps {
-  schema: JSONSchema4;
-  widgetLookup: WidgetLookup;
-  path: string;
-  updateValue: (path: string, data: any) => void;
-  data: any;
-  aggregatedData: any;
-  isEditable: boolean;
-  hasAggregation: boolean;
+	schema: JSONSchema4;
+	widgetLookup: WidgetLookup;
+	path: string;
+	updateValue: (path: string, data: any) => void;
+	data: any;
+	aggregatedData: any;
+	isEditable: boolean;
+	hasAggregation: boolean;
 }
 
 const FormWidget: React.FC<FormWidgetProps> = ({
@@ -189,17 +189,17 @@ const FormWidget: React.FC<FormWidgetProps> = ({
 };
 
 const FormCell = styled.div`
-  margin-bottom: 4px;
-  flex-basis: 0;
+	margin-bottom: 4px;
+	flex-basis: 0;
 `;
 
 const FormRow = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  width: 100%;
-  column-gap: 8px;
+	display: flex;
+	flex-wrap: wrap;
+	width: 100%;
+	column-gap: 8px;
 
-  & > * {
-    flex-grow: 1;
-  }
+	& > * {
+		flex-grow: 1;
+	}
 `;

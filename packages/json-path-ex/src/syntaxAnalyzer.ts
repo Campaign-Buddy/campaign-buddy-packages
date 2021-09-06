@@ -1,17 +1,17 @@
 export enum QueryExpressionKind {
-  RecursiveDescent,
-  ChildDescent,
-  Root,
-  ValueFilter,
-  KeyFilter,
-  PropertyAccessor,
-  WildCard,
-  Slice,
+	RecursiveDescent,
+	ChildDescent,
+	Root,
+	ValueFilter,
+	KeyFilter,
+	PropertyAccessor,
+	WildCard,
+	Slice,
 }
 
 interface QueryExpression {
-  kind: QueryExpressionKind;
-  content: string;
+	kind: QueryExpressionKind;
+	content: string;
 }
 
 export function popQueryExpression(

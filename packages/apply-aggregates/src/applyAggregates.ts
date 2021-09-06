@@ -98,7 +98,7 @@ function getCustomDataAccessor(
 			}
 
 			const { aggregation } =
-        flattenedAggregations.find((x) => x.path === path) ?? {};
+				flattenedAggregations.find((x) => x.path === path) ?? {};
 
 			if (!aggregation) {
 				return data;

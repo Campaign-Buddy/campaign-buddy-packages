@@ -31,7 +31,7 @@ function _resolveDynamicSchemas(schema: JSONSchema4, data: any) {
 			let properties = {};
 			if (
 				typeof resolvedSchemas === 'object' &&
-        Array.isArray(resolvedSchemas)
+				Array.isArray(resolvedSchemas)
 			) {
 				for (const resolvedSchema of resolvedSchemas) {
 					if (typeof resolvedSchema !== 'object') {

@@ -2,13 +2,13 @@ import { evaluateFilterExpression } from './filterExpressionEvaluator';
 import { popQueryExpression, QueryExpressionKind } from './syntaxAnalyzer';
 
 interface EvaluationResult {
-  path: string;
-  data: any;
+	path: string;
+	data: any;
 }
 
 interface QueryOptions {
-  customDataAccessor?: (path: string, data: any) => any;
-  serializeObjectsInSubQuery?: (obj: any) => string;
+	customDataAccessor?: (path: string, data: any) => any;
+	serializeObjectsInSubQuery?: (obj: any) => string;
 }
 
 export function query(json: any, q: string, options?: QueryOptions) {

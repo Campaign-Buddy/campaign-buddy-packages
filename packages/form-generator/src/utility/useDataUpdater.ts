@@ -4,8 +4,8 @@ import { useCallback, useEffect, useRef } from 'react';
 import { getSchemaForPath } from './getSchemaForPath';
 
 interface Update {
-  path: string;
-  update: any;
+	path: string;
+	update: any;
 }
 
 type DataUpdater = (path: string, update: any) => any;
@@ -58,12 +58,12 @@ export function useDataUpdater(
 	}, [deduplicateUpdates]);
 
 	/**
-   * When we update data at some point in the schema,
-   * we don't necessarily want to update the whole form
-   * right away as that will lead to unnecessary re-renders.
-   * We can debounce the updates because each widget will
-   * store it's own internal state
-   */
+	 * When we update data at some point in the schema,
+	 * we don't necessarily want to update the whole form
+	 * right away as that will lead to unnecessary re-renders.
+	 * We can debounce the updates because each widget will
+	 * store it's own internal state
+	 */
 	const addUpdate = useCallback(
 		(path: string, update: any) => {
 			if (timer.current) {

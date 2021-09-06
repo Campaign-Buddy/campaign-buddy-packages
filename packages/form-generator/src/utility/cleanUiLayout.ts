@@ -18,8 +18,8 @@ export function cleanUiLayout(layout: UiLayout, schema: JSONSchema4): UiLayout {
 
 				if (
 					subSchema.type === 'object' &&
-          (!subSchema.properties ||
-            Object.keys(subSchema.properties).length === 0)
+					(!subSchema.properties ||
+						Object.keys(subSchema.properties).length === 0)
 				) {
 					return '';
 				}

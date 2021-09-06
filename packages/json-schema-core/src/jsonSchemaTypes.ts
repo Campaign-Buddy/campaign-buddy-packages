@@ -3,8 +3,8 @@ import { Widgets } from './Widgets';
 import { CampaignBuddySchema } from './CampaignBuddySchema';
 
 interface DisplayInfo {
-  title: string;
-  description?: string;
+	title: string;
+	description?: string;
 }
 
 type CBSchemaFunc = (info?: DisplayInfo) => CampaignBuddySchema;
@@ -56,8 +56,8 @@ export const genericObject: CBSchemaFunc = (info) => ({
 });
 
 export const dynamicallyResolvedType: (
-  expression: string,
-  info?: DisplayInfo
+	expression: string,
+	info?: DisplayInfo
 ) => CampaignBuddySchema = (expression, info) => ({
 	type: 'object',
 	$dynamicTypeExpression: expression,
@@ -74,7 +74,7 @@ export const schema: CBSchemaFunc = (info) => ({
 });
 
 export const object: (object: {
-  [k: string]: CampaignBuddySchema;
+	[k: string]: CampaignBuddySchema;
 }) => CampaignBuddySchema = (object) => ({
 	type: 'object',
 	properties: object,
@@ -83,8 +83,8 @@ export const object: (object: {
 /* Complex Types */
 
 export const entity: (
-  entity: EntityDefinition,
-  info?: DisplayInfo
+	entity: EntityDefinition,
+	info?: DisplayInfo
 ) => CampaignBuddySchema = (object, info) => ({
 	type: 'object',
 	$entity: object.name,
@@ -130,8 +130,8 @@ export const icon: CBSchemaFunc = (info) => ({
 });
 
 const _arrayOf: (
-  object: CampaignBuddySchema,
-  info?: DisplayInfo
+	object: CampaignBuddySchema,
+	info?: DisplayInfo
 ) => CampaignBuddySchema = (object, info) => ({
 	type: 'array',
 	items: object,
@@ -156,8 +156,8 @@ export const arrayOf = {
 };
 
 export const choice: (
-  obj: CampaignBuddySchema,
-  info?: DisplayInfo
+	obj: CampaignBuddySchema,
+	info?: DisplayInfo
 ) => CampaignBuddySchema = (obj, info) => ({
 	type: 'object',
 	properties: {
@@ -170,8 +170,8 @@ export const choice: (
 });
 
 export const multiChoice: (
-  obj: CampaignBuddySchema,
-  info?: DisplayInfo
+	obj: CampaignBuddySchema,
+	info?: DisplayInfo
 ) => CampaignBuddySchema = (obj, info) => ({
 	type: 'object',
 	properties: {

@@ -1,22 +1,22 @@
 import { query } from '../src';
 
 interface TestCase {
-  query: string;
-  json: any;
-  expected: any;
+	query: string;
+	json: any;
+	expected: any;
 }
 
 interface ErrorTestCase {
-  query: string;
-  json: any;
+	query: string;
+	json: any;
 }
 
 interface CustomDataAccessTestCase {
-  label: string;
-  dataReplacementMap: Record<string, any>;
-  json: any;
-  query: string;
-  expected: any;
+	label: string;
+	dataReplacementMap: Record<string, any>;
+	json: any;
+	query: string;
+	expected: any;
 }
 
 const customDataAccessTestCases: CustomDataAccessTestCase[] = [
@@ -200,7 +200,7 @@ const testCases: TestCase[] = [
 				c: 3,
 			},
 		},
-		query: '$.foo.<?(@ !== \'b\')>',
+		query: "$.foo.<?(@ !== 'b')>",
 		expected: [1, 3],
 	},
 	{
@@ -296,14 +296,14 @@ const testCases: TestCase[] = [
 		json: {
 			foo: 'bar',
 		},
-		query: '$[\'foo\']',
+		query: "$['foo']",
 		expected: 'bar',
 	},
 	{
 		json: {
 			foo: 'bar',
 		},
-		query: '$.[\'foo\']',
+		query: "$.['foo']",
 		expected: 'bar',
 	},
 	{

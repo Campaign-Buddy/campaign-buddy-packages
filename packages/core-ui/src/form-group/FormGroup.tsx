@@ -4,10 +4,10 @@ import { defaultTheme } from '../theme';
 import React, { useCallback } from 'react';
 
 const StyledFormGroup = styled(FormGroupCore)`
-  label.bp3-label {
-    color: ${({ theme }) => theme.colors.text};
-    font-weight: 500;
-  }
+	label.bp3-label {
+		color: ${({ theme }) => theme.colors.text};
+		font-weight: 500;
+	}
 `;
 
 StyledFormGroup.defaultProps = {
@@ -15,10 +15,10 @@ StyledFormGroup.defaultProps = {
 };
 
 interface FormGroupProps {
-  label?: string;
-  labelFor?: string;
-  className?: string;
-  onClick?: () => void;
+	label?: string;
+	labelFor?: string;
+	className?: string;
+	onClick?: () => void;
 }
 
 export const FormGroup: React.FC<FormGroupProps> = ({

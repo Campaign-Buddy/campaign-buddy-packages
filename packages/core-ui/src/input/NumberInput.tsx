@@ -9,22 +9,22 @@ import { useHtmlId } from '../hooks';
 import { BaseInputProps } from '../BaseInputProps';
 
 const StyledInput = styled(InputGroup)`
-  input {
-    background-color: ${({ theme }) => theme.colors.inputBackground};
-    color: ${({ theme }) => theme.colors.text};
-  }
+	input {
+		background-color: ${({ theme }) => theme.colors.inputBackground};
+		color: ${({ theme }) => theme.colors.text};
+	}
 
-  & .bp3-button {
-    margin: 1px !important;
+	& .bp3-button {
+		margin: 1px !important;
 
-    &:first-child {
-      border-radius: 0 3px 0 0 !important;
-    }
+		&:first-child {
+			border-radius: 0 3px 0 0 !important;
+		}
 
-    &:last-child {
-      border-radius: 0 0 3px 0 !important;
-    }
-  }
+		&:last-child {
+			border-radius: 0 0 3px 0 !important;
+		}
+	}
 `;
 
 StyledInput.defaultProps = {

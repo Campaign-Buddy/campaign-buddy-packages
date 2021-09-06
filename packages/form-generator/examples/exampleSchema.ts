@@ -25,7 +25,7 @@ export const exampleSchema = types.object({
 export const exampleAggregation: Aggregates = {
 	nickName: 'typeof <base> === "string" ? <base> : {$.name}',
 	canMail:
-    '{$.address.street} && {$.address.city} && {$.address.state} && {$.address.zip}',
+		'{$.address.street} && {$.address.city} && {$.address.state} && {$.address.zip}',
 	favoriteNumber: 'TO_NUMBER({$.age}) + TO_NUMBER(<base>)',
 };
 

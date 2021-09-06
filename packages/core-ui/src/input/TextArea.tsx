@@ -7,10 +7,10 @@ import { useHtmlId } from '../hooks';
 import { BaseInputProps } from '../BaseInputProps';
 
 const StyledTextArea = styled(TextAreaCore)`
-  background-color: ${({ theme }) => theme.colors.inputBackground};
-  color: ${({ theme }) => theme.colors.text};
-  resize: vertical;
-  min-height: 75px;
+	background-color: ${({ theme }) => theme.colors.inputBackground};
+	color: ${({ theme }) => theme.colors.text};
+	resize: vertical;
+	min-height: 75px;
 `;
 
 StyledTextArea.defaultProps = {

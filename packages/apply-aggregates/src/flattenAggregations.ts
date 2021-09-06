@@ -1,8 +1,8 @@
 import type { EntityDefinition } from '@campaign-buddy/json-schema-core';
 
 export interface FlattenedAggregation {
-  path: string;
-  aggregation: string;
+	path: string;
+	aggregation: string;
 }
 
 export function flattenAggregations(

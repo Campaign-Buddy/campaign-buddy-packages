@@ -31,7 +31,7 @@ export function evaluateFilterExpression(
 
 	if (/[^\w\d]_\$[^\w\d]|^_\$[^\w\d]|[^\w\d]_\$$|^_\$$/.test(expression)) {
 		throw new Error(
-			'Filter expression must not contain \'_$\'. It is reserved for the internal filter expression implementation.'
+			"Filter expression must not contain '_$'. It is reserved for the internal filter expression implementation."
 		);
 	}
 

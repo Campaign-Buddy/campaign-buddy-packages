@@ -29,54 +29,54 @@ const editButtonVariants: Variants = {
 };
 
 interface AggregatedInputPropsCore<
-  T,
-  TInputType extends keyof JSX.IntrinsicElements
+	T,
+	TInputType extends keyof JSX.IntrinsicElements
 > {
-  InputComponent: React.FC<BaseInputProps<T, TInputType>>;
+	InputComponent: React.FC<BaseInputProps<T, TInputType>>;
 
-  baseValueLabel?: string;
+	baseValueLabel?: string;
 
-  /**
-   * The aggregated value that gets displayed
-   * to the user
-   */
-  aggregatedDisplayValue: string;
+	/**
+	 * The aggregated value that gets displayed
+	 * to the user
+	 */
+	aggregatedDisplayValue: string;
 
-  /**
-   * For the help tooltip of the popover to show
-   * what went into this aggregation
-   */
-  aggregationDescription?: string;
+	/**
+	 * For the help tooltip of the popover to show
+	 * what went into this aggregation
+	 */
+	aggregationDescription?: string;
 }
 
 export type AggregatedInputProps<
-  T,
-  TInputType extends keyof JSX.IntrinsicElements
+	T,
+	TInputType extends keyof JSX.IntrinsicElements
 > = AggregatedInputPropsCore<T, any> & BaseInputProps<T, TInputType>;
 
 export const AggregatedInput = <
-  T extends any,
-  TInputType extends keyof JSX.IntrinsicElements
+	T extends any,
+	TInputType extends keyof JSX.IntrinsicElements
 >({
-		aggregatedDisplayValue,
-		aggregationDescription,
-		baseValueLabel,
-		InputComponent,
-		value,
-		onChange,
-		label,
-		className,
-		...rest
-	}: AggregatedInputProps<T, TInputType>) => {
+	aggregatedDisplayValue,
+	aggregationDescription,
+	baseValueLabel,
+	InputComponent,
+	value,
+	onChange,
+	label,
+	className,
+	...rest
+}: AggregatedInputProps<T, TInputType>) => {
 	const [isPopoverOpen, setIsPopoverOpen] = useState(false);
 	const [isEditButtonFocused, onEditButtonFocus, onEditButtonBlur] =
-    useBooleanState();
+		useBooleanState();
 	const [isHovering, onMouseEnter, onMouseLeave] = useBooleanState();
 
 	const editButtonState =
-    (isEditButtonFocused || isHovering) && !isPopoverOpen
-    	? 'visible'
-    	: 'hidden';
+		(isEditButtonFocused || isHovering) && !isPopoverOpen
+			? 'visible'
+			: 'hidden';
 
 	const popoverContentRef = useRef<HTMLDivElement>(null);
 	const buttonRef = useRef<HTMLButtonElement>(null);
@@ -104,7 +104,7 @@ export const AggregatedInput = <
 				{...rest}
 			/>
 			<AggregationPreviewText>
-        Computed{helpTooltip} = {aggregatedDisplayValue}
+				Computed{helpTooltip} = {aggregatedDisplayValue}
 			</AggregationPreviewText>
 			<div tabIndex={0} onFocus={closePopover} />
 		</PopoverContentRoot>
