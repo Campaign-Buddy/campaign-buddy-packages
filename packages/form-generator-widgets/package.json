@@ -10,6 +10,8 @@
 	},
 	"devDependencies": {
 		"@campaign-buddy/json-schema-core": "0.1.0",
+		"@types/json-schema": "^7.0.9",
+		"@campaign-buddy/form-generator": "0.1.0",
 		"react": "^17.0.2",
 		"typescript": "^4.2.4"
 	},

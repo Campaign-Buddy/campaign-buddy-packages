@@ -6,13 +6,14 @@ import { BaseInputProps } from '../BaseInputProps';
 
 const StyledSwitch = styled(SwitchCore)`
 	color: ${({ theme }) => theme.colors.text};
+	margin-bottom: 0;
 
 	&.bp3-control.bp3-switch input:checked ~ .bp3-control-indicator {
-		background-color: ${({ theme }) => theme.colors.primary};
+		background-color: ${({ theme }) => theme.colors.primary} !important;
 	}
 
 	&.bp3-control.bp3-switch:hover input:checked ~ .bp3-control-indicator {
-		background-color: ${({ theme }) => theme.colors.primaryHover};
+		background-color: ${({ theme }) => theme.colors.primaryHover} !important;
 	}
 `;
 

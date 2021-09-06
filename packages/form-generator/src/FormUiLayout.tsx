@@ -183,15 +183,17 @@ const FormWidget: React.FC<FormWidgetProps> = ({
 			isEditable={isEditable}
 			hasAggregation={hasAggregation}
 		/>
-	)
+	);
 };
 
 const FormCell = styled.div`
 	margin-bottom: 4px;
+	flex-basis: 0;
 `;
 
 const FormRow = styled.div`
 	display: flex;
+	align-items: center;
 	flex-wrap: wrap;
 	width: 100%;
 	column-gap: 8px;
