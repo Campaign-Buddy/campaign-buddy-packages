@@ -22,7 +22,13 @@ export function query(json: any, q: string, options?: QueryOptions) {
 		return undefined;
 	}
 
-	return _query(json, cleanedQuery, options ?? {});
+	const result = _query(json, cleanedQuery, options ?? {});
+
+	if (!result || (Array.isArray(result) && result.length === 0)) {
+		return undefined;
+	}
+
+	return result;
 }
 
 export function resolveSubQueries(json: any, q: string, options?: QueryOptions): string | undefined {

@@ -41,7 +41,7 @@ function _applyAggregates(data: any, aggregates: EntityDefinition['aggregates'],
 			continue;
 		}
 
-		const customDataAccessor = getCustomDataAccessor(root, allAggregatedPaths, flattenedAggregations);
+		const customDataAccessor = getCustomDataAccessor(root, allAggregatedPaths, flattenedAggregations, []);
 		data[key] = executeAggregationExpression(aggregation, root, data[key], customDataAccessor);
 	}
 
@@ -49,11 +49,10 @@ function _applyAggregates(data: any, aggregates: EntityDefinition['aggregates'],
 }
 
 // Resolves json queries that reference aggregated properties
-function getCustomDataAccessor(rootData: any, allAggregatedPaths: Set<string>, flattenedAggregations: FlattenedAggregation[]) {
-	const forbiddenPaths = new Set<string>();
+function getCustomDataAccessor(rootData: any, allAggregatedPaths: Set<string>, flattenedAggregations: FlattenedAggregation[], forbiddenPaths: string[]) {
 	const customDataAccessor = (path: string, data: any) => {
 		if (allAggregatedPaths.has(path)) {
-			if (forbiddenPaths.has(path)) {
+			if (forbiddenPaths.includes(path)) {
 				throw new Error(`circular reference detected when trying to resolve ${path}`)
 			}
 
@@ -63,8 +62,14 @@ function getCustomDataAccessor(rootData: any, allAggregatedPaths: Set<string>, f
 				return data;
 			}
 
-			forbiddenPaths.add(path);
-			return executeAggregationExpression(aggregation, rootData, data, customDataAccessor);
+			const safeDataAccessor = getCustomDataAccessor(
+				rootData,
+				allAggregatedPaths,
+				flattenedAggregations,
+				[...forbiddenPaths, path]
+			);
+
+			return executeAggregationExpression(aggregation, rootData, data, safeDataAccessor);
 		}
 
 		return data;

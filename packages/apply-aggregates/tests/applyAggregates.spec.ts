@@ -66,7 +66,6 @@ describe('applyAggregates', () => {
 
 	it('can aggregate arrays', () => {
 		const data = {
-			foo: 1,
 			bar: {
 				foo: 1,
 				baz: {
@@ -77,13 +76,12 @@ describe('applyAggregates', () => {
 		};
 
 		const aggregates = {
-			result: '{$..foo}',
+			result: '{$.<?(@ !== "result")>..foo}',
 		};
 
 		const result = applyAggregates(data, aggregates);
 
 		expect(result.result).toEqual([
-			1,
 			1,
 			1,
 		]);
