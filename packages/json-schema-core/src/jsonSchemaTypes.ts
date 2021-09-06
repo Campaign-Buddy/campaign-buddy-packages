@@ -47,7 +47,7 @@ export const numericResource: CBSchemaFunc = (info) => ({
 			type: 'number',
 		}
 	}
-})
+});
 
 export const genericObject: CBSchemaFunc = (info) => ({
 	type: 'object',
@@ -68,7 +68,7 @@ export const schema: CBSchemaFunc = (info) => ({
 	$uiWidget: Widgets.SchemaBuilder,
 	title: info?.title,
 	description: info?.description,
-})
+});
 
 export const object: (object: { [k: string]: CampaignBuddySchema }) => CampaignBuddySchema = (object) => ({
 	type: 'object',
@@ -151,7 +151,7 @@ export const choice: (obj: CampaignBuddySchema, info?: DisplayInfo) => CampaignB
 	$uiWidget: Widgets.Select,
 	title: info?.title,
 	description: info?.description,
-})
+});
 
 export const multiChoice: (obj: CampaignBuddySchema, info?: DisplayInfo) => CampaignBuddySchema = (obj, info) => ({
 	type: 'object',

@@ -64,5 +64,5 @@ export const Modal: React.FC<ModalProps> = ({
 				</ModalRoot>
 			</OverlayBackground>
 		</Overlay>
-	)
-}
+	);
+};

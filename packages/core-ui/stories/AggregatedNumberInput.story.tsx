@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useState } from 'react';
 import { Meta, Story } from '@storybook/react';
 import { AggregatedNumberInput, Input } from '../src';
 
@@ -14,16 +14,16 @@ const Template: Story = () => {
 
 	return (
 		<>
-		<Input value="Hi" onChange={console.log} />
-		<AggregatedNumberInput
-			value={state}
-			label="Add ten aggregation"
-			onChange={setState}
-			aggregatedDisplayValue={`${aggregatedValue}`}
-			baseValueLabel="Base value"
-			aggregationDescription="Computed value = <base> + 10"
-		/>
-		<Input value="Bye" onChange={console.log} />
+			<Input value="Hi" onChange={console.log} />
+			<AggregatedNumberInput
+				value={state}
+				label="Add ten aggregation"
+				onChange={setState}
+				aggregatedDisplayValue={`${aggregatedValue}`}
+				baseValueLabel="Base value"
+				aggregationDescription="Computed value = <base> + 10"
+			/>
+			<Input value="Bye" onChange={console.log} />
 		</>
 	);
 };

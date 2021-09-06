@@ -15,7 +15,7 @@ const StyledTextArea = styled(TextAreaCore)`
 
 StyledTextArea.defaultProps = {
 	theme: defaultTheme,
-}
+};
 
 type TextAreaProps = BaseInputProps<string, 'textarea'>;
 
@@ -44,4 +44,4 @@ export const TextArea: React.FC<TextAreaProps> = ({
 			/>
 		</FormGroup>
 	);
-}
+};

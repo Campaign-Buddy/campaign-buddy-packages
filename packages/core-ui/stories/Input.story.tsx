@@ -15,4 +15,4 @@ const Template: Story = () => {
 	);
 };
 
-export const Primary = Template.bind({})
+export const Primary = Template.bind({});

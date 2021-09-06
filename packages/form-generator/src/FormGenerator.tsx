@@ -53,7 +53,7 @@ export const FormGenerator: React.FC<FormGeneratorProps> = ({
 				aggregates={aggregates}
 			/>
 		</FormRoot>
-	)
+	);
 };
 
 const FormRoot = styled.div`

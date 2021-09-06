@@ -742,7 +742,7 @@ const errorTestCases: ErrorTestCase[] = [
 		},
 		query: '$.foo bar.baz',
 	},
-]
+];
 
 describe('query', () => {
 	it('does lazy expression evaluation and early returns when there are no results', () => {
@@ -793,6 +793,6 @@ describe('query', () => {
 		it(`throws an error for ${errorCase.query}`, () =>{
 			const getResult = () => query(errorCase.json, errorCase.query);
 			expect(getResult).toThrow();
-		})
+		});
 	}
-})
+});

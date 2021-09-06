@@ -98,7 +98,7 @@ function _query(json: any, q: string, options: QueryOptions): any | undefined {
 
 		if (expression.kind === QueryExpressionKind.Root) {
 			if (i !== 0) {
-				throw new Error('Root accessor must only be at the beginning of a query')
+				throw new Error('Root accessor must only be at the beginning of a query');
 			}
 		} else if (expression.kind === QueryExpressionKind.RecursiveDescent) {
 			allResults = evaluateRecursiveDescent(allResults);

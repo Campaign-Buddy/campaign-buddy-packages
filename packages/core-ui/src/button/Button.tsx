@@ -55,7 +55,7 @@ const StyledButton = styled(ButtonCore)<{ _style?: ButtonStyle }>`
 
 StyledButton.defaultProps = {
 	theme: defaultTheme,
-}
+};
 
 export const Button: React.FC<ButtonProps> = ({
 	icon,
@@ -78,4 +78,4 @@ export const Button: React.FC<ButtonProps> = ({
 	>
 		{children}
 	</StyledButton>
-)
+);

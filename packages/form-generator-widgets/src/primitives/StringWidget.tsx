@@ -29,4 +29,4 @@ export const StringWidget: React.FC<WidgetProps<string>> = ({
 			disabled={!isEditable}
 		/>
 	);
-}
+};

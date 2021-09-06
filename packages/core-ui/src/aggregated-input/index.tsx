@@ -14,4 +14,4 @@ export const AggregatedTextInput: React.FC<DerivedAggregatedInputProps<string, '
 
 export const AggregatedTextArea: React.FC<DerivedAggregatedInputProps<string, 'textarea'>> = (props) => (
 	<AggregatedInput {...props} InputComponent={TextArea} />
-)
+);

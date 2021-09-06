@@ -87,7 +87,7 @@ export function popQueryExpression(query: string): [expression: QueryExpression,
 					content: `${start ?? '0'}:${end ?? ''}:${increment ?? '1'}`,
 				},
 				query.substring(match.length),
-			]
+			];
 		}
 
 		const propertyAccessor = /^\[((?:'|")?)([^\[\]'"]+)\1\]/.exec(query);

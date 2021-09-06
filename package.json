@@ -34,6 +34,7 @@
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
     "google": "ts-node --transpile-only tools/getGoogleAccessToken.ts",
-    "test": "jest"
+	"test": "jest",
+	"lint": "eslint ."
   }
 }

@@ -42,5 +42,5 @@ export const DebouncedWidget: React.FC<DebouncedWidgetProps<any>> = ({
 			isEditable={isEditable}
 			hasAggregation={hasAggregation}
 		/>
-	)
+	);
 };

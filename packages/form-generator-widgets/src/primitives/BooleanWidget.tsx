@@ -26,4 +26,4 @@ export const BooleanWidget: React.FC<WidgetProps<boolean>> = ({
 			/>
 		</SwitchContainer>
 	);
-}
+};

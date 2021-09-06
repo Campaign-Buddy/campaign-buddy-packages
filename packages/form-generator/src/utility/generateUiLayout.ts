@@ -17,13 +17,13 @@ export function generateUiLayout(schema: JSONSchema4, beginningPath?: string): U
 
 function _generateUiLayout(schema: JSONSchema4, path: string): UiLayout {
 	if (schema.type === 'object' && !schema['$uiWidget']) {
-		let subResults: UiLayout = [];
+		const subResults: UiLayout = [];
 		if (!schema.properties) {
 			throw new InvalidSchemaError('object must define properties', schema);
 		}
 
 		for (const [key, value] of Object.entries(schema.properties)) {
-			subResults.push(..._generateUiLayout(value, `${path}.${key}`))
+			subResults.push(..._generateUiLayout(value, `${path}.${key}`));
 		}
 
 		if (schema.title) {
@@ -32,7 +32,7 @@ function _generateUiLayout(schema: JSONSchema4, path: string): UiLayout {
 					title: schema.title,
 					uiLayout: subResults,
 				}
-			]]
+			]];
 		} else {
 			return [subResults];
 		}

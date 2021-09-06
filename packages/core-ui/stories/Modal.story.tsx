@@ -29,7 +29,7 @@ const LongContent = () => (
 			Integer quis sodales tellus. Maecenas vel ex vel turpis bibendum mattis non bibendum tellus. Duis ac condimentum odio. In id dolor id nunc vehicula euismod sed ac tellus. Proin id pulvinar ante. Proin accumsan id nisi et tincidunt. Vivamus in risus eget nisi accumsan iaculis sit amet ac eros. Nam euismod ligula mauris, eget imperdiet nisl efficitur in. In consequat nibh erat, luctus vulputate augue eleifend tempor. Nulla consequat sagittis mauris et commodo. Nullam ac fringilla ante, ut convallis urna. Duis eu hendrerit ex.
 		</p>
 	</>
-)
+);
 
 const Template: Story = () => {
 	const [isOpen, setIsOpen] = useState(false);
@@ -57,7 +57,7 @@ const Template: Story = () => {
 				<LongContent />
 			</Modal>
 		</div>
-	)
+	);
 };
 
 export const Primary = Template.bind({});

@@ -26,7 +26,7 @@ const StringWidget: React.FC<WidgetProps<string>> = ({
 			onBlur={onBlur}
 			disabled={!isEditable}
 		/>
-	)
+	);
 };
 
 const NumberWidget: React.FC<WidgetProps<number>> = ({
@@ -50,7 +50,7 @@ const NumberWidget: React.FC<WidgetProps<number>> = ({
 			disabled={!isEditable}
 		/>
 	);
-}
+};
 
 const BooleanWidget: React.FC<WidgetProps<boolean>> = ({
 	value,
@@ -73,7 +73,7 @@ const BooleanWidget: React.FC<WidgetProps<boolean>> = ({
 			disabled={!isEditable}
 		/>
 	);
-}
+};
 
 const AraryWidget: React.FC<WidgetProps<any>> = () => (
 	<p>Derp</p>

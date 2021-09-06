@@ -9,4 +9,4 @@ export const defaultTheme: DefaultTheme = {
 		primaryActive: '#7E1F10',
 		background: '#EFE1C6',
 	}
-}
+};

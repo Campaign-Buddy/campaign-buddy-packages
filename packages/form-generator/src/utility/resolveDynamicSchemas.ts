@@ -15,7 +15,7 @@ function _resolveDynamicSchemas(schema: JSONSchema4, data: any) {
 
 	for (const key of Object.keys(schema.properties)) {
 		if (schema.properties[key]['$dynamicTypeExpression']) {
-			let resolvedSchemas = query(data, schema.properties[key]['$dynamicTypeExpression']);
+			const resolvedSchemas = query(data, schema.properties[key]['$dynamicTypeExpression']);
 
 			if (!resolvedSchemas) {
 				delete schema.properties[key];

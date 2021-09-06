@@ -33,5 +33,5 @@ export const Switch: React.FC<SwitchProps> = ({ value, onChange, label, ...rest 
 			label={label}
 			{...rest}
 		/>
-	)
-}
+	);
+};

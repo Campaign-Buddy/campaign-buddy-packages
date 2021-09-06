@@ -13,5 +13,5 @@ const Template: Story = () => (
 	</FormGroup>
 );
 
-export const Primary = Template.bind({})
+export const Primary = Template.bind({});
 

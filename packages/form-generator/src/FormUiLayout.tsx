@@ -60,7 +60,7 @@ export const FormUiLayout: React.FC<FormUiLayoutProps> = ({
 							aggregates={aggregates}
 						/>
 					</FormRow>
-				)
+				);
 			} else {
 				nodes.push(
 					<FormCell>
@@ -98,7 +98,7 @@ export const FormUiLayout: React.FC<FormUiLayoutProps> = ({
 							{layout}
 						</UiSection>
 					</FormRow>
-				)
+				);
 			} else {
 				nodes.push(
 					<FormRow>
@@ -129,7 +129,7 @@ export const FormUiLayout: React.FC<FormUiLayoutProps> = ({
 			{nodes}
 		</>
 	);
-}
+};
 
 interface FormWidgetProps {
 	schema: JSONSchema4;

@@ -19,4 +19,4 @@ export const classEntity: EntityDefinition = {
 			additionalProperties: types.genericObject({ title: 'Additional Properties' }),
 		}, { title: 'Levels' }),
 	}),
-}
+};

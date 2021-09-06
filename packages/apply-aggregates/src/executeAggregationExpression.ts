@@ -6,21 +6,21 @@ import * as aggregateFunctions from './aggregateFunctions';
  */
 function compileCode(src: string) {
 	src = `with (sandbox) {${src}}`;
-	const code = new Function('sandbox', src)
+	const code = new Function('sandbox', src);
 
 	return function (sandbox: any) {
-		const sandboxProxy = new Proxy(sandbox, { has, get })
-		return code(sandboxProxy)
-	}
+		const sandboxProxy = new Proxy(sandbox, { has, get });
+		return code(sandboxProxy);
+	};
 }
 
 function has(target: any, key: any) {
-	return true
+	return true;
 }
 
 function get(target: any, key: any) {
-	if (key === Symbol.unscopables) return undefined
-	return target[key]
+	if (key === Symbol.unscopables) return undefined;
+	return target[key];
 }
 
 function _executeAggregationExpression(expression: string, baseValue: any): any {

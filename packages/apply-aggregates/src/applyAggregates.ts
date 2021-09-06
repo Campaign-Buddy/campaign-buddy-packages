@@ -53,7 +53,7 @@ function getCustomDataAccessor(rootData: any, allAggregatedPaths: Set<string>, f
 	const customDataAccessor = (path: string, data: any) => {
 		if (allAggregatedPaths.has(path)) {
 			if (forbiddenPaths.includes(path)) {
-				throw new Error(`circular reference detected when trying to resolve ${path}`)
+				throw new Error(`circular reference detected when trying to resolve ${path}`);
 			}
 
 			const { aggregation } = flattenedAggregations.find((x) => x.path === path) ?? {};
@@ -73,7 +73,7 @@ function getCustomDataAccessor(rootData: any, allAggregatedPaths: Set<string>, f
 		}
 
 		return data;
-	}
+	};
 
 	return customDataAccessor;
 }

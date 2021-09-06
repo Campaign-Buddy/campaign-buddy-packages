@@ -34,7 +34,7 @@ export function JOIN(separator: string, ...messages: (string[] | string)[]): str
 
 export function TO_NUMBER(...numbers: (string | string[])[]): number {
 	if (numbers.length !== 1) {
-		return 0
+		return 0;
 	}
 
 	let value = numbers[0];

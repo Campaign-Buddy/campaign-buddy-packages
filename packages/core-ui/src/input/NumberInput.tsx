@@ -29,7 +29,7 @@ const StyledInput = styled(InputGroup)`
 
 StyledInput.defaultProps = {
 	theme: defaultTheme,
-}
+};
 
 type NumberInputProps = BaseInputProps<number>;
 
@@ -41,7 +41,7 @@ export const NumberInput: React.FC<NumberInputProps> = ({
 	onKeyDown: onKeyDownProps,
 	id: idProp,
 	...rest
- }) => {
+}) => {
 	const [internalValue, setInternalValue] = useState(`${value ?? 0}`);
 	const generatedId = useHtmlId();
 	const id = idProp ?? generatedId;
@@ -139,5 +139,5 @@ export const NumberInput: React.FC<NumberInputProps> = ({
 				{...rest}
 			/>
 		</FormGroup>
-	)
-}
+	);
+};
