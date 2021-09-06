@@ -1,12 +1,15 @@
 import { JSONSchema4 } from 'json-schema';
 import { Widgets } from './Widgets';
 
-export interface CampaignBuddySchema extends JSONSchema4 {
+export interface CampaignBuddySchema<TAggregateShape = any>
+	extends JSONSchema4 {
 	properties?: {
-		[k: string]: CampaignBuddySchema;
+		[k: string]: CampaignBuddySchema<any>;
 	};
-	items?: CampaignBuddySchema;
+	items?: CampaignBuddySchema<any>;
 	$uiWidget?: Widgets;
+	$uiCols?: number;
+	$aggregate?: TAggregateShape;
 	$entity?: string;
 	$dynamicTypeExpression?: string;
 }

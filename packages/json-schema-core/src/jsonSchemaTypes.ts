@@ -2,12 +2,16 @@ import { EntityDefinition } from './EntityDefinition';
 import { Widgets } from './Widgets';
 import { CampaignBuddySchema } from './CampaignBuddySchema';
 
-interface DisplayInfo {
+interface DisplayInfo<TAggregateShape = string> {
 	title: string;
 	description?: string;
+	cols?: number;
+	aggregate?: TAggregateShape;
 }
 
-type CBSchemaFunc = (info?: DisplayInfo) => CampaignBuddySchema;
+type CBSchemaFunc<TAggregateShape = string> = (
+	info?: DisplayInfo<TAggregateShape>
+) => CampaignBuddySchema<TAggregateShape>;
 
 /* Primitive Types */
 
@@ -15,26 +19,39 @@ export const string: CBSchemaFunc = (info) => ({
 	type: 'string',
 	title: info?.title,
 	description: info?.description,
+	$uiCols: info?.cols,
+	$aggregate: info?.aggregate,
 });
 
 export const boolean: CBSchemaFunc = (info) => ({
 	type: 'boolean',
 	title: info?.title,
 	description: info?.description,
+	$uiCols: info?.cols,
+	$aggregate: info?.aggregate,
 });
 
 export const number: CBSchemaFunc = (info) => ({
 	type: 'number',
 	title: info?.title,
 	description: info?.description,
+	$uiCols: info?.cols,
+	$aggregate: info?.aggregate,
 });
+
+interface NumericResourceAggregate {
+	max?: string;
+	current?: string;
+}
 
 /**
  * Numeric resources are properties that have a maximum value
  * and can be spent or regained over time (e.g. health, spell slots,
  * bardic inspirations).
  */
-export const numericResource: CBSchemaFunc = (info) => ({
+export const numericResource: CBSchemaFunc<NumericResourceAggregate> = (
+	info
+) => ({
 	type: 'object',
 	title: info?.title,
 	description: info?.description,
@@ -47,35 +64,40 @@ export const numericResource: CBSchemaFunc = (info) => ({
 			type: 'number',
 		},
 	},
+	$uiCols: info?.cols,
+	$aggregate: info?.aggregate,
 });
 
-export const genericObject: CBSchemaFunc = (info) => ({
+export const genericObject: CBSchemaFunc<never> = (info) => ({
 	type: 'object',
 	title: info?.title,
 	description: info?.description,
+	$uiCols: info?.cols,
 });
 
 export const dynamicallyResolvedType: (
 	expression: string,
 	info?: DisplayInfo
-) => CampaignBuddySchema = (expression, info) => ({
+) => CampaignBuddySchema<any> = (expression, info) => ({
 	type: 'object',
 	$dynamicTypeExpression: expression,
 	title: info?.title,
 	description: info?.description,
+	$uiCols: info?.cols,
 });
 
 // TODO: Actually return a schema representing a CampaignBuddySchema
-export const schema: CBSchemaFunc = (info) => ({
+export const schema: CBSchemaFunc<never> = (info) => ({
 	type: 'object',
 	$uiWidget: Widgets.SchemaBuilder,
 	title: info?.title,
 	description: info?.description,
+	$uiCols: info?.cols,
 });
 
 export const object: (object: {
-	[k: string]: CampaignBuddySchema;
-}) => CampaignBuddySchema = (object) => ({
+	[k: string]: CampaignBuddySchema<any>;
+}) => CampaignBuddySchema<never> = (object) => ({
 	type: 'object',
 	properties: object,
 });
@@ -84,60 +106,73 @@ export const object: (object: {
 
 export const entity: (
 	entity: EntityDefinition,
-	info?: DisplayInfo
-) => CampaignBuddySchema = (object, info) => ({
+	info?: DisplayInfo<never>
+) => CampaignBuddySchema<never> = (object, info) => ({
 	type: 'object',
 	$entity: object.name,
 	$uiWidget: Widgets.EntityPicker,
 	title: info?.title,
 	description: info?.description,
+	$uiCols: info?.cols,
 });
 
-export const stat: CBSchemaFunc = (info) => ({
+interface StatAggregation {
+	base?: string;
+	bonus?: string;
+}
+
+export const stat: CBSchemaFunc<StatAggregation> = (info) => ({
 	type: 'object',
 	properties: {
-		base: {
-			type: 'number',
-		},
-		bonus: {
-			type: 'number',
-		},
+		base: number(),
+		bonus: number(),
 	},
 	$uiWidget: Widgets.Stat,
 	title: info?.title,
 	description: info?.description,
+	$uiCols: info?.cols,
+	$aggregate: info?.aggregate,
 });
 
-export const richText: CBSchemaFunc = (info) => ({
+export const richText: CBSchemaFunc<never> = (info) => ({
 	type: 'object',
 	properties: {
-		html: string,
-		plain: string,
+		html: string(),
+		plain: string(),
 	},
 	$uiWidget: Widgets.RichText,
 	title: info?.title,
 	description: info?.description,
+	$uiCols: info?.cols,
 });
 
-export const icon: CBSchemaFunc = (info) => ({
+interface IconAggregation {
+	url?: string;
+}
+
+export const icon: CBSchemaFunc<IconAggregation> = (info) => ({
 	type: 'object',
 	properties: {
-		url: string,
+		url: string(),
 	},
 	$uiWidget: Widgets.Icon,
 	title: info?.title,
 	description: info?.description,
+	$uiCols: info?.cols,
+	$aggregate: info?.aggregate,
 });
 
 const _arrayOf: (
-	object: CampaignBuddySchema,
-	info?: DisplayInfo
-) => CampaignBuddySchema = (object, info) => ({
+	object: CampaignBuddySchema<any>,
+	info?: DisplayInfo<string>
+) => CampaignBuddySchema<string> = (object, info) => ({
 	type: 'array',
 	items: object,
 	title: info?.title,
 	description: info?.description,
 	$uiWidget: object.$uiWidget,
+	$uiCols: info?.cols ?? object?.cols,
+	$aggregate: info?.aggregate,
 });
 
 export const arrayOf = {
@@ -152,34 +187,50 @@ export const arrayOf = {
 	richTexts: (info?: DisplayInfo) => _arrayOf(richText(), info),
 	genericObjects: (info?: DisplayInfo) => _arrayOf(genericObject(), info),
 	numericResources: (info?: DisplayInfo) => _arrayOf(numericResource(), info),
-	custom: (obj: CampaignBuddySchema, info?: DisplayInfo) => _arrayOf(obj, info),
+	custom: (obj: CampaignBuddySchema<any>, info?: DisplayInfo<any>) =>
+		_arrayOf(obj, info),
 };
 
+interface ChoiceAggregation {
+	name?: string;
+	value?: string;
+}
+
 export const choice: (
-	obj: CampaignBuddySchema,
-	info?: DisplayInfo
-) => CampaignBuddySchema = (obj, info) => ({
+	obj: CampaignBuddySchema<any>,
+	info?: DisplayInfo<ChoiceAggregation>
+) => CampaignBuddySchema<ChoiceAggregation> = (obj, info) => ({
 	type: 'object',
 	properties: {
-		name: string,
+		name: string(),
 		value: obj,
 	},
 	$uiWidget: Widgets.Select,
 	title: info?.title,
 	description: info?.description,
+	$uiCols: info?.cols,
+	$aggregate: info?.aggregate,
 });
 
+interface MultiChoiceAggregation {
+	selected?: string;
+	options?: string;
+	maxChoices?: string;
+}
+
 export const multiChoice: (
-	obj: CampaignBuddySchema,
-	info?: DisplayInfo
-) => CampaignBuddySchema = (obj, info) => ({
+	obj: CampaignBuddySchema<any>,
+	info?: DisplayInfo<MultiChoiceAggregation>
+) => CampaignBuddySchema<MultiChoiceAggregation> = (obj, info) => ({
 	type: 'object',
 	properties: {
-		selected: _arrayOf(obj, info),
-		options: arrayOf.custom(choice(obj, info), info),
-		maxChoices: number,
+		selected: _arrayOf(obj),
+		options: arrayOf.custom(choice(obj)),
+		maxChoices: number(),
 	},
 	$uiWidget: Widgets.MultiSelect,
 	title: info?.title,
 	description: info?.description,
+	$uiCols: info?.cols,
+	$aggregate: info?.aggregate,
 });
