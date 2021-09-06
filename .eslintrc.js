@@ -40,6 +40,10 @@ module.exports = {
             "error",
             "always"
 		],
-		"no-unused-vars": "error",
+		"no-unused-vars": "off",
+		"@typescript-eslint/no-unused-vars": ["error"],
+		"@typescript-eslint/explicit-module-boundary-types": ["off"],
+		"@typescript-eslint/no-explicit-any": ["off"],
+		"react/prop-types": ["off"],
     }
 };

@@ -11,6 +11,7 @@ export default {
 
 const Template: Story<ComponentProps<typeof Button>> = (props) => <Button {...props} />;
 
+// eslint-disable-next-line @typescript-eslint/no-empty-function
 const onClick = () => {};
 
 export const PrimaryStyle = makeStory(Template, {

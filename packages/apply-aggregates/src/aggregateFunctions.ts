@@ -13,7 +13,7 @@ export function SUM(...numbers: (number[] | number)[]): number {
 }
 
 export function JOIN(separator: string, ...messages: (string[] | string)[]): string {
-	const result = messages.reduce<string>((all, cur, index) => {
+	const result = messages.reduce<string>((all, cur) => {
 		if (Array.isArray(cur)) {
 			return `${all}${separator}${JOIN(separator, ...cur)}`;
 		}

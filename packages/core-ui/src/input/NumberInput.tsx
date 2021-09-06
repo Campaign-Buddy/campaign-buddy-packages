@@ -73,7 +73,9 @@ export const NumberInput: React.FC<NumberInputProps> = ({
 			}
 
 			onChange(val);
-		} catch {}
+		} catch {
+			/* :shrug: */
+		}
 	}, [internalValue]);
 
 	const step = useCallback((value: number) => {

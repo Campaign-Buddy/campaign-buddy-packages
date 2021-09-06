@@ -14,7 +14,7 @@ function compileCode(src: string) {
 	};
 }
 
-function has(target: any, key: any) {
+function has() {
 	return true;
 }
 
@@ -28,7 +28,7 @@ function _executeAggregationExpression(expression: string, baseValue: any): any 
 		throw new Error('Filter expression must not contain return statement');
 	}
 
-	const normalizedExpression = `return (${expression.replace(/\<base\>/gi, 'base')});`;
+	const normalizedExpression = `return (${expression.replace(/<base>/gi, 'base')});`;
 
 	try {
 		return compileCode(normalizedExpression)({

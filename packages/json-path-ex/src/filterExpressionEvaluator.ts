@@ -11,7 +11,7 @@ function compileCode(src: string) {
 	};
 }
 
-function has(target: any, key: any) {
+function has() {
 	return true;
 }
 

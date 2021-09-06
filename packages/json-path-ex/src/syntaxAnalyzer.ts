@@ -60,7 +60,7 @@ export function popQueryExpression(query: string): [expression: QueryExpression,
 	}
 
 	if (query.startsWith('[?(')) {
-		const match = /^\[\?\(([^\)]+)\)\]/.exec(query);
+		const match = /^\[\?\(([^)]+)\)\]/.exec(query);
 
 		if (!match) {
 			throw new Error('Invalid value filter expression');
@@ -90,7 +90,7 @@ export function popQueryExpression(query: string): [expression: QueryExpression,
 			];
 		}
 
-		const propertyAccessor = /^\[((?:'|")?)([^\[\]'"]+)\1\]/.exec(query);
+		const propertyAccessor = /^\[((?:'|")?)([^[\]'"]+)\1\]/.exec(query);
 
 		if (!propertyAccessor) {
 			throw new Error('Invalid property accessor expression');
@@ -106,7 +106,7 @@ export function popQueryExpression(query: string): [expression: QueryExpression,
 	}
 
 	if (query.startsWith('<?(')) {
-		const match = /^\<\?\(([^\)]+)\)\>/.exec(query);
+		const match = /^<\?\(([^)]+)\)>/.exec(query);
 
 		if (!match) {
 			throw new Error('Invalid key filter expression');
@@ -121,7 +121,7 @@ export function popQueryExpression(query: string): [expression: QueryExpression,
 		];
 	}
 
-	const match = /^[^\{\}\.:@\<\>\?\(\)@$\[\]]+/.exec(query);
+	const match = /^[^{}.:@<>?()@$[\]]+/.exec(query);
 
 	if (!match) {
 		throw new Error('Invalid property accessor');

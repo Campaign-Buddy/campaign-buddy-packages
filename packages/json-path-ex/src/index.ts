@@ -44,7 +44,7 @@ export function resolveSubQueries(json: any, q: string, options?: QueryOptions):
 		prevQuery = curQuery;
 
 		try {
-			curQuery = curQuery.replace(/\{([^\{\}]+)\}/g, (match, subQuery) => {
+			curQuery = curQuery.replace(/\{([^{}]+)\}/g, (match, subQuery) => {
 				const result = _query(json, subQuery, options ?? {});
 		
 				if (typeof result === 'object' || result === undefined) {

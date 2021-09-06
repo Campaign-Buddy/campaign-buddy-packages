@@ -40,7 +40,7 @@ export const FormUiLayout: React.FC<FormUiLayoutProps> = ({
 			const dataForPath = getDataForPath(element, data, subSchema);
 			const aggregatedDataForPath = getDataForPath(element, aggregatedData, undefined) ?? dataForPath;
 			const aggregation = getDataForPath(element, aggregates ?? {}, undefined);
-			const isDataEditable = typeof aggregation !== 'string' || /\<\s*base\s*\>/i.test(aggregation);
+			const isDataEditable = typeof aggregation !== 'string' || /<\s*base\s*>/i.test(aggregation);
 
 			// So that we don't have to manually type out all properties in an object
 			// if the default layout is good enough
