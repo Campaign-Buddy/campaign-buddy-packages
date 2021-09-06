@@ -208,4 +208,57 @@ describe('applyAggregates', () => {
 
 		expect(result.result).toEqual('abcdef');
 	});
+
+	it('supports schema defined aggregates', () => {
+		const data = {
+			bar: 'abc',
+			result: '',
+		};
+
+		const schema = {
+			type: 'object',
+			properties: {
+				bar: { type: 'string' },
+				result: { type: 'string', $aggregate: '{$.bar}' },
+			},
+		};
+
+		const result = applyAggregates(data, {}, schema);
+
+		expect(result.result).toEqual('abc');
+	});
+
+	it('gives preference to passed in aggregations', () => {
+		const data = {
+			foo: 'foo',
+			bar: 'bar',
+			result: '',
+			otherResult: '',
+		};
+
+		const aggregates = {
+			result: '{$.foo}',
+		};
+
+		const schema = {
+			type: 'object',
+			properties: {
+				foo: { type: 'string' },
+				bar: { type: 'string' },
+				result: {
+					type: 'string',
+					$aggregate: '{$.bar}',
+				},
+				otherResult: {
+					type: 'string',
+					$aggregate: '{$.bar}',
+				},
+			},
+		};
+
+		const result = applyAggregates(data, aggregates, schema);
+
+		expect(result.result).toEqual('foo');
+		expect(result.otherResult).toEqual('bar');
+	});
 });

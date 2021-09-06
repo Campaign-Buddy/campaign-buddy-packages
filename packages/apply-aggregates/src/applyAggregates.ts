@@ -1,6 +1,7 @@
 import type { EntityDefinition } from '@campaign-buddy/json-schema-core';
 import cloneDeep = require('lodash.clonedeep');
 import { executeAggregationExpression } from './executeAggregationExpression';
+import { extractAggregatesFromSchema } from './extractAggregatesFromSchema';
 import {
 	flattenAggregations,
 	FlattenedAggregation,
@@ -9,7 +10,8 @@ import { preFillDataForAggregation } from './preFillDataForAggregation';
 
 export function applyAggregates(
 	data: any,
-	aggregates: EntityDefinition['aggregates']
+	aggregates: EntityDefinition['aggregates'],
+	schema?: any
 ): any {
 	if (!aggregates) {
 		return data;
@@ -18,18 +20,27 @@ export function applyAggregates(
 	const flattenedAggregations = flattenAggregations(aggregates);
 	const allAggregatedPaths = new Set(flattenedAggregations.map((x) => x.path));
 
+	let fullAggregates = aggregates;
+
+	if (schema) {
+		const results = extractAggregatesFromSchema(schema, fullAggregates);
+		if (results) {
+			fullAggregates = results;
+		}
+	}
+
 	const dataToAggregate = cloneDeep(data ?? {});
 
 	// This adds property paths so that json-path-ex queries
 	// work on properties that exist in the aggregate structure
 	// but not in the source data
-	preFillDataForAggregation(dataToAggregate, aggregates);
+	preFillDataForAggregation(dataToAggregate, fullAggregates);
 
 	const rootData = cloneDeep(dataToAggregate);
 
 	return _applyAggregates(
 		dataToAggregate,
-		aggregates,
+		fullAggregates,
 		rootData,
 		allAggregatedPaths,
 		flattenedAggregations
