@@ -8,6 +8,7 @@ import {
 	NumberWidget,
 	StringWidget,
 } from './primitives';
+import { StatWidget } from './stat';
 
 type ExtensionWidgets = Record<Widgets, React.FC<WidgetProps<any>>>;
 
@@ -19,7 +20,7 @@ export const widgets: WidgetLookup & ExtensionWidgets = {
 	array: ArrayWidget,
 
 	// Complex components
-	Stat: () => null,
+	Stat: StatWidget,
 	EntityPicker: () => null,
 	RichText: () => null,
 	MultiSelect: () => null,

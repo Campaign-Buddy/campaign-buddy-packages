@@ -13,7 +13,7 @@ export function applyAggregates(
 	aggregates: EntityDefinition['aggregates'],
 	schema?: any
 ): any {
-	if (!aggregates) {
+	if (!aggregates && !schema) {
 		return data;
 	}
 
@@ -23,10 +23,14 @@ export function applyAggregates(
 	let fullAggregates = aggregates;
 
 	if (schema) {
-		const results = extractAggregatesFromSchema(schema, fullAggregates);
+		const results = extractAggregatesFromSchema(schema, fullAggregates ?? {});
 		if (results) {
 			fullAggregates = results;
 		}
+	}
+
+	if (!fullAggregates) {
+		return data;
 	}
 
 	const dataToAggregate = cloneDeep(data ?? {});

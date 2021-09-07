@@ -3,6 +3,7 @@ import {
 	EntityDefinition,
 	UiLayout,
 	CampaignBuddySchema,
+	Aggregates,
 } from '@campaign-buddy/json-schema-core';
 import {
 	UiSectionProps,
@@ -77,7 +78,7 @@ export const FormUiLayout: React.FC<FormUiLayoutProps> = ({
 			} else {
 				const cols =
 					subSchema['$uiCols'] ?? getDefaultColSize(uiLayout, schema, element);
-				console.log(`cols: ${cols}`);
+
 				nodes.push(
 					<FormCell cols={cols}>
 						<FormWidget
@@ -88,7 +89,7 @@ export const FormUiLayout: React.FC<FormUiLayoutProps> = ({
 							data={dataForPath}
 							aggregatedData={aggregatedDataForPath}
 							isEditable={isDataEditable}
-							hasAggregation={typeof aggregation === 'string'}
+							aggregation={aggregation}
 						/>
 					</FormCell>
 				);
@@ -145,7 +146,7 @@ interface FormWidgetProps {
 	data: any;
 	aggregatedData: any;
 	isEditable: boolean;
-	hasAggregation: boolean;
+	aggregation: Aggregates | string | undefined;
 }
 
 const FormWidget: React.FC<FormWidgetProps> = ({
@@ -156,7 +157,7 @@ const FormWidget: React.FC<FormWidgetProps> = ({
 	data,
 	aggregatedData,
 	isEditable,
-	hasAggregation,
+	aggregation,
 }) => {
 	let Widget: React.FC<WidgetProps<any>> = () => null;
 
@@ -190,7 +191,8 @@ const FormWidget: React.FC<FormWidgetProps> = ({
 			label={schema.title ?? ''}
 			aggregatedValue={aggregatedData}
 			isEditable={isEditable}
-			hasAggregation={hasAggregation}
+			aggregation={aggregation}
+			hasAggregation={aggregation !== undefined}
 		/>
 	);
 };
@@ -202,7 +204,7 @@ function calculateFlex(cols: number) {
 const FormCell = styled.div<{ cols: number }>`
 	margin-bottom: 4px;
 	flex: ${({ cols }) => calculateFlex(cols)};
-	min-width: 150px;
+	min-width: 100px;
 `;
 
 const FormRow = styled.div`

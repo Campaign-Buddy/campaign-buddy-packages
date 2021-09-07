@@ -1,6 +1,9 @@
 import React, { useMemo } from 'react';
 import { FormGeneratorProps } from './FormGeneratorProps';
-import { applyAggregates } from '@campaign-buddy/apply-aggregates';
+import {
+	applyAggregates,
+	getFullAggregates,
+} from '@campaign-buddy/apply-aggregates';
 import {
 	generateUiLayout,
 	useDataUpdater,
@@ -38,9 +41,14 @@ export const FormGenerator: React.FC<FormGeneratorProps> = ({
 
 	const updateData = useDataUpdater(schema, data, onChange);
 
+	const fullAggregates = useMemo(
+		() => getFullAggregates(aggregates, resolvedSchema),
+		[aggregates, resolvedSchema]
+	);
+
 	const aggregatedData = useMemo(
-		() => applyAggregates(data, aggregates),
-		[data, aggregates]
+		() => applyAggregates(data, fullAggregates),
+		[data, fullAggregates]
 	);
 
 	return (
@@ -53,7 +61,7 @@ export const FormGenerator: React.FC<FormGeneratorProps> = ({
 				data={data}
 				UiSection={UiSection}
 				aggregatedData={aggregatedData}
-				aggregates={aggregates}
+				aggregates={fullAggregates}
 			/>
 		</FormRoot>
 	);

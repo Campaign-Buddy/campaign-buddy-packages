@@ -19,12 +19,15 @@ export interface WidgetProps<T> {
 	onChange: (value: T) => void;
 	label: string;
 	hasAggregation: boolean;
+	aggregation: Aggregates | string | undefined;
 
 	/**
 	 * The value from the form data (i.e.
-	 * what has been passed into `updateValue`)
+	 * what has been passed into `updateValue`).
+	 *
+	 * Initially, it is set to undefined
 	 */
-	value: T;
+	value: T | undefined;
 
 	/**
 	 * The value to display if not being edited,
@@ -32,7 +35,7 @@ export interface WidgetProps<T> {
 	 * a combination of `value` and other data,
 	 * or may be completely derived from other data
 	 */
-	aggregatedValue: T;
+	aggregatedValue: T | undefined;
 
 	/**
 	 * A property is editable if has no aggregations

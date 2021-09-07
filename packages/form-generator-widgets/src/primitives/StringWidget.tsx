@@ -13,8 +13,8 @@ export const StringWidget: React.FC<WidgetProps<string>> = ({
 	if (hasAggregation) {
 		return (
 			<AggregatedTextInput
-				value={value}
-				aggregatedDisplayValue={aggregatedValue}
+				value={value ?? ''}
+				aggregatedDisplayValue={aggregatedValue ?? ''}
 				onChange={onChange}
 				label={label}
 			/>
@@ -23,7 +23,7 @@ export const StringWidget: React.FC<WidgetProps<string>> = ({
 
 	return (
 		<Input
-			value={value}
+			value={value ?? ''}
 			onChange={onChange}
 			label={label}
 			disabled={!isEditable}

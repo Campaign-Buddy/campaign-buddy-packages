@@ -1,4 +1,6 @@
-export function SUM(...numbers: (number[] | number)[]): number {
+type QueryResults<T> = (T | T[])[];
+
+export function SUM(...numbers: QueryResults<number>): number {
 	return numbers.reduce<number>((total, cur) => {
 		if (typeof cur === 'number' || (typeof cur === 'string' && !isNaN(cur))) {
 			return total + cur;
@@ -14,7 +16,7 @@ export function SUM(...numbers: (number[] | number)[]): number {
 
 export function JOIN(
 	separator: string,
-	...messages: (string[] | string)[]
+	...messages: QueryResults<string>
 ): string {
 	const result = messages.reduce<string>((all, cur) => {
 		if (Array.isArray(cur)) {
@@ -35,7 +37,7 @@ export function JOIN(
 	return result.substring(separator.length);
 }
 
-export function TO_NUMBER(...numbers: (string | string[])[]): number {
+export function TO_NUMBER(...numbers: QueryResults<string>): number {
 	if (numbers.length !== 1) {
 		return 0;
 	}
@@ -57,7 +59,7 @@ export function TO_NUMBER(...numbers: (string | string[])[]): number {
 	return 0;
 }
 
-export function TO_BOOLEAN(...values: (string | string[])[]): boolean {
+export function TO_BOOLEAN(...values: QueryResults<string>): boolean {
 	if (values.length !== 1) {
 		return false;
 	}
@@ -73,4 +75,31 @@ export function TO_BOOLEAN(...values: (string | string[])[]): boolean {
 	}
 
 	return Boolean(value);
+}
+
+export function BETWEEN_RANGE(
+	min: number,
+	max: number,
+	...values: QueryResults<number>
+): number {
+	return Math.min(max, Math.max(min, asSingleValue(values, min)));
+}
+
+export function FLOOR(...values: (number | number[])[]): number {
+	return Math.floor(asSingleValue(values, NaN));
+}
+
+function asSingleValue<T>(values: QueryResults<T>, defaultValue: T): T {
+	if (values.length === 0) {
+		return defaultValue;
+	}
+
+	let value = values.find((x) =>
+		Array.isArray(x) ? x.length > 0 : x !== undefined && x !== null
+	);
+	if (Array.isArray(value)) {
+		value = value[0];
+	}
+
+	return value ?? defaultValue;
 }

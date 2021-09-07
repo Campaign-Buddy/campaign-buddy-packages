@@ -13,7 +13,7 @@ export const NumberWidget: React.FC<WidgetProps<number>> = ({
 	if (hasAggregation) {
 		return (
 			<AggregatedNumberInput
-				value={value}
+				value={value ?? 0}
 				aggregatedDisplayValue={`${aggregatedValue ?? 0}`}
 				onChange={onChange}
 				label={label}
@@ -24,7 +24,7 @@ export const NumberWidget: React.FC<WidgetProps<number>> = ({
 
 	return (
 		<NumberInput
-			value={value}
+			value={value ?? 0}
 			onChange={onChange}
 			label={label}
 			disabled={!isEditable}

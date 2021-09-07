@@ -19,7 +19,7 @@ export const BooleanWidget: React.FC<WidgetProps<boolean>> = ({
 	return (
 		<SwitchContainer>
 			<Switch
-				value={hasAggregation ? aggregatedValue : value}
+				value={(hasAggregation ? aggregatedValue : value) ?? false}
 				onChange={onChange}
 				label={label}
 				disabled={hasAggregation}

@@ -8,6 +8,10 @@ const StyledFormGroup = styled(FormGroupCore)`
 		color: ${({ theme }) => theme.colors.text};
 		font-weight: 500;
 	}
+
+	& & {
+		margin-bottom: 0;
+	}
 `;
 
 StyledFormGroup.defaultProps = {
@@ -32,7 +36,9 @@ export const FormGroup: React.FC<FormGroupProps> = ({
 
 	return (
 		<StyledFormGroup
-			label={onClick ? <span onClick={handleClick}>{label}</span> : label}
+			label={
+				onClick && label ? <span onClick={handleClick}>{label}</span> : label
+			}
 			labelFor={labelFor}
 			className={className}
 		>
