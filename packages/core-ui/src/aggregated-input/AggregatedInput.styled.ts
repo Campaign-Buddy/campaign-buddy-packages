@@ -2,12 +2,15 @@ import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { defaultTheme } from '../theme';
 
-export const AggregatedDisplayText = styled.p`
+export const AggregatedDisplayText = styled.p<{ fontSize: number }>`
 	color: ${({ theme }) => theme.colors.text};
 	margin: 0;
 	cursor: pointer;
+	font-size: ${({ fontSize }) => fontSize}px;
+	outline: none !important;
 
-	&:hover {
+	&:hover,
+	&:focus {
 		text-decoration: underline;
 	}
 `;

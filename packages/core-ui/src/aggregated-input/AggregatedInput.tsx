@@ -36,6 +36,14 @@ interface AggregatedInputPropsCore<
 
 	baseValueLabel?: string;
 
+	fontSize?: number;
+
+	/**
+	 * Hides the edit button and makes the
+	 * display text focusable
+	 */
+	hideButton?: boolean;
+
 	/**
 	 * The aggregated value that gets displayed
 	 * to the user
@@ -66,6 +74,8 @@ export const AggregatedInput = <
 	onChange,
 	label,
 	className,
+	fontSize,
+	hideButton,
 	...rest
 }: AggregatedInputProps<T, TInputType>) => {
 	const [isPopoverOpen, setIsPopoverOpen] = useState(false);
@@ -80,12 +90,22 @@ export const AggregatedInput = <
 
 	const popoverContentRef = useRef<HTMLDivElement>(null);
 	const buttonRef = useRef<HTMLButtonElement>(null);
+	const displayTextRef = useRef<HTMLParagraphElement>(null);
 
 	const closePopover = useCallback(() => {
 		setIsPopoverOpen(false);
 		buttonRef.current?.focus();
 	}, []);
 	const openPopover = useCallback(() => setIsPopoverOpen(true), []);
+
+	const handleDisplayTextKeyDown = useCallback(
+		(event: React.KeyboardEvent) => {
+			if (event.key === 'Enter' || event.key === ' ') {
+				openPopover();
+			}
+		},
+		[openPopover]
+	);
 
 	const helpTooltip = aggregationDescription ? (
 		<Tooltip2 content={aggregationDescription}>
@@ -121,25 +141,34 @@ export const AggregatedInput = <
 					onClose={closePopover}
 					content={PopoverContent}
 				>
-					<AggregatedDisplayText onClick={openPopover}>
+					<AggregatedDisplayText
+						fontSize={fontSize ?? 14}
+						onClick={openPopover}
+						tabIndex={hideButton ? 0 : undefined}
+						onKeyDown={hideButton ? handleDisplayTextKeyDown : undefined}
+						ref={displayTextRef}
+						role={hideButton ? 'button' : undefined}
+					>
 						{aggregatedDisplayValue}
 					</AggregatedDisplayText>
 				</Popover>
-				<AnimatedButtonContainer
-					variants={editButtonVariants}
-					initial="unfocused"
-					animate={editButtonState}
-				>
-					<Button
-						icon="edit"
-						onClick={openPopover}
-						onFocus={onEditButtonFocus}
-						onBlur={onEditButtonBlur}
-						style="minimal"
-						buttonRef={buttonRef}
-						size="small"
-					/>
-				</AnimatedButtonContainer>
+				{!hideButton && (
+					<AnimatedButtonContainer
+						variants={editButtonVariants}
+						initial="unfocused"
+						animate={editButtonState}
+					>
+						<Button
+							icon="edit"
+							onClick={openPopover}
+							onFocus={onEditButtonFocus}
+							onBlur={onEditButtonBlur}
+							style="minimal"
+							buttonRef={buttonRef}
+							size="small"
+						/>
+					</AnimatedButtonContainer>
+				)}
 			</DisplayValueContainer>
 		</FormGroup>
 	);

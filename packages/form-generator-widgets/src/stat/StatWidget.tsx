@@ -6,6 +6,14 @@ import styled from 'styled-components';
 const StatContainer = styled.div`
 	display: flex;
 	align-items: center;
+	gap: 4px;
+	justify-content: center;
+`;
+
+const StyledFormGroup = styled(FormGroup)`
+	label.bp3-label {
+		text-align: center;
+	}
 `;
 
 interface Stat {
@@ -41,7 +49,7 @@ export const StatWidget: React.FC<WidgetProps<Stat>> = ({
 		typeof aggregation === 'object' && aggregation['bonus'];
 
 	return (
-		<FormGroup label={label}>
+		<StyledFormGroup label={label}>
 			<StatContainer>
 				<AggregatedNumberInput
 					value={value?.base ?? 0}
@@ -54,6 +62,8 @@ export const StatWidget: React.FC<WidgetProps<Stat>> = ({
 							? 'Additional base modifier'
 							: `${label} (base value)`
 					}
+					fontSize={20}
+					hideButton
 				/>
 				<AggregatedNumberInput
 					value={value?.bonus ?? 0}
@@ -66,9 +76,10 @@ export const StatWidget: React.FC<WidgetProps<Stat>> = ({
 							? 'Additional bonus modifier'
 							: `${label} (bonus)`
 					}
+					hideButton
 				/>
 			</StatContainer>
-		</FormGroup>
+		</StyledFormGroup>
 	);
 };
 
