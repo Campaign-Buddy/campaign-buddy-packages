@@ -1,7 +1,7 @@
 import { types, UiLayout } from '@campaign-buddy/json-schema-core';
 
 export const characterSchema = types.object({
-	name: types.string({ title: 'Name', cols: 6 }),
+	name: types.string({ title: 'Name', cols: 9 }),
 	age: types.number({ title: 'Age' }),
 	isPlayer: types.boolean({ title: 'Is player controlled?' }),
 	stats: types.object({
