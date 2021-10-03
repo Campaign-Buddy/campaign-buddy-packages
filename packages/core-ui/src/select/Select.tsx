@@ -4,10 +4,33 @@ import {
 	ItemListRenderer,
 	ItemRenderer,
 } from '@blueprintjs/select';
-import { Menu, MenuItem } from '@blueprintjs/core';
+import { StyledMenu, StyledMenuItem } from '../menu/Menu.styled';
 import { StyledButton as ButtonCore } from '../button/Button.styled';
-import styled from 'styled-components';
+import styled, { createGlobalStyle } from 'styled-components';
 import { defaultTheme } from '../theme';
+
+const GlobalStyle = createGlobalStyle`
+	.bp3-select-popover {
+		padding: 4px;
+		background-color: ${({ theme }) => theme.colors.background} !important;
+	}
+
+	.bp3-select-popover .bp3-popover-content {
+		background-color: ${({ theme }) => theme.colors.background} !important;
+	}
+
+	.bp3-select-popover .bp3-input-group input {
+		background-color: ${({ theme }) => theme.colors.inputBackground};
+		color: ${({ theme }) => theme.colors.text};
+	}
+
+	.bp3-select-popover .bp3-input-group .bp3-icon {
+		color: ${({ theme }) => theme.colors.text};
+	}
+`;
+GlobalStyle.defaultProps = {
+	theme: defaultTheme,
+};
 
 const StyledButton = styled(ButtonCore)`
 	background-color: ${({ theme }) => theme.colors.inputBackground} !important;
@@ -48,14 +71,14 @@ export function Select<TData>({
 				.map(renderItem)
 				.filter((item) => item != null);
 
-			return <Menu ulRef={itemsParentRef}>{renderedItems}</Menu>;
+			return <StyledMenu ulRef={itemsParentRef}>{renderedItems}</StyledMenu>;
 		},
 		[]
 	);
 
 	const renderItem = useCallback<ItemRenderer<IOption>>(
 		(option, { handleClick, modifiers }) => (
-			<MenuItem
+			<StyledMenuItem
 				active={modifiers.active}
 				key={option.id}
 				onClick={handleClick}
@@ -73,21 +96,24 @@ export function Select<TData>({
 	);
 
 	return (
-		<SelectCore
-			items={options}
-			onItemSelect={onChange}
-			itemListRenderer={renderMenu}
-			itemRenderer={renderItem}
-			fill
-			popoverProps={popoverProps}
-		>
-			<StyledButton
-				_style="minimal"
-				rightIcon="caret-down"
-				text={value.displayValue}
-				minimal
+		<>
+			<GlobalStyle />
+			<SelectCore
+				items={options}
+				onItemSelect={onChange}
+				itemListRenderer={renderMenu}
+				itemRenderer={renderItem}
 				fill
-			/>
-		</SelectCore>
+				popoverProps={popoverProps}
+			>
+				<StyledButton
+					_style="minimal"
+					rightIcon="caret-down"
+					text={value.displayValue}
+					minimal
+					fill
+				/>
+			</SelectCore>
+		</>
 	);
 }
