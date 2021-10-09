@@ -23,14 +23,14 @@ export const characterEntity: EntityDefinition = {
 		hp: types.numericResource({ title: 'HP' }),
 		ac: types.number({ title: 'AC' }),
 		availableOptions: types.object({
-			feats: types.multiChoice(types.entity(feat), { title: 'Optional Feats' }),
+			feats: types.multiEntity(feat, { title: 'Optional Feats' }),
 		}),
 		description: types.object({
 			bio: types.richText({ title: 'Bio' }),
 			height: types.string({ title: 'Height' }),
 			weight: types.string({ title: 'Weight' }),
 		}),
-		knownSpells: types.multiChoice(types.entity(spell), {
+		knownSpells: types.multiEntity(spell, {
 			title: 'Known Spells',
 		}),
 		spellSlots: types.arrayOf.numericResources({ title: 'Total Spell Slots' }),

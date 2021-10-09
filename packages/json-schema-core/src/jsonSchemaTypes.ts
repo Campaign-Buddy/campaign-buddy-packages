@@ -9,6 +9,10 @@ interface DisplayInfo<TAggregateShape = string> {
 	aggregate?: TAggregateShape;
 }
 
+interface DisplayInfoWithEnum<TAggregateShape = string> extends DisplayInfo<TAggregateShape> {
+	options?: string[];
+}
+
 type CBSchemaFunc<TAggregateShape = string> = (
 	info?: DisplayInfo<TAggregateShape>
 ) => CampaignBuddySchema<TAggregateShape>;
@@ -104,16 +108,55 @@ export const object: (object: {
 
 /* Complex Types */
 
+const _arrayOf: (
+	object: CampaignBuddySchema<any>,
+	info?: DisplayInfo<string>
+) => CampaignBuddySchema<string> = (object, info) => ({
+	type: 'array',
+	items: object,
+	title: info?.title,
+	description: info?.description,
+	$uiWidget: object.$uiWidget,
+	$uiCols: info?.cols ?? object?.cols,
+	$aggregate: info?.aggregate,
+});
+
+interface EntityAggregation {
+	options?: string;
+}
+
 export const entity: (
 	entity: EntityDefinition,
-	info?: DisplayInfo<never>
-) => CampaignBuddySchema<never> = (object, info) => ({
+	info?: DisplayInfo<EntityAggregation>
+) => CampaignBuddySchema<EntityAggregation> = (object, info) => ({
 	type: 'object',
+	properties: {
+		availableEntityIds: _arrayOf(string()),
+		entity: genericObject(),
+	},
 	$entity: object.name,
 	$uiWidget: Widgets.EntityPicker,
 	title: info?.title,
 	description: info?.description,
 	$uiCols: info?.cols,
+	$aggregate: info?.aggregate,
+});
+
+export const multiEntity: (
+	entity: EntityDefinition,
+	info?: DisplayInfo<never>
+) => CampaignBuddySchema<EntityAggregation> = (object, info) => ({
+	type: 'object',
+	properties: {
+		availableEntityIds: _arrayOf(string()),
+		entities: _arrayOf(genericObject()),
+	},
+	$entity: object.name,
+	$uiWidget: Widgets.MultiEntityPicker,
+	title: info?.title,
+	description: info?.description,
+	$uiCols: info?.cols,
+	$aggregate: info?.aggregate,
 });
 
 interface StatAggregation {
@@ -162,19 +205,6 @@ export const icon: CBSchemaFunc<IconAggregation> = (info) => ({
 	$aggregate: info?.aggregate,
 });
 
-const _arrayOf: (
-	object: CampaignBuddySchema<any>,
-	info?: DisplayInfo<string>
-) => CampaignBuddySchema<string> = (object, info) => ({
-	type: 'array',
-	items: object,
-	title: info?.title,
-	description: info?.description,
-	$uiWidget: object.$uiWidget,
-	$uiCols: info?.cols ?? object?.cols,
-	$aggregate: info?.aggregate,
-});
-
 export const arrayOf = {
 	numbers: (info?: DisplayInfo) => _arrayOf(number(), info),
 	strings: (info?: DisplayInfo) => _arrayOf(string(), info),
@@ -191,25 +221,44 @@ export const arrayOf = {
 		_arrayOf(obj, info),
 };
 
-interface ChoiceAggregation {
+interface OptionAggregation {
 	name?: string;
-	value?: string;
+	id?: string;
 }
 
-export const choice: (
-	obj: CampaignBuddySchema<any>,
-	info?: DisplayInfo<ChoiceAggregation>
-) => CampaignBuddySchema<ChoiceAggregation> = (obj, info) => ({
+const option: (
+	info?: DisplayInfo<OptionAggregation>
+) => CampaignBuddySchema<OptionAggregation> = (info) => ({
 	type: 'object',
 	properties: {
 		name: string(),
-		value: obj,
+		id: string(),
+	},
+	title: info?.title,
+	description: info?.description,
+	$uiCols: info?.cols,
+	$aggregate: info?.aggregate,
+});
+
+interface ChoiceAggregation {
+	options: string;
+	selectedId: string;
+}
+
+export const choice: (
+	info?: DisplayInfoWithEnum<ChoiceAggregation>
+) => CampaignBuddySchema<ChoiceAggregation> = (info) => ({
+	type: 'object',
+	properties: {
+		options: _arrayOf(option()),
+		selectedId: string(),
 	},
 	$uiWidget: Widgets.Select,
 	title: info?.title,
 	description: info?.description,
 	$uiCols: info?.cols,
 	$aggregate: info?.aggregate,
+	$options: info?.options,
 });
 
 interface MultiChoiceAggregation {
@@ -219,13 +268,12 @@ interface MultiChoiceAggregation {
 }
 
 export const multiChoice: (
-	obj: CampaignBuddySchema<any>,
-	info?: DisplayInfo<MultiChoiceAggregation>
-) => CampaignBuddySchema<MultiChoiceAggregation> = (obj, info) => ({
+	info?: DisplayInfoWithEnum<MultiChoiceAggregation>
+) => CampaignBuddySchema<MultiChoiceAggregation> = (info) => ({
 	type: 'object',
 	properties: {
-		selected: _arrayOf(obj),
-		options: arrayOf.custom(choice(obj)),
+		selectedIds: _arrayOf(string()),
+		options: arrayOf.custom(option()),
 		maxChoices: number(),
 	},
 	$uiWidget: Widgets.MultiSelect,
@@ -233,4 +281,5 @@ export const multiChoice: (
 	description: info?.description,
 	$uiCols: info?.cols,
 	$aggregate: info?.aggregate,
+	$options: info?.options,
 });

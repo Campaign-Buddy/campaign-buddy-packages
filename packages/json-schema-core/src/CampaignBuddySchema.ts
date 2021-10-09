@@ -9,6 +9,7 @@ export interface CampaignBuddySchema<TAggregateShape = any>
 	items?: CampaignBuddySchema<any>;
 	$uiWidget?: Widgets;
 	$uiCols?: number;
+	$options?: string[];
 	$aggregate?: TAggregateShape;
 	$entity?: string;
 	$dynamicTypeExpression?: string;
