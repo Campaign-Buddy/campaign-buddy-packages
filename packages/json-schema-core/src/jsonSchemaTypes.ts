@@ -9,7 +9,8 @@ interface DisplayInfo<TAggregateShape = string> {
 	aggregate?: TAggregateShape;
 }
 
-interface DisplayInfoWithEnum<TAggregateShape = string> extends DisplayInfo<TAggregateShape> {
+interface DisplayInfoWithEnum<TAggregateShape = string>
+	extends DisplayInfo<TAggregateShape> {
 	options?: string[];
 }
 
@@ -222,7 +223,7 @@ export const arrayOf = {
 };
 
 interface OptionAggregation {
-	name?: string;
+	displayValue?: string;
 	id?: string;
 }
 
@@ -231,7 +232,7 @@ const option: (
 ) => CampaignBuddySchema<OptionAggregation> = (info) => ({
 	type: 'object',
 	properties: {
-		name: string(),
+		displayValue: string(),
 		id: string(),
 	},
 	title: info?.title,
@@ -242,7 +243,7 @@ const option: (
 
 interface ChoiceAggregation {
 	options: string;
-	selectedId: string;
+	selectedOption: string;
 }
 
 export const choice: (
@@ -251,9 +252,9 @@ export const choice: (
 	type: 'object',
 	properties: {
 		options: _arrayOf(option()),
-		selectedId: string(),
+		selectedOption: option(),
 	},
-	$uiWidget: Widgets.Select,
+	$uiWidget: Widgets.Choice,
 	title: info?.title,
 	description: info?.description,
 	$uiCols: info?.cols,
@@ -262,7 +263,7 @@ export const choice: (
 });
 
 interface MultiChoiceAggregation {
-	selected?: string;
+	selectedOptions?: string;
 	options?: string;
 	maxChoices?: string;
 }
@@ -272,11 +273,11 @@ export const multiChoice: (
 ) => CampaignBuddySchema<MultiChoiceAggregation> = (info) => ({
 	type: 'object',
 	properties: {
-		selectedIds: _arrayOf(string()),
-		options: arrayOf.custom(option()),
+		selectedOptions: _arrayOf(option()),
+		options: _arrayOf(option()),
 		maxChoices: number(),
 	},
-	$uiWidget: Widgets.MultiSelect,
+	$uiWidget: Widgets.MultiChoice,
 	title: info?.title,
 	description: info?.description,
 	$uiCols: info?.cols,

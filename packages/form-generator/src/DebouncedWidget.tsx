@@ -1,4 +1,4 @@
-import { Aggregates } from '@campaign-buddy/json-schema-core';
+import { Aggregates, CampaignBuddySchema } from '@campaign-buddy/json-schema-core';
 import React from 'react';
 import { useState, useEffect, useCallback } from 'react';
 import { WidgetProps } from './FormGeneratorProps';
@@ -11,6 +11,7 @@ interface DebouncedWidgetProps<T> extends Omit<WidgetProps<T>, 'onChange'> {
 	aggregation: Aggregates | string | undefined;
 	isEditable: boolean;
 	Widget: React.FC<WidgetProps<T>>;
+	schema: CampaignBuddySchema;
 }
 
 export const DebouncedWidget: React.FC<DebouncedWidgetProps<any>> = ({
@@ -23,6 +24,7 @@ export const DebouncedWidget: React.FC<DebouncedWidgetProps<any>> = ({
 	isEditable,
 	hasAggregation,
 	aggregation,
+	schema,
 }) => {
 	const [value, setValue] = useState(propsValue);
 
@@ -47,6 +49,7 @@ export const DebouncedWidget: React.FC<DebouncedWidgetProps<any>> = ({
 			isEditable={isEditable}
 			hasAggregation={hasAggregation}
 			aggregation={aggregation}
+			schema={schema}
 		/>
 	);
 };

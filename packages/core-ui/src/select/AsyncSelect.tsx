@@ -1,12 +1,21 @@
-import React, { useMemo, useState, useCallback, useEffect, useRef } from 'react';
-import {
-	Select as GenericSelectCore,
-} from '@blueprintjs/select';
+import React, {
+	useMemo,
+	useState,
+	useCallback,
+	useEffect,
+	useRef,
+} from 'react';
+import { Select as GenericSelectCore } from '@blueprintjs/select';
 import { Spinner } from '@blueprintjs/core';
 import { GlobalStyle, SelectButton } from './Select.styled';
 import { IOption } from './IOption';
 import { useSelectRenderers } from './useSelectRenderers';
-import { useCancelableCallback, useDebouncedCallback, CancelablePromise, useHtmlId } from '../hooks';
+import {
+	useCancelableCallback,
+	useDebouncedCallback,
+	CancelablePromise,
+	useHtmlId,
+} from '../hooks';
 import { FormGroup } from '../form-group';
 
 const SelectCore = GenericSelectCore.ofType<IOption>();
@@ -36,7 +45,7 @@ export function AsyncSelect<TData>({
 	const popoverProps = useMemo(
 		() => ({
 			minimal: true,
-			portalClassName: 'campaign-buddy-select'
+			portalClassName: 'campaign-buddy-select',
 		}),
 		[]
 	);
@@ -45,11 +54,14 @@ export function AsyncSelect<TData>({
 
 	const cancelableFetchOptions = useCancelableCallback(fetchOptions);
 
-	const refreshOptions = useCallback(async (q) => {
-		const newOptions = await cancelableFetchOptions(q);
-		setOptions(newOptions);
-		setIsLoading(false);
-	}, [cancelableFetchOptions]);
+	const refreshOptions = useCallback(
+		async (q) => {
+			const newOptions = await cancelableFetchOptions(q);
+			setOptions(newOptions);
+			setIsLoading(false);
+		},
+		[cancelableFetchOptions]
+	);
 
 	const debouncedRefreshOptions = useDebouncedCallback(refreshOptions, 750);
 
@@ -66,16 +78,22 @@ export function AsyncSelect<TData>({
 		loadOptions();
 	}, [cancelableFetchOptions]);
 
-	const handleQueryChange = useCallback(async (newQuery) => {
-		fetchInitialOptionsPromise.current?.cancel();
-		setIsLoading(true);
-		setQuery(newQuery);
-		debouncedRefreshOptions(newQuery);
-	}, [debouncedRefreshOptions]);
+	const handleQueryChange = useCallback(
+		async (newQuery) => {
+			fetchInitialOptionsPromise.current?.cancel();
+			setIsLoading(true);
+			setQuery(newQuery);
+			debouncedRefreshOptions(newQuery);
+		},
+		[debouncedRefreshOptions]
+	);
 
-	const inputProps = useMemo(() => ({
-		rightElement: isLoading ? <Spinner size={15} /> : undefined,
-	}), [isLoading]);
+	const inputProps = useMemo(
+		() => ({
+			rightElement: isLoading ? <Spinner size={15} /> : undefined,
+		}),
+		[isLoading]
+	);
 
 	return (
 		<FormGroup label={label} labelFor={htmlId}>
@@ -95,7 +113,9 @@ export function AsyncSelect<TData>({
 				<SelectButton
 					_style="minimal"
 					rightIcon="caret-down"
-					text={value?.displayValue ?? <i>{placeholder ?? 'Select an option'}</i>}
+					text={
+						value?.displayValue ?? <i>{placeholder ?? 'Select an option'}</i>
+					}
 					placeholder="Select a value"
 					minimal
 					fill

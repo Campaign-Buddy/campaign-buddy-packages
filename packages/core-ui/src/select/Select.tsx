@@ -1,7 +1,5 @@
 import React, { useCallback, useMemo, useState } from 'react';
-import {
-	Select as GenericSelectCore,
-} from '@blueprintjs/select';
+import { Select as GenericSelectCore } from '@blueprintjs/select';
 import Fuse from 'fuse.js';
 import { GlobalStyle, SelectButton } from './Select.styled';
 import { IOption } from './IOption';
@@ -13,9 +11,10 @@ const SelectCore = GenericSelectCore.ofType<IOption>();
 
 export interface SelectProps<TData> {
 	options: IOption<TData>[];
-	value: IOption<TData>;
+	value: IOption<TData> | undefined;
 	onChange: (value: IOption<TData>) => void;
 	label?: string;
+	placeholder?: string;
 }
 
 export function Select<TData>({
@@ -23,6 +22,7 @@ export function Select<TData>({
 	value,
 	onChange,
 	label,
+	placeholder,
 }: SelectProps<TData>): JSX.Element {
 	const htmlId = useHtmlId();
 	const [query, setQuery] = useState('');
@@ -35,7 +35,10 @@ export function Select<TData>({
 		}),
 		[]
 	);
-	const fuse = useMemo(() => new Fuse(options, { keys: ['displayValue'] }), [options]);
+	const fuse = useMemo(
+		() => new Fuse(options, { keys: ['displayValue'] }),
+		[options]
+	);
 
 	const handleQueryChange = useCallback((newQuery) => setQuery(newQuery), []);
 
@@ -44,8 +47,8 @@ export function Select<TData>({
 			return options;
 		}
 
-		return fuse.search(query).map(x => x.item);
-	}, [query, options]);
+		return fuse.search(query).map((x) => x.item);
+	}, [query, options, fuse]);
 
 	return (
 		<FormGroup label={label} labelFor={htmlId}>
@@ -63,7 +66,9 @@ export function Select<TData>({
 				<SelectButton
 					_style="minimal"
 					rightIcon="caret-down"
-					text={value.displayValue}
+					text={
+						value?.displayValue ?? <i>{placeholder ?? 'Select an option'}</i>
+					}
 					minimal
 					fill
 					id={htmlId}

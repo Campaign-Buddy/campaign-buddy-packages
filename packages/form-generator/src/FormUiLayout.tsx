@@ -193,6 +193,7 @@ const FormWidget: React.FC<FormWidgetProps> = ({
 			isEditable={isEditable}
 			aggregation={aggregation}
 			hasAggregation={aggregation !== undefined}
+			schema={schema}
 		/>
 	);
 };
