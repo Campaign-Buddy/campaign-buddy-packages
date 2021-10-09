@@ -1,4 +1,4 @@
-import { QueryResults } from './aggregateUtilities';
+import { QueryResults, toStrings } from './aggregateUtilities';
 
 export function JOIN(
 	separator: string,
@@ -21,4 +21,13 @@ export function JOIN(
 	}
 
 	return result.substring(separator.length);
+}
+
+export function SPLIT(
+	separator: string,
+	...results: QueryResults<any>
+): string[] {
+	const messages = toStrings(results);
+
+	return JOIN(separator, messages).split(separator);
 }

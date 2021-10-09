@@ -1,5 +1,29 @@
 export type QueryResults<T = any> = (T | T[])[];
 
+export function mapQueryResults<T, R>(
+	values: QueryResults<T>,
+	map: (value: T) => R
+): R[] {
+	return values
+		.map((x) => (Array.isArray(x) ? x.map(map) : map(x)))
+		.reduce<R[]>(
+			(all, cur) => [...all, ...(Array.isArray(cur) ? cur : [cur])],
+			[]
+		);
+}
+
+export function toBooleans(values: QueryResults<any>): boolean[] {
+	return mapQueryResults(values, (value) => Boolean(value));
+}
+
+export function toStrings(values: QueryResults<any>): string[] {
+	return mapQueryResults(values, (value) => `${value}`);
+}
+
+export function toNumbers(values: QueryResults<any>): number[] {
+	return mapQueryResults(values, (value) => parseInt(value));
+}
+
 /**
  * Gets the first element from a set of query results
  * @param values The query results to select from
