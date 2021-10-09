@@ -27,7 +27,7 @@ async function fetchOptions(query: string): Promise<IOption<Todo>[]> {
 const Template: Story = () => {
 	const [value, setValue] = useState<IOption<Todo>>();
 
-	return <AsyncSelect fetchOptions={fetchOptions} value={value} onChange={setValue} />;
+	return <AsyncSelect label="Select a post" fetchOptions={fetchOptions} value={value} onChange={setValue} />;
 };
 
 export const Primary = Template.bind({});

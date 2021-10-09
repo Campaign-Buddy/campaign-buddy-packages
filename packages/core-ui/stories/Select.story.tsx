@@ -38,7 +38,7 @@ const options: IOption[] = [
 const Template: Story = () => {
 	const [value, setValue] = useState(options[0]);
 
-	return <Select options={options} value={value} onChange={setValue} />;
+	return <Select label="Who is the coolest?" options={options} value={value} onChange={setValue} />;
 };
 
 export const Primary = Template.bind({});

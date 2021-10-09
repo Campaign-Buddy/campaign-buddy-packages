@@ -6,7 +6,8 @@ import { Spinner } from '@blueprintjs/core';
 import { GlobalStyle, SelectButton } from './Select.styled';
 import { IOption } from './IOption';
 import { useSelectRenderers } from './useSelectRenderers';
-import { useCancelableCallback, useDebouncedCallback, CancelablePromise } from '../hooks';
+import { useCancelableCallback, useDebouncedCallback, CancelablePromise, useHtmlId } from '../hooks';
+import { FormGroup } from '../form-group';
 
 const SelectCore = GenericSelectCore.ofType<IOption>();
 
@@ -16,6 +17,7 @@ interface SelectProps<TData> {
 	onChange: (value: IOption<TData>) => void;
 	initialOptions?: IOption<TData>[];
 	placeholder?: string;
+	label?: string;
 }
 
 export function AsyncSelect<TData>({
@@ -24,7 +26,9 @@ export function AsyncSelect<TData>({
 	onChange,
 	initialOptions,
 	placeholder,
+	label,
 }: SelectProps<TData>): JSX.Element {
+	const htmlId = useHtmlId();
 	const { renderMenu, renderItem } = useSelectRenderers();
 	const [query, setQuery] = useState<string>('');
 	const [isLoading, setIsLoading] = useState(false);
@@ -74,7 +78,7 @@ export function AsyncSelect<TData>({
 	}), [isLoading]);
 
 	return (
-		<>
+		<FormGroup label={label} labelFor={htmlId}>
 			<GlobalStyle />
 			<SelectCore
 				items={options ?? initialOptions ?? []}
@@ -86,6 +90,7 @@ export function AsyncSelect<TData>({
 				onQueryChange={handleQueryChange}
 				query={query}
 				inputProps={inputProps}
+				noResults={<i>No results</i>}
 			>
 				<SelectButton
 					_style="minimal"
@@ -94,8 +99,9 @@ export function AsyncSelect<TData>({
 					placeholder="Select a value"
 					minimal
 					fill
+					id={htmlId}
 				/>
 			</SelectCore>
-		</>
+		</FormGroup>
 	);
 }

@@ -42,3 +42,14 @@ export const SelectButton = styled(ButtonCore)`
 SelectButton.defaultProps = {
 	theme: defaultTheme,
 };
+
+export const NoResults = styled.i`
+	color: ${({ theme }) => theme.colors.text};
+	text-align: center;
+	width: 100%;
+	display: block;
+	padding: 4px 0;
+`;
+NoResults.defaultProps = {
+	theme: defaultTheme,
+};

@@ -5,6 +5,7 @@ import {
 } from '@blueprintjs/select';
 import { IOption } from './IOption';
 import { StyledMenu, StyledMenuItem } from '../menu/Menu.styled';
+import { NoResults } from './Select.styled';
 
 export function useSelectRenderers() {
 	const renderMenu = useCallback<ItemListRenderer<IOption>>(
@@ -13,7 +14,13 @@ export function useSelectRenderers() {
 				.map(renderItem)
 				.filter((item) => item != null);
 
-			return <StyledMenu ulRef={itemsParentRef}>{renderedItems}</StyledMenu>;
+			return (
+				<StyledMenu ulRef={itemsParentRef}>{
+					items.length === 0
+						? <NoResults>No results</NoResults>
+						: renderedItems
+				}</StyledMenu>
+			);
 		},
 		[]
 	);

@@ -6,6 +6,8 @@ import Fuse from 'fuse.js';
 import { GlobalStyle, SelectButton } from './Select.styled';
 import { IOption } from './IOption';
 import { useSelectRenderers } from './useSelectRenderers';
+import { FormGroup } from '../form-group';
+import { useHtmlId } from '../hooks';
 
 const SelectCore = GenericSelectCore.ofType<IOption>();
 
@@ -13,13 +15,16 @@ export interface SelectProps<TData> {
 	options: IOption<TData>[];
 	value: IOption<TData>;
 	onChange: (value: IOption<TData>) => void;
+	label?: string;
 }
 
 export function Select<TData>({
 	options,
 	value,
 	onChange,
+	label,
 }: SelectProps<TData>): JSX.Element {
+	const htmlId = useHtmlId();
 	const [query, setQuery] = useState('');
 	const { renderMenu, renderItem } = useSelectRenderers();
 
@@ -43,7 +48,7 @@ export function Select<TData>({
 	}, [query, options]);
 
 	return (
-		<>
+		<FormGroup label={label} labelFor={htmlId}>
 			<GlobalStyle />
 			<SelectCore
 				items={filteredOptions}
@@ -61,8 +66,9 @@ export function Select<TData>({
 					text={value.displayValue}
 					minimal
 					fill
+					id={htmlId}
 				/>
 			</SelectCore>
-		</>
+		</FormGroup>
 	);
 }
