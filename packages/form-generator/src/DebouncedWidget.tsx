@@ -1,4 +1,7 @@
-import { Aggregates, CampaignBuddySchema } from '@campaign-buddy/json-schema-core';
+import {
+	Aggregates,
+	CampaignBuddySchema,
+} from '@campaign-buddy/json-schema-core';
 import React from 'react';
 import { useState, useEffect, useCallback } from 'react';
 import { WidgetProps } from './FormGeneratorProps';

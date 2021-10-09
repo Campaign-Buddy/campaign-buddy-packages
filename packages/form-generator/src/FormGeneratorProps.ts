@@ -1,5 +1,9 @@
 import { JSONSchema4 } from 'json-schema';
-import { UiLayout, Aggregates, CampaignBuddySchema } from '@campaign-buddy/json-schema-core';
+import {
+	UiLayout,
+	Aggregates,
+	CampaignBuddySchema,
+} from '@campaign-buddy/json-schema-core';
 import React from 'react';
 
 export interface UiSectionProps {
@@ -42,7 +46,7 @@ export interface WidgetProps<T> {
 	 * _or_ it's aggregations contain the <base> keyword
 	 */
 	isEditable: boolean;
-	
+
 	// The JSON scheme for this property
 	schema: CampaignBuddySchema;
 }
