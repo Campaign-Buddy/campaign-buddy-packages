@@ -242,8 +242,8 @@ const option: (
 });
 
 interface ChoiceAggregation {
-	options: string;
-	selectedOption: string;
+	options?: string;
+	selectedOption?: string;
 }
 
 export const choice: (

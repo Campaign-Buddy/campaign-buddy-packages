@@ -1,4 +1,4 @@
-import { QueryResults } from './aggregateUtilities';
+import { QueryResults, toStrings } from './aggregateUtilities';
 
 export function TO_NUMBER(...numbers: QueryResults<string>): number {
 	if (numbers.length !== 1) {
@@ -38,4 +38,18 @@ export function TO_BOOLEAN(...values: QueryResults<string>): boolean {
 	}
 
 	return Boolean(value);
+}
+
+interface Option {
+	displayValue: string;
+	id: string;
+}
+
+export function TO_OPTIONS_FROM_STRINGS(
+	...values: QueryResults<any>
+): Option[] {
+	return toStrings(values).map((x) => ({
+		displayValue: x,
+		id: `#aggregate_${x}`,
+	}));
 }

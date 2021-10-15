@@ -14,7 +14,11 @@ export const characterSchema = types.object({
 			'Dragonborn',
 			'Tiefling',
 		],
+		aggregate: {
+			options: 'TO_OPTIONS_FROM_STRINGS(SPLIT(",", {$.customRaces}))',
+		},
 	}),
+	customRaces: types.string({ title: 'Custom races (comma separated)' }),
 	isPlayer: types.boolean({ title: 'Is player controlled?' }),
 	stats: types.object({
 		str: types.stat({
@@ -60,6 +64,8 @@ export const characterUiLayout: UiLayout = [
 	['name', 'race', 'age'],
 	['stats'],
 	['isPlayer'],
+	['customRaces'],
+	['halp'],
 ];
 
 function statBonus(statName: string): string {

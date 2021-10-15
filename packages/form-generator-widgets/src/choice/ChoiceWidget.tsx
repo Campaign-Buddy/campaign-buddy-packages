@@ -17,15 +17,14 @@ export const ChoiceWidget: React.FC<WidgetProps<Choice>> = ({
 }) => {
 	const options = useMemo(
 		() =>
-			(
-				value?.options ??
-				aggregatedValue?.options ??
-				schema?.$options?.map((o) => ({
+			[
+				...(value?.options ?? []),
+				...(aggregatedValue?.options ?? []),
+				...(schema?.$options?.map((o) => ({
 					displayValue: o,
 					id: `#defaultOption-${o}`,
-				})) ??
-				[]
-			).filter((x): x is IOption => Boolean(x.id && x.displayValue)),
+				})) ?? []),
+			].filter((x): x is IOption => Boolean(x.id && x.displayValue)),
 		[value?.options, aggregatedValue?.options, schema?.$options]
 	);
 
