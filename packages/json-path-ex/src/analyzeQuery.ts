@@ -1,4 +1,4 @@
-import { query } from './query';
+import { resolveSubQueries } from './query';
 import { QueryExpressionKind } from './syntaxAnalyzer';
 
 interface AnalysisResult {
@@ -9,11 +9,15 @@ interface AnalysisResult {
 }
 
 export function analyzeQuery(json: any, q: string): AnalysisResult {
+	return analyzeSubQueries(json, `{${q}}`);
+}
+
+export function analyzeSubQueries(json: any, q: string): AnalysisResult {
 	const result: AnalysisResult = {
 		evaluatedExpressions: [],
 	};
 
-	query(json, q, {
+	resolveSubQueries(json, q, {
 		onEvaluatingExpression: (paths, expressionKind) => {
 			result.evaluatedExpressions.push(
 				...paths.map((path) => ({

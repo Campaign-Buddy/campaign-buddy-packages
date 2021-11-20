@@ -1,4 +1,4 @@
-import { analyzeQuery } from '../src';
+import { analyzeSubQueries } from '../src';
 
 interface TestCase {
 	query: string;
@@ -52,12 +52,18 @@ const testCases: TestCase[] = [
 			],
 		},
 	},
+	{
+		query: '{$.foo.bar} + {$.baz.bop}',
+		json: {
+			foo: 'bar',
+		},
+	},
 ];
 
 describe('analyzeQuery', () => {
 	for (const testCase of testCases) {
 		it(`query analysis works for query = ${testCase.query}`, () => {
-			const result = analyzeQuery(testCase.json, testCase.query);
+			const result = analyzeSubQueries(testCase.json, testCase.query);
 			expect(result).toMatchSnapshot();
 		});
 	}

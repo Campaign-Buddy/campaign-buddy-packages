@@ -1,3 +1,3 @@
 export * from './query';
-export { analyzeQuery } from './analyzeQuery';
+export * from './analyzeQuery';
 export { QueryExpressionKind } from './syntaxAnalyzer';
