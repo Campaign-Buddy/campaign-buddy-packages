@@ -1,4 +1,5 @@
 import { types, UiLayout } from '@campaign-buddy/json-schema-core';
+import { characterClassEntity } from './characterClass';
 
 export const characterSchema = types.object({
 	name: types.string({ title: 'Name' }),
@@ -18,6 +19,7 @@ export const characterSchema = types.object({
 			options: 'TO_OPTIONS_FROM_STRINGS(SPLIT(",", {$.customRaces}))',
 		},
 	}),
+	class: types.entity(characterClassEntity, { title: 'Class' }),
 	customRaces: types.string({ title: 'Custom races (comma separated)' }),
 	isPlayer: types.boolean({ title: 'Is player controlled?' }),
 	stats: types.object({
@@ -61,7 +63,7 @@ export const characterSchema = types.object({
 });
 
 export const characterUiLayout: UiLayout = [
-	['name', 'race', 'age'],
+	['name', 'race', 'class', 'age'],
 	['stats'],
 	['isPlayer'],
 	['customRaces'],

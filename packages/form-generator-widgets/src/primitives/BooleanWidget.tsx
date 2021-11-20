@@ -7,6 +7,7 @@ const SwitchContainer = styled.div`
 	display: flex;
 	align-items: center;
 	height: 100%;
+	margin-bottom: 15px;
 `;
 
 export const BooleanWidget: React.FC<WidgetProps<boolean>> = ({

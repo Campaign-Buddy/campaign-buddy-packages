@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { FormGenerator } from '@campaign-buddy/form-generator';
 import { Meta, Story } from '@storybook/react';
-import { widgets } from '../src';
+import { EntityApiProvider, widgets } from '../src';
 import { characterSchema, characterUiLayout } from './exampleSchemas';
+import { MockEntityApi } from './exampleSchemas/mockEntityApi';
 
 export default {
 	title: 'form-generator-widgets/CharacterSheet',
@@ -10,15 +11,22 @@ export default {
 
 const Template: Story = () => {
 	const [data, setData] = useState({ name: 'Barry Jazz' });
+	const entityApi = useMemo(() => new MockEntityApi(), []);
 
 	return (
-		<FormGenerator
-			schema={characterSchema}
-			data={data}
-			onChange={setData}
-			widgets={widgets}
-			uiLayout={characterUiLayout}
-		/>
+		<EntityApiProvider
+			searchEntities={entityApi.searchEntities}
+			getDefaultEntities={entityApi.getDefaultEntities}
+			getEntitiesByIds={entityApi.getEntitiesByIds}
+		>
+			<FormGenerator
+				schema={characterSchema}
+				data={data}
+				onChange={setData}
+				widgets={widgets}
+				uiLayout={characterUiLayout}
+			/>
+		</EntityApiProvider>
 	);
 };
 

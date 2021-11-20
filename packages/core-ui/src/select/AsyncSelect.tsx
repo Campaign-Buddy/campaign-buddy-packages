@@ -27,6 +27,8 @@ interface SelectProps<TData> {
 	initialOptions?: IOption<TData>[];
 	placeholder?: string;
 	label?: string;
+	disabled?: boolean;
+	isLoading?: boolean;
 }
 
 export function AsyncSelect<TData>({
@@ -36,6 +38,8 @@ export function AsyncSelect<TData>({
 	initialOptions,
 	placeholder,
 	label,
+	disabled,
+	isLoading: isLoadingProp,
 }: SelectProps<TData>): JSX.Element {
 	const htmlId = useHtmlId();
 	const { renderMenu, renderItem } = useSelectRenderers();
@@ -90,9 +94,11 @@ export function AsyncSelect<TData>({
 
 	const inputProps = useMemo(
 		() => ({
-			rightElement: isLoading ? <Spinner size={15} /> : undefined,
+			rightElement:
+				isLoading || isLoadingProp ? <Spinner size={15} /> : undefined,
+			disabled,
 		}),
-		[isLoading]
+		[isLoading, disabled, isLoadingProp]
 	);
 
 	return (
@@ -109,10 +115,11 @@ export function AsyncSelect<TData>({
 				query={query}
 				inputProps={inputProps}
 				noResults={<i>No results</i>}
+				disabled={disabled}
 			>
 				<SelectButton
 					_style="minimal"
-					rightIcon="caret-down"
+					rightIcon={isLoadingProp ? <Spinner size={15} /> : 'caret-down'}
 					text={
 						value?.displayValue ?? <i>{placeholder ?? 'Select an option'}</i>
 					}
@@ -120,6 +127,7 @@ export function AsyncSelect<TData>({
 					minimal
 					fill
 					id={htmlId}
+					disabled={disabled}
 				/>
 			</SelectCore>
 		</FormGroup>

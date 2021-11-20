@@ -132,8 +132,18 @@ export const entity: (
 ) => CampaignBuddySchema<EntityAggregation> = (object, info) => ({
 	type: 'object',
 	properties: {
+		// By convention should never be set manually, only
+		// through aggregation
 		availableEntityIds: _arrayOf(string()),
-		entity: genericObject(),
+		entity: {
+			type: 'object',
+			properties: {
+				id: string(),
+
+				// Computed from id, not set manually
+				entityData: genericObject(),
+			},
+		},
 	},
 	$entity: object.name,
 	$uiWidget: Widgets.EntityPicker,
@@ -149,8 +159,18 @@ export const multiEntity: (
 ) => CampaignBuddySchema<EntityAggregation> = (object, info) => ({
 	type: 'object',
 	properties: {
+		// By convention should never be set manually, only
+		// through aggregation
 		availableEntityIds: _arrayOf(string()),
-		entities: _arrayOf(genericObject()),
+		entities: _arrayOf({
+			type: 'object',
+			properties: {
+				id: string(),
+
+				// Computed form id, not set manually
+				entityData: genericObject(),
+			},
+		}),
 	},
 	$entity: object.name,
 	$uiWidget: Widgets.MultiEntityPicker,

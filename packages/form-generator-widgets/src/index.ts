@@ -10,6 +10,7 @@ import {
 } from './primitives';
 import { StatWidget } from './stat';
 import { ChoiceWidget } from './choice';
+import { EntityPickerWidget, EntityApi, EntityApiProvider } from './entity';
 
 type ExtensionWidgets = Record<Widgets, React.FC<WidgetProps<any>>>;
 
@@ -22,7 +23,7 @@ export const widgets: WidgetLookup & ExtensionWidgets = {
 
 	// Complex components
 	Stat: StatWidget,
-	EntityPicker: () => null,
+	EntityPicker: EntityPickerWidget,
 	MultiEntityPicker: () => null,
 	RichText: () => null,
 	MultiChoice: () => null,
@@ -31,3 +32,5 @@ export const widgets: WidgetLookup & ExtensionWidgets = {
 	SchemaBuilder: () => null,
 	NumericResource: () => null,
 };
+
+export { EntityApi, EntityApiProvider };
