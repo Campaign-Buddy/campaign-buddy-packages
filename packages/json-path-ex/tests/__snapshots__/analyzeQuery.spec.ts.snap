@@ -1,0 +1,184 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`analyzeQuery query analysis works for query = $.foo 1`] = `
+Object {
+  "evaluatedExpressions": Array [
+    Object {
+      "expressionKind": "root",
+      "path": "$",
+    },
+    Object {
+      "expressionKind": "childDescent",
+      "path": "$",
+    },
+    Object {
+      "expressionKind": "propertyAccessor",
+      "path": "$",
+    },
+  ],
+}
+`;
+
+exports[`analyzeQuery query analysis works for query = $.foo..bings 1`] = `
+Object {
+  "evaluatedExpressions": Array [
+    Object {
+      "expressionKind": "root",
+      "path": "$",
+    },
+    Object {
+      "expressionKind": "childDescent",
+      "path": "$",
+    },
+    Object {
+      "expressionKind": "propertyAccessor",
+      "path": "$",
+    },
+    Object {
+      "expressionKind": "recursiveDescent",
+      "path": "$.foo",
+    },
+    Object {
+      "expressionKind": "propertyAccessor",
+      "path": "$.foo",
+    },
+    Object {
+      "expressionKind": "propertyAccessor",
+      "path": "$.foo.0",
+    },
+    Object {
+      "expressionKind": "propertyAccessor",
+      "path": "$.foo.0.nested",
+    },
+    Object {
+      "expressionKind": "propertyAccessor",
+      "path": "$.foo.1",
+    },
+    Object {
+      "expressionKind": "propertyAccessor",
+      "path": "$.foo.1.nested",
+    },
+    Object {
+      "expressionKind": "propertyAccessor",
+      "path": "$.foo.2",
+    },
+    Object {
+      "expressionKind": "propertyAccessor",
+      "path": "$.foo.2.nested",
+    },
+    Object {
+      "expressionKind": "propertyAccessor",
+      "path": "$.foo.3",
+    },
+    Object {
+      "expressionKind": "propertyAccessor",
+      "path": "$.foo.3.nested",
+    },
+  ],
+}
+`;
+
+exports[`analyzeQuery query analysis works for query = $.foo<?(@ === "bar")> 1`] = `
+Object {
+  "evaluatedExpressions": Array [
+    Object {
+      "expressionKind": "root",
+      "path": "$",
+    },
+    Object {
+      "expressionKind": "childDescent",
+      "path": "$",
+    },
+    Object {
+      "expressionKind": "propertyAccessor",
+      "path": "$",
+    },
+    Object {
+      "expressionKind": "keyFilter",
+      "path": "$.foo",
+    },
+  ],
+}
+`;
+
+exports[`analyzeQuery query analysis works for query = $.foo[?(@ > 2)] 1`] = `
+Object {
+  "evaluatedExpressions": Array [
+    Object {
+      "expressionKind": "root",
+      "path": "$",
+    },
+    Object {
+      "expressionKind": "childDescent",
+      "path": "$",
+    },
+    Object {
+      "expressionKind": "propertyAccessor",
+      "path": "$",
+    },
+    Object {
+      "expressionKind": "valueFilter",
+      "path": "$.foo",
+    },
+  ],
+}
+`;
+
+exports[`analyzeQuery query analysis works for query = $.foo[?(@.id > 0)]..bings 1`] = `
+Object {
+  "evaluatedExpressions": Array [
+    Object {
+      "expressionKind": "root",
+      "path": "$",
+    },
+    Object {
+      "expressionKind": "childDescent",
+      "path": "$",
+    },
+    Object {
+      "expressionKind": "propertyAccessor",
+      "path": "$",
+    },
+    Object {
+      "expressionKind": "valueFilter",
+      "path": "$.foo",
+    },
+    Object {
+      "expressionKind": "recursiveDescent",
+      "path": "$.foo.1",
+    },
+    Object {
+      "expressionKind": "recursiveDescent",
+      "path": "$.foo.2",
+    },
+    Object {
+      "expressionKind": "recursiveDescent",
+      "path": "$.foo.3",
+    },
+    Object {
+      "expressionKind": "propertyAccessor",
+      "path": "$.foo.1",
+    },
+    Object {
+      "expressionKind": "propertyAccessor",
+      "path": "$.foo.1.nested",
+    },
+    Object {
+      "expressionKind": "propertyAccessor",
+      "path": "$.foo.2",
+    },
+    Object {
+      "expressionKind": "propertyAccessor",
+      "path": "$.foo.2.nested",
+    },
+    Object {
+      "expressionKind": "propertyAccessor",
+      "path": "$.foo.3",
+    },
+    Object {
+      "expressionKind": "propertyAccessor",
+      "path": "$.foo.3.nested",
+    },
+  ],
+}
+`;

@@ -1,4 +1,4 @@
-import { query } from '../src';
+import { query } from '../src/query';
 
 interface TestCase {
 	query: string;

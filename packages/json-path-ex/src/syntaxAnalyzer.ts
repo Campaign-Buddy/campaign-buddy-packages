@@ -1,12 +1,12 @@
 export enum QueryExpressionKind {
-	RecursiveDescent,
-	ChildDescent,
-	Root,
-	ValueFilter,
-	KeyFilter,
-	PropertyAccessor,
-	WildCard,
-	Slice,
+	RecursiveDescent = 'recursiveDescent',
+	ChildDescent = 'childDescent',
+	Root = 'root',
+	ValueFilter = 'valueFilter',
+	KeyFilter = 'keyFilter',
+	PropertyAccessor = 'propertyAccessor',
+	WildCard = 'wildCard',
+	Slice = 'slice',
 }
 
 interface QueryExpression {
