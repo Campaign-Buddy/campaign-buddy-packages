@@ -4,7 +4,7 @@ import {
 } from '@campaign-buddy/json-schema-core';
 import React from 'react';
 import { useState, useEffect, useCallback } from 'react';
-import { WidgetProps } from './FormGeneratorProps';
+import { EntityApi, WidgetProps } from './FormGeneratorProps';
 
 interface DebouncedWidgetProps<T> extends Omit<WidgetProps<T>, 'onChange'> {
 	path: string;
@@ -15,6 +15,7 @@ interface DebouncedWidgetProps<T> extends Omit<WidgetProps<T>, 'onChange'> {
 	isEditable: boolean;
 	Widget: React.FC<WidgetProps<T>>;
 	schema: CampaignBuddySchema;
+	entityApi: EntityApi | undefined;
 }
 
 export const DebouncedWidget: React.FC<DebouncedWidgetProps<any>> = ({
@@ -28,6 +29,7 @@ export const DebouncedWidget: React.FC<DebouncedWidgetProps<any>> = ({
 	hasAggregation,
 	aggregation,
 	schema,
+	entityApi,
 }) => {
 	const [value, setValue] = useState(propsValue);
 
@@ -53,6 +55,7 @@ export const DebouncedWidget: React.FC<DebouncedWidgetProps<any>> = ({
 			hasAggregation={hasAggregation}
 			aggregation={aggregation}
 			schema={schema}
+			entityApi={entityApi}
 		/>
 	);
 };

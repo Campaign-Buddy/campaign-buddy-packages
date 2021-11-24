@@ -6,6 +6,7 @@ import {
 	Aggregates,
 } from '@campaign-buddy/json-schema-core';
 import {
+	EntityApi,
 	UiSectionProps,
 	WidgetLookup,
 	WidgetProps,
@@ -24,6 +25,7 @@ interface FormUiLayoutProps {
 	aggregatedData: any;
 	aggregates: EntityDefinition['aggregates'];
 	UiSection?: React.FC<UiSectionProps>;
+	entityApi: EntityApi | undefined;
 }
 
 export const FormUiLayout: React.FC<FormUiLayoutProps> = ({
@@ -35,6 +37,7 @@ export const FormUiLayout: React.FC<FormUiLayoutProps> = ({
 	UiSection,
 	aggregatedData,
 	aggregates,
+	entityApi
 }) => {
 	const nodes: React.ReactElement[] = [];
 
@@ -72,6 +75,7 @@ export const FormUiLayout: React.FC<FormUiLayoutProps> = ({
 							UiSection={UiSection}
 							aggregatedData={aggregatedData}
 							aggregates={aggregates}
+							entityApi={entityApi}
 						/>
 					</FormRow>
 				);
@@ -90,6 +94,7 @@ export const FormUiLayout: React.FC<FormUiLayoutProps> = ({
 							aggregatedData={aggregatedDataForPath}
 							isEditable={isDataEditable}
 							aggregation={aggregation}
+							entityApi={entityApi}
 						/>
 					</FormCell>
 				);
@@ -105,6 +110,7 @@ export const FormUiLayout: React.FC<FormUiLayoutProps> = ({
 					UiSection={UiSection}
 					aggregatedData={aggregatedData}
 					aggregates={aggregates}
+					entityApi={entityApi}
 				/>
 			);
 
@@ -129,6 +135,7 @@ export const FormUiLayout: React.FC<FormUiLayoutProps> = ({
 						UiSection={UiSection}
 						aggregatedData={aggregatedData}
 						aggregates={aggregates}
+						entityApi={entityApi}
 					/>
 				</FormRow>
 			);
@@ -147,6 +154,7 @@ interface FormWidgetProps {
 	aggregatedData: any;
 	isEditable: boolean;
 	aggregation: Aggregates | string | undefined;
+	entityApi: EntityApi | undefined;
 }
 
 const FormWidget: React.FC<FormWidgetProps> = ({
@@ -158,6 +166,7 @@ const FormWidget: React.FC<FormWidgetProps> = ({
 	aggregatedData,
 	isEditable,
 	aggregation,
+	entityApi,
 }) => {
 	let Widget: React.FC<WidgetProps<any>> = () => null;
 
@@ -194,6 +203,7 @@ const FormWidget: React.FC<FormWidgetProps> = ({
 			aggregation={aggregation}
 			hasAggregation={aggregation !== undefined}
 			schema={schema}
+			entityApi={entityApi}
 		/>
 	);
 };

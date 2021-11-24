@@ -1,7 +1,6 @@
 import { AsyncSelect, IOption } from '@campaign-buddy/core-ui';
-import { WidgetProps } from '@campaign-buddy/form-generator';
+import { WidgetProps, EntitySummary } from '@campaign-buddy/form-generator';
 import React, { useState, useCallback, useEffect, useRef } from 'react';
-import { EntitySummary, useEntityApi } from './useEntityApi';
 
 interface EntityPickerData {
 	availableEntityIds?: string[];
@@ -16,6 +15,7 @@ export const EntityPickerWidget: React.FC<WidgetProps<EntityPickerData>> = ({
 	schema,
 	onChange,
 	label,
+	entityApi,
 }) => {
 	const selectedEntityIdProp = aggregatedValue?.entity?.id ?? value?.entity?.id;
 	const availableEntityIds =
@@ -32,8 +32,11 @@ export const EntityPickerWidget: React.FC<WidgetProps<EntityPickerData>> = ({
 
 	const entityDefinitionName = schema.$entity;
 
-	const { searchEntities, getEntitiesByIds, getDefaultEntities } =
-		useEntityApi();
+	if (!entityApi) {
+		throw new Error('Entity api must be supplied for EntityPickerWidget to work');
+	}
+
+	const { searchEntities, getEntitiesByIds, getDefaultEntities } = entityApi;
 
 	useEffect(() => {
 		if (!entityDefinitionName) {

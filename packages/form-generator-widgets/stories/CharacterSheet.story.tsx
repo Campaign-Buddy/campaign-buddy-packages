@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import { FormGenerator } from '@campaign-buddy/form-generator';
 import { Meta, Story } from '@storybook/react';
-import { EntityApiProvider, widgets } from '../src';
+import { widgets } from '../src';
 import { characterSchema, characterUiLayout } from './exampleSchemas';
 import { MockEntityApi } from './exampleSchemas/mockEntityApi';
 
@@ -14,19 +14,14 @@ const Template: Story = () => {
 	const entityApi = useMemo(() => new MockEntityApi(), []);
 
 	return (
-		<EntityApiProvider
-			searchEntities={entityApi.searchEntities}
-			getDefaultEntities={entityApi.getDefaultEntities}
-			getEntitiesByIds={entityApi.getEntitiesByIds}
-		>
-			<FormGenerator
-				schema={characterSchema}
-				data={data}
-				onChange={setData}
-				widgets={widgets}
-				uiLayout={characterUiLayout}
-			/>
-		</EntityApiProvider>
+		<FormGenerator
+			schema={characterSchema}
+			data={data}
+			onChange={setData}
+			widgets={widgets}
+			uiLayout={characterUiLayout}
+			entityApi={entityApi}
+		/>
 	);
 };
 

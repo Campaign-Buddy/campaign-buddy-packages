@@ -22,6 +22,7 @@ export const FormGenerator: React.FC<FormGeneratorProps> = ({
 	uiLayout: providedUiLayout,
 	UiSection,
 	aggregates,
+	entityApi,
 }) => {
 	const resolvedSchema = useMemo(() => {
 		if (!hasDynamicSchemas(schema)) {
@@ -62,6 +63,7 @@ export const FormGenerator: React.FC<FormGeneratorProps> = ({
 				UiSection={UiSection}
 				aggregatedData={aggregatedData}
 				aggregates={fullAggregates}
+				entityApi={entityApi}
 			/>
 		</FormRoot>
 	);

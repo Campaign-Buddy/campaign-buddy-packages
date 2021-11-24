@@ -1,6 +1,5 @@
 import Fuse from 'fuse.js';
-import { EntityApi } from '../../src';
-import { EntitySummary } from '../../src/entity/useEntityApi';
+import { EntityApi, EntitySummary, HydratedEntity } from '@campaign-buddy/form-generator';
 
 export class MockEntityApi implements EntityApi {
 	private mockLatencyMs = 1_000;
@@ -67,6 +66,30 @@ export class MockEntityApi implements EntityApi {
 
 	constructor() {
 		this.searchIndex = new Fuse(this.characterClasses, { keys: ['name'] });
+	}
+
+	getHydratedEntities = async (
+		ids: string[],
+		definitionName: string
+	): Promise<HydratedEntity[] | undefined> => {
+		if (definitionName !== 'characterClass') {
+			throw new Error(`Unknown entity definition: ${definitionName}`);
+		}
+
+		await this.simulateLatency();
+
+		const entities = this.characterClasses.filter(x => ids.includes(x.id));
+
+		return entities.map((entity) => ({
+			id: entity.id,
+			entityData: {
+				name: entity.name,
+				bonus: {
+					maxHp: parseInt(entity.id),
+				},
+			},
+			definitionName,
+		}));
 	}
 
 	searchEntities = async (
