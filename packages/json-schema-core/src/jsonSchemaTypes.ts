@@ -143,6 +143,8 @@ export const entity: (
 				// Computed from id, not set manually
 				entityData: genericObject(),
 			},
+			$tags: ['dehydratedEntity'],
+			$entity: object.name,
 		},
 	},
 	$entity: object.name,
@@ -170,6 +172,8 @@ export const multiEntity: (
 				// Computed form id, not set manually
 				entityData: genericObject(),
 			},
+			$tags: ['dehydratedEntity'],
+			$entity: object.name,
 		}),
 	},
 	$entity: object.name,

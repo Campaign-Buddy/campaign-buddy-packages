@@ -13,6 +13,7 @@ import {
 } from './utility';
 import { FormUiLayout } from './FormUiLayout';
 import styled from 'styled-components';
+import { useHydratedEntities } from './utility/useHydratedEntities';
 
 export const FormGenerator: React.FC<FormGeneratorProps> = ({
 	schema,
@@ -47,9 +48,13 @@ export const FormGenerator: React.FC<FormGeneratorProps> = ({
 		[aggregates, resolvedSchema]
 	);
 
+	const {
+		hydratedData,
+	} = useHydratedEntities(entityApi, data, resolvedSchema);
+
 	const aggregatedData = useMemo(
-		() => applyAggregates(data, fullAggregates),
-		[data, fullAggregates]
+		() => applyAggregates(hydratedData, fullAggregates),
+		[hydratedData, fullAggregates]
 	);
 
 	return (

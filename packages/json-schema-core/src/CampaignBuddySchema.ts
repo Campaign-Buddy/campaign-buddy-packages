@@ -13,4 +13,5 @@ export interface CampaignBuddySchema<TAggregateShape = any>
 	$aggregate?: TAggregateShape;
 	$entity?: string;
 	$dynamicTypeExpression?: string;
+	$tags?: string[];
 }

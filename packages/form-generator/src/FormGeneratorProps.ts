@@ -1,4 +1,3 @@
-import { JSONSchema4 } from 'json-schema';
 import {
 	UiLayout,
 	Aggregates,
@@ -57,7 +56,7 @@ export interface WidgetProps<T> {
 }
 
 export interface FormGeneratorProps {
-	schema: JSONSchema4;
+	schema: CampaignBuddySchema;
 	data: any;
 	onChange: (data: any) => void;
 	widgets: WidgetLookup;

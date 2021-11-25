@@ -1,11 +1,12 @@
 import { JSONSchema4 } from 'json-schema';
 import cloneDeep from 'lodash.clonedeep';
 import { query } from '@campaign-buddy/json-path-ex';
+import { CampaignBuddySchema } from '@campaign-buddy/json-schema-core';
 
 export function resolveDynamicSchemas(
-	schema: JSONSchema4,
+	schema: CampaignBuddySchema,
 	data: any
-): JSONSchema4 {
+): CampaignBuddySchema {
 	const schemaClone = cloneDeep(schema);
 	_resolveDynamicSchemas(schemaClone, data);
 	return schemaClone;

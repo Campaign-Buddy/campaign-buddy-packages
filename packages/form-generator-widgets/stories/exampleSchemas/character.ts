@@ -19,7 +19,7 @@ export const characterSchema = types.object({
 			options: 'TO_OPTIONS_FROM_STRINGS(SPLIT(",", {$.customRaces}))',
 		},
 	}),
-	maxHp: types.number({ title: 'Max HP', aggregate: 'TO_NUMBER(<base>) + SUM({$..bonuses.maxHp})' }),
+	maxHp: types.number({ title: 'Max HP', aggregate: 'TO_NUMBER(<base>) + SUM({$..bonus.maxHp})' }),
 	class: types.entity(characterClassEntity, { title: 'Class' }),
 	customRaces: types.string({ title: 'Custom races (comma separated)' }),
 	isPlayer: types.boolean({ title: 'Is player controlled?' }),
@@ -65,6 +65,7 @@ export const characterSchema = types.object({
 
 export const characterUiLayout: UiLayout = [
 	['name', 'race', 'class', 'age'],
+	['maxHp'],
 	['stats'],
 	['isPlayer'],
 	['customRaces'],
