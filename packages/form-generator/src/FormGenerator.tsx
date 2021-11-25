@@ -10,10 +10,10 @@ import {
 	hasDynamicSchemas,
 	resolveDynamicSchemas,
 	cleanUiLayout,
+	useHydratedEntities,
 } from './utility';
 import { FormUiLayout } from './FormUiLayout';
 import styled from 'styled-components';
-import { useHydratedEntities } from './utility/useHydratedEntities';
 
 export const FormGenerator: React.FC<FormGeneratorProps> = ({
 	schema,
@@ -48,9 +48,7 @@ export const FormGenerator: React.FC<FormGeneratorProps> = ({
 		[aggregates, resolvedSchema]
 	);
 
-	const {
-		hydratedData,
-	} = useHydratedEntities(entityApi, data, resolvedSchema);
+	const { hydratedData } = useHydratedEntities(entityApi, data, resolvedSchema);
 
 	const aggregatedData = useMemo(
 		() => applyAggregates(hydratedData, fullAggregates),

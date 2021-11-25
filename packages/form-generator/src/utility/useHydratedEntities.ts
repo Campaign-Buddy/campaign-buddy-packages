@@ -3,35 +3,54 @@ import { useState, useMemo, useEffect, useRef } from 'react';
 import isEqual from 'lodash.isequal';
 import cloneDeep from 'lodash.clonedeep';
 import { EntityApi, HydratedEntity } from '../FormGeneratorProps';
-import { CancelablePromise, useCancelableCallback } from './useCancelableCallback';
+import {
+	CancelablePromise,
+	useCancelableCallback,
+} from '@campaign-buddy/common-hooks';
 
 interface UseHydratedEntitiesHook {
 	hydratedData: any;
 	isLoading: boolean;
 }
 
-export function useHydratedEntities(entityApi: EntityApi | undefined, data: any, schema: CampaignBuddySchema): UseHydratedEntitiesHook {
+export function useHydratedEntities(
+	entityApi: EntityApi | undefined,
+	data: any,
+	schema: CampaignBuddySchema
+): UseHydratedEntitiesHook {
 	const [isLoading, setIsLoading] = useState(false);
 	const [hydratedData, setHydratedData] = useState<any>(data);
 
-	const references = useMemo(() => extractEntityReferences(data, schema, '$'), [data, schema]);
+	const references = useMemo(
+		() => extractEntityReferences(data, schema, '$'),
+		[data, schema]
+	);
 	const previousReferences = useRef<EntityReference[]>([]);
 	const hydrateRequests = useRef<CancelablePromise<HydratedEntity[]>[]>();
 
 	const isMounted = useRef(true);
-	useEffect(() => () => { isMounted.current = false }, []);
+	useEffect(
+		() => () => {
+			isMounted.current = false;
+		},
+		[]
+	);
 
-	const hydrateEntities = useCancelableCallback(entityApi?.getHydratedEntities ?? (() => Promise.resolve([])));
+	const hydrateEntities = useCancelableCallback(
+		entityApi?.getHydratedEntities ?? (() => Promise.resolve([]))
+	);
 
 	useEffect(() => {
-		if (isEqual(previousReferences, references) || !entityApi) {
+		if (isEqual(previousReferences.current, references) || !entityApi) {
 			return;
 		}
 
 		previousReferences.current = references;
-		hydrateRequests.current?.forEach(x => x.cancel());
+		hydrateRequests.current?.forEach((x) => x.cancel());
 
-		const referencesByDefinitionName = references.reduce<Record<string, EntityReference[]>>((map, cur) => {
+		const referencesByDefinitionName = references.reduce<
+			Record<string, EntityReference[]>
+		>((map, cur) => {
 			if (!map[cur.definitionName]) {
 				map[cur.definitionName] = [];
 			}
@@ -42,10 +61,14 @@ export function useHydratedEntities(entityApi: EntityApi | undefined, data: any,
 
 		async function fetchHydratedEntities() {
 			setIsLoading(true);
-			hydrateRequests.current = Object
-				.entries(referencesByDefinitionName)
-				.map(([definitionName, entities]) => hydrateEntities(entities.map(x => x.id), definitionName));
-			
+			hydrateRequests.current = Object.entries(referencesByDefinitionName).map(
+				([definitionName, entities]) =>
+					hydrateEntities(
+						entities.map((x) => x.id),
+						definitionName
+					)
+			);
+
 			const results = await Promise.all(hydrateRequests.current);
 
 			if (!isMounted.current) {
@@ -53,12 +76,15 @@ export function useHydratedEntities(entityApi: EntityApi | undefined, data: any,
 			}
 
 			setIsLoading(false);
-			const flatResults = results.reduce<HydratedEntity[]>((all, cur) => [...all, ...cur], []);
+			const flatResults = results.reduce<HydratedEntity[]>(
+				(all, cur) => [...all, ...cur],
+				[]
+			);
 			setHydratedData(addHydratedData(data, flatResults, references));
 		}
 
 		fetchHydratedEntities();
-	}, [references, entityApi, data]);
+	}, [references, entityApi, data, hydrateEntities]);
 
 	return {
 		hydratedData,
@@ -84,9 +110,9 @@ function addHydratedData(
 	const clonedData = cloneDeep(data);
 
 	for (const reference of references) {
-		const entity = hydratedEntities.find(x =>
-			x.id === reference.id &&
-			x.definitionName === reference.definitionName
+		const entity = hydratedEntities.find(
+			(x) =>
+				x.id === reference.id && x.definitionName === reference.definitionName
 		);
 
 		if (!entity) {
@@ -156,7 +182,11 @@ function extractEntityReferences(
 
 	const results = [];
 
-	if (schema.type === 'object' && schema.properties && typeof data === 'object') {
+	if (
+		schema.type === 'object' &&
+		schema.properties &&
+		typeof data === 'object'
+	) {
 		for (const key of Object.keys(schema.properties)) {
 			const property = schema.properties[key];
 			const dataAtProperty = data[key];
@@ -165,11 +195,9 @@ function extractEntityReferences(
 				continue;
 			}
 
-			results.push(...extractEntityReferences(
-				dataAtProperty,
-				property,
-				`${path}.${key}`,
-			));
+			results.push(
+				...extractEntityReferences(dataAtProperty, property, `${path}.${key}`)
+			);
 		}
 	}
 
@@ -181,11 +209,7 @@ function extractEntityReferences(
 				continue;
 			}
 
-			results.push(...extractEntityReferences(
-				dataAtIndex,
-				schema.items,
-				path,
-			));
+			results.push(...extractEntityReferences(dataAtIndex, schema.items, path));
 		}
 	}
 

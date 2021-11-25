@@ -2,6 +2,7 @@ import React, { useCallback, useRef, useState } from 'react';
 import { Icon } from '@blueprintjs/core';
 import { Tooltip2 } from '@blueprintjs/popover2';
 import { Variants } from 'framer-motion';
+import { useBooleanState } from '@campaign-buddy/common-hooks';
 import { BaseInputProps } from '../BaseInputProps';
 import { FormGroup } from '../form-group';
 import { Popover } from '../popover';
@@ -13,7 +14,6 @@ import {
 	DisplayValueContainer,
 	AnimatedButtonContainer,
 } from './AggregatedInput.styled';
-import { useBooleanState } from '../hooks';
 
 const editButtonVariants: Variants = {
 	hidden: {

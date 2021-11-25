@@ -8,6 +8,7 @@
     "@blueprintjs/icons": "^3.26.0",
     "@blueprintjs/popover2": "^0.11.2",
     "@blueprintjs/select": "^3.18.3",
+    "@campaign-buddy/common-hooks": "0.1.0",
     "@campaign-buddy/json-path-ex": "0.1.0",
     "@types/react": "^17.0.4",
     "@types/react-dom": "^17.0.3",

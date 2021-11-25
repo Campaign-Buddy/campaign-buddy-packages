@@ -8,7 +8,7 @@ function makeCancelable<T>(promise: Promise<T>): CancelablePromise<T> {
 	let isAlreadyCanceled = false;
 	let cancel: () => void = () => {
 		throw new Error('Cancel function has not been set up on promise');
-	}
+	};
 
 	const cancelPromise = new Promise<any>((resolve, reject) => {
 		cancel = (...args) => {
@@ -30,22 +30,28 @@ function makeCancelable<T>(promise: Promise<T>): CancelablePromise<T> {
 	return wrappedPromise;
 }
 
-export function useCancelableCallback<TArgs extends any[], TResponse>(callback: (...args: TArgs) => Promise<TResponse>): (...args: TArgs) => CancelablePromise<TResponse> {
+export function useCancelableCallback<TArgs extends any[], TResponse>(
+	callback: (...args: TArgs) => Promise<TResponse>
+): (...args: TArgs) => CancelablePromise<TResponse> {
 	const promisesToCancel = useRef<CancelablePromise<TResponse>[]>([]);
 
 	useEffect(() => {
 		return () => {
+			// eslint-disable-next-line react-hooks/exhaustive-deps
 			for (const promise of promisesToCancel.current) {
 				promise.cancel();
 			}
-		}
+		};
 	}, []);
 
-	const wrappedCallback = useCallback((...args: TArgs) => {
-		const cancelablePromise = makeCancelable(callback(...args));
-		promisesToCancel.current.push(cancelablePromise);
-		return cancelablePromise;
-	}, [callback]);
+	const wrappedCallback = useCallback(
+		(...args: TArgs) => {
+			const cancelablePromise = makeCancelable(callback(...args));
+			promisesToCancel.current.push(cancelablePromise);
+			return cancelablePromise;
+		},
+		[callback]
+	);
 
 	return wrappedCallback;
 }
