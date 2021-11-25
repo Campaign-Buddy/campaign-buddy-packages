@@ -19,7 +19,9 @@ export function useHydratedEntities(
 	schema: CampaignBuddySchema
 ): UseHydratedEntitiesHook {
 	const [isLoading, setIsLoading] = useState(false);
-	const [hydratedData, setHydratedData] = useState<any>(data);
+	const [hydratedEntities, setHydratedEntities] = useState<HydratedEntity[]>(
+		[]
+	);
 
 	const references = useMemo(
 		() => extractEntityReferences(data, schema, '$'),
@@ -80,11 +82,20 @@ export function useHydratedEntities(
 				(all, cur) => [...all, ...cur],
 				[]
 			);
-			setHydratedData(addHydratedData(data, flatResults, references));
+			setHydratedEntities(flatResults);
 		}
 
 		fetchHydratedEntities();
 	}, [references, entityApi, data, hydrateEntities]);
+
+	const hydratedData = useMemo(() => {
+		console.log(references, hydratedEntities);
+		if (references.length === 0) {
+			return data;
+		}
+
+		return addHydratedData(data, hydratedEntities, references);
+	}, [data, hydratedEntities, references]);
 
 	return {
 		hydratedData,

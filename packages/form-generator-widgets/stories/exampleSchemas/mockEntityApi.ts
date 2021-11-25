@@ -1,5 +1,9 @@
 import Fuse from 'fuse.js';
-import { EntityApi, EntitySummary, HydratedEntity } from '@campaign-buddy/form-generator';
+import {
+	EntityApi,
+	EntitySummary,
+	HydratedEntity,
+} from '@campaign-buddy/form-generator';
 
 export class MockEntityApi implements EntityApi {
 	private mockLatencyMs = 1_000;
@@ -78,7 +82,7 @@ export class MockEntityApi implements EntityApi {
 
 		await this.simulateLatency();
 
-		const entities = this.characterClasses.filter(x => ids.includes(x.id));
+		const entities = this.characterClasses.filter((x) => ids.includes(x.id));
 
 		return entities.map((entity) => ({
 			id: entity.id,
@@ -90,7 +94,7 @@ export class MockEntityApi implements EntityApi {
 			},
 			definitionName,
 		}));
-	}
+	};
 
 	searchEntities = async (
 		query: string,
