@@ -32,20 +32,21 @@ export function AsyncMultiSelect<TData>({
 	const htmlId = useHtmlId();
 	const { renderMenu, renderItem } = useSelectRenderers(value);
 
-	const popoverProps = useMemo(
-		() => ({
-			minimal: true,
-			portalClassName: 'campaign-buddy-select',
-		}),
-		[]
-	);
-
 	const {
 		query,
 		setQuery,
 		options,
 		isLoading: isLoadingOptions,
 	} = useAsyncOptions(initialOptions, fetchOptions);
+
+	const popoverProps = useMemo(
+		() => ({
+			minimal: true,
+			portalClassName: 'campaign-buddy-select',
+			onClosing: () => setQuery(''),
+		}),
+		[setQuery]
+	);
 
 	const onItemSelect = useCallback(
 		(item: IOption<TData>) => {
@@ -116,6 +117,7 @@ export function AsyncMultiSelect<TData>({
 				popoverProps={popoverProps}
 				placeholder={placeholder}
 				noResults={<i>No results</i>}
+				resetOnQuery={false}
 			/>
 		</FormGroup>
 	);

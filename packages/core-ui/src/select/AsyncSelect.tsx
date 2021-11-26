@@ -52,6 +52,7 @@ export function AsyncSelect<TData>({
 		() => ({
 			minimal: true,
 			portalClassName: 'campaign-buddy-select',
+			onClosing: () => setQuery(''),
 		}),
 		[]
 	);
