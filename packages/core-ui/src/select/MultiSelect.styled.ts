@@ -9,6 +9,11 @@ const MultiSelectCore = GenericMultiSelectCore.ofType<IOption>();
 export const StyledMultiSelectCore = styled(MultiSelectCore)`
 	div.bp3-input {
 		${baseInputStyles}
+		align-items: center;
+
+		& > .bp3-icon {
+			padding-right: 8px;
+		}
 	}
 
 	span.bp3-popover-target {
@@ -21,4 +26,4 @@ export const StyledMultiSelectCore = styled(MultiSelectCore)`
 `;
 StyledMultiSelectCore.defaultProps = {
 	theme: defaultTheme,
-}
+};

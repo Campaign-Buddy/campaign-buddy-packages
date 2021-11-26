@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { Meta, Story } from '@storybook/react';
-import { AsyncSelect, IOption } from '../src';
+import { AsyncMultiSelect, IOption } from '../src';
 
 export default {
-	title: 'core-ui/AsyncSelect',
-	component: AsyncSelect,
+	title: 'core-ui/AsyncMultiSelect',
+	component: AsyncMultiSelect,
 } as Meta;
 
 interface Todo {
@@ -30,10 +30,10 @@ async function fetchOptions(query: string): Promise<IOption<Todo>[]> {
 }
 
 const Template: Story = () => {
-	const [value, setValue] = useState<IOption<Todo>>();
+	const [value, setValue] = useState<IOption<Todo>[]>([]);
 
 	return (
-		<AsyncSelect
+		<AsyncMultiSelect
 			label="Select a post"
 			fetchOptions={fetchOptions}
 			value={value}

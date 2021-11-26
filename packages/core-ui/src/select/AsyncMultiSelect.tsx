@@ -1,29 +1,35 @@
-import Fuse from 'fuse.js';
 import React from 'react';
-import { useCallback, useMemo, useState } from 'react';
+import { Icon, Spinner } from '@blueprintjs/core';
+import { useCallback, useMemo } from 'react';
 import { FormGroup } from '../form-group';
 import { useHtmlId } from '../hooks';
 import { IOption } from './IOption';
 import { useSelectRenderers } from './useSelectRenderers';
 import { StyledMultiSelectCore } from './MultiSelect.styled';
+import { useAsyncOptions } from './useAsyncOptions';
 
-export interface MultiSelectProps<TData> {
-	options: IOption<TData>[];
+export interface AsyncMultiSelectProps<TData> {
+	fetchOptions: (query: string | undefined) => Promise<IOption<TData>[]>;
 	value: IOption<TData>[] | undefined;
 	onChange: (value: IOption<TData>[]) => void;
-	label?: string;
+	initialOptions?: IOption<TData>[];
 	placeholder?: string;
+	label?: string;
+	disabled?: boolean;
+	isLoading?: boolean;
 }
 
-export function MultiSelect<TData>({
-	options,
+export function AsyncMultiSelect<TData>({
 	value,
 	onChange,
 	label,
 	placeholder,
-}: MultiSelectProps<TData>): JSX.Element {
+	initialOptions,
+	fetchOptions,
+	isLoading,
+	disabled,
+}: AsyncMultiSelectProps<TData>): JSX.Element {
 	const htmlId = useHtmlId();
-	const [query, setQuery] = useState('');
 	const { renderMenu, renderItem } = useSelectRenderers(value);
 
 	const popoverProps = useMemo(
@@ -33,12 +39,13 @@ export function MultiSelect<TData>({
 		}),
 		[]
 	);
-	const fuse = useMemo(
-		() => new Fuse(options, { keys: ['displayValue'] }),
-		[options]
-	);
 
-	const handleQueryChange = useCallback((newQuery) => setQuery(newQuery), []);
+	const {
+		query,
+		setQuery,
+		options,
+		isLoading: isLoadingOptions,
+	} = useAsyncOptions(initialOptions, fetchOptions);
 
 	const onItemSelect = useCallback(
 		(item: IOption<TData>) => {
@@ -74,22 +81,21 @@ export function MultiSelect<TData>({
 		[onChange, value]
 	);
 
-	const filteredOptions = useMemo(() => {
-		if (!query) {
-			return options;
-		}
-
-		return fuse.search(query).map((x) => x.item);
-	}, [query, options, fuse]);
-
 	const tagInputProps = useMemo(
 		() => ({
 			inputProps: {
 				id: htmlId,
 				autoComplete: 'off',
+				disabled,
 			},
+			rightElement:
+				isLoading || isLoadingOptions ? (
+					<Spinner size={15} />
+				) : (
+					<Icon icon="search" />
+				),
 		}),
-		[htmlId]
+		[htmlId, isLoading, isLoadingOptions, disabled]
 	);
 
 	const tagRenderer = useCallback((option) => option.displayValue, []);
@@ -98,17 +104,18 @@ export function MultiSelect<TData>({
 		<FormGroup label={label} labelFor={htmlId}>
 			<StyledMultiSelectCore
 				tagInputProps={tagInputProps}
-				items={filteredOptions}
+				items={options ?? initialOptions ?? []}
 				selectedItems={value}
 				onItemSelect={onItemSelect}
 				onRemove={onItemRemove}
 				query={query}
-				onQueryChange={handleQueryChange}
+				onQueryChange={setQuery}
 				itemRenderer={renderItem}
 				itemListRenderer={renderMenu}
 				tagRenderer={tagRenderer}
 				popoverProps={popoverProps}
 				placeholder={placeholder}
+				noResults={<i>No results</i>}
 			/>
 		</FormGroup>
 	);
