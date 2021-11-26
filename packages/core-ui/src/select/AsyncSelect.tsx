@@ -42,7 +42,9 @@ export function AsyncSelect<TData>({
 	isLoading: isLoadingProp,
 }: SelectProps<TData>): JSX.Element {
 	const htmlId = useHtmlId();
-	const { renderMenu, renderItem } = useSelectRenderers();
+
+	const selectedOptions = useMemo(() => value && [value], [value]);
+	const { renderMenu, renderItem } = useSelectRenderers(selectedOptions);
 	const [query, setQuery] = useState<string>('');
 	const [isLoading, setIsLoading] = useState(false);
 	const fetchInitialOptionsPromise = useRef<CancelablePromise<any>>();

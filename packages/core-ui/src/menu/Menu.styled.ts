@@ -10,15 +10,19 @@ StyledMenu.defaultProps = {
 };
 
 export const StyledMenuItem = styled(MenuItemCore)`
-	color: ${({ theme }) => theme.colors.text};
+	color: ${({ theme }) => theme.colors.text} !important;
 
-	&:hover {
-		color: ${({ theme }) => theme.colors.text};
+	.bp3-icon {
+		color: ${({ theme }) => theme.colors.text} !important;
 	}
 
 	&.bp3-active {
 		background-color: ${({ theme }) => theme.colors.primary} !important;
 		color: ${({ theme }) => theme.colors.background} !important;
+
+		.bp3-icon {
+			color: ${({ theme }) => theme.colors.background} !important;
+		}
 	}
 `;
 StyledMenuItem.defaultProps = {

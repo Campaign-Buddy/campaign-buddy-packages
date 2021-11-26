@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { Meta, Story } from '@storybook/react';
-import { Select, IOption } from '../src';
+import { MultiSelect, IOption } from '../src';
 
 export default {
-	title: 'core-ui/Select',
-	component: Select,
+	title: 'core-ui/MultiSelect',
+	component: MultiSelect,
 } as Meta;
 
 const options: IOption[] = [
@@ -36,14 +36,15 @@ const options: IOption[] = [
 ];
 
 const Template: Story = () => {
-	const [value, setValue] = useState(options[0]);
+	const [value, setValue] = useState([]);
 
 	return (
-		<Select
+		<MultiSelect
 			label="Who is the coolest?"
 			options={options}
 			value={value}
 			onChange={setValue}
+			placeholder="E.g. Todoroki"
 		/>
 	);
 };

@@ -26,7 +26,9 @@ export function Select<TData>({
 }: SelectProps<TData>): JSX.Element {
 	const htmlId = useHtmlId();
 	const [query, setQuery] = useState('');
-	const { renderMenu, renderItem } = useSelectRenderers();
+
+	const selectedOptions = useMemo(() => value && [value], [value]);
+	const { renderMenu, renderItem } = useSelectRenderers(selectedOptions);
 
 	const popoverProps = useMemo(
 		() => ({

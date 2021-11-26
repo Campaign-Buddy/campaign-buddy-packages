@@ -5,10 +5,10 @@ import { FormGroup } from '../form-group';
 import { defaultTheme } from '../theme';
 import { useHtmlId } from '../hooks';
 import { BaseInputProps } from '../BaseInputProps';
+import { baseInputStyles } from './Input.styled';
 
 const StyledTextArea = styled(TextAreaCore)`
-	background-color: ${({ theme }) => theme.colors.inputBackground};
-	color: ${({ theme }) => theme.colors.text};
+	${baseInputStyles}
 	resize: vertical;
 	min-height: 75px;
 `;
