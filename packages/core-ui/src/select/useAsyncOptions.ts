@@ -59,6 +59,10 @@ export function useAsyncOptions(
 
 	const handleQueryChange = useCallback(
 		async (newQuery) => {
+			if (!newQuery && initialOptions) {
+				return setOptions(initialOptions);
+			}
+
 			fetchInitialOptionsPromise.current?.cancel();
 			setIsLoading(true);
 			setQuery(newQuery);
