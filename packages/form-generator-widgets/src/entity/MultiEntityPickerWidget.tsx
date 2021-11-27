@@ -1,41 +1,40 @@
-import { AsyncSelect, IOption } from '@campaign-buddy/core-ui';
+import { AsyncMultiSelect, IOption } from '@campaign-buddy/core-ui';
 import { WidgetProps, EntitySummary } from '@campaign-buddy/form-generator';
 import React, { useCallback, useMemo } from 'react';
 import { useEntityPickerState } from './useEntityPickerState';
 
-interface EntityPickerData {
+interface MultiEntityPickerData {
 	availableEntityIds?: string[];
-	entity?: {
+	entities?: {
 		id?: string;
-	};
+	}[];
 }
 
-export const EntityPickerWidget: React.FC<WidgetProps<EntityPickerData>> = ({
-	value,
-	aggregatedValue,
-	schema,
-	onChange,
-	label,
-	entityApi,
-}) => {
-	const selectedEntityIdProp = aggregatedValue?.entity?.id ?? value?.entity?.id;
+export const MultiEntityPickerWidget: React.FC<
+	WidgetProps<MultiEntityPickerData>
+> = ({ value, aggregatedValue, schema, onChange, label, entityApi }) => {
 	const availableEntityIds =
 		aggregatedValue?.availableEntityIds ?? value?.availableEntityIds;
 
+	const selectedEntityIds = useMemo(() => {
+		return (
+			(aggregatedValue?.entities ?? value?.entities)
+				?.map((x) => x.id)
+				.filter((x): x is string => Boolean(x)) ?? []
+		);
+	}, [aggregatedValue?.entities, value?.entities]);
+
 	const entityDefinitionName = schema.$entity;
 
-	const selectedEntityIds = useMemo(
-		() => (selectedEntityIdProp ? [selectedEntityIdProp] : []),
-		[selectedEntityIdProp]
-	);
-
 	if (!entityApi) {
-		throw new Error('Entity api is required for entity picker');
+		throw new Error(
+			'Entity api must be supplied for EntityPickerWidget to work'
+		);
 	}
 
 	if (!entityDefinitionName) {
 		throw new Error(
-			'Entity picker widget requires $entity to be an entity definition name'
+			'Multi entity picker widget requires $entity to be an entity definition name'
 		);
 	}
 
@@ -53,12 +52,10 @@ export const EntityPickerWidget: React.FC<WidgetProps<EntityPickerData>> = ({
 	);
 
 	const handleOnChange = useCallback(
-		(selectedValue: IOption<EntitySummary>) => {
-			setSelectedEntities([selectedValue]);
+		(selectedValues: IOption<EntitySummary>[]) => {
+			setSelectedEntities(selectedValues);
 			onChange({
-				entity: {
-					id: selectedValue.id,
-				},
+				entities: selectedValues.map((x) => ({ id: x.id })),
 				availableEntityIds: value?.availableEntityIds,
 			});
 		},
@@ -66,8 +63,8 @@ export const EntityPickerWidget: React.FC<WidgetProps<EntityPickerData>> = ({
 	);
 
 	return (
-		<AsyncSelect
-			value={selectedEntities?.[0]}
+		<AsyncMultiSelect
+			value={selectedEntities}
 			onChange={handleOnChange}
 			fetchOptions={fetchOptions}
 			initialOptions={initialOptions}
