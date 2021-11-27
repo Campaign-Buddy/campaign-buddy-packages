@@ -39,10 +39,12 @@ export const characterSchema = types.object({
 			options: 'TO_OPTIONS_FROM_STRINGS(SPLIT(",", {$.customColors}))',
 		},
 	}),
-	maxHp: types.number({
-		title: 'Max HP',
-		aggregate: 'TO_NUMBER(<base>) + SUM({$..bonus.maxHp})',
-		cols: 2,
+	hp: types.numericResource({
+		title: 'HP',
+		cols: 4,
+		aggregate: {
+			max: 'TO_NUMBER(<base>) + SUM({$..bonus.maxHp})',
+		},
 	}),
 	class: types.entity(characterClassEntity, { title: 'Class' }),
 	customRaces: types.string({ title: 'Custom races (comma separated)' }),
@@ -91,7 +93,7 @@ export const characterSchema = types.object({
 export const characterUiLayout: UiLayout = [
 	['name', 'race', 'age'],
 	['class', 'feats'],
-	['maxHp', 'favoriteColors'],
+	['hp', 'favoriteColors'],
 	['stats'],
 	['isPlayer'],
 	['customRaces', 'customColors'],

@@ -1,0 +1,1 @@
+export { NumericResourceWidget } from './NumericResourceWidget';

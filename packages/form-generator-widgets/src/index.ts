@@ -11,6 +11,7 @@ import {
 import { StatWidget } from './stat';
 import { ChoiceWidget, MultiChoiceWidget } from './choice';
 import { EntityPickerWidget, MultiEntityPickerWidget } from './entity';
+import { NumericResourceWidget } from './numericResource';
 
 type ExtensionWidgets = Record<Widgets, React.FC<WidgetProps<any>>>;
 
@@ -30,5 +31,5 @@ export const widgets: WidgetLookup & ExtensionWidgets = {
 	Choice: ChoiceWidget,
 	Icon: () => null,
 	SchemaBuilder: () => null,
-	NumericResource: () => null,
+	NumericResource: NumericResourceWidget,
 };
