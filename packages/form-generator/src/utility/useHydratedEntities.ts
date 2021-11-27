@@ -71,18 +71,24 @@ export function useHydratedEntities(
 					)
 			);
 
-			const results = await Promise.all(hydrateRequests.current);
+			try {
+				const results = await Promise.all(hydrateRequests.current);
 
-			if (!isMounted.current) {
-				return;
+				if (!isMounted.current) {
+					return;
+				}
+	
+				setIsLoading(false);
+				const flatResults = results.reduce<HydratedEntity[]>(
+					(all, cur) => [...all, ...cur],
+					[]
+				);
+				setHydratedEntities(flatResults);
+			} catch (e) {
+				if (!e?.isCanceled) {
+					throw e;
+				}
 			}
-
-			setIsLoading(false);
-			const flatResults = results.reduce<HydratedEntity[]>(
-				(all, cur) => [...all, ...cur],
-				[]
-			);
-			setHydratedEntities(flatResults);
 		}
 
 		fetchHydratedEntities();
