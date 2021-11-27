@@ -1,6 +1,12 @@
 import Fuse from 'fuse.js';
-import React from 'react';
-import { useCallback, useMemo, useState } from 'react';
+import React, {
+	useEffect,
+	useRef,
+	useCallback,
+	useMemo,
+	useState,
+} from 'react';
+import isEqual from 'lodash.isequal';
 import { FormGroup } from '../form-group';
 import { useHtmlId } from '../hooks';
 import { IOption } from './IOption';
@@ -24,6 +30,8 @@ export function MultiSelect<TData>({
 }: MultiSelectProps<TData>): JSX.Element {
 	const htmlId = useHtmlId();
 	const [query, setQuery] = useState('');
+	const [filteredOptions, setFilteredOptions] = useState<IOption[]>(options);
+	const filteredOptionsRef = useRef<IOption[]>(options);
 	const { renderMenu, renderItem } = useSelectRenderers(value);
 
 	const popoverProps = useMemo(
@@ -75,13 +83,25 @@ export function MultiSelect<TData>({
 		[onChange, value]
 	);
 
-	const filteredOptions = useMemo(() => {
-		if (!query) {
-			return options;
+	useEffect(() => {
+		filteredOptionsRef.current = filteredOptions;
+	}, [filteredOptions]);
+
+	useEffect(() => {
+		function getOptions() {
+			if (!query) {
+				return options;
+			}
+
+			return fuse.search(query).map((x) => x.item);
 		}
 
-		return fuse.search(query).map((x) => x.item);
-	}, [query, options, fuse]);
+		const newOptions = getOptions();
+
+		if (!isEqual(newOptions, filteredOptionsRef.current)) {
+			setFilteredOptions(newOptions);
+		}
+	}, [query, fuse, options]);
 
 	const tagInputProps = useMemo(
 		() => ({
