@@ -77,7 +77,7 @@ export function useHydratedEntities(
 				if (!isMounted.current) {
 					return;
 				}
-	
+
 				setIsLoading(false);
 				const flatResults = results.reduce<HydratedEntity[]>(
 					(all, cur) => [...all, ...cur],
