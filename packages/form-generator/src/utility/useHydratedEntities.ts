@@ -89,7 +89,6 @@ export function useHydratedEntities(
 	}, [references, entityApi, data, hydrateEntities]);
 
 	const hydratedData = useMemo(() => {
-		console.log(references, hydratedEntities);
 		if (references.length === 0) {
 			return data;
 		}

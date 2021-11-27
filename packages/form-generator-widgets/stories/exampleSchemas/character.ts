@@ -19,9 +19,30 @@ export const characterSchema = types.object({
 			options: 'TO_OPTIONS_FROM_STRINGS(SPLIT(",", {$.customRaces}))',
 		},
 	}),
-	maxHp: types.number({ title: 'Max HP', aggregate: 'TO_NUMBER(<base>) + SUM({$..bonus.maxHp})' }),
+	favoriteColors: types.multiChoice({
+		title: 'Favorite Colors',
+		options: [
+			'Red',
+			'Blue',
+			'Yellow',
+			'Green',
+			'Brown',
+			'Pink',
+			'Black',
+			'Purple',
+		],
+		aggregate: {
+			options: 'TO_OPTIONS_FROM_STRINGS(SPLIT(",", {$.customColors}))',
+		},
+	}),
+	maxHp: types.number({
+		title: 'Max HP',
+		aggregate: 'TO_NUMBER(<base>) + SUM({$..bonus.maxHp})',
+		cols: 2,
+	}),
 	class: types.entity(characterClassEntity, { title: 'Class' }),
 	customRaces: types.string({ title: 'Custom races (comma separated)' }),
+	customColors: types.string({ title: 'Custom colors (comma separated)' }),
 	isPlayer: types.boolean({ title: 'Is player controlled?' }),
 	stats: types.object({
 		str: types.stat({
@@ -65,10 +86,10 @@ export const characterSchema = types.object({
 
 export const characterUiLayout: UiLayout = [
 	['name', 'race', 'class', 'age'],
-	['maxHp'],
+	['maxHp', 'favoriteColors'],
 	['stats'],
 	['isPlayer'],
-	['customRaces'],
+	['customRaces', 'customColors'],
 ];
 
 function statBonus(statName: string): string {
