@@ -20,7 +20,7 @@ export function getDataForPath(
 			continue;
 		}
 
-		if (!cur[part]) {
+		if (!cur[part] && i < parts.length - 1) {
 			return schemaForPath?.default;
 		}
 

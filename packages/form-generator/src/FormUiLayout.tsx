@@ -37,7 +37,7 @@ export const FormUiLayout: React.FC<FormUiLayoutProps> = ({
 	UiSection,
 	aggregatedData,
 	aggregates,
-	entityApi
+	entityApi,
 }) => {
 	const nodes: React.ReactElement[] = [];
 
