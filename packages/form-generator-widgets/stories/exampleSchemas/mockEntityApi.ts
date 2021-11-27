@@ -5,7 +5,7 @@ import {
 	HydratedEntity,
 } from '@campaign-buddy/form-generator';
 
-const DEBUG_NETWORK_LOAD = true;
+const DEBUG_NETWORK_LOAD = false;
 
 export class MockEntityApi implements EntityApi {
 	private mockLatencyMs = 1_000;
