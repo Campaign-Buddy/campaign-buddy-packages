@@ -6,6 +6,7 @@ import { IOption } from './IOption';
 import { useSelectRenderers } from './useSelectRenderers';
 import { FormGroup } from '../form-group';
 import { useHtmlId } from '../hooks';
+import { usePopoverProps } from './usePopoverProps';
 
 const SelectCore = GenericSelectCore.ofType<IOption>();
 
@@ -30,14 +31,7 @@ export function Select<TData>({
 	const selectedOptions = useMemo(() => value && [value], [value]);
 	const { renderMenu, renderItem } = useSelectRenderers(selectedOptions);
 
-	const popoverProps = useMemo(
-		() => ({
-			minimal: true,
-			portalClassName: 'campaign-buddy-select',
-			onClosing: () => setQuery(''),
-		}),
-		[]
-	);
+	const popoverProps = usePopoverProps(setQuery);
 	const fuse = useMemo(
 		() => new Fuse(options, { keys: ['displayValue'] }),
 		[options]

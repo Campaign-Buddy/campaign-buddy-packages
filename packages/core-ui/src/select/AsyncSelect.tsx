@@ -17,6 +17,7 @@ import { IOption } from './IOption';
 import { useSelectRenderers } from './useSelectRenderers';
 import { useHtmlId } from '../hooks';
 import { FormGroup } from '../form-group';
+import { usePopoverProps } from './usePopoverProps';
 
 const SelectCore = GenericSelectCore.ofType<IOption>();
 
@@ -48,14 +49,7 @@ export function AsyncSelect<TData>({
 	const [query, setQuery] = useState<string>('');
 	const [isLoading, setIsLoading] = useState(false);
 	const fetchInitialOptionsPromise = useRef<CancelablePromise<any>>();
-	const popoverProps = useMemo(
-		() => ({
-			minimal: true,
-			portalClassName: 'campaign-buddy-select',
-			onClosing: () => setQuery(''),
-		}),
-		[]
-	);
+	const popoverProps = usePopoverProps(setQuery);
 
 	const [options, setOptions] = useState(initialOptions ?? []);
 

@@ -7,6 +7,7 @@ import { IOption } from './IOption';
 import { useSelectRenderers } from './useSelectRenderers';
 import { StyledMultiSelectCore } from './MultiSelect.styled';
 import { useAsyncOptions } from './useAsyncOptions';
+import { usePopoverProps } from './usePopoverProps';
 
 export interface AsyncMultiSelectProps<TData> {
 	fetchOptions: (query: string | undefined) => Promise<IOption<TData>[]>;
@@ -39,14 +40,7 @@ export function AsyncMultiSelect<TData>({
 		isLoading: isLoadingOptions,
 	} = useAsyncOptions(initialOptions, fetchOptions);
 
-	const popoverProps = useMemo(
-		() => ({
-			minimal: true,
-			portalClassName: 'campaign-buddy-select',
-			onClosing: () => setQuery(''),
-		}),
-		[setQuery]
-	);
+	const popoverProps = usePopoverProps(setQuery);
 
 	const onItemSelect = useCallback(
 		(item: IOption<TData>) => {

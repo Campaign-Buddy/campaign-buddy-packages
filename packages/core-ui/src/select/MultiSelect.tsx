@@ -12,6 +12,7 @@ import { useHtmlId } from '../hooks';
 import { IOption } from './IOption';
 import { useSelectRenderers } from './useSelectRenderers';
 import { StyledMultiSelectCore } from './MultiSelect.styled';
+import { usePopoverProps } from './usePopoverProps';
 
 export interface MultiSelectProps<TData> {
 	options: IOption<TData>[];
@@ -34,14 +35,7 @@ export function MultiSelect<TData>({
 	const filteredOptionsRef = useRef<IOption[]>(options);
 	const { renderMenu, renderItem } = useSelectRenderers(value);
 
-	const popoverProps = useMemo(
-		() => ({
-			minimal: true,
-			portalClassName: 'campaign-buddy-select',
-			onClosing: () => setQuery(''),
-		}),
-		[]
-	);
+	const popoverProps = usePopoverProps(setQuery);
 	const fuse = useMemo(
 		() => new Fuse(options, { keys: ['displayValue'] }),
 		[options]
