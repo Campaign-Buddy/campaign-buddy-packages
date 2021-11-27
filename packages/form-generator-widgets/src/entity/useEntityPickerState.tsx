@@ -5,9 +5,18 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 export function useEntityPickerState(
 	entityApi: EntityApi,
 	definitionName: string,
-	selectedEntityIds: string[],
+	selectedEntityIds2: string[],
 	availableEntityIds: string[] | undefined
 ) {
+	const [selectedEntityIds, setSelectedEntityIds] =
+		useState(selectedEntityIds2);
+
+	useEffect(() => {
+		if (!areArraysEqual(selectedEntityIds2, selectedEntityIds)) {
+			setSelectedEntityIds(selectedEntityIds2);
+		}
+	}, [selectedEntityIds, selectedEntityIds2]);
+
 	const selectedEntitiesRef = useRef<IOption<EntitySummary>[]>();
 	const [isLoadingSelectedEntities, setIsLoadingSelectedEntities] =
 		useState(false);
@@ -17,6 +26,14 @@ export function useEntityPickerState(
 	const [initialOptions, setInitialOptions] = useState<
 		IOption<EntitySummary>[]
 	>([]);
+
+	const handleSetSelectedEntities = useCallback(
+		(selectedValue: IOption<EntitySummary>[]) => {
+			selectedEntitiesRef.current = selectedValue;
+			setSelectedEntities(selectedValue);
+		},
+		[]
+	);
 
 	const { searchEntities, getEntitiesByIds, getDefaultEntities } = entityApi;
 
@@ -52,25 +69,21 @@ export function useEntityPickerState(
 
 	useEffect(() => {
 		setIsLoadingSelectedEntities(false);
-		if (!definitionName || !selectedEntityIds) {
+		if (!selectedEntityIds) {
 			return;
 		}
 
 		let isCanceled = false;
-		async function fetchInitiallySelectedOptions() {
-			const selectedIsSubsetOfLoaded = isSelectedSubsetOfLoaded(
-				selectedEntityIds,
-				selectedEntitiesRef.current
-			);
-			const selectedEqualsLoaded =
-				selectedIsSubsetOfLoaded &&
-				selectedEntityIds.length === (selectedEntitiesRef.current?.length ?? 0);
-
-			if (!definitionName || selectedEqualsLoaded) {
+		async function fetchSelectedOptions() {
+			if (
+				isSelectedEqualToLoaded(selectedEntityIds, selectedEntitiesRef.current)
+			) {
 				return;
 			}
 
-			if (selectedIsSubsetOfLoaded) {
+			if (
+				isSelectedSubsetOfLoaded(selectedEntityIds, selectedEntitiesRef.current)
+			) {
 				const selectedEntitiesById =
 					selectedEntitiesRef.current?.reduce<
 						Record<string, IOption<EntitySummary>>
@@ -79,15 +92,14 @@ export function useEntityPickerState(
 						return map;
 					}, {}) ?? {};
 
-				setSelectedEntities(
+				handleSetSelectedEntities(
 					selectedEntityIds.map((x) => selectedEntitiesById[x])
 				);
 				return;
 			}
 
 			if (!selectedEntityIds) {
-				selectedEntitiesRef.current = undefined;
-				setSelectedEntities(undefined);
+				handleSetSelectedEntities([]);
 				return;
 			}
 
@@ -97,18 +109,22 @@ export function useEntityPickerState(
 			).map(entityToOption);
 
 			if (!isCanceled) {
-				selectedEntitiesRef.current = result;
-				setSelectedEntities(result);
+				handleSetSelectedEntities(result);
 				setIsLoadingSelectedEntities(false);
 			}
 		}
 
-		fetchInitiallySelectedOptions();
+		fetchSelectedOptions();
 
 		return () => {
 			isCanceled = true;
 		};
-	}, [definitionName, selectedEntityIds, getEntitiesByIds]);
+	}, [
+		definitionName,
+		selectedEntityIds,
+		getEntitiesByIds,
+		handleSetSelectedEntities,
+	]);
 
 	const handleFetchOptions = useCallback(
 		async (query?: string) => {
@@ -130,14 +146,6 @@ export function useEntityPickerState(
 		[searchEntities, initialOptions, definitionName, availableEntityIds]
 	);
 
-	const handleSetSelectedEntities = useCallback(
-		(selectedValue: IOption<EntitySummary>[]) => {
-			selectedEntitiesRef.current = selectedValue;
-			setSelectedEntities(selectedValue);
-		},
-		[]
-	);
-
 	return {
 		selectedEntities,
 		setSelectedEntities: handleSetSelectedEntities,
@@ -153,6 +161,14 @@ function entityToOption(entity: EntitySummary): IOption<EntitySummary> {
 		kind: entity.definitionName,
 		displayValue: entity.name,
 	};
+}
+
+function areArraysEqual(a: string[], b: string[]): boolean {
+	return a.length === b.length && a.every((x, i) => b[i] === x);
+}
+
+function isSelectedEqualToLoaded(a: string[], b: IOption[] | undefined) {
+	return a.length === b?.length && a.every((x, i) => b[i].id === x);
 }
 
 function isSelectedSubsetOfLoaded(a: string[], b: IOption[] | undefined) {

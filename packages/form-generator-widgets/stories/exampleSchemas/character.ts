@@ -1,5 +1,6 @@
 import { types, UiLayout } from '@campaign-buddy/json-schema-core';
 import { characterClassEntity } from './characterClass';
+import { feat } from './feat';
 
 export const characterSchema = types.object({
 	name: types.string({ title: 'Name' }),
@@ -18,6 +19,9 @@ export const characterSchema = types.object({
 		aggregate: {
 			options: 'TO_OPTIONS_FROM_STRINGS(SPLIT(",", {$.customRaces}))',
 		},
+	}),
+	feats: types.multiEntity(feat, {
+		title: 'Feats',
 	}),
 	favoriteColors: types.multiChoice({
 		title: 'Favorite Colors',
@@ -85,7 +89,8 @@ export const characterSchema = types.object({
 });
 
 export const characterUiLayout: UiLayout = [
-	['name', 'race', 'class', 'age'],
+	['name', 'race', 'age'],
+	['class', 'feats'],
 	['maxHp', 'favoriteColors'],
 	['stats'],
 	['isPlayer'],

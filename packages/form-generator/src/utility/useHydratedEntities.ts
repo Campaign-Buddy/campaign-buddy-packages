@@ -159,7 +159,7 @@ function hydrateDataAtPath(
 	}
 
 	const lastPart = parts[parts.length - 1];
-	if (!cur?.[lastPart]) {
+	if (!cur) {
 		return;
 	}
 
@@ -219,7 +219,9 @@ function extractEntityReferences(
 				continue;
 			}
 
-			results.push(...extractEntityReferences(dataAtIndex, schema.items, path));
+			results.push(
+				...extractEntityReferences(dataAtIndex, schema.items, `${path}.${i}`)
+			);
 		}
 	}
 
