@@ -149,7 +149,7 @@ function hydrateDataAtPath(
 	const parts = path.split('.');
 
 	let cur = data;
-	for (let i = 0; i < parts.length; i++) {
+	for (let i = 0; i < parts.length - 1; i++) {
 		const part = parts[i];
 		if (part === '$' && i === 0) {
 			continue;
