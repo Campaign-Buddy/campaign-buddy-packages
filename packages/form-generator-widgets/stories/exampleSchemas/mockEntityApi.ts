@@ -5,6 +5,8 @@ import {
 	HydratedEntity,
 } from '@campaign-buddy/form-generator';
 
+const DEBUG_NETWORK_LOAD = false;
+
 export class MockEntityApi implements EntityApi {
 	private mockLatencyMs = 1_000;
 
@@ -113,6 +115,10 @@ export class MockEntityApi implements EntityApi {
 		ids: string[],
 		definitionName: string
 	): Promise<HydratedEntity[] | undefined> => {
+		if (DEBUG_NETWORK_LOAD) {
+			console.log('hydratingEntities', ids, definitionName);
+		}
+
 		if (!this.entityStores[definitionName]) {
 			throw new Error(`Unknown entity definition: ${definitionName}`);
 		}
@@ -140,6 +146,10 @@ export class MockEntityApi implements EntityApi {
 		entityDefinitionName: string,
 		availableEntityIds?: string[]
 	): Promise<EntitySummary[]> => {
+		if (DEBUG_NETWORK_LOAD) {
+			console.log('searching entities', query, entityDefinitionName);
+		}
+
 		await this.simulateLatency();
 
 		if (!this.searchIndices[entityDefinitionName]) {
@@ -161,6 +171,10 @@ export class MockEntityApi implements EntityApi {
 		ids: string[],
 		entityDefinitionName: string
 	): Promise<EntitySummary[]> => {
+		if (DEBUG_NETWORK_LOAD) {
+			console.log('getting entities by ids', ids);
+		}
+
 		await this.simulateLatency();
 
 		if (!this.entityStores[entityDefinitionName]) {
@@ -181,6 +195,10 @@ export class MockEntityApi implements EntityApi {
 		entityDefinitionName: string,
 		availableEntityIds?: string[]
 	): Promise<EntitySummary[]> => {
+		if (DEBUG_NETWORK_LOAD) {
+			console.log('getting default entities', entityDefinitionName);
+		}
+
 		await this.simulateLatency();
 
 		if (!this.entityStores[entityDefinitionName]) {
