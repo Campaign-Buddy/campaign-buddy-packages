@@ -26,3 +26,15 @@ This repository houses several frontend packages (using yarn workspaces) used to
 	- Model needs to describe how to generate wizard UI for creating various entities
 - [ ] Multi pane UI component package (can copy from previous project?)
 - [ ] File system component (may live in main campaign buddy app project)
+
+## Design Philosophy
+
+Below are some design philosophies which should guide code design and contribution.
+
+### Backend agnosticism
+
+Frontend packages should be developed agnostic to any particular backend system implementations. Packages and components that need backend functionality should describe the minimum backend API surface needed as an interface in the `@campaign-buddy/frontend-types` package. It is okay for the frontend and the backend to share *concepts*, but no frontend components should ever be making API requests directly.
+
+### Focused packages
+
+Frontend packages should have a clear and defined purpose and should be broken down into smaller, reusable, logical pieces if possible. Each frontend package should be able to grow organically and independently from any packages that depend on it. If the scope of a package can't be succinctly and comprehensively expressed in a sentence or two, then it's probably too broad and can be broken up more.
