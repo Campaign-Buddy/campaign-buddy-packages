@@ -114,7 +114,7 @@ export class MockEntityApi implements EntityApi {
 	getHydratedEntities = async (
 		ids: string[],
 		definitionName: string
-	): Promise<HydratedEntity[] | undefined> => {
+	): Promise<HydratedEntity[]> => {
 		if (DEBUG_NETWORK_LOAD) {
 			console.log('hydratingEntities', ids, definitionName);
 		}
