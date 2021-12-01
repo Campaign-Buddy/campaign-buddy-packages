@@ -1,0 +1,14 @@
+{
+	"name": "@campaign-buddy/<packagename>",
+	"version": "0.1.0",
+	"author": "Joseph Stewart",
+	"license": "MIT",
+	"dependencies": {
+	},
+	"devDependencies": {
+		"typescript": "^4.2.4"
+	},
+	"scripts": {
+		"build": "tsc -b"
+	}
+}
