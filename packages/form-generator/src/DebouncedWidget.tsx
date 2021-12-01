@@ -2,9 +2,10 @@ import {
 	Aggregates,
 	CampaignBuddySchema,
 } from '@campaign-buddy/json-schema-core';
+import { EntityApi } from '@campaign-buddy/frontend-types';
 import React from 'react';
 import { useState, useEffect, useCallback } from 'react';
-import { EntityApi, WidgetProps } from './FormGeneratorProps';
+import { WidgetProps } from './FormGeneratorProps';
 
 interface DebouncedWidgetProps<T> extends Omit<WidgetProps<T>, 'onChange'> {
 	path: string;

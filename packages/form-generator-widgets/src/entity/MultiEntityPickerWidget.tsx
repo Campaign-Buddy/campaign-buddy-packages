@@ -1,5 +1,6 @@
 import { AsyncMultiSelect, IOption } from '@campaign-buddy/core-ui';
-import { WidgetProps, EntitySummary } from '@campaign-buddy/form-generator';
+import { EntitySummary } from '@campaign-buddy/frontend-types';
+import { WidgetProps } from '@campaign-buddy/form-generator';
 import React, { useCallback, useMemo } from 'react';
 import { useEntityPickerState } from './useEntityPickerState';
 

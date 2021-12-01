@@ -5,8 +5,8 @@ import {
 	CampaignBuddySchema,
 	Aggregates,
 } from '@campaign-buddy/json-schema-core';
+import { EntityApi } from '@campaign-buddy/frontend-types';
 import {
-	EntityApi,
 	UiSectionProps,
 	WidgetLookup,
 	WidgetProps,

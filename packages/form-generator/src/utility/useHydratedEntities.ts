@@ -2,7 +2,7 @@ import { CampaignBuddySchema } from '@campaign-buddy/json-schema-core';
 import { useState, useMemo, useEffect, useRef } from 'react';
 import isEqual from 'lodash.isequal';
 import cloneDeep from 'lodash.clonedeep';
-import { EntityApi, HydratedEntity } from '../FormGeneratorProps';
+import { EntityApi, HydratedEntity } from '@campaign-buddy/frontend-types';
 import {
 	CancelablePromise,
 	useCancelableCallback,

@@ -3,12 +3,15 @@
 	"version": "0.1.0",
 	"author": "Joseph Stewart",
 	"license": "MIT",
-	"dependencies": {
-	},
+	"dependencies": {},
 	"devDependencies": {
 		"typescript": "^4.2.4"
 	},
 	"scripts": {
 		"build": "tsc -b"
-	}
+	},
+	"main": "dist/src/index",
+	"files": [
+		"dist/"
+	]
 }

@@ -1,5 +1,5 @@
 import { IOption } from '@campaign-buddy/core-ui';
-import { EntityApi, EntitySummary } from '@campaign-buddy/form-generator';
+import { EntityApi, EntitySummary } from '@campaign-buddy/frontend-types';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 export function useEntityPickerState(

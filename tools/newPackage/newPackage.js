@@ -27,7 +27,7 @@ async function createPackageJson(packageName) {
 
 	await fs.writeFile(
 		path.join(packagesPath, packageName, 'package.json'),
-		JSON.stringify(template),
+		JSON.stringify(template, null, '\t'),
 		{ encoding: 'utf-8' }
 	);
 }

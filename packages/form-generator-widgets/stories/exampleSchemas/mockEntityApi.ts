@@ -3,7 +3,7 @@ import {
 	EntityApi,
 	EntitySummary,
 	HydratedEntity,
-} from '@campaign-buddy/form-generator';
+} from '@campaign-buddy/frontend-types';
 
 const DEBUG_NETWORK_LOAD = false;
 

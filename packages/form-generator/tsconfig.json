@@ -12,6 +12,7 @@
     { "path": "../json-schema-core/tsconfig.json" },
     { "path": "../core-ui/tsconfig.json" },
 	{ "path": "../apply-aggregates/tsconfig.json" },
-	{ "path": "../common-hooks/tsconfig.json" }
+	{ "path": "../common-hooks/tsconfig.json" },
+	{ "path": "../frontend-types/tsconfig.json" }
   ]
 }
