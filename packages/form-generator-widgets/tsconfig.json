@@ -10,6 +10,7 @@
   "references": [
     { "path": "../json-schema-core/tsconfig.json" },
     { "path": "../core-ui/tsconfig.json" },
-    { "path": "../form-generator/tsconfig.json" }
+	{ "path": "../form-generator/tsconfig.json" },
+	{ "path": "../frontend-types/tsconfig.json" }
   ]
 }
