@@ -6,6 +6,7 @@
 	"dependencies": {
 		"@campaign-buddy/core-ui": "0.1.0",
 		"slate": "^0.71.0",
+		"slate-history": "^0.66.0",
 		"slate-react": "^0.71.0"
 	},
 	"devDependencies": {
