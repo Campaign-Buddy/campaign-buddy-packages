@@ -1,0 +1,21 @@
+{
+	"name": "@campaign-buddy/rich-text",
+	"version": "0.1.0",
+	"author": "Joseph Stewart",
+	"license": "MIT",
+	"dependencies": {
+		"@campaign-buddy/core-ui": "0.1.0",
+		"slate": "^0.71.0",
+		"slate-react": "^0.71.0"
+	},
+	"devDependencies": {
+		"typescript": "^4.2.4"
+	},
+	"scripts": {
+		"build": "tsc -b"
+	},
+	"main": "dist/src/index",
+	"files": [
+		"dist/"
+	]
+}
