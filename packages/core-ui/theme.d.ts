@@ -7,6 +7,7 @@ declare module 'styled-components' {
 		colors: {
 			inputBackground: string;
 			text: string;
+			textDisabled: string;
 			primary: string;
 			primaryHover: string;
 			primaryActive: string;

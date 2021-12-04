@@ -48,3 +48,13 @@ export const StyledButton = styled(ButtonCore)<{ _style?: ButtonStyle }>`
 StyledButton.defaultProps = {
 	theme: defaultTheme,
 };
+
+export const StyledToggleButton = styled(StyledButton)<{ isActive: boolean }>`
+	color: ${({ isActive, theme }) =>
+		isActive ? theme.colors.text : theme.colors.textDisabled} !important;
+
+	& .bp3-icon {
+		color: ${({ isActive, theme }) =>
+			isActive ? theme.colors.text : theme.colors.textDisabled} !important;
+	}
+`;
