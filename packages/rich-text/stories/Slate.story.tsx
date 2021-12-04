@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { FormGroup } from '@campaign-buddy/core-ui';
 import { Meta, Story } from '@storybook/react';
-import { RichTextEditor } from '../src';
+import { RichTextEditor, RichTextDocument } from '../src';
 
 export default {
 	title: 'rich-text/RichTextEditor',
@@ -9,9 +9,11 @@ export default {
 } as Meta;
 
 const Template: Story = () => {
+	const [value, setValue] = useState<RichTextDocument>([]);
+
 	return (
 		<FormGroup label="Edit me!" labelFor="editor">
-			<RichTextEditor htmlId="editor" />
+			<RichTextEditor value={value} onChange={setValue} htmlId="editor" />
 		</FormGroup>
 	);
 };
