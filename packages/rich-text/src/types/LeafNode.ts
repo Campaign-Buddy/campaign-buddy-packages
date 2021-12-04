@@ -4,11 +4,9 @@ export interface Formatting {
 	isUnderline?: boolean;
 }
 
-export interface FormattedText {
+export interface FormattedText extends Formatting {
 	kind: 'text';
 	text: string;
-
-	formatting?: Formatting;
 }
 
 export type LeafNode = FormattedText;

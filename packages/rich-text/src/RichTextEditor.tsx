@@ -6,6 +6,7 @@ import { styleAsInput } from '@campaign-buddy/core-ui';
 import { withCampaignBuddyNodes } from './withCampaignBuddyNodes';
 import { leafNodes } from './nodes';
 import { LeafNode, LeafNodeProps } from './types';
+import { Toolbar } from './toolbar';
 
 interface RichTextEditorProps {
 	htmlId?: string;
@@ -29,12 +30,13 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = ({ htmlId }) => {
 			kind: 'paragraph',
 			isInline: false,
 			isVoid: false,
-			children: [{ kind: 'text', text: '', formatting: { isUnderline: true } }],
+			children: [{ kind: 'text', text: '', isUnderline: true }],
 		},
 	]);
 
 	return (
 		<Slate editor={editor} value={value} onChange={setValue}>
+			<Toolbar />
 			<StyledEditable id={htmlId} renderLeaf={renderLeaf} />
 		</Slate>
 	);

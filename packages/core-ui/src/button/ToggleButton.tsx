@@ -8,6 +8,7 @@ interface ToggleButtonProps {
 	icon: IconName;
 	tooltip?: string;
 	size?: 'small' | 'normal' | 'large';
+	preventFocus?: boolean;
 }
 
 export const ToggleButton: React.FC<ToggleButtonProps> = ({
@@ -15,15 +16,25 @@ export const ToggleButton: React.FC<ToggleButtonProps> = ({
 	onChange,
 	icon,
 	size,
+	preventFocus,
 }) => {
 	const handleToggle = useCallback(() => {
 		onChange(!value);
 	}, [onChange, value]);
 
+	const preventFocusHandleToggle = useCallback(
+		(e) => {
+			e.preventDefault();
+			onChange(!value);
+		},
+		[onChange, value]
+	);
+
 	return (
 		<StyledToggleButton
 			icon={icon}
-			onClick={handleToggle}
+			onClick={preventFocus ? undefined : handleToggle}
+			onMouseDown={preventFocus ? preventFocusHandleToggle : undefined}
 			minimal
 			large={size === 'large'}
 			small={size === 'small'}
