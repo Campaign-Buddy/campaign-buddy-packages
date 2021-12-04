@@ -7,3 +7,5 @@ export * from './form-group';
 export * from './aggregated-input';
 export * from './text';
 export * from './select';
+export { defaultTheme } from './theme';
+export { DefaultTheme } from 'styled-components';

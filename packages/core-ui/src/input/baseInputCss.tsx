@@ -1,5 +1,4 @@
-import styled, { css, DefaultTheme, StyledComponent } from 'styled-components';
-import { defaultTheme } from '../theme';
+import { css } from 'styled-components';
 import { baseInputStyles } from './Input.styled';
 
 const focusedStyles = css`
@@ -7,7 +6,7 @@ const focusedStyles = css`
 		inset 0 1px 1px rgb(16 22 26 / 20%) !important;
 `;
 
-const baseInputCss = css`
+export const baseInputCss = css`
 	${baseInputStyles};
 
 	cursor: text;
@@ -24,22 +23,3 @@ const baseInputCss = css`
 		${focusedStyles}
 	}
 `;
-
-export function styleAsInput<TProps>(
-	component: React.ComponentType<TProps>
-): StyledComponent<
-	React.ComponentType<TProps>,
-	DefaultTheme,
-	Record<string, unknown>,
-	never
-> {
-	const wrapped = (styled as any)(component)`
-		${baseInputCss}
-	`;
-
-	wrapped.defaultProps = {
-		theme: defaultTheme,
-	};
-
-	return wrapped;
-}
