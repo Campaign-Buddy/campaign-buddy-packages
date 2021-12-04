@@ -1,5 +1,5 @@
-import React, { useMemo, useState } from 'react';
-import { createEditor, Descendant } from 'slate';
+import React, { useCallback, useMemo, useState } from 'react';
+import { createEditor, Descendant, Transforms, Editor } from 'slate';
 import { Slate, Editable, withReact } from 'slate-react';
 import { withHistory } from 'slate-history';
 import { styleAsInput } from '@campaign-buddy/core-ui';
@@ -34,10 +34,18 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = ({ htmlId }) => {
 		},
 	]);
 
+	const moveCursorToEnd = useCallback(() => {
+		Transforms.select(editor, Editor.end(editor, []));
+	}, [editor]);
+
 	return (
 		<Slate editor={editor} value={value} onChange={setValue}>
 			<Toolbar />
-			<StyledEditable id={htmlId} renderLeaf={renderLeaf} />
+			<StyledEditable
+				onBlur={moveCursorToEnd}
+				id={htmlId}
+				renderLeaf={renderLeaf}
+			/>
 		</Slate>
 	);
 };

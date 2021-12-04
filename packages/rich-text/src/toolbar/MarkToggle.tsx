@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 import { ToggleButton } from '@campaign-buddy/core-ui';
-import { useSlate } from 'slate-react';
+import { ReactEditor, useSlate } from 'slate-react';
 import { Editor } from 'slate';
 import { Formatting } from '../types';
 
@@ -17,6 +17,10 @@ export const MarkToggle: React.FC<MarkToggleProps> = ({ icon, format }) => {
 	const isActive = Boolean(Editor.marks(editor)?.[format]);
 
 	const toggle = useCallback(() => {
+		if (!ReactEditor.isFocused(editor)) {
+			ReactEditor.focus(editor);
+		}
+
 		if (isActive) {
 			Editor.removeMark(editor, format);
 		} else {
