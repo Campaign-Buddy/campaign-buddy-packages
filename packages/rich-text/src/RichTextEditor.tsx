@@ -25,8 +25,6 @@ function renderLeaf(props: LeafNodeProps<LeafNode>) {
 const defaultValue: RichTextDocument = [
 	{
 		kind: 'paragraph',
-		isInline: false,
-		isVoid: false,
 		children: [{ kind: 'text', text: '' }],
 	},
 ];
