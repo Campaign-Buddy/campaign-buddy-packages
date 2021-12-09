@@ -8,6 +8,7 @@
 		"src/**/*"
 	],
 	"references": [
-		{ "path": "../core-ui/tsconfig.json" }
+		{ "path": "../core-ui/tsconfig.json" },
+		{ "path": "../common-hooks/tsconfig.json" }
 	]
 }

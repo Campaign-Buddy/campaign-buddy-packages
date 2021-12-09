@@ -3,8 +3,16 @@ import { createEditor, Transforms, Editor } from 'slate';
 import { Slate, withReact } from 'slate-react';
 import { withHistory } from 'slate-history';
 import { withCampaignBuddyNodes } from './withCampaignBuddyNodes';
-import { leafNodes } from './nodes';
-import { LeafNode, LeafNodeProps, RichTextDocument } from './types';
+import { elementNodes, leafNodes } from './nodes';
+import {
+	ElementNode,
+	ElementNodeProps,
+	LeafNode,
+	LeafNodeProps,
+	RichTextDocument,
+} from './types';
+import isHotKey from 'is-hotkey';
+import { keyBindings } from './keyBindings';
 import { Toolbar } from './toolbar';
 import { StyledEditable, EditorContainer } from './RichTextEditor.styled';
 
@@ -17,8 +25,14 @@ interface RichTextEditorProps {
 	style?: 'default' | 'minimal';
 }
 
+function renderElement(props: ElementNodeProps<ElementNode>) {
+	console.log(props);
+	const Component = elementNodes[props.element.kind];
+	return <Component {...props} />;
+}
+
 function renderLeaf(props: LeafNodeProps<LeafNode>) {
-	const Component = leafNodes[props.leaf.kind];
+	const Component = leafNodes.text;
 	return <Component {...props} />;
 }
 
@@ -46,6 +60,23 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = ({
 		Transforms.select(editor, Editor.end(editor, []));
 	}, [editor]);
 
+	const onKeyDown = useCallback(
+		(e: React.KeyboardEvent) => {
+			const result = Object.entries(keyBindings).find(([binding]) =>
+				isHotKey(binding, e)
+			);
+
+			if (!result) {
+				return;
+			}
+
+			e.preventDefault();
+			const handler = result[1];
+			handler(editor, e);
+		},
+		[editor]
+	);
+
 	const value = !controlledValue?.length ? defaultValue : controlledValue;
 
 	return (
@@ -56,8 +87,10 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = ({
 					onBlur={moveCursorToEnd}
 					id={htmlId}
 					renderLeaf={renderLeaf}
+					renderElement={renderElement}
 					maxHeight={maxHeight}
 					minHeight={minHeight}
+					onKeyDown={onKeyDown}
 				/>
 			</EditorContainer>
 		</Slate>
