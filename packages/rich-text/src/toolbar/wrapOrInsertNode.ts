@@ -14,10 +14,8 @@ export function wrapOrInsertNode<T extends ElementNode>(
 	const isCollapsed = selection && Range.isCollapsed(selection);
 
 	if (isCollapsed) {
-		console.log('inserting node', node);
 		Transforms.insertNodes(editor, node);
 	} else {
-		console.log('wrapping node', node);
 		Transforms.wrapNodes(editor, node, { split: true });
 		Transforms.collapse(editor, { edge: 'end' });
 	}

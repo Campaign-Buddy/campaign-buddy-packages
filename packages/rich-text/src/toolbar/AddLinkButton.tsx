@@ -34,6 +34,18 @@ export const AddLinkButton: React.FC = () => {
 		[editor, selectionSnapshot]
 	);
 
+	const handleCloseModal = useCallback(() => {
+		closeModal();
+
+		if (!ReactEditor.isFocused(editor)) {
+			ReactEditor.focus(editor);
+		}
+
+		if (selectionSnapshot) {
+			Transforms.select(editor, selectionSnapshot);
+		}
+	}, [editor, selectionSnapshot, closeModal]);
+
 	const handleClick = useCallback(() => {
 		if (isLinkActive) {
 			unwrapNode(editor, 'link');
@@ -53,7 +65,7 @@ export const AddLinkButton: React.FC = () => {
 				size="small"
 			/>
 			{isModalOpen && (
-				<AddLinkModal onClose={closeModal} insertLink={addLink} />
+				<AddLinkModal onClose={handleCloseModal} insertLink={addLink} />
 			)}
 		</>
 	);
