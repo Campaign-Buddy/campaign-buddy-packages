@@ -27,6 +27,7 @@ export const ModalRoot = styled.div<{ scrollStyle: ScrollStyle }>`
 	min-width: min(400px, 100%);
 	max-width: min(400px, 100%);
 	margin-top: auto;
+	margin: 0;
 
 	${({ scrollStyle }) =>
 		scrollStyle === 'content' &&

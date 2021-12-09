@@ -1,6 +1,7 @@
 import React, { ComponentProps, useCallback, useMemo, useState } from 'react';
 import { Meta, Story } from '@storybook/react';
-import { Modal, Button } from '../src';
+import { Modal, Button, Input } from '../src';
+import { makeStory } from './util';
 
 export default {
 	title: 'core-ui/Modal',
@@ -72,8 +73,9 @@ const LongContent = () => (
 	</>
 );
 
-const Template: Story = () => {
+const Template: Story = ({ hasInput }) => {
 	const [isOpen, setIsOpen] = useState(false);
+	const [content, setContent] = useState('');
 
 	const toggleIsOpen = useCallback(() => setIsOpen((prev) => !prev), []);
 
@@ -96,10 +98,16 @@ const Template: Story = () => {
 				title="I am a modal"
 				footerButtons={footerButtons}
 			>
-				<LongContent />
+				{hasInput ? (
+					<Input value={content} onChange={setContent} label="Edit me" />
+				) : (
+					<LongContent />
+				)}
 			</Modal>
 		</div>
 	);
 };
 
 export const Primary = Template.bind({});
+
+export const WithInput = makeStory(Template, { hasInput: true });

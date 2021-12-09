@@ -8,7 +8,6 @@ export function wrapOrInsertNode<T extends ElementNode>(
 ): void {
 	if (isNodeActive(editor, node.kind)) {
 		unwrapNode(editor, node.kind);
-		return;
 	}
 
 	const { selection } = editor;
@@ -22,7 +21,7 @@ export function wrapOrInsertNode<T extends ElementNode>(
 	}
 }
 
-function unwrapNode(editor: Editor, kind: ElementNodeKind): void {
+export function unwrapNode(editor: Editor, kind: ElementNodeKind): void {
 	Transforms.unwrapNodes(editor, {
 		match: (n) =>
 			!Editor.isEditor(n) && Element.isElement(n) && n.kind === kind,
