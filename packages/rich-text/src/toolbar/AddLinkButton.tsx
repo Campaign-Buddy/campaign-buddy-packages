@@ -3,6 +3,7 @@ import { useSlate } from 'slate-react';
 import { ToggleButton } from '@campaign-buddy/core-ui';
 import { useIsNodeActive } from './useIsNodeActive';
 import { wrapOrInsertNode } from './wrapOrInsertNode';
+import { Transforms } from 'slate';
 
 export const AddLinkButton: React.FC = () => {
 	const editor = useSlate();
@@ -14,6 +15,7 @@ export const AddLinkButton: React.FC = () => {
 			url: 'https://google.com',
 			children: [{ kind: 'text', text: 'https://google.com' }],
 		});
+		Transforms.move(editor, { unit: 'offset' });
 	}, [editor]);
 
 	return (
