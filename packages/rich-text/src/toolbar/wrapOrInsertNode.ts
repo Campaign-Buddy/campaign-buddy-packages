@@ -8,6 +8,7 @@ export function wrapOrInsertNode<T extends ElementNode>(
 ): void {
 	if (isNodeActive(editor, node.kind)) {
 		unwrapNode(editor, node.kind);
+		return;
 	}
 
 	const { selection } = editor;
