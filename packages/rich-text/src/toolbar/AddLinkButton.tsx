@@ -16,6 +16,8 @@ export const AddLinkButton: React.FC = () => {
 
 	const addLink = useCallback(
 		(url: string) => {
+			closeModal();
+
 			if (!ReactEditor.isFocused(editor)) {
 				ReactEditor.focus(editor);
 			}
@@ -31,7 +33,7 @@ export const AddLinkButton: React.FC = () => {
 			});
 			Transforms.move(editor, { unit: 'offset' });
 		},
-		[editor, selectionSnapshot]
+		[editor, selectionSnapshot, closeModal]
 	);
 
 	const handleCloseModal = useCallback(() => {
@@ -81,8 +83,7 @@ const AddLinkModal: React.FC<AddLinkModalProps> = ({ onClose, insertLink }) => {
 
 	const submit = useCallback(() => {
 		insertLink(url);
-		onClose();
-	}, [insertLink, url, onClose]);
+	}, [insertLink, url]);
 
 	const modalFooterButtons = useMemo(
 		() => [

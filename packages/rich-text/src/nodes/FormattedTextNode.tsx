@@ -35,7 +35,7 @@ export const FormattedTextNode: React.FC<LeafNodeProps<FormattedTextType>> = ({
 	children,
 }) => {
 	return (
-		<FormattedText {...attributes} {...(leaf ?? {})}>
+		<FormattedText {...(leaf ?? {})} {...attributes}>
 			{children}
 		</FormattedText>
 	);
