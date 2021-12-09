@@ -1,20 +1,29 @@
 import React, { useCallback, useMemo, useState } from 'react';
-import { useSlate } from 'slate-react';
+import { useSlate, ReactEditor } from 'slate-react';
 import { ToggleButton, Modal, Input } from '@campaign-buddy/core-ui';
 import isHotKey from 'is-hotkey';
 import { useIsNodeActive } from './useIsNodeActive';
 import { wrapOrInsertNode, unwrapNode } from './wrapOrInsertNode';
-import { Transforms } from 'slate';
+import { BaseSelection, Transforms } from 'slate';
 import { useBooleanState } from '@campaign-buddy/common-hooks';
 
 export const AddLinkButton: React.FC = () => {
 	const editor = useSlate();
 
 	const isLinkActive = useIsNodeActive('link');
+	const [selectionSnapshot, setSelectionSnapshot] = useState<BaseSelection>();
 	const [isModalOpen, openModal, closeModal] = useBooleanState();
 
 	const addLink = useCallback(
 		(url: string) => {
+			if (!ReactEditor.isFocused(editor)) {
+				ReactEditor.focus(editor);
+			}
+
+			if (selectionSnapshot) {
+				Transforms.select(editor, selectionSnapshot);
+			}
+
 			wrapOrInsertNode(editor, {
 				kind: 'link',
 				url,
@@ -22,7 +31,7 @@ export const AddLinkButton: React.FC = () => {
 			});
 			Transforms.move(editor, { unit: 'offset' });
 		},
-		[editor]
+		[editor, selectionSnapshot]
 	);
 
 	const handleClick = useCallback(() => {
@@ -31,6 +40,7 @@ export const AddLinkButton: React.FC = () => {
 			return;
 		}
 
+		setSelectionSnapshot(editor.selection);
 		openModal();
 	}, [editor, isLinkActive, openModal]);
 
@@ -75,6 +85,7 @@ const AddLinkModal: React.FC<AddLinkModalProps> = ({ onClose, insertLink }) => {
 	const handleEnter = useCallback(
 		(e) => {
 			if (isHotKey('enter', e)) {
+				e.preventDefault();
 				submit();
 			}
 		},
