@@ -26,7 +26,6 @@ interface RichTextEditorProps {
 }
 
 function renderElement(props: ElementNodeProps<ElementNode>) {
-	console.log(props);
 	const Component = elementNodes[props.element.kind];
 	return <Component {...props} />;
 }
