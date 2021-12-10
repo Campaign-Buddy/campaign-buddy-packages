@@ -27,7 +27,8 @@ This repository houses several frontend packages (using yarn workspaces) used to
 - [ ] Multi pane UI component package (can copy from previous project?)
 - [ ] File system component (may live in main campaign buddy app project)
 - [ ] UI test
-- [ ] Localization process
+- [ ] Localization process (for packages that have copy)
+- [ ] Plan out analytic strategy (move this to the main campaign buddy app repo when it exists)
 
 ## Design Philosophy
 
