@@ -17,6 +17,7 @@ This repository houses several frontend packages (using yarn workspaces) used to
 	- Various horizontal alignment
 	- Varying font sizes
 	- Grid configurations? Using grid instead of flex may solve some of the above problems
+	- Embedded functionality for other tools (like a button to roll initiative)
 - [ ] Refactor aggregated inputs to be more generic "popover inputs" (since not every use case is for data aggregations)
 - [ ] Add quick up and down buttons for numeric resource
 	- At the very least, keyboard shortcuts
