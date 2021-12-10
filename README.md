@@ -5,7 +5,7 @@ This repository houses several frontend packages (using yarn workspaces) used to
 ## Todo
 
 - [ ] Add image widget
-- [ ] Start working on rich text editor (using slate)
+- [X] Start working on rich text editor (using slate)
 - [ ] Think through more possible widget types to handle all D&D use cases
 	- Proficiency list?
 	- Spell slots
@@ -26,6 +26,8 @@ This repository houses several frontend packages (using yarn workspaces) used to
 	- Model needs to describe how to generate wizard UI for creating various entities
 - [ ] Multi pane UI component package (can copy from previous project?)
 - [ ] File system component (may live in main campaign buddy app project)
+- [ ] UI test
+- [ ] Localization process
 
 ## Design Philosophy
 
