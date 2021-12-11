@@ -1,43 +1,23 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useSlate, ReactEditor } from 'slate-react';
-import { ToggleButton, Modal, Input } from '@campaign-buddy/core-ui';
+import { BaseSelection, Transforms } from 'slate';
+import { ToggleButton, Input, Popover, Button } from '@campaign-buddy/core-ui';
 import isHotKey from 'is-hotkey';
 import { useIsNodeActive } from './useIsNodeActive';
 import { wrapOrInsertNode, unwrapNode } from './wrapOrInsertNode';
-import { BaseSelection, Transforms } from 'slate';
 import { useBooleanState } from '@campaign-buddy/common-hooks';
 
 export const AddLinkButton: React.FC = () => {
 	const editor = useSlate();
 
+	const [url, setUrl] = useState<string>('');
+
 	const isLinkActive = useIsNodeActive('link');
 	const [selectionSnapshot, setSelectionSnapshot] = useState<BaseSelection>();
-	const [isModalOpen, openModal, closeModal] = useBooleanState();
+	const [isPopoverOpen, openPopover, closePopover] = useBooleanState();
 
-	const addLink = useCallback(
-		(url: string) => {
-			closeModal();
-
-			if (!ReactEditor.isFocused(editor)) {
-				ReactEditor.focus(editor);
-			}
-
-			if (selectionSnapshot) {
-				Transforms.select(editor, selectionSnapshot);
-			}
-
-			wrapOrInsertNode(editor, {
-				kind: 'link',
-				url,
-				children: [{ kind: 'text', text: url }],
-			});
-			Transforms.move(editor, { unit: 'offset' });
-		},
-		[editor, selectionSnapshot, closeModal]
-	);
-
-	const handleCloseModal = useCallback(() => {
-		closeModal();
+	const addLink = useCallback(() => {
+		closePopover();
 
 		if (!ReactEditor.isFocused(editor)) {
 			ReactEditor.focus(editor);
@@ -46,7 +26,26 @@ export const AddLinkButton: React.FC = () => {
 		if (selectionSnapshot) {
 			Transforms.select(editor, selectionSnapshot);
 		}
-	}, [editor, selectionSnapshot, closeModal]);
+
+		wrapOrInsertNode(editor, {
+			kind: 'link',
+			url,
+			children: [{ kind: 'text', text: url }],
+		});
+		Transforms.move(editor, { unit: 'offset' });
+	}, [editor, selectionSnapshot, closePopover, url]);
+
+	const handleCloseModal = useCallback(() => {
+		closePopover();
+
+		if (!ReactEditor.isFocused(editor)) {
+			ReactEditor.focus(editor);
+		}
+
+		if (selectionSnapshot) {
+			Transforms.select(editor, selectionSnapshot);
+		}
+	}, [editor, selectionSnapshot, closePopover]);
 
 	const handleClick = useCallback(() => {
 		if (isLinkActive) {
@@ -55,70 +54,45 @@ export const AddLinkButton: React.FC = () => {
 		}
 
 		setSelectionSnapshot(editor.selection);
-		openModal();
-	}, [editor, isLinkActive, openModal]);
-
-	return (
-		<>
-			<ToggleButton
-				value={isLinkActive}
-				icon="link"
-				onChange={handleClick}
-				size="small"
-			/>
-			{isModalOpen && (
-				<AddLinkModal onClose={handleCloseModal} insertLink={addLink} />
-			)}
-		</>
-	);
-};
-
-interface AddLinkModalProps {
-	onClose: () => void;
-	insertLink: (url: string) => void;
-}
-
-const AddLinkModal: React.FC<AddLinkModalProps> = ({ onClose, insertLink }) => {
-	const [url, setUrl] = useState<string>('');
-
-	const submit = useCallback(() => {
-		insertLink(url);
-	}, [insertLink, url]);
-
-	const modalFooterButtons = useMemo(
-		() => [
-			{
-				text: 'Add link',
-				onClick: submit,
-			},
-		],
-		[submit]
-	);
+		openPopover();
+	}, [editor, isLinkActive, openPopover]);
 
 	const handleEnter = useCallback(
 		(e) => {
 			if (isHotKey('enter', e)) {
 				e.preventDefault();
-				submit();
+				addLink();
 			}
 		},
-		[submit]
+		[addLink]
 	);
 
 	return (
-		<Modal
-			isOpen
-			onClose={onClose}
-			title="Insert link"
-			footerButtons={modalFooterButtons}
-		>
-			<Input
-				label="URL"
-				value={url}
-				onChange={setUrl}
-				autoFocus
-				onKeyDown={handleEnter}
-			/>
-		</Modal>
+		<>
+			<Popover
+				isOpen={isPopoverOpen}
+				onClose={handleCloseModal}
+				content={
+					<>
+						<Input
+							label="URL"
+							value={url}
+							onChange={setUrl}
+							autoFocus
+							onKeyDown={handleEnter}
+						/>
+						<Button onClick={addLink}>Add link</Button>
+					</>
+				}
+				placement="bottom-start"
+			>
+				<ToggleButton
+					value={isLinkActive}
+					icon="link"
+					onChange={handleClick}
+					size="small"
+				/>
+			</Popover>
+		</>
 	);
 };
