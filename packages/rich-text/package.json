@@ -6,6 +6,7 @@
 	"dependencies": {
 		"@campaign-buddy/common-hooks": "0.1.0",
 		"@campaign-buddy/core-ui": "0.1.0",
+		"cuid": "^2.1.8",
 		"is-hotkey": "^0.2.0",
 		"slate": "^0.71.0",
 		"slate-history": "^0.66.0",

@@ -2,6 +2,8 @@ import React, { useCallback, useMemo } from 'react';
 import { createEditor, Transforms, Editor } from 'slate';
 import { Slate, withReact } from 'slate-react';
 import { withHistory } from 'slate-history';
+import isHotKey from 'is-hotkey';
+import cuid from 'cuid';
 import { withCampaignBuddyNodes } from './withCampaignBuddyNodes';
 import { elementNodes, leafNodes } from './nodes';
 import {
@@ -11,7 +13,6 @@ import {
 	LeafNodeProps,
 	RichTextDocument,
 } from './types';
-import isHotKey from 'is-hotkey';
 import { keyBindings } from './keyBindings';
 import { Toolbar } from './toolbar';
 import { StyledEditable, EditorContainer } from './RichTextEditor.styled';
@@ -39,6 +40,7 @@ const defaultValue: RichTextDocument = [
 	{
 		kind: 'paragraph',
 		children: [{ kind: 'text', text: '' }],
+		id: cuid(),
 	},
 ];
 

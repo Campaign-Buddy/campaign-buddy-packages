@@ -7,6 +7,7 @@ export interface ElementBase<
 > {
 	kind: T;
 	children: TChildren[];
+	id: string;
 }
 
 export interface ParagraphNode extends ElementBase<'paragraph'> {
