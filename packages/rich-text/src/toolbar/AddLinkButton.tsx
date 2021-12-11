@@ -9,8 +9,7 @@ import {
 	Flex,
 } from '@campaign-buddy/core-ui';
 import isHotKey from 'is-hotkey';
-import { useIsNodeActive } from './useIsNodeActive';
-import { wrapOrInsertNode, unwrapNode } from './wrapOrInsertNode';
+import { wrapOrInsertNode, unwrapNode, useIsNodeActive } from '../editor-util';
 import { useBooleanState } from '@campaign-buddy/common-hooks';
 
 export const AddLinkButton: React.FC = () => {
