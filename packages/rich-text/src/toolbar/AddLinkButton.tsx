@@ -1,7 +1,13 @@
 import React, { useCallback, useState } from 'react';
 import { useSlate, ReactEditor } from 'slate-react';
 import { BaseSelection, Transforms } from 'slate';
-import { ToggleButton, Input, Popover, Button } from '@campaign-buddy/core-ui';
+import {
+	ToggleButton,
+	Input,
+	Popover,
+	Button,
+	Flex,
+} from '@campaign-buddy/core-ui';
 import isHotKey from 'is-hotkey';
 import { useIsNodeActive } from './useIsNodeActive';
 import { wrapOrInsertNode, unwrapNode } from './wrapOrInsertNode';
@@ -81,7 +87,9 @@ export const AddLinkButton: React.FC = () => {
 							autoFocus
 							onKeyDown={handleEnter}
 						/>
-						<Button onClick={addLink}>Add link</Button>
+						<Flex justifyContent="flex-end">
+							<Button onClick={addLink}>Add link</Button>
+						</Flex>
 					</>
 				}
 				placement="bottom-start"
