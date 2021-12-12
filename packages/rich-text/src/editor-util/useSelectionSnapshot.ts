@@ -1,5 +1,5 @@
-import { useCallback, useRef } from 'react';
-import { Location, Transforms } from 'slate';
+import { useCallback, useRef, useEffect } from 'react';
+import { RangeRef, Transforms, Editor } from 'slate';
 import { ReactEditor, useSlateStatic } from 'slate-react';
 
 interface UseSelectionSnapshotHook {
@@ -10,7 +10,7 @@ interface UseSelectionSnapshotHook {
 export function useSelectionSnapshot(): UseSelectionSnapshotHook {
 	const editor = useSlateStatic();
 
-	const snapshotStack = useRef<Location[]>([]);
+	const snapshotStack = useRef<RangeRef[]>([]);
 
 	const pushSelectionSnapshot = useCallback(() => {
 		const currentSelection = editor.selection;
@@ -18,12 +18,17 @@ export function useSelectionSnapshot(): UseSelectionSnapshotHook {
 			return;
 		}
 
-		snapshotStack.current.push(currentSelection);
+		snapshotStack.current.push(Editor.rangeRef(editor, currentSelection));
 	}, [editor]);
 
 	const popSelectionSnapshot = useCallback(() => {
-		const selection = snapshotStack.current.pop();
+		const selectionRef = snapshotStack.current.pop();
 
+		if (!selectionRef) {
+			return;
+		}
+
+		const selection = selectionRef?.unref();
 		if (!selection) {
 			return;
 		}
@@ -34,6 +39,15 @@ export function useSelectionSnapshot(): UseSelectionSnapshotHook {
 
 		Transforms.select(editor, selection);
 	}, [editor]);
+
+	useEffect(() => {
+		return () => {
+			// eslint-disable-next-line react-hooks/exhaustive-deps
+			for (const ref of snapshotStack.current) {
+				ref.unref();
+			}
+		};
+	}, []);
 
 	return { pushSelectionSnapshot, popSelectionSnapshot };
 }
