@@ -23,13 +23,13 @@ export const AddLinkButton: React.FC = () => {
 
 	const [url, setUrl] = useState<string>('');
 
-	const { pushSnapshot, popSnapshot } = useSelectionSnapshot();
+	const { pushSelectionSnapshot, popSelectionSnapshot } = useSelectionSnapshot();
 	const isLinkActive = useIsNodeActive('link');
 	const [isPopoverOpen, openPopover, closePopover] = useBooleanState();
 
 	const addLink = useCallback(() => {
 		closePopover();
-		popSnapshot();
+		popSelectionSnapshot();
 
 		const { id } = wrapOrInsertNode(editor, {
 			kind: 'link',
@@ -39,7 +39,7 @@ export const AddLinkButton: React.FC = () => {
 
 		selectEndOfElement(editor, id);
 		Transforms.move(editor, { unit: 'offset' });
-	}, [closePopover, popSnapshot, editor, url]);
+	}, [closePopover, popSelectionSnapshot, editor, url]);
 
 	const handleClick = useCallback(() => {
 		if (isLinkActive) {
@@ -47,9 +47,9 @@ export const AddLinkButton: React.FC = () => {
 			return;
 		}
 
-		pushSnapshot();
+		pushSelectionSnapshot();
 		openPopover();
-	}, [editor, isLinkActive, openPopover, pushSnapshot]);
+	}, [editor, isLinkActive, openPopover, pushSelectionSnapshot]);
 
 	const handleEnter = useCallback(
 		(e) => {

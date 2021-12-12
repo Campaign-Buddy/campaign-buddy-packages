@@ -21,17 +21,17 @@ export const LinkNode: React.FC<ElementNodeProps<LinkNodeType>> = ({
 }) => {
 	const editor = useSlate();
 	const [isPopoverOpen, openPopover, closePopover] = useBooleanState();
-	const { pushSnapshot, popSnapshot } = useSelectionSnapshot();
+	const { pushSelectionSnapshot, popSelectionSnapshot } = useSelectionSnapshot();
 
 	const handleOpenPopover = useCallback(() => {
-		pushSnapshot();
+		pushSelectionSnapshot();
 		openPopover();
-	}, [pushSnapshot, openPopover]);
+	}, [pushSelectionSnapshot, openPopover]);
 
 	const handleClosePopover = useCallback(() => {
 		closePopover();
-		popSnapshot();
-	}, [closePopover, popSnapshot]);
+		popSelectionSnapshot();
+	}, [closePopover, popSelectionSnapshot]);
 
 	const highlight = useCallback((e: React.FocusEvent<HTMLInputElement>) => {
 		e.target.select();

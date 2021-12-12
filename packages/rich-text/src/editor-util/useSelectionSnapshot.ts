@@ -3,8 +3,8 @@ import { Location, Transforms } from 'slate';
 import { ReactEditor, useSlateStatic } from 'slate-react';
 
 interface UseSelectionSnapshotHook {
-	pushSnapshot: () => void;
-	popSnapshot: () => void;
+	pushSelectionSnapshot: () => void;
+	popSelectionSnapshot: () => void;
 }
 
 export function useSelectionSnapshot(): UseSelectionSnapshotHook {
@@ -12,7 +12,7 @@ export function useSelectionSnapshot(): UseSelectionSnapshotHook {
 
 	const snapshotStack = useRef<Location[]>([]);
 
-	const pushSnapshot = useCallback(() => {
+	const pushSelectionSnapshot = useCallback(() => {
 		const currentSelection = editor.selection;
 		if (!currentSelection) {
 			return;
@@ -21,7 +21,7 @@ export function useSelectionSnapshot(): UseSelectionSnapshotHook {
 		snapshotStack.current.push(currentSelection);
 	}, [editor]);
 
-	const popSnapshot = useCallback(() => {
+	const popSelectionSnapshot = useCallback(() => {
 		const selection = snapshotStack.current.pop();
 
 		if (!selection) {
@@ -35,5 +35,5 @@ export function useSelectionSnapshot(): UseSelectionSnapshotHook {
 		Transforms.select(editor, selection);
 	}, [editor]);
 
-	return { pushSnapshot, popSnapshot };
+	return { pushSelectionSnapshot, popSelectionSnapshot };
 }
