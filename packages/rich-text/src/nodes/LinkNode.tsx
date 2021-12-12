@@ -61,10 +61,10 @@ export const LinkNode: React.FC<ElementNodeProps<LinkNodeType>> = ({
 			<Popover
 				isOpen={isPopoverOpen}
 				onClose={handleClosePopover}
+				autoFocus={false}
 				content={
 					<>
 						<Input
-							autoFocus
 							label="URL"
 							value={element.url}
 							onChange={updateLink}

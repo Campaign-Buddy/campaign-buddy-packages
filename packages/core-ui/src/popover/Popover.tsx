@@ -22,6 +22,7 @@ interface PopoverProps {
 	isOpen: boolean;
 	onClose: () => void;
 	placement?: Placement;
+	autoFocus?: boolean;
 }
 
 const popoverModifiers = {
@@ -39,6 +40,7 @@ export const Popover: React.FC<PopoverProps> = ({
 	isOpen,
 	onClose,
 	placement,
+	autoFocus,
 }) => {
 	return (
 		<>
@@ -53,6 +55,7 @@ export const Popover: React.FC<PopoverProps> = ({
 				placement={placement}
 				openOnTargetFocus={false}
 				enforceFocus={false}
+				autoFocus={autoFocus}
 			>
 				{children}
 			</PopoverCore>
