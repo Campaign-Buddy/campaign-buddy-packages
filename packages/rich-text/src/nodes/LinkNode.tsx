@@ -21,7 +21,8 @@ export const LinkNode: React.FC<ElementNodeProps<LinkNodeType>> = ({
 }) => {
 	const editor = useSlate();
 	const [isPopoverOpen, openPopover, closePopover] = useBooleanState();
-	const { pushSelectionSnapshot, popSelectionSnapshot } = useSelectionSnapshot();
+	const { pushSelectionSnapshot, popSelectionSnapshot } =
+		useSelectionSnapshot();
 
 	const handleOpenPopover = useCallback(() => {
 		pushSelectionSnapshot();

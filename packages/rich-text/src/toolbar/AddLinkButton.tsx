@@ -23,7 +23,8 @@ export const AddLinkButton: React.FC = () => {
 
 	const [url, setUrl] = useState<string>('');
 
-	const { pushSelectionSnapshot, popSelectionSnapshot } = useSelectionSnapshot();
+	const { pushSelectionSnapshot, popSelectionSnapshot } =
+		useSelectionSnapshot();
 	const isLinkActive = useIsNodeActive('link');
 	const [isPopoverOpen, openPopover, closePopover] = useBooleanState();
 
