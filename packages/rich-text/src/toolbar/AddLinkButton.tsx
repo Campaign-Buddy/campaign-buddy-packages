@@ -51,11 +51,6 @@ export const AddLinkButton: React.FC = () => {
 		openPopover();
 	}, [editor, isLinkActive, openPopover, pushSnapshot]);
 
-	const handleClosePopover = useCallback(() => {
-		pushSnapshot();
-		closePopover();
-	}, [pushSnapshot, closePopover]);
-
 	const handleEnter = useCallback(
 		(e) => {
 			if (isHotKey('enter', e)) {
@@ -69,7 +64,7 @@ export const AddLinkButton: React.FC = () => {
 	return (
 		<Popover
 			isOpen={isPopoverOpen}
-			onClose={handleClosePopover}
+			onClose={closePopover}
 			content={
 				<>
 					<Input

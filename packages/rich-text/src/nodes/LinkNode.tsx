@@ -8,9 +8,11 @@ import {
 } from '@campaign-buddy/core-ui';
 import { useBooleanState } from '@campaign-buddy/common-hooks';
 import isHotKey from 'is-hotkey';
-import { ElementNodeProps, LinkNode as LinkNodeType } from '../types';
 import { ReactEditor, useSlate } from 'slate-react';
-import { Editor, Transforms } from 'slate';
+import { Transforms } from 'slate';
+import { ElementNodeProps, LinkNode as LinkNodeType } from '../types';
+import { InlineChromiumBugfix } from './InlineChromeBugfix';
+import { useSelectionSnapshot } from '../editor-util';
 
 export const LinkNode: React.FC<ElementNodeProps<LinkNodeType>> = ({
 	attributes,
@@ -19,6 +21,17 @@ export const LinkNode: React.FC<ElementNodeProps<LinkNodeType>> = ({
 }) => {
 	const editor = useSlate();
 	const [isPopoverOpen, openPopover, closePopover] = useBooleanState();
+	const { pushSnapshot, popSnapshot } = useSelectionSnapshot();
+
+	const handleOpenPopover = useCallback(() => {
+		pushSnapshot();
+		openPopover();
+	}, [pushSnapshot, openPopover]);
+
+	const handleClosePopover = useCallback(() => {
+		closePopover();
+		popSnapshot();
+	}, [closePopover, popSnapshot]);
 
 	const highlight = useCallback((e: React.FocusEvent<HTMLInputElement>) => {
 		e.target.select();
@@ -32,35 +45,21 @@ export const LinkNode: React.FC<ElementNodeProps<LinkNodeType>> = ({
 		[element, editor]
 	);
 
-	const closeAndResetSelection = useCallback(() => {
-		closePopover();
-
-		if (!ReactEditor.isFocused(editor)) {
-			ReactEditor.focus(editor);
-		}
-
-		const path = ReactEditor.findPath(editor, element);
-		const point = Editor.point(editor, path);
-		Transforms.setPoint(editor, point);
-		Transforms.collapse(editor, { edge: 'end' });
-		Transforms.move(editor, { unit: 'offset' });
-	}, [closePopover, editor, element]);
-
 	const handleEnter = useCallback(
 		(e) => {
 			if (isHotKey('enter', e)) {
 				e.preventDefault();
-				closeAndResetSelection();
+				handleClosePopover();
 			}
 		},
-		[closeAndResetSelection]
+		[handleClosePopover]
 	);
 
 	return (
 		<span {...attributes}>
 			<Popover
 				isOpen={isPopoverOpen}
-				onClose={closePopover}
+				onClose={handleClosePopover}
 				content={
 					<>
 						<Input
@@ -72,13 +71,17 @@ export const LinkNode: React.FC<ElementNodeProps<LinkNodeType>> = ({
 							onFocus={highlight}
 						/>
 						<Flex justifyContent="flex-end">
-							<Button onClick={closeAndResetSelection}>Close</Button>
+							<Button onClick={handleClosePopover}>Close</Button>
 						</Flex>
 					</>
 				}
 				placement="bottom"
 			>
-				<LinkButton onClick={openPopover}>{children}</LinkButton>
+				<LinkButton onClick={handleOpenPopover}>
+					<InlineChromiumBugfix />
+					{children}
+					<InlineChromiumBugfix />
+				</LinkButton>
 			</Popover>
 		</span>
 	);
