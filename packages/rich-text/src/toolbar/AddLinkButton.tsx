@@ -1,15 +1,21 @@
 import React, { useCallback, useState } from 'react';
-import { useSlate, ReactEditor } from 'slate-react';
-import { BaseSelection, Transforms } from 'slate';
+import { useSlate } from 'slate-react';
+import { Transforms } from 'slate';
 import {
 	ToggleButton,
 	Input,
-	Popover,
 	Button,
 	Flex,
+	Popover,
 } from '@campaign-buddy/core-ui';
 import isHotKey from 'is-hotkey';
-import { wrapOrInsertNode, unwrapNode, useIsNodeActive } from '../editor-util';
+import {
+	wrapOrInsertNode,
+	unwrapNode,
+	useIsNodeActive,
+	useSelectionSnapshot,
+	selectEndOfElement,
+} from '../editor-util';
 import { useBooleanState } from '@campaign-buddy/common-hooks';
 
 export const AddLinkButton: React.FC = () => {
@@ -17,40 +23,23 @@ export const AddLinkButton: React.FC = () => {
 
 	const [url, setUrl] = useState<string>('');
 
+	const { pushSnapshot, popSnapshot } = useSelectionSnapshot();
 	const isLinkActive = useIsNodeActive('link');
-	const [selectionSnapshot, setSelectionSnapshot] = useState<BaseSelection>();
 	const [isPopoverOpen, openPopover, closePopover] = useBooleanState();
 
 	const addLink = useCallback(() => {
 		closePopover();
+		popSnapshot();
 
-		if (!ReactEditor.isFocused(editor)) {
-			ReactEditor.focus(editor);
-		}
-
-		if (selectionSnapshot) {
-			Transforms.select(editor, selectionSnapshot);
-		}
-
-		wrapOrInsertNode(editor, {
+		const { id } = wrapOrInsertNode(editor, {
 			kind: 'link',
 			url,
 			children: [{ kind: 'text', text: url }],
 		});
+
+		selectEndOfElement(editor, id);
 		Transforms.move(editor, { unit: 'offset' });
-	}, [editor, selectionSnapshot, closePopover, url]);
-
-	const handleCloseModal = useCallback(() => {
-		closePopover();
-
-		if (!ReactEditor.isFocused(editor)) {
-			ReactEditor.focus(editor);
-		}
-
-		if (selectionSnapshot) {
-			Transforms.select(editor, selectionSnapshot);
-		}
-	}, [editor, selectionSnapshot, closePopover]);
+	}, [closePopover, popSnapshot, editor, url]);
 
 	const handleClick = useCallback(() => {
 		if (isLinkActive) {
@@ -58,9 +47,14 @@ export const AddLinkButton: React.FC = () => {
 			return;
 		}
 
-		setSelectionSnapshot(editor.selection);
+		pushSnapshot();
 		openPopover();
-	}, [editor, isLinkActive, openPopover]);
+	}, [editor, isLinkActive, openPopover, pushSnapshot]);
+
+	const handleClosePopover = useCallback(() => {
+		pushSnapshot();
+		closePopover();
+	}, [pushSnapshot, closePopover]);
 
 	const handleEnter = useCallback(
 		(e) => {
@@ -73,33 +67,31 @@ export const AddLinkButton: React.FC = () => {
 	);
 
 	return (
-		<>
-			<Popover
-				isOpen={isPopoverOpen}
-				onClose={handleCloseModal}
-				content={
-					<>
-						<Input
-							label="URL"
-							value={url}
-							onChange={setUrl}
-							autoFocus
-							onKeyDown={handleEnter}
-						/>
-						<Flex justifyContent="flex-end">
-							<Button onClick={addLink}>Add link</Button>
-						</Flex>
-					</>
-				}
-				placement="bottom-start"
-			>
-				<ToggleButton
-					value={isLinkActive}
-					icon="link"
-					onChange={handleClick}
-					size="small"
-				/>
-			</Popover>
-		</>
+		<Popover
+			isOpen={isPopoverOpen}
+			onClose={handleClosePopover}
+			content={
+				<>
+					<Input
+						label="URL"
+						value={url}
+						onChange={setUrl}
+						autoFocus
+						onKeyDown={handleEnter}
+					/>
+					<Flex justifyContent="flex-end">
+						<Button onClick={addLink}>Add link</Button>
+					</Flex>
+				</>
+			}
+			placement="bottom-start"
+		>
+			<ToggleButton
+				value={isLinkActive}
+				icon="link"
+				onChange={handleClick}
+				size="small"
+			/>
+		</Popover>
 	);
 };
