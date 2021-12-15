@@ -1,5 +1,6 @@
 import React, { useCallback, useRef } from 'react';
 import { ReactEditor, useSlate } from 'slate-react';
+import { AddImageButton } from './AddImageButton';
 import { AddLinkButton } from './AddLinkButton';
 import { MarkToggle } from './MarkToggle';
 import { ToolbarContainer } from './Toolbar.styled';
@@ -30,6 +31,7 @@ export const Toolbar: React.FC = () => {
 			</div>
 			<div>
 				<AddLinkButton />
+				<AddImageButton />
 			</div>
 		</ToolbarContainer>
 	);

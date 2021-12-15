@@ -28,4 +28,4 @@ export const voidNodes: ElementNodeKind[] = ['image'];
 
 export const inlineNodes: ElementNodeKind[] = ['link'];
 
-export type ElementNode = ParagraphNode | LinkNode;
+export type ElementNode = ParagraphNode | LinkNode | ImageNode;

@@ -7,6 +7,7 @@ import {
 import { FormattedTextNode } from './FormattedTextNode';
 import { LinkNode } from './LinkNode';
 import { ParagraphNode } from './ParagraphNode';
+import { ImageNode } from './ImageNode';
 
 export const leafNodes: Record<
 	LeafNodeKind,
@@ -21,5 +22,5 @@ export const elementNodes: Record<
 > = {
 	link: LinkNode,
 	paragraph: ParagraphNode,
-	image: () => null,
+	image: ImageNode,
 };

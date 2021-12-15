@@ -1,4 +1,5 @@
 import { Editor, Element, Text, Transforms } from 'slate';
+import cuid from 'cuid';
 import { voidNodes, inlineNodes, ElementNode } from './types';
 
 export function withCampaignBuddyNodes(editor: Editor): Editor {
@@ -14,6 +15,26 @@ export function withCampaignBuddyNodes(editor: Editor): Editor {
 
 	editor.normalizeNode = (entry) => {
 		const [node, path] = entry;
+
+		// The last element must not be void
+		if (
+			Element.isElement(node) &&
+			editor.isVoid(node) &&
+			!Editor.next(editor, { at: path, voids: true })
+		) {
+			Transforms.insertNodes(
+				editor,
+				{
+					id: cuid(),
+					kind: 'paragraph',
+					children: [{ text: '', kind: 'text' }],
+				},
+				{
+					at: Editor.end(editor, []),
+				}
+			);
+			return;
+		}
 
 		// Link nodes must not be empty, it's confusing
 		if (

@@ -3,10 +3,10 @@ import { Editor, Transforms, Element, Range } from 'slate';
 import { ElementNode, ElementNodeKind } from '../types';
 import { isNodeActive } from './useIsNodeActive';
 
-export function wrapOrInsertNode<T extends Omit<ElementNode, 'id'>>(
+export function wrapOrInsertNode<T extends ElementNode>(
 	editor: Editor,
-	node: T
-): ElementNode {
+	node: Omit<T, 'id'>
+): T {
 	if (isNodeActive(editor, node.kind)) {
 		unwrapNode(editor, node.kind);
 	}
@@ -14,7 +14,7 @@ export function wrapOrInsertNode<T extends Omit<ElementNode, 'id'>>(
 	const { selection } = editor;
 	const isCollapsed = selection && Range.isCollapsed(selection);
 
-	const nodeWithId = { ...node, id: cuid() } as ElementNode;
+	const nodeWithId = { ...node, id: cuid() } as T;
 	if (isCollapsed) {
 		Transforms.insertNodes(editor, nodeWithId);
 	} else {
