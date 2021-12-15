@@ -1,7 +1,13 @@
 import React from 'react';
 import { Editor, Range, Transforms } from 'slate';
 
-type HotkeyHandler = (editor: Editor, event: React.KeyboardEvent) => void;
+interface HotkeyHandlerResult {
+	allowDefault: boolean;
+}
+type HotkeyHandler = (
+	editor: Editor,
+	event: React.KeyboardEvent
+) => void | HotkeyHandlerResult;
 
 export const keyBindings: Record<string, HotkeyHandler> = {
 	left: (editor) => {
@@ -27,5 +33,18 @@ export const keyBindings: Record<string, HotkeyHandler> = {
 		}
 
 		Transforms.move(editor, { unit: 'offset' });
+	},
+	backspace: (editor) => {
+		const voidSelection = Editor.void(editor);
+
+		if (voidSelection) {
+			Transforms.delete(editor, { unit: 'block' });
+			Transforms.move(editor, { unit: 'offset', reverse: true });
+			return;
+		}
+
+		return {
+			allowDefault: true,
+		};
 	},
 };

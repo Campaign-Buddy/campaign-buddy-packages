@@ -71,9 +71,12 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = ({
 				return;
 			}
 
-			e.preventDefault();
 			const handler = result[1];
-			handler(editor, e);
+			const handlerResult = handler(editor, e);
+
+			if (!(handlerResult as any)?.allowDefault) {
+				e.preventDefault();
+			}
 		},
 		[editor]
 	);
