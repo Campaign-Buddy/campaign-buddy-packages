@@ -1,12 +1,12 @@
 import React from 'react';
-import { IconName } from '@blueprintjs/core';
+import { IconName } from '@blueprintjs/icons';
 import { Popover2 as Popover } from '@blueprintjs/popover2';
 import { createGlobalStyle } from 'styled-components';
-import { StyledMenuItem, StyledMenu } from './Menu.styled';
+import { StyledMenu, StyledMenuItem } from './Menu.styled';
 import { defaultTheme } from '../theme';
 
 const GlobalStyle = createGlobalStyle`
-	.bp-overrides-popover .bp3-menu {
+	.bp-overrides-icon-popover .bp3-menu {
 		background-color: ${({ theme }) => theme.colors.background} !important;
 	}
 
@@ -22,53 +22,48 @@ GlobalStyle.defaultProps = {
 	theme: defaultTheme,
 };
 
-export interface MenuItem {
-	displayText?: string;
-	icon?: IconName;
-	subItems?: MenuItem[];
+export interface IconMenuItem {
+	icon: IconName;
 	onClick?: () => void;
-}
-
-interface MenuProps {
-	items: MenuItem[];
+	altText: string;
 }
 
 const popoverProps = {
-	popoverClassName: 'bp-overrides-popover',
+	popoverClassName: 'bp-overrides-icon-popover',
 };
 
-function MenuItem({ item }: { item: MenuItem }): JSX.Element {
+function IconMenuItem({ item }: { item: IconMenuItem }): JSX.Element {
 	return (
 		<StyledMenuItem
 			icon={item.icon}
-			text={item.displayText}
 			onClick={item.onClick}
 			popoverProps={popoverProps}
 			tagName="button"
-		>
-			{item?.subItems?.map((subItem) => (
-				<MenuItem key={subItem.displayText} item={subItem} />
-			))}
-		</StyledMenuItem>
+			aria-label={item.altText}
+		/>
 	);
 }
 
-export function Menu({ items }: MenuProps): JSX.Element {
+interface IconMenuProps {
+	items: IconMenuItem[];
+}
+
+function IconMenu({ items }: IconMenuProps): JSX.Element {
 	return (
 		<StyledMenu>
 			{items.map((item) => (
-				<MenuItem key={item.displayText} item={item} />
+				<IconMenuItem key={item.altText} item={item} />
 			))}
 		</StyledMenu>
 	);
 }
 
-interface MenuPopoverProps extends MenuProps {
+interface IconMenuPopoverProps extends IconMenuProps {
 	isOpen: boolean;
 	onClose: () => void;
 }
 
-export const MenuPopover: React.FC<MenuPopoverProps> = ({
+export const IconMenuPopover: React.FC<IconMenuPopoverProps> = ({
 	items,
 	children,
 	isOpen,
@@ -78,14 +73,14 @@ export const MenuPopover: React.FC<MenuPopoverProps> = ({
 		<>
 			<GlobalStyle />
 			<Popover
-				content={<Menu items={items} />}
+				content={<IconMenu items={items} />}
 				isOpen={isOpen}
 				onClose={onClose}
 				placement="bottom-start"
 				minimal
 				openOnTargetFocus={false}
 				autoFocus
-				popoverClassName="bp-overrides-popover"
+				popoverClassName="bp-overrides-icon-popover"
 			>
 				{children}
 			</Popover>

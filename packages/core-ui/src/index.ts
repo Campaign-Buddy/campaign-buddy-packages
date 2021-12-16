@@ -8,5 +8,6 @@ export * from './aggregated-input';
 export * from './text';
 export * from './select';
 export * from './layout-primitives';
+export * from './menu';
 export { defaultTheme } from './theme';
 export { DefaultTheme } from 'styled-components';

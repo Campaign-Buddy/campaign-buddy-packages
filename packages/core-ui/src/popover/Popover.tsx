@@ -17,7 +17,7 @@ GlobalStyle.defaultProps = {
 	theme: defaultTheme,
 };
 
-interface PopoverProps {
+export interface PopoverProps {
 	content: JSX.Element | string;
 	isOpen: boolean;
 	onClose: () => void;
