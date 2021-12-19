@@ -1,22 +1,58 @@
-import { ToggleButton } from '@campaign-buddy/core-ui';
-import React, { useCallback } from 'react';
-import { useSlateStatic } from 'slate-react';
-import { wrapOrInsertNode } from '../editor-util';
-import { ImageNode } from '../types';
+import { ToggleButton, MenuPopover, MenuItem } from '@campaign-buddy/core-ui';
+import React, { useCallback, useMemo, useState } from 'react';
+import { useSelectionSnapshot } from '../editor-util';
 
 export const AddImageButton: React.FC = () => {
-	const editor = useSlateStatic();
+	const { pushSelectionSnapshot, popSelectionSnapshot } =
+		useSelectionSnapshot();
 
-	const addImage = useCallback(() => {
-		wrapOrInsertNode<ImageNode>(editor, {
-			kind: 'image',
-			src: 'https://via.placeholder.com/150',
-			alt: 'test',
-			children: [{ text: '', kind: 'text' }],
-		});
-	}, [editor]);
+	const [openPopover, setOpenPopover] = useState<
+		'none' | 'menu' | 'existing' | 'url'
+	>('none');
+
+	const closePopover = useCallback(() => {
+		setOpenPopover('none');
+		popSelectionSnapshot();
+	}, [popSelectionSnapshot]);
+
+	const openMenu = useCallback(() => {
+		pushSelectionSnapshot();
+		setOpenPopover('menu');
+	}, [pushSelectionSnapshot]);
+
+	const menuItems = useMemo<MenuItem[]>(
+		() => [
+			{
+				displayText: 'Upload image',
+				icon: 'upload',
+				onClick: () => setOpenPopover('none'),
+			},
+			{
+				displayText: 'Use existing image',
+				icon: 'cloud-download',
+				onClick: () => setOpenPopover('existing'),
+			},
+			{
+				displayText: 'Use external url',
+				icon: 'link',
+				onClick: () => setOpenPopover('url'),
+			},
+		],
+		[]
+	);
 
 	return (
-		<ToggleButton icon="media" onChange={addImage} size="small" value={false} />
+		<MenuPopover
+			items={menuItems}
+			isOpen={openPopover === 'menu'}
+			onClose={closePopover}
+		>
+			<ToggleButton
+				icon="media"
+				onChange={openMenu}
+				size="small"
+				value={false}
+			/>
+		</MenuPopover>
 	);
 };

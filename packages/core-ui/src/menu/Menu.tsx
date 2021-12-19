@@ -6,16 +6,8 @@ import { StyledMenuItem, StyledMenu } from './Menu.styled';
 import { defaultTheme } from '../theme';
 
 const GlobalStyle = createGlobalStyle`
-	.bp-overrides-popover .bp3-menu {
+	.bp-overrides-menu-popover .bp3-menu {
 		background-color: ${({ theme }) => theme.colors.background} !important;
-	}
-
-	.bp-overrides-icon-popover .bp3-menu {
-		min-width: unset !important;
-
-		.bp3-menu-item .bp3-icon {
-			margin: 0 !important;
-		}
 	}
 `;
 GlobalStyle.defaultProps = {
@@ -34,7 +26,7 @@ interface MenuProps {
 }
 
 const popoverProps = {
-	popoverClassName: 'bp-overrides-popover',
+	popoverClassName: 'bp-overrides-menu-popover',
 };
 
 function MenuItem({ item }: { item: MenuItem }): JSX.Element {
@@ -85,7 +77,7 @@ export const MenuPopover: React.FC<MenuPopoverProps> = ({
 				minimal
 				openOnTargetFocus={false}
 				autoFocus
-				popoverClassName="bp-overrides-popover"
+				popoverClassName="bp-overrides-menu-popover"
 			>
 				{children}
 			</Popover>
