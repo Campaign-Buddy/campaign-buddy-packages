@@ -2,6 +2,7 @@ export enum MediaKind {
 	Image = 'image',
 	Video = 'video',
 	Pdf = 'pdf',
+	Other = 'other',
 }
 
 export interface Media {
@@ -11,8 +12,8 @@ export interface Media {
 }
 
 export interface MediaApi {
-	uploadMedia: (file: File, type?: MediaKind) => Promise<Media>;
-	getUploadedMedia: (
+	uploadMedia: (file: File) => Promise<Media>;
+	listUploadedMedia: (
 		limit: number,
 		offset: number,
 		type?: MediaKind

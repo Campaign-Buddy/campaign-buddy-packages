@@ -9,6 +9,7 @@
 	],
 	"references": [
 		{ "path": "../core-ui/tsconfig.json" },
-		{ "path": "../common-hooks/tsconfig.json" }
+		{ "path": "../common-hooks/tsconfig.json" },
+		{ "path": "../frontend-types/tsconfig.json" }
 	]
 }

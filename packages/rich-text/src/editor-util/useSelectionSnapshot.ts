@@ -1,10 +1,10 @@
 import { useCallback, useRef, useEffect } from 'react';
-import { RangeRef, Transforms, Editor } from 'slate';
+import { RangeRef, Transforms, Editor, BaseRange } from 'slate';
 import { ReactEditor, useSlateStatic } from 'slate-react';
 
 interface UseSelectionSnapshotHook {
 	pushSelectionSnapshot: () => void;
-	popSelectionSnapshot: () => void;
+	popSelectionSnapshot: () => BaseRange | null;
 }
 
 export function useSelectionSnapshot(): UseSelectionSnapshotHook {
@@ -25,12 +25,12 @@ export function useSelectionSnapshot(): UseSelectionSnapshotHook {
 		const selectionRef = snapshotStack.current.pop();
 
 		if (!selectionRef) {
-			return;
+			return null;
 		}
 
 		const selection = selectionRef?.unref();
 		if (!selection) {
-			return;
+			return null;
 		}
 
 		if (!ReactEditor.isFocused(editor)) {
@@ -38,6 +38,7 @@ export function useSelectionSnapshot(): UseSelectionSnapshotHook {
 		}
 
 		Transforms.select(editor, selection);
+		return selection;
 	}, [editor]);
 
 	useEffect(() => {

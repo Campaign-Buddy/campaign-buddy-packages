@@ -1,4 +1,5 @@
 import React, { useCallback, useMemo } from 'react';
+import { MediaApi } from '@campaign-buddy/frontend-types';
 import { createEditor, Transforms, Editor } from 'slate';
 import { Slate, withReact } from 'slate-react';
 import { withHistory } from 'slate-history';
@@ -16,10 +17,12 @@ import {
 import { keyBindings } from './keyBindings';
 import { Toolbar } from './toolbar';
 import { StyledEditable, EditorContainer } from './RichTextEditor.styled';
+import { MediaApiProvider } from './useMediaApi';
 
 interface RichTextEditorProps {
 	value: RichTextDocument | undefined;
 	onChange: (value: RichTextDocument) => void;
+	mediaApi: MediaApi;
 	htmlId?: string;
 	minHeight?: string;
 	maxHeight?: string;
@@ -51,6 +54,7 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = ({
 	minHeight,
 	value: controlledValue,
 	onChange,
+	mediaApi,
 }) => {
 	const editor = useMemo(
 		() => withReact(withCampaignBuddyNodes(withHistory(createEditor()))),
@@ -84,19 +88,21 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = ({
 	const value = !controlledValue?.length ? defaultValue : controlledValue;
 
 	return (
-		<Slate editor={editor} value={value} onChange={onChange}>
-			<EditorContainer variant={style}>
-				<Toolbar />
-				<StyledEditable
-					onBlur={moveCursorToEnd}
-					id={htmlId}
-					renderLeaf={renderLeaf}
-					renderElement={renderElement}
-					maxHeight={maxHeight}
-					minHeight={minHeight}
-					onKeyDown={onKeyDown}
-				/>
-			</EditorContainer>
-		</Slate>
+		<MediaApiProvider value={mediaApi}>
+			<Slate editor={editor} value={value} onChange={onChange}>
+				<EditorContainer variant={style}>
+					<Toolbar />
+					<StyledEditable
+						onBlur={moveCursorToEnd}
+						id={htmlId}
+						renderLeaf={renderLeaf}
+						renderElement={renderElement}
+						maxHeight={maxHeight}
+						minHeight={minHeight}
+						onKeyDown={onKeyDown}
+					/>
+				</EditorContainer>
+			</Slate>
+		</MediaApiProvider>
 	);
 };

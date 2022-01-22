@@ -17,6 +17,7 @@ import {
 	selectEndOfElement,
 } from '../editor-util';
 import { useBooleanState } from '@campaign-buddy/common-hooks';
+import { LinkNode } from '../types';
 
 export const AddLinkButton: React.FC = () => {
 	const editor = useSlate();
@@ -32,7 +33,7 @@ export const AddLinkButton: React.FC = () => {
 		closePopover();
 		popSelectionSnapshot();
 
-		const { id } = wrapOrInsertNode(editor, {
+		const { id } = wrapOrInsertNode<LinkNode>(editor, {
 			kind: 'link',
 			url,
 			children: [{ kind: 'text', text: url }],
