@@ -1,4 +1,5 @@
 import { ToggleButton, MenuPopover, MenuItem } from '@campaign-buddy/core-ui';
+import { Media } from '@campaign-buddy/frontend-types';
 import React, { useCallback, useMemo, useRef, useState } from 'react';
 import { BaseRange, Transforms } from 'slate';
 import { useSlateStatic } from 'slate-react';
@@ -10,6 +11,7 @@ import {
 import { openFilePicker } from '../../openFilePicker';
 import { ImageNode } from '../../types';
 import { useMediaApi } from '../../useMediaApi';
+import { ExistingImagePopover } from './ExistingImagePopover';
 import { ExternalUrlPopover } from './ExternalUrlPopover';
 
 export const AddImageButton: React.FC = () => {
@@ -68,6 +70,13 @@ export const AddImageButton: React.FC = () => {
 		[closeAllPopovers, editor]
 	);
 
+	const insertMedia = useCallback(
+		(media: Media) => {
+			insertImage(media.url, media.alt);
+		},
+		[insertImage]
+	);
+
 	const uploadImage = useCallback(() => {
 		endLocationRef.current = popSelectionSnapshot();
 		openFilePicker(async (file) => {
@@ -75,6 +84,12 @@ export const AddImageButton: React.FC = () => {
 			insertImage(result.url, file.name);
 		});
 	}, [insertImage, mediaApi, popSelectionSnapshot]);
+
+	const openExistingMediaPopover = useCallback(() => {
+		endLocationRef.current = popSelectionSnapshot();
+		setIsMenuOpen(false);
+		setOpenPopover('existing');
+	}, [popSelectionSnapshot]);
 
 	const openExternalUrlPopover = useCallback(() => {
 		endLocationRef.current = popSelectionSnapshot();
@@ -92,7 +107,7 @@ export const AddImageButton: React.FC = () => {
 			{
 				displayText: 'Use existing image',
 				icon: 'cloud-download',
-				onClick: () => setOpenPopover('existing'),
+				onClick: openExistingMediaPopover,
 			},
 			{
 				displayText: 'Use external url',
@@ -100,7 +115,7 @@ export const AddImageButton: React.FC = () => {
 				onClick: openExternalUrlPopover,
 			},
 		],
-		[uploadImage, openExternalUrlPopover]
+		[uploadImage, openExternalUrlPopover, openExistingMediaPopover]
 	);
 
 	return (
@@ -110,12 +125,18 @@ export const AddImageButton: React.FC = () => {
 				onClose={closeAllPopovers}
 				onConfirm={insertImage}
 			>
-				<ToggleButton
-					icon="media"
-					onChange={openMenu}
-					size="small"
-					value={false}
-				/>
+				<ExistingImagePopover
+					isOpen={openPopover === 'existing' && !isMenuOpen}
+					onClose={closeAllPopovers}
+					onConfirm={insertMedia}
+				>
+					<ToggleButton
+						icon="media"
+						onChange={openMenu}
+						size="small"
+						value={false}
+					/>
+				</ExistingImagePopover>
 			</ExternalUrlPopover>
 		</MenuPopover>
 	);

@@ -31,6 +31,10 @@ export const StyledButton = styled(ButtonCore)<{ _style?: ButtonStyle }>`
 		color: ${({ theme }) => theme.colors.text} !important;
 	}
 
+	&.bp3-disabled {
+		opacity: 0.5;
+	}
+
 	&:focus {
 		box-shadow: 0 0 0 1px #137cbd, 0 0 0 3px rgb(19 124 189 / 30%),
 			inset 0 1px 1px rgb(16 22 26 / 20%) !important;

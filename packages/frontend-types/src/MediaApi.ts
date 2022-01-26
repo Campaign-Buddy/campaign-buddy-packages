@@ -9,6 +9,7 @@ export interface Media {
 	assetId: string;
 	url: string;
 	kind: MediaKind;
+	alt?: string;
 }
 
 export interface MediaApi {

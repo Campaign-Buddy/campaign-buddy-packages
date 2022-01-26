@@ -18,6 +18,7 @@ import { keyBindings } from './keyBindings';
 import { Toolbar } from './toolbar';
 import { StyledEditable, EditorContainer } from './RichTextEditor.styled';
 import { MediaApiProvider } from './useMediaApi';
+import { QueryClient, QueryClientProvider } from 'react-query';
 
 interface RichTextEditorProps {
 	value: RichTextDocument | undefined;
@@ -46,6 +47,8 @@ const defaultValue: RichTextDocument = [
 		id: cuid(),
 	},
 ];
+
+const queryClient = new QueryClient();
 
 export const RichTextEditor: React.FC<RichTextEditorProps> = ({
 	htmlId,
@@ -89,20 +92,22 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = ({
 
 	return (
 		<MediaApiProvider value={mediaApi}>
-			<Slate editor={editor} value={value} onChange={onChange}>
-				<EditorContainer variant={style}>
-					<Toolbar />
-					<StyledEditable
-						onBlur={moveCursorToEnd}
-						id={htmlId}
-						renderLeaf={renderLeaf}
-						renderElement={renderElement}
-						maxHeight={maxHeight}
-						minHeight={minHeight}
-						onKeyDown={onKeyDown}
-					/>
-				</EditorContainer>
-			</Slate>
+			<QueryClientProvider client={queryClient}>
+				<Slate editor={editor} value={value} onChange={onChange}>
+					<EditorContainer variant={style}>
+						<Toolbar />
+						<StyledEditable
+							onBlur={moveCursorToEnd}
+							id={htmlId}
+							renderLeaf={renderLeaf}
+							renderElement={renderElement}
+							maxHeight={maxHeight}
+							minHeight={minHeight}
+							onKeyDown={onKeyDown}
+						/>
+					</EditorContainer>
+				</Slate>
+			</QueryClientProvider>
 		</MediaApiProvider>
 	);
 };
