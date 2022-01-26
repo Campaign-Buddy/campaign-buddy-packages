@@ -19,6 +19,7 @@ StyledInputGroup.defaultProps = {
 
 interface InputProps extends BaseInputProps<string> {
 	placeholder?: string;
+	rightElement?: JSX.Element;
 }
 
 export const Input: React.FC<InputProps> = ({
@@ -26,6 +27,7 @@ export const Input: React.FC<InputProps> = ({
 	onChange,
 	label,
 	id: idProp,
+	rightElement,
 	...rest
 }) => {
 	const handleOnChange = useCallback(
@@ -43,6 +45,7 @@ export const Input: React.FC<InputProps> = ({
 				value={value}
 				onChange={handleOnChange}
 				id={id}
+				rightElement={rightElement}
 				{...rest}
 			/>
 		</FormGroup>

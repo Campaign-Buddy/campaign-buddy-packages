@@ -11,6 +11,10 @@ const GlobalStyle = createGlobalStyle`
 
 	.bp-overrides-popover {
 		margin: 4px;
+
+		&.no-margin {
+			margin: 0 !important;
+		}
 	}
 `;
 GlobalStyle.defaultProps = {
@@ -23,6 +27,7 @@ export interface PopoverProps {
 	onClose: () => void;
 	placement?: Placement;
 	autoFocus?: boolean;
+	noMargin?: boolean;
 }
 
 const popoverModifiers = {
@@ -41,6 +46,7 @@ export const Popover: React.FC<PopoverProps> = ({
 	onClose,
 	placement,
 	autoFocus,
+	noMargin,
 }) => {
 	return (
 		<>
@@ -51,7 +57,7 @@ export const Popover: React.FC<PopoverProps> = ({
 				onClose={onClose}
 				minimal
 				modifiers={popoverModifiers as any}
-				popoverClassName="bp-overrides-popover"
+				popoverClassName={`bp-overrides-popover${noMargin ? ' no-margin' : ''}`}
 				placement={placement}
 				openOnTargetFocus={false}
 				enforceFocus={false}

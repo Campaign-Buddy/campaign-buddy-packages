@@ -5,6 +5,7 @@ import { ReactEditor, useSlateStatic } from 'slate-react';
 interface UseSelectionSnapshotHook {
 	pushSelectionSnapshot: () => void;
 	popSelectionSnapshot: () => BaseRange | null;
+	snapshotStack: React.RefObject<RangeRef[]>;
 }
 
 export function useSelectionSnapshot(): UseSelectionSnapshotHook {
@@ -50,5 +51,5 @@ export function useSelectionSnapshot(): UseSelectionSnapshotHook {
 		};
 	}, []);
 
-	return { pushSelectionSnapshot, popSelectionSnapshot };
+	return { pushSelectionSnapshot, popSelectionSnapshot, snapshotStack };
 }
