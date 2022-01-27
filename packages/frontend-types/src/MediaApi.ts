@@ -9,6 +9,7 @@ export interface Media {
 	assetId: string;
 	url: string;
 	kind: MediaKind;
+	thumbnailUrl: string;
 	alt?: string;
 }
 

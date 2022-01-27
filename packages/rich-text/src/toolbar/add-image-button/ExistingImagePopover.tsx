@@ -2,22 +2,12 @@ import React, { useCallback, useState } from 'react';
 import { Media, MediaKind } from '@campaign-buddy/frontend-types';
 import { useQuery } from 'react-query';
 import { Button, Popover, Spinner, Flex } from '@campaign-buddy/core-ui';
-import styled from 'styled-components';
 import { useMediaApi } from '../../useMediaApi';
 import { useIsMounted } from '@campaign-buddy/common-hooks';
-
-const PopoverContentContainer = styled.div`
-	width: 300px;
-	max-width: 100%;
-`;
-
-const MediaContainer = styled.div`
-	margin: 8px 0;
-
-	p {
-		text-align: center;
-	}
-`;
+import {
+	PopoverContentContainer,
+	MediaContainer,
+} from './ExistingImagePopover.styled';
 
 export interface ExistingImagePopoverProps {
 	onConfirm: (media: Media) => void;
@@ -38,7 +28,7 @@ export const ExistingImagePopover: React.FC<ExistingImagePopoverProps> = ({
 	const [currentPageOffset, setCurrentPageOffset] = useState(0);
 	const [isRefetching, setIsRefetching] = useState(false);
 
-	const { isFetching, isLoading, data, refetch } = useQuery(
+	const { isLoading, data, refetch } = useQuery(
 		['existing-media', currentPageOffset],
 		async () =>
 			mediaApi.listUploadedMedia(
@@ -47,6 +37,8 @@ export const ExistingImagePopover: React.FC<ExistingImagePopoverProps> = ({
 				MediaKind.Image
 			)
 	);
+
+	const hasUploadedMedia = data && data.length > 0;
 
 	const handleRefresh = useCallback(async () => {
 		setIsRefetching(true);
@@ -57,7 +49,8 @@ export const ExistingImagePopover: React.FC<ExistingImagePopoverProps> = ({
 		}
 	}, [isMounted, refetch]);
 
-	const hasNextPage = !isFetching && data?.length === pageSize + 1;
+	const hasNextPage =
+		!isLoading && !isRefetching && data?.length === pageSize + 1;
 
 	const nextPage = useCallback(
 		() => setCurrentPageOffset((prev) => prev + 1),
@@ -87,15 +80,23 @@ export const ExistingImagePopover: React.FC<ExistingImagePopoverProps> = ({
 							disabled={isRefetching}
 						/>
 					</Flex>
-					<MediaContainer>
-						{isLoading || isRefetching ? (
-							<Flex justifyContent="center" alignItems="center">
-								<Spinner size={45} />
-							</Flex>
-						) : (
-							<p>Your media here</p>
-						)}
-					</MediaContainer>
+					{isLoading || isRefetching ? (
+						<Flex justifyContent="center" alignItems="center">
+							<Spinner size={45} />
+						</Flex>
+					) : hasUploadedMedia ? (
+						<MediaContainer>
+							{data?.map((x) => (
+								<img
+									key={x.assetId}
+									alt={x.alt ?? x.assetId}
+									src={x.thumbnailUrl ?? x.url}
+								/>
+							))}
+						</MediaContainer>
+					) : (
+						<p>You have no uploaded media!</p>
+					)}
 					<Flex justifyContent="flex-end" gap={4}>
 						<Button
 							onClick={previousPage}
