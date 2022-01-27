@@ -1,5 +1,9 @@
 import { Media, MediaApi, MediaKind } from '@campaign-buddy/frontend-types';
 
+function sleep(timeout: number) {
+	return new Promise<void>((resolve) => setTimeout(() => resolve(), timeout));
+}
+
 let id = 0;
 export class MockMediaApi implements MediaApi {
 	private uploadedMedia: Media[] = [];
@@ -19,8 +23,10 @@ export class MockMediaApi implements MediaApi {
 		throw new Error(`Unsupported mime type: ${file.type}`);
 	};
 
-	listUploadedMedia = (): Promise<Media[]> =>
-		Promise.resolve(this.uploadedMedia);
+	listUploadedMedia = async (): Promise<Media[]> => {
+		await sleep(1000);
+		return Promise.resolve(this.uploadedMedia);
+	};
 }
 
 // Copied mostly from https://stackoverflow.com/questions/36280818/how-to-convert-file-to-base64-in-javascript

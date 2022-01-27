@@ -4,6 +4,7 @@ import { useQuery } from 'react-query';
 import { Button, Popover, Spinner, Flex } from '@campaign-buddy/core-ui';
 import styled from 'styled-components';
 import { useMediaApi } from '../../useMediaApi';
+import { useIsMounted } from '@campaign-buddy/common-hooks';
 
 const PopoverContentContainer = styled.div`
 	width: 300px;
@@ -12,6 +13,10 @@ const PopoverContentContainer = styled.div`
 
 const MediaContainer = styled.div`
 	margin: 8px 0;
+
+	p {
+		text-align: center;
+	}
 `;
 
 export interface ExistingImagePopoverProps {
@@ -28,12 +33,14 @@ export const ExistingImagePopover: React.FC<ExistingImagePopoverProps> = ({
 	children,
 }) => {
 	const mediaApi = useMediaApi();
+	const isMounted = useIsMounted();
 
 	const [currentPageOffset, setCurrentPageOffset] = useState(0);
+	const [isRefetching, setIsRefetching] = useState(false);
 
-	const { isLoading, data } = useQuery(
+	const { isFetching, isLoading, data, refetch } = useQuery(
 		['existing-media', currentPageOffset],
-		() =>
+		async () =>
 			mediaApi.listUploadedMedia(
 				pageSize + 1,
 				currentPageOffset * pageSize,
@@ -41,7 +48,16 @@ export const ExistingImagePopover: React.FC<ExistingImagePopoverProps> = ({
 			)
 	);
 
-	const hasNextPage = !isLoading && data?.length === pageSize + 1;
+	const handleRefresh = useCallback(async () => {
+		setIsRefetching(true);
+		await refetch();
+
+		if (isMounted.current) {
+			setIsRefetching(false);
+		}
+	}, [isMounted, refetch]);
+
+	const hasNextPage = !isFetching && data?.length === pageSize + 1;
 
 	const nextPage = useCallback(
 		() => setCurrentPageOffset((prev) => prev + 1),
@@ -64,17 +80,21 @@ export const ExistingImagePopover: React.FC<ExistingImagePopoverProps> = ({
 					<Flex justifyContent="space-between" alignItems="center">
 						<p>Your media</p>
 						<Button
-							onClick={() => console.log('refresh')}
+							onClick={handleRefresh}
 							icon="refresh"
 							style="minimal"
 							size="small"
-							disabled={isLoading}
+							disabled={isRefetching}
 						/>
 					</Flex>
 					<MediaContainer>
-						<Flex justifyContent="center" alignItems="center">
-							{isLoading ? <Spinner size={45} /> : <p>Your media here</p>}
-						</Flex>
+						{isLoading || isRefetching ? (
+							<Flex justifyContent="center" alignItems="center">
+								<Spinner size={45} />
+							</Flex>
+						) : (
+							<p>Your media here</p>
+						)}
 					</MediaContainer>
 					<Flex justifyContent="flex-end" gap={4}>
 						<Button
