@@ -5,6 +5,7 @@
 	"license": "MIT",
 	"dependencies": {
 		"react-query": "^3.34.12",
+		"react-resize-detector": "^7.0.0",
 		"styled-components": "^5.3.3"
 	},
 	"devDependencies": {
