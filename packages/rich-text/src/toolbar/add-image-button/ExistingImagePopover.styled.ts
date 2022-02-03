@@ -8,7 +8,8 @@ export const PopoverContentContainer = styled.div`
 export const MediaContainer = styled.div`
 	margin: 8px 0;
 	display: flex;
-	flex-wrap: wrap;
+	flex-direction: column;
+	gap: 8px;
 	max-height: 300px;
 	overflow-y: auto;
 
@@ -17,8 +18,10 @@ export const MediaContainer = styled.div`
 	}
 
 	img {
-		flex: 1 0;
-		height: 100px;
 		object-fit: contain;
+		width: 100%;
+		max-height: 300px;
+		padding: 0 4px;
+		border-radius: 8px;
 	}
 `;

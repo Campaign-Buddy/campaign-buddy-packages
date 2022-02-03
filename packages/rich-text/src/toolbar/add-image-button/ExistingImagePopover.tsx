@@ -15,7 +15,7 @@ export interface ExistingImagePopoverProps {
 	isOpen: boolean;
 }
 
-const pageSize = 10;
+const pageSize = 5;
 
 export const ExistingImagePopover: React.FC<ExistingImagePopoverProps> = ({
 	onClose,
@@ -86,7 +86,7 @@ export const ExistingImagePopover: React.FC<ExistingImagePopoverProps> = ({
 						</Flex>
 					) : hasUploadedMedia ? (
 						<MediaContainer>
-							{data?.map((x) => (
+							{data?.slice(0, pageSize).map((x) => (
 								<img
 									key={x.assetId}
 									alt={x.alt ?? x.assetId}
