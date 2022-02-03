@@ -1,13 +1,6 @@
 import { useCallback } from 'react';
 import { useQuery } from 'react-query';
-import { Image as ImageType } from './Image';
-
-interface ImageDimensions {
-	width: number;
-	height: number;
-}
-
-type ImageWithDimensions = ImageType & ImageDimensions;
+import { Image as ImageType, ImageWithDimensions } from './Image';
 
 interface UseImageLoaderHook {
 	loadedImages?: ImageWithDimensions[];

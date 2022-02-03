@@ -1,6 +1,13 @@
 import React from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query';
-import { Image } from './Image';
+import { StyledComponent } from 'styled-components';
+import { Image, ImageWithDimensions } from './Image';
+import {
+	BoxImage,
+	ResponsiveGrid,
+	TallImage,
+	WideImage,
+} from './ImageGrid.styled';
 import { useImageLoader } from './useImageLoader';
 
 const queryClient = new QueryClient();
@@ -13,7 +20,6 @@ export interface ImageGridProps {
 
 const ImageGridCore: React.FC<ImageGridProps> = ({
 	images,
-	onImageClicked,
 	onImagesLoaded,
 }) => {
 	const { loadedImages, isLoading } = useImageLoader(images, onImagesLoaded);
@@ -23,18 +29,36 @@ const ImageGridCore: React.FC<ImageGridProps> = ({
 	}
 
 	return (
-		<div>
-			{loadedImages.map((x, i) => (
-				<img
-					src={x.url}
-					alt={x.alt}
-					key={`${x.url};${x.alt}`}
-					onClick={() => onImageClicked?.(x, i)}
-				/>
+		<ResponsiveGrid>
+			{loadedImages.map((x) => (
+				<ResponsiveImage image={x} key={`${x.url};${x.alt}`} />
 			))}
-		</div>
+		</ResponsiveGrid>
 	);
 };
+
+const ResponsiveImage: React.FC<{ image: ImageWithDimensions }> = ({
+	image,
+}) => {
+	const Component = getImageComponent(image);
+	return <Component src={image.url} alt={image.alt} />;
+};
+
+function getImageComponent(
+	image: ImageWithDimensions
+): StyledComponent<'img', any, any, never> {
+	const aspectRatio = image.width / image.height;
+
+	if (aspectRatio >= 1.5) {
+		return WideImage;
+	}
+
+	if (aspectRatio >= 0.75) {
+		return BoxImage;
+	}
+
+	return TallImage;
+}
 
 export const ImageGrid: React.FC<ImageGridProps> = (props) => {
 	return (

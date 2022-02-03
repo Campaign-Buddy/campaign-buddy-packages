@@ -11,11 +11,11 @@ const getImages = (count: number): Image[] =>
 		.fill(0)
 		.map(() => {
 			const seed = Math.random().toString().substring(2);
-			const width = randomInt(10, 30) * 10;
-			const height = randomInt(10, 30) * 10;
+			const width = randomInt(10, 30);
+			const height = randomInt(10, 30);
 
 			return {
-				url: `https://picsum.photos/seed/${seed}/${width * 10}/${height * 10}`,
+				url: `https://picsum.photos/seed/${seed}/${width * 50}/${height * 50}`,
 				alt: `Random picsum with seed = ${seed}`,
 			};
 		});

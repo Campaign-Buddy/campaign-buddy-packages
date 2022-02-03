@@ -4,7 +4,8 @@
 	"author": "Joseph Stewart",
 	"license": "MIT",
 	"dependencies": {
-		"react-query": "^3.34.12"
+		"react-query": "^3.34.12",
+		"styled-components": "^5.3.3"
 	},
 	"devDependencies": {
 		"@types/lodash.isequal": "^4.5.5",
