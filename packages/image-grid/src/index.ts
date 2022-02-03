@@ -1,1 +1,2 @@
-export const greeting = 'Hello world!;';
+export * from './ImageGrid';
+export * from './Image';
