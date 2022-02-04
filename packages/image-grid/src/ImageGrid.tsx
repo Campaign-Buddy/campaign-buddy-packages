@@ -4,11 +4,13 @@ import { StyledComponent } from 'styled-components';
 import { useResizeDetector } from 'react-resize-detector';
 import { Image, ImageWithDimensions } from './Image';
 import {
-	BoxImage,
+	BoxCell,
 	ResponsiveGrid,
-	TallImage,
-	WideImage,
+	TallCell,
+	WideCell,
 	CommonProps,
+	CellImage,
+	CellClickLayer,
 } from './ImageGrid.styled';
 import { useImageLoader } from './useImageLoader';
 
@@ -16,7 +18,7 @@ const queryClient = new QueryClient();
 
 export interface ImageGridProps {
 	images: Image[];
-	cellWidth?: number;
+	rowHeight?: number;
 	onImageClicked?: (image: Image, index: number) => void;
 	onImagesLoaded?: () => void;
 }
@@ -24,24 +26,30 @@ export interface ImageGridProps {
 const ImageGridCore: React.FC<ImageGridProps> = ({
 	images,
 	onImagesLoaded,
-	cellWidth = 240,
+	rowHeight = 240,
+	onImageClicked,
 }) => {
 	const { loadedImages, isLoading } = useImageLoader(images, onImagesLoaded);
 	const { width, ref } = useResizeDetector();
 
-	const isSmallViewport = width !== undefined && width < cellWidth * 2;
+	const isSmallViewport = width !== undefined && width < rowHeight * 2;
 
 	if (isLoading || !loadedImages) {
 		return null;
 	}
 
 	return (
-		<ResponsiveGrid ref={ref} isSmallViewport={isSmallViewport}>
-			{loadedImages.map((x) => (
+		<ResponsiveGrid
+			ref={ref}
+			isSmallViewport={isSmallViewport}
+			rowHeight={rowHeight}
+		>
+			{loadedImages.map((x, i) => (
 				<ResponsiveImage
 					isSmallViewport={isSmallViewport}
 					image={x}
 					key={`${x.url};${x.alt}`}
+					onClick={onImageClicked && (() => onImageClicked(x, i))}
 				/>
 			))}
 		</ResponsiveGrid>
@@ -51,31 +59,33 @@ const ImageGridCore: React.FC<ImageGridProps> = ({
 const ResponsiveImage: React.FC<{
 	image: ImageWithDimensions;
 	isSmallViewport: boolean;
-}> = ({ image, isSmallViewport }) => {
-	const Component = getImageComponent(image);
+	onClick?: () => void;
+}> = ({ image, isSmallViewport, onClick }) => {
+	const Cell = getImageComponent(image);
 	return (
-		<Component
-			isSmallViewport={isSmallViewport}
-			src={image.url}
-			alt={image.alt}
-		/>
+		<Cell isSmallViewport={isSmallViewport}>
+			<CellImage src={image.url} alt={image.alt} />
+			{onClick && (
+				<CellClickLayer role="button" onClick={onClick} tabIndex={0} />
+			)}
+		</Cell>
 	);
 };
 
 function getImageComponent(
 	image: ImageWithDimensions
-): StyledComponent<'img', any, CommonProps, never> {
+): StyledComponent<'div', any, CommonProps, never> {
 	const aspectRatio = image.width / image.height;
 
 	if (aspectRatio >= 1.5) {
-		return WideImage;
+		return WideCell;
 	}
 
 	if (aspectRatio >= 0.75) {
-		return BoxImage;
+		return BoxCell;
 	}
 
-	return TallImage;
+	return TallCell;
 }
 
 export const ImageGrid: React.FC<ImageGridProps> = (props) => {

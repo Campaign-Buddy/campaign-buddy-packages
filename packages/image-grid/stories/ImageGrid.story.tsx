@@ -26,5 +26,11 @@ const randomInt = (min: number, max: number) =>
 export const Primary = () => {
 	const images = useMemo(() => getImages(20), []);
 
-	return <ImageGrid images={images} />;
+	return (
+		<ImageGrid
+			images={images}
+			onImageClicked={(image) => console.log(image)}
+			onImagesLoaded={() => console.log('images loaded')}
+		/>
+	);
 };
