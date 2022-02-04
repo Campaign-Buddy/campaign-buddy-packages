@@ -1,12 +1,14 @@
 import React, { useCallback, useState } from 'react';
 import { Media, MediaKind } from '@campaign-buddy/frontend-types';
-import { useQuery } from 'react-query';
 import { Button, Popover, Spinner, Flex } from '@campaign-buddy/core-ui';
+import { Image, ImageGrid } from '@campaign-buddy/image-grid';
+import { useQuery, useQueryClient } from 'react-query';
 import { useMediaApi } from '../../useMediaApi';
 import { useIsMounted } from '@campaign-buddy/common-hooks';
 import {
 	PopoverContentContainer,
 	MediaContainer,
+	LoadingContainer,
 } from './ExistingImagePopover.styled';
 
 export interface ExistingImagePopoverProps {
@@ -15,10 +17,11 @@ export interface ExistingImagePopoverProps {
 	isOpen: boolean;
 }
 
-const pageSize = 5;
+const pageSize = 10;
 
 export const ExistingImagePopover: React.FC<ExistingImagePopoverProps> = ({
 	onClose,
+	onConfirm,
 	isOpen,
 	children,
 }) => {
@@ -28,6 +31,7 @@ export const ExistingImagePopover: React.FC<ExistingImagePopoverProps> = ({
 	const [currentPageOffset, setCurrentPageOffset] = useState(0);
 	const [isRefetching, setIsRefetching] = useState(false);
 
+	const queryClient = useQueryClient();
 	const { isLoading, data, refetch } = useQuery(
 		['existing-media', currentPageOffset],
 		async () =>
@@ -62,6 +66,22 @@ export const ExistingImagePopover: React.FC<ExistingImagePopoverProps> = ({
 		[]
 	);
 
+	const loadingElement = (
+		<LoadingContainer>
+			<Spinner size={45} />
+		</LoadingContainer>
+	);
+
+	const handleImageSelected = useCallback(
+		(image: Image, index: number) => {
+			if (!data) {
+				return;
+			}
+			onConfirm(data[index]);
+		},
+		[onConfirm, data]
+	);
+
 	return (
 		<Popover
 			isOpen={isOpen}
@@ -81,18 +101,16 @@ export const ExistingImagePopover: React.FC<ExistingImagePopoverProps> = ({
 						/>
 					</Flex>
 					{isLoading || isRefetching ? (
-						<Flex justifyContent="center" alignItems="center">
-							<Spinner size={45} />
-						</Flex>
-					) : hasUploadedMedia ? (
+						<MediaContainer>{loadingElement}</MediaContainer>
+					) : hasUploadedMedia && data ? (
 						<MediaContainer>
-							{data?.slice(0, pageSize).map((x) => (
-								<img
-									key={x.assetId}
-									alt={x.alt ?? x.assetId}
-									src={x.thumbnailUrl ?? x.url}
-								/>
-							))}
+							<ImageGrid
+								rowHeight={100}
+								queryClient={queryClient}
+								images={data}
+								fallback={loadingElement}
+								onImageClicked={handleImageSelected}
+							/>
 						</MediaContainer>
 					) : (
 						<p>You have no uploaded media!</p>
