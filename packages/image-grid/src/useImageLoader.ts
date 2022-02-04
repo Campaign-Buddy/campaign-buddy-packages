@@ -1,5 +1,4 @@
-import { useCallback } from 'react';
-import { useQuery } from 'react-query';
+import { useQueries } from 'react-query';
 import { Image as ImageType, ImageWithDimensions } from './Image';
 
 interface UseImageLoaderHook {
@@ -7,26 +6,24 @@ interface UseImageLoaderHook {
 	isLoading: boolean;
 }
 
-export function useImageLoader(
-	images: ImageType[],
-	onImagesLoaded?: () => void
-): UseImageLoaderHook {
-	const onSuccess = useCallback(() => onImagesLoaded?.(), [onImagesLoaded]);
-
-	const { isLoading, data } = useQuery(
-		getQueryKey(images),
-		() => Promise.all(images.map(loadImage)),
-		{ onSuccess }
+export function useImageLoader(images: ImageType[]): UseImageLoaderHook {
+	const results = useQueries(
+		images.map((image) => ({
+			queryKey: image.url,
+			queryFn: () => loadImage(image),
+		}))
 	);
 
+	const isLoading = results.some((x) => x.isLoading);
+
 	return {
-		loadedImages: data,
+		loadedImages: isLoading
+			? undefined
+			: results
+					.map((x) => x.data)
+					.filter((x): x is ImageWithDimensions => Boolean(x)),
 		isLoading,
 	};
-}
-
-function getQueryKey(images: ImageType[]): string[] {
-	return images.map((x) => `${x.url};${x.alt}`);
 }
 
 function loadImage(image: ImageType): Promise<ImageWithDimensions> {

@@ -14,28 +14,30 @@ import {
 } from './ImageGrid.styled';
 import { useImageLoader } from './useImageLoader';
 
-const queryClient = new QueryClient();
-
-export interface ImageGridProps {
+export interface ImageGridCoreProps {
 	images: Image[];
 	rowHeight?: number;
 	onImageClicked?: (image: Image, index: number) => void;
-	onImagesLoaded?: () => void;
+	fallback?: React.ReactElement;
 }
 
-const ImageGridCore: React.FC<ImageGridProps> = ({
+export interface ImageGridProps extends ImageGridCoreProps {
+	queryClient: QueryClient;
+}
+
+const ImageGridCore: React.FC<ImageGridCoreProps> = ({
 	images,
-	onImagesLoaded,
 	rowHeight = 240,
 	onImageClicked,
+	fallback = null,
 }) => {
-	const { loadedImages, isLoading } = useImageLoader(images, onImagesLoaded);
+	const { loadedImages, isLoading } = useImageLoader(images);
 	const { width, ref } = useResizeDetector();
 
 	const isSmallViewport = width !== undefined && width < rowHeight * 2;
 
 	if (isLoading || !loadedImages) {
-		return null;
+		return fallback;
 	}
 
 	return (
@@ -88,7 +90,10 @@ function getImageComponent(
 	return TallCell;
 }
 
-export const ImageGrid: React.FC<ImageGridProps> = (props) => {
+export const ImageGrid: React.FC<ImageGridProps> = ({
+	queryClient,
+	...props
+}) => {
 	return (
 		<QueryClientProvider client={queryClient}>
 			<ImageGridCore {...props} />

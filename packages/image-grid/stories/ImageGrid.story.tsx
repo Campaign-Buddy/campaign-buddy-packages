@@ -1,4 +1,5 @@
 import React, { useMemo } from 'react';
+import { QueryClient } from 'react-query';
 import { Image, ImageGrid } from '../src';
 
 export default {
@@ -23,14 +24,17 @@ const getImages = (count: number): Image[] =>
 const randomInt = (min: number, max: number) =>
 	Math.floor(Math.random() * (max - min + 1) + min);
 
+const queryClient = new QueryClient();
+
 export const Primary = () => {
 	const images = useMemo(() => getImages(20), []);
 
 	return (
 		<ImageGrid
+			queryClient={queryClient}
 			images={images}
 			onImageClicked={(image) => console.log(image)}
-			onImagesLoaded={() => console.log('images loaded')}
+			fallback={<p>Loading...</p>}
 		/>
 	);
 };
