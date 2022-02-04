@@ -47,13 +47,11 @@ export class MockMediaApi implements MediaApi {
 			.fill(0)
 			.map((_, i) => {
 				const seed = Math.random().toString().substring(2);
-				const width = this.randomInt(10, 30) * 10;
-				const height = this.randomInt(10, 30) * 10;
+				const width = this.randomInt(30, 50) * 10;
+				const height = this.randomInt(30, 50) * 10;
 
 				return {
-					url: `https://picsum.photos/seed/${seed}/${width * 10}/${
-						height * 10
-					}`,
+					url: `https://picsum.photos/seed/${seed}/${width}/${height}`,
 					assetId: `picsum-${i}`,
 					thumbnailUrl: `https://picsum.photos/${width}/${height}`,
 					kind: MediaKind.Image,

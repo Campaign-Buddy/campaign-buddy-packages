@@ -2,6 +2,7 @@ import React, { useCallback, useRef } from 'react';
 import { ReactEditor, useSlate } from 'slate-react';
 import { AddImageButton } from './add-image-button';
 import { AddLinkButton } from './AddLinkButton';
+import { InsertLineBreakButtons } from './InsertLineBreakButtons';
 import { MarkToggle } from './MarkToggle';
 import { ToolbarContainer } from './Toolbar.styled';
 
@@ -33,6 +34,7 @@ export const Toolbar: React.FC = () => {
 				<AddLinkButton />
 				<AddImageButton />
 			</div>
+			<InsertLineBreakButtons />
 		</ToolbarContainer>
 	);
 };
