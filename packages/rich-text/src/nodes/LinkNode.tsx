@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import {
 	Popover,
 	LinkButton,
@@ -24,27 +24,30 @@ export const LinkNode: React.FC<ElementNodeProps<LinkNodeType>> = ({
 	const { pushSelectionSnapshot, popSelectionSnapshot } =
 		useSelectionSnapshot();
 
+	const [inputState, setInputState] = useState(element.url);
+
 	const handleOpenPopover = useCallback(() => {
 		pushSelectionSnapshot();
 		openPopover();
 	}, [pushSelectionSnapshot, openPopover]);
 
 	const handleClosePopover = useCallback(() => {
+		if (inputState !== element.url) {
+			const path = ReactEditor.findPath(editor, element);
+			Transforms.setNodes(
+				editor,
+				{ ...element, url: inputState },
+				{ at: path }
+			);
+		}
+
 		closePopover();
 		popSelectionSnapshot();
-	}, [closePopover, popSelectionSnapshot]);
+	}, [closePopover, editor, element, inputState, popSelectionSnapshot]);
 
 	const highlight = useCallback((e: React.FocusEvent<HTMLInputElement>) => {
 		e.target.select();
 	}, []);
-
-	const updateLink = useCallback(
-		(url: string) => {
-			const path = ReactEditor.findPath(editor, element);
-			Transforms.setNodes(editor, { ...element, url }, { at: path });
-		},
-		[element, editor]
-	);
 
 	const handleEnter = useCallback(
 		(e) => {
@@ -66,8 +69,8 @@ export const LinkNode: React.FC<ElementNodeProps<LinkNodeType>> = ({
 					<>
 						<Input
 							label="URL"
-							value={element.url}
-							onChange={updateLink}
+							value={inputState}
+							onChange={setInputState}
 							onKeyDown={handleEnter}
 							onFocus={highlight}
 						/>
