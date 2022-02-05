@@ -18,11 +18,14 @@ export const MultiEntityPickerWidget: React.FC<
 		aggregatedValue?.availableEntityIds ?? value?.availableEntityIds;
 
 	const selectedEntityIds = useMemo(() => {
-		return (
-			(aggregatedValue?.entities ?? value?.entities)
-				?.map((x) => x.id)
-				.filter((x): x is string => Boolean(x)) ?? []
-		);
+		const ids = [
+			...(aggregatedValue?.entities ?? []),
+			...(value?.entities ?? []),
+		]
+			.map((x) => x.id)
+			.filter((x): x is string => Boolean(x));
+
+		return [...new Set(ids)];
 	}, [aggregatedValue?.entities, value?.entities]);
 
 	const entityDefinitionName = schema.$entity;
