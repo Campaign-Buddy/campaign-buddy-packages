@@ -6,30 +6,35 @@ This repository houses several frontend packages (using yarn workspaces) used to
 
 - [ ] Add image widget
 - [X] Start working on rich text editor (using slate)
+	- [ ] Headings
+	- [ ] Entity mentions
+	- [ ] Embeds
+	- [ ] Tables
 - [ ] Think through more possible widget types to handle all D&D use cases
-	- Proficiency list?
-	- Spell slots
-	- Entity grid
+	- [ ] Proficiency list?
+	- [ ] Spell slots
+	- [ ] Entity grid
 - [ ] Think through more elegant way to describe UI layouts accounting for...
-	- Blank space
-	- Collapsible groupings
-	- Columns
-	- Various horizontal alignment
-	- Varying font sizes
-	- Grid configurations? Using grid instead of flex may solve some of the above problems
-	- Embedded functionality for other tools (like a button to roll initiative)
+	- [X] Blank space
+	- [X] Collapsible groupings
+	- [X] Columns
+	- [ ] Various horizontal alignment
+	- [ ] Varying font sizes
+	- [ ] Embedded functionality for other tools (like a button to roll initiative)
 - [ ] Refactor aggregated inputs to be more generic "popover inputs" (since not every use case is for data aggregations)
+	- [ ] Move out of core-ui?
 - [ ] Add quick up and down buttons for numeric resource
 	- At the very least, keyboard shortcuts
-- [ ] Think through aggregation settings
-	- Some DMs may want to disable aggregations completely on certain fields, there should be a system level way to disable aggregates per field (or at least it should be made available to the widget components)
-- [ ] Model for an entity builder
-	- Model needs to describe how to generate wizard UI for creating various entities
+- [ ] Think through aggregation settings (and other field level settings)
+	- [ ] Some DMs may want to disable aggregations completely on certain fields, there should be a system level way to disable aggregates per field (or at least it should be made available to the widget components)
+	- [ ] Some DMs may want to hide certain fields from players that would otherwise have access to the data
 - [ ] Multi pane UI component package (can copy from previous project?)
 - [ ] File system component (may live in main campaign buddy app project)
-- [ ] UI test
-- [ ] Localization process (for packages that have copy)
+- [ ] UI tests
+	- [ ] Integration test for form-generator-widgets
+- [ ] Localization process (for packages that have copy) ([crowdin](https://crowdin.com/pricing#annual) has a free tier)
 - [ ] Plan out analytic strategy (move this to the main campaign buddy app repo when it exists)
+- [ ] Package level documentation
 
 ## Design Philosophy
 
