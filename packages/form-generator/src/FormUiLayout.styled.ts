@@ -35,4 +35,5 @@ export const FormColumn = styled.div<{ cols: number }>`
 	width: 100%;
 	column-gap: 8px;
 	flex: ${({ cols }) => calculateFlex(cols)};
+	align-content: flex-start;
 `;

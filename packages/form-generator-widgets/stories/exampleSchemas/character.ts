@@ -96,12 +96,46 @@ export const characterSchema = types.object({
 });
 
 export const characterUiLayout: UiLayout = [
-	['name', 'race', 'age'],
-	['class', 'feats'],
-	['hp', 'favoriteColors'],
-	['stats'],
+	{
+		kind: 'columnLayout',
+		columns: [
+			{
+				uiLayout: [
+					['name', 'race', 'age'],
+					['class', 'feats'],
+					['hp', 'favoriteColors'],
+				],
+			},
+			{
+				cols: 4,
+				uiLayout: [
+					['stats.str', 'stats.dex'],
+					['stats.con', 'stats.int'],
+					['stats.wis', 'stats.cha'],
+				],
+			},
+		],
+	},
+	{
+		kind: 'whiteSpace',
+		marginBottom: 24,
+	},
+	{
+		kind: 'columnLayout',
+		columns: [
+			{
+				uiLayout: ['cosmetics.bio'],
+			},
+			{
+				uiLayout: [['cosmetics.height'], ['cosmetics.weight']],
+			},
+		],
+	},
+	{
+		kind: 'whiteSpace',
+		marginBottom: 24,
+	},
 	['isPlayer'],
-	['cosmetics'],
 	['customRaces', 'customColors'],
 ];
 
