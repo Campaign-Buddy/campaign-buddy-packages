@@ -205,8 +205,8 @@ export const stat: CBSchemaFunc<StatAggregation> = (info) => ({
 export const richText: CBSchemaFunc<never> = (info) => ({
 	type: 'object',
 	properties: {
-		html: string(),
-		plain: string(),
+		document: genericObject(),
+		documentVersion: string(),
 	},
 	$uiWidget: Widgets.RichText,
 	title: info?.title,

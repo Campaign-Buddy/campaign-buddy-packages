@@ -12,6 +12,7 @@ import { StatWidget } from './stat';
 import { ChoiceWidget, MultiChoiceWidget } from './choice';
 import { EntityPickerWidget, MultiEntityPickerWidget } from './entity';
 import { NumericResourceWidget } from './numericResource';
+import { RichTextWidget } from './richText';
 
 type ExtensionWidgets = Record<Widgets, React.FC<WidgetProps<any>>>;
 
@@ -26,10 +27,12 @@ export const widgets: WidgetLookup & ExtensionWidgets = {
 	Stat: StatWidget,
 	EntityPicker: EntityPickerWidget,
 	MultiEntityPicker: MultiEntityPickerWidget,
-	RichText: () => null,
+	RichText: RichTextWidget,
 	MultiChoice: MultiChoiceWidget,
 	Choice: ChoiceWidget,
 	Icon: () => null,
 	SchemaBuilder: () => null,
 	NumericResource: NumericResourceWidget,
 };
+
+export { FormWidgetProvider } from './FormWidgetProvider';

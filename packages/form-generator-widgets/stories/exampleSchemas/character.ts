@@ -88,6 +88,7 @@ export const characterSchema = types.object({
 			},
 		}),
 	}),
+	bio: types.richText({ title: 'Bio' }),
 });
 
 export const characterUiLayout: UiLayout = [
@@ -97,6 +98,7 @@ export const characterUiLayout: UiLayout = [
 	['stats'],
 	['isPlayer'],
 	['customRaces', 'customColors'],
+	['bio'],
 ];
 
 function statBonus(statName: string): string {
