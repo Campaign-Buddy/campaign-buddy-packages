@@ -16,7 +16,9 @@ interface ColumnLayout extends UiDirective<'columnLayout'> {
 	columns: Column[];
 }
 
-type WhiteSpace = UiDirective<'whiteSpace'>;
+interface WhiteSpace extends UiDirective<'whiteSpace'> {
+	marginBottom?: number;
+}
 
 export type UiLayout = (
 	| string
