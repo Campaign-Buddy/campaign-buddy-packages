@@ -5,6 +5,7 @@ This repository houses several frontend packages (using yarn workspaces) used to
 ## Todo
 
 - [ ] Add image widget
+- [ ] Add read-only variants of form-generator
 - [X] Start working on rich text editor (using slate)
 	- [ ] Headings
 	- [ ] Entity mentions
