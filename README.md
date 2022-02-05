@@ -1,6 +1,6 @@
 # campaign-buddy-frontend
 
-This repository houses several frontend packages (using yarn workspaces) used to make campaign buddy
+This repository houses several frontend packages (using yarn workspaces) used to make campaign buddy, an online table-top role playing platform.
 
 ## Todo
 
