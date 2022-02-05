@@ -37,7 +37,8 @@ This repository houses several frontend packages (using yarn workspaces) used to
 - [ ] Localization process (for packages that have copy) ([crowdin](https://crowdin.com/pricing#annual) has a free tier)
 - [ ] Plan out analytic strategy (move this to the main campaign buddy app repo when it exists)
 - [ ] Package level documentation
-	- [ ] Form generator
+	- [ ] frontend-types. When does a type go in that package?
+	- [ ] apply-aggregates. What functions are available and how do I use them? (Note this documentation can likely be auto-generated)
 - [ ] Add json-schema validation to form generator to guarantee that form data conforms to the provided schema
 	- Encapsulate validator in new package to be used in backend as well?
 
