@@ -33,7 +33,7 @@ export const ExistingImagePopover: React.FC<ExistingImagePopoverProps> = ({
 
 	const queryClient = useQueryClient();
 	const { isLoading, data, refetch } = useQuery(
-		['existing-media', currentPageOffset],
+		['package-campaign-buddy-rich-text-existing-media', currentPageOffset],
 		async () =>
 			mediaApi.listUploadedMedia(
 				pageSize + 1,

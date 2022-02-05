@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { FormGroup } from '@campaign-buddy/core-ui';
 import { Meta, Story } from '@storybook/react';
+import { QueryClient } from 'react-query';
 import { RichTextEditor, RichTextDocument } from '../src';
 import { MockMediaApi } from './mockMediaApi';
 
@@ -10,6 +11,7 @@ export default {
 } as Meta;
 
 const mediaApi = new MockMediaApi();
+const queryClient = new QueryClient();
 
 const Template: Story = () => {
 	const [value, setValue] = useState<RichTextDocument>([]);
@@ -21,6 +23,7 @@ const Template: Story = () => {
 				value={value}
 				onChange={setValue}
 				htmlId="editor"
+				queryClient={queryClient}
 			/>
 		</FormGroup>
 	);

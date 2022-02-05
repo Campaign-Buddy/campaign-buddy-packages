@@ -24,6 +24,7 @@ interface RichTextEditorProps {
 	value: RichTextDocument | undefined;
 	onChange: (value: RichTextDocument) => void;
 	mediaApi: MediaApi;
+	queryClient: QueryClient;
 	htmlId?: string;
 	minHeight?: string;
 	maxHeight?: string;
@@ -48,8 +49,6 @@ const defaultValue: RichTextDocument = [
 	},
 ];
 
-const queryClient = new QueryClient();
-
 export const RichTextEditor: React.FC<RichTextEditorProps> = ({
 	htmlId,
 	style,
@@ -58,6 +57,7 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = ({
 	value: controlledValue,
 	onChange,
 	mediaApi,
+	queryClient,
 }) => {
 	const editor = useMemo(
 		() => withReact(withCampaignBuddyNodes(withHistory(createEditor()))),

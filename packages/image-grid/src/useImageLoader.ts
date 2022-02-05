@@ -9,7 +9,7 @@ interface UseImageLoaderHook {
 export function useImageLoader(images: ImageType[]): UseImageLoaderHook {
 	const results = useQueries(
 		images.map((image) => ({
-			queryKey: image.url,
+			queryKey: ['package-campaign-buddy-image-grid', image.url],
 			queryFn: () => loadImage(image),
 		}))
 	);
