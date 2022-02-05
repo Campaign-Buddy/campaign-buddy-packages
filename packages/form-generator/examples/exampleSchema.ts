@@ -34,6 +34,7 @@ export const exampleLayout: UiLayout = [
 	'description',
 	'phoneNumber',
 	{
+		kind: 'section',
 		title: 'Address',
 		uiLayout: [
 			['address.street', 'address.apt'],
@@ -42,6 +43,7 @@ export const exampleLayout: UiLayout = [
 	},
 	'canMail',
 	{
+		kind: 'section',
 		title: 'Personal details',
 		uiLayout: ['favoriteNumber'],
 	},

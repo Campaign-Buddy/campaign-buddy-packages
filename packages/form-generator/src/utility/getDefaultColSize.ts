@@ -2,17 +2,19 @@ import {
 	CampaignBuddySchema,
 	UiLayout,
 } from '@campaign-buddy/json-schema-core';
+import { ArrayElement } from './ArrayElement';
 import { getSchemaForPath } from './getSchemaForPath';
+import { isUiDirective } from './isUiDirective';
 
 interface ElementSpec {
 	cols: number | 'auto';
-	path: string;
+	element: ArrayElement<UiLayout>;
 }
 
 export function getDefaultColSizeForPath(
 	uiLayout: UiLayout,
 	rootSchema: CampaignBuddySchema,
-	path: string
+	element: ArrayElement<UiLayout>
 ): number {
 	// Get the expected size of the elements rendered in this layout
 	const renderedElementSpecs = uiLayout.map<ElementSpec>((cur) => {
@@ -24,19 +26,24 @@ export function getDefaultColSizeForPath(
 				(subSchema.type === 'object' && !subSchema.properties)
 			) {
 				return {
-					path: cur,
+					element: cur,
 					cols: 0,
 				};
 			}
 
 			return {
-				path: cur,
+				element: cur,
 				cols: subSchema?.$uiCols || 'auto',
+			};
+		} else if (isUiDirective(cur) && cur.kind === 'whiteSpace') {
+			return {
+				element: cur,
+				cols: cur.cols || 'auto',
 			};
 		}
 
 		return {
-			path: '',
+			element: cur,
 			cols: 12,
 		};
 	});
@@ -59,7 +66,7 @@ export function getDefaultColSizeForPath(
 	// Find the grouping that contains the element we're figuring out a default
 	// size for
 	const groupingForCurrentElement = elementsGroupedByRow.find((x) =>
-		x.some((el) => el.path === path)
+		x.some((el) => el.element === element)
 	);
 
 	if (!groupingForCurrentElement) {

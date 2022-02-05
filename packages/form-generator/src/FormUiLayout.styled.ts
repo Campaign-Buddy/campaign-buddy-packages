@@ -7,6 +7,12 @@ export const FormCell = styled.div<{ cols: number }>`
 	min-width: 100px;
 `;
 
+export const WhiteSpace = styled.div<{ cols: number; marginBottom?: number }>`
+	margin-bottom: ${({ marginBottom }) => marginBottom ?? 0}px;
+	flex: ${({ cols }) => calculateFlex(cols)};
+	min-width: 100%;
+`;
+
 export const FormRow = styled.div`
 	display: flex;
 	flex-wrap: wrap;

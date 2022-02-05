@@ -33,6 +33,7 @@ function _generateUiLayout(schema: JSONSchema4, path: string): UiLayout {
 			return [
 				[
 					{
+						kind: 'section',
 						title: schema.title,
 						uiLayout: subResults,
 					},

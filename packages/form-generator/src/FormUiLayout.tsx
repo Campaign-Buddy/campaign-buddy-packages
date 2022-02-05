@@ -20,6 +20,7 @@ import {
 	FormCell,
 	ColumnLayout,
 	FormColumn,
+	WhiteSpace,
 } from './FormUiLayout.styled';
 
 interface FormUiLayoutProps {
@@ -132,7 +133,12 @@ export const FormUiLayout: React.FC<FormUiLayoutProps> = ({
 				</ColumnLayout>
 			);
 		} else if (isUiDirective(element) && element.kind === 'whiteSpace') {
-			// TODO: Handle white space
+			nodes.push(
+				<WhiteSpace
+					cols={getDefaultColSizeForPath(uiLayout, schema, element)}
+					marginBottom={element.marginBottom}
+				/>
+			);
 		} else {
 			nodes.push(<FormRow>{getNestedUiLayout(element)}</FormRow>);
 		}

@@ -4,7 +4,7 @@ import { FormGenerator } from '../src';
 import { exampleWidgets } from '../examples/exampleWidgets';
 
 export default {
-	title: 'form-generator/ColumnLayout',
+	title: 'form-generator/UiDirectives',
 	component: FormGenerator,
 };
 
@@ -36,7 +36,10 @@ const uiLayout: UiLayout = [
 			},
 		],
 	},
-	'someOtherText',
+	{
+		kind: 'whiteSpace',
+		marginBottom: 48,
+	},
 	{
 		kind: 'columnLayout',
 		columns: [
