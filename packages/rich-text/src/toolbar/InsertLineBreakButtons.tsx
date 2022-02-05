@@ -49,7 +49,7 @@ export const InsertLineBreakButtons: React.FC = () => {
 		[insertSpace]
 	);
 
-	if (selectedElement?.kind !== 'image') {
+	if (!selectedElement || !editor.isVoid(selectedElement)) {
 		return null;
 	}
 
