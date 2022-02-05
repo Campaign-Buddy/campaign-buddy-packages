@@ -19,4 +19,5 @@ export const StyledEditable = styled(Editable)<StyledEditableProps>`
 	padding: 8px 12px;
 	min-height: ${({ minHeight }) => minHeight ?? '100px'};
 	${({ maxHeight }) => maxHeight && `max-height: ${maxHeight};`}
+	overflow-y: auto;
 `;

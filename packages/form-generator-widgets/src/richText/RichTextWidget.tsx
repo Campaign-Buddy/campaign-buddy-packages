@@ -52,6 +52,7 @@ export const RichTextWidget: React.FC<WidgetProps<RichTextData>> = ({
 				queryClient={queryClient}
 				mediaApi={mediaApi}
 				htmlId={htmlId}
+				maxHeight="400px"
 			/>
 		</FormGroup>
 	);
