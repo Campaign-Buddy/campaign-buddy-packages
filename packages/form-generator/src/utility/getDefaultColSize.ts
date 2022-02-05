@@ -9,7 +9,7 @@ interface ElementSpec {
 	path: string;
 }
 
-export function getDefaultColSize(
+export function getDefaultColSizeForPath(
 	uiLayout: UiLayout,
 	rootSchema: CampaignBuddySchema,
 	path: string
@@ -66,19 +66,21 @@ export function getDefaultColSize(
 		return 12;
 	}
 
+	return getDefaultColSize(groupingForCurrentElement.map((x) => x.cols));
+}
+
+export function getDefaultColSize(elementSizes: (number | 'auto')[]): number {
 	// Get a count of all of the elements that are dynamically
 	// sized (our element should be in this list)
-	const autoElements = groupingForCurrentElement.filter(
-		(x) => x.cols === 'auto'
-	);
+	const autoElements = elementSizes.filter((x) => x === 'auto');
 
 	if (autoElements.length === 0) {
 		return 12;
 	}
 
 	// Get a count of all the elements that have a fixed width
-	const fixedElementSize = groupingForCurrentElement.reduce<number>(
-		(total, cur) => (cur.cols === 'auto' ? total : total + cur.cols),
+	const fixedElementSize = elementSizes.reduce<number>(
+		(total, cur) => (cur === 'auto' ? total : total + cur),
 		0
 	);
 
@@ -88,7 +90,5 @@ export function getDefaultColSize(
 		return 12;
 	}
 
-	const autoSize = Math.floor(Math.max(1, freeSpace / autoElements.length));
-
-	return autoSize;
+	return Math.floor(Math.max(1, freeSpace / autoElements.length));
 }

@@ -35,7 +35,7 @@ export function cleanUiLayout(layout: UiLayout, schema: JSONSchema4): UiLayout {
 				}
 
 				return result;
-			} else {
+			} else if (element.kind === 'section') {
 				const result = cleanUiLayout(element.uiLayout, schema);
 
 				if (result.length === 0) {
@@ -46,6 +46,21 @@ export function cleanUiLayout(layout: UiLayout, schema: JSONSchema4): UiLayout {
 					...element,
 					uiLayout: result,
 				};
+			} else if (element.kind === 'columnLayout') {
+				const columns = element.columns
+					.map((x) => ({
+						...x,
+						uiLayout: cleanUiLayout(x.uiLayout, schema),
+					}))
+					.filter((x) => x.uiLayout.length !== 0);
+
+				if (columns.length === 0) {
+					return '';
+				}
+
+				return element;
+			} else {
+				return element;
 			}
 		})
 		.filter((x) => x !== '');

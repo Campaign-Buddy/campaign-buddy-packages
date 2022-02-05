@@ -11,10 +11,16 @@ import {
 	WidgetLookup,
 	WidgetProps,
 } from './FormGeneratorProps';
-import { generateUiLayout, getDataForPath, getSchemaForPath } from './utility';
+import {
+	generateUiLayout,
+	getDataForPath,
+	getSchemaForPath,
+	isUiDirective,
+	getDefaultColSize,
+	getDefaultColSizeForPath,
+} from './utility';
 import styled from 'styled-components';
 import { DebouncedWidget } from './DebouncedWidget';
-import { getDefaultColSize } from './utility/getDefaultColSize';
 
 interface FormUiLayoutProps {
 	uiLayout: UiLayout;
@@ -41,6 +47,22 @@ export const FormUiLayout: React.FC<FormUiLayoutProps> = ({
 }) => {
 	const nodes: React.ReactElement[] = [];
 
+	function getNestedUiLayout(layout: UiLayout) {
+		return (
+			<FormUiLayout
+				uiLayout={layout}
+				schema={schema}
+				widgetLookup={widgetLookup}
+				updateValue={updateValue}
+				data={data}
+				UiSection={UiSection}
+				aggregatedData={aggregatedData}
+				aggregates={aggregates}
+				entityApi={entityApi}
+			/>
+		);
+	}
+
 	for (const element of uiLayout) {
 		if (typeof element === 'string') {
 			const subSchema = getSchemaForPath(element, schema);
@@ -64,24 +86,11 @@ export const FormUiLayout: React.FC<FormUiLayoutProps> = ({
 			if (subSchema.type === 'object' && !subSchema['$uiWidget']) {
 				const subLayout = generateUiLayout(subSchema, element);
 
-				nodes.push(
-					<FormRow>
-						<FormUiLayout
-							uiLayout={subLayout}
-							schema={schema}
-							widgetLookup={widgetLookup}
-							updateValue={updateValue}
-							data={data}
-							UiSection={UiSection}
-							aggregatedData={aggregatedData}
-							aggregates={aggregates}
-							entityApi={entityApi}
-						/>
-					</FormRow>
-				);
+				nodes.push(<FormRow>{getNestedUiLayout(subLayout)}</FormRow>);
 			} else {
 				const cols =
-					subSchema['$uiCols'] ?? getDefaultColSize(uiLayout, schema, element);
+					subSchema['$uiCols'] ??
+					getDefaultColSizeForPath(uiLayout, schema, element);
 
 				nodes.push(
 					<FormCell cols={cols}>
@@ -99,20 +108,8 @@ export const FormUiLayout: React.FC<FormUiLayoutProps> = ({
 					</FormCell>
 				);
 			}
-		} else if (typeof element === 'object' && !Array.isArray(element)) {
-			const layout = (
-				<FormUiLayout
-					uiLayout={element.uiLayout}
-					schema={schema}
-					widgetLookup={widgetLookup}
-					updateValue={updateValue}
-					data={data}
-					UiSection={UiSection}
-					aggregatedData={aggregatedData}
-					aggregates={aggregates}
-					entityApi={entityApi}
-				/>
-			);
+		} else if (isUiDirective(element) && element.kind === 'section') {
+			const layout = getNestedUiLayout(element.uiLayout);
 
 			if (UiSection) {
 				nodes.push(
@@ -123,22 +120,21 @@ export const FormUiLayout: React.FC<FormUiLayoutProps> = ({
 			} else {
 				nodes.push(<FormRow>{layout}</FormRow>);
 			}
-		} else {
+		} else if (isUiDirective(element) && element.kind === 'columnLayout') {
+			const allCols = element.columns.map((x) => x.cols || 'auto');
 			nodes.push(
-				<FormRow>
-					<FormUiLayout
-						uiLayout={element}
-						schema={schema}
-						widgetLookup={widgetLookup}
-						updateValue={updateValue}
-						data={data}
-						UiSection={UiSection}
-						aggregatedData={aggregatedData}
-						aggregates={aggregates}
-						entityApi={entityApi}
-					/>
-				</FormRow>
+				<ColumnLayout>
+					{element.columns.map((x, i) => (
+						<FormColumn cols={x.cols || getDefaultColSize(allCols)} key={i}>
+							{getNestedUiLayout(x.uiLayout)}
+						</FormColumn>
+					))}
+				</ColumnLayout>
 			);
+		} else if (isUiDirective(element) && element.kind === 'whiteSpace') {
+			// TODO: Handle white space
+		} else {
+			nodes.push(<FormRow>{getNestedUiLayout(element)}</FormRow>);
 		}
 	}
 
@@ -223,4 +219,21 @@ const FormRow = styled.div`
 	flex-wrap: wrap;
 	width: 100%;
 	column-gap: 8px;
+`;
+
+const ColumnLayout = styled.div`
+	display: flex;
+	min-width: 100px;
+	flex-wrap: wrap;
+	flex-direction: row;
+	width: 100%;
+	column-gap: 8px;
+`;
+
+const FormColumn = styled.div<{ cols: number }>`
+	display: flex;
+	flex-wrap: wrap;
+	width: 100%;
+	column-gap: 8px;
+	flex: ${({ cols }) => calculateFlex(cols)};
 `;
