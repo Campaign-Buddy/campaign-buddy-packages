@@ -4,17 +4,26 @@ This repository houses several frontend packages (using yarn workspaces) used to
 
 ## Todo
 
+- [ ] Audit form widget handling of aggregates
+- [ ] Think through aggregation settings (and other field level settings)
+	- [ ] Some DMs may want to disable aggregations completely on certain fields, there should be a system level way to disable aggregates per field (or at least it should be made available to the widget components)
+	- [ ] Some DMs may want to hide certain fields from players that would otherwise have access to the data
+	- [ ] Update form generator docs
+- [ ] Add json-schema validation to form generator to guarantee that form data conforms to the provided schema
+	- Encapsulate validator in new package to be used in backend as well?
+- [ ] Add quick up and down buttons for numeric resource
+	- At the very least, keyboard shortcuts
 - [ ] Add image widget
-- [ ] Add read-only variants of form-generator
+- [ ] UI tests
+	- [ ] Integration test for form-generator-widgets
+- [ ] Localization process (for packages that have copy) ([crowdin](https://crowdin.com/pricing#annual) has a free tier)
+- [ ] Update core-ui theme to be more comprehensive (make sure every visible color is a theme color, add theming for spacing and fonts, etc)
 - [X] Start working on rich text editor (using slate)
 	- [ ] Headings
 	- [ ] Entity mentions
 	- [ ] Embeds
 	- [ ] Tables
-- [ ] Think through more possible widget types to handle all D&D use cases
-	- [ ] Proficiency list?
-	- [ ] Spell slots
-	- [ ] Entity grid
+- [ ] Add read-only variants of form-generator
 - [ ] Think through more elegant way to describe UI layouts accounting for...
 	- [X] Blank space
 	- [X] Collapsible groupings
@@ -24,23 +33,16 @@ This repository houses several frontend packages (using yarn workspaces) used to
 	- [ ] Embedded functionality for other tools (like a button to roll initiative)
 - [ ] Refactor aggregated inputs to be more generic "popover inputs" (since not every use case is for data aggregations)
 	- [ ] Move out of core-ui?
-- [ ] Add quick up and down buttons for numeric resource
-	- At the very least, keyboard shortcuts
-- [ ] Think through aggregation settings (and other field level settings)
-	- [ ] Some DMs may want to disable aggregations completely on certain fields, there should be a system level way to disable aggregates per field (or at least it should be made available to the widget components)
-	- [ ] Some DMs may want to hide certain fields from players that would otherwise have access to the data
-	- [ ] Update form generator docs
+- [ ] Think through more possible widget types to handle all D&D use cases
+	- [ ] Proficiency list?
+	- [ ] Spell slots
+	- [ ] Entity grid
 - [ ] Multi pane UI component package (can copy from previous project?)
 - [ ] File system component (may live in main campaign buddy app project)
-- [ ] UI tests
-	- [ ] Integration test for form-generator-widgets
-- [ ] Localization process (for packages that have copy) ([crowdin](https://crowdin.com/pricing#annual) has a free tier)
 - [ ] Plan out analytic strategy (move this to the main campaign buddy app repo when it exists)
 - [ ] Package level documentation
 	- [ ] frontend-types. When does a type go in that package?
 	- [ ] apply-aggregates. What functions are available and how do I use them? (Note this documentation can likely be auto-generated)
-- [ ] Add json-schema validation to form generator to guarantee that form data conforms to the provided schema
-	- Encapsulate validator in new package to be used in backend as well?
 
 ## Design Philosophy
 
