@@ -20,9 +20,30 @@ export interface WidgetLookup {
 }
 
 export interface WidgetProps<T> {
+	/**
+	 * The change handler for the field. It's
+	 * first parameter should include the full
+	 * updated value.
+	 */
 	onChange: (value: T) => void;
+
+	/**
+	 * The title of the field
+	 */
 	label: string;
+
+	/**
+	 * A boolean describing if this field
+	 * has any aggregates at all
+	 */
 	hasAggregation: boolean;
+
+	/**
+	 * If the field has aggregates, this prop
+	 * will contain the raw aggregate expressions
+	 * specified in either the schema or the
+	 * aggregates object
+	 */
 	aggregation: Aggregates | string | undefined;
 
 	/**
@@ -47,7 +68,9 @@ export interface WidgetProps<T> {
 	 */
 	isEditable: boolean;
 
-	// The JSON scheme for this property
+	/**
+	 * The JSON scheme for this property
+	 */
 	schema: CampaignBuddySchema;
 
 	/**
