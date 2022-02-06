@@ -67,7 +67,11 @@ export function Select<TData>({
 					_style="minimal"
 					rightIcon="caret-down"
 					text={
-						value?.displayValue ?? <i>{placeholder ?? 'Select an option'}</i>
+						value?.displayValue ? (
+							<span>{value?.displayValue}</span>
+						) : (
+							<i>{placeholder ?? 'Select an option'}</i>
+						)
 					}
 					minimal
 					fill

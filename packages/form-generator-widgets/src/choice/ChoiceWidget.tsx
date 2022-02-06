@@ -53,7 +53,7 @@ export const ChoiceWidget: React.FC<WidgetProps<Choice, ChoiceAggregation>> = ({
 	);
 
 	const mappedValue = useMemo(() => {
-		if (!aggregatedValue?.selectedOption && !value?.selectedOption) {
+		if (!aggregatedValue?.selectedOption?.id && !value?.selectedOption?.id) {
 			return;
 		}
 
