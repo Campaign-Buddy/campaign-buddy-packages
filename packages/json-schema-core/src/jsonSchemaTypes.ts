@@ -1,7 +1,18 @@
 import { EntityDefinition } from './EntityDefinition';
 import { Widgets } from './Widgets';
 import { CampaignBuddySchema } from './CampaignBuddySchema';
-import { CBSchemaFunc, DisplayInfo, DisplayInfoWithEnum } from './interfaces';
+import {
+	CBSchemaFunc,
+	ChoiceAggregation,
+	DisplayInfo,
+	DisplayInfoWithEnum,
+	EntityAggregation,
+	IconAggregation,
+	MultiChoiceAggregation,
+	NumericResourceAggregate,
+	OptionAggregation,
+	StatAggregation,
+} from './interfaces';
 
 /* Primitive Types */
 
@@ -28,11 +39,6 @@ export const number: CBSchemaFunc = (info) => ({
 	$uiCols: info?.cols,
 	$aggregate: info?.aggregate,
 });
-
-interface NumericResourceAggregate {
-	max?: string;
-	current?: string;
-}
 
 /**
  * Numeric resources are properties that have a maximum value
@@ -107,10 +113,6 @@ const _arrayOf: (
 	$aggregate: info?.aggregate,
 });
 
-interface EntityAggregation {
-	options?: string;
-}
-
 export const entity: (
 	entity: EntityDefinition,
 	info?: DisplayInfo<EntityAggregation>
@@ -169,11 +171,6 @@ export const multiEntity: (
 	$aggregate: info?.aggregate,
 });
 
-interface StatAggregation {
-	base?: string;
-	bonus?: string;
-}
-
 export const stat: CBSchemaFunc<StatAggregation> = (info) => ({
 	type: 'object',
 	properties: {
@@ -198,10 +195,6 @@ export const richText: CBSchemaFunc<never> = (info) => ({
 	description: info?.description,
 	$uiCols: info?.cols,
 });
-
-interface IconAggregation {
-	url?: string;
-}
 
 export const icon: CBSchemaFunc<IconAggregation> = (info) => ({
 	type: 'object',
@@ -231,11 +224,6 @@ export const arrayOf = {
 		_arrayOf(obj, info),
 };
 
-interface OptionAggregation {
-	displayValue?: string;
-	id?: string;
-}
-
 const option: (
 	info?: DisplayInfo<OptionAggregation>
 ) => CampaignBuddySchema<OptionAggregation> = (info) => ({
@@ -249,11 +237,6 @@ const option: (
 	$uiCols: info?.cols,
 	$aggregate: info?.aggregate,
 });
-
-interface ChoiceAggregation {
-	options?: string;
-	selectedOption?: string;
-}
 
 export const choice: (
 	info?: DisplayInfoWithEnum<ChoiceAggregation>
@@ -270,12 +253,6 @@ export const choice: (
 	$aggregate: info?.aggregate,
 	$options: info?.options,
 });
-
-interface MultiChoiceAggregation {
-	selectedOptions?: string;
-	options?: string;
-	maxChoices?: string;
-}
 
 export const multiChoice: (
 	info?: DisplayInfoWithEnum<MultiChoiceAggregation>

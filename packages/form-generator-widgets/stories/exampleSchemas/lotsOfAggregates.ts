@@ -8,19 +8,19 @@ import {
 const schemaParts: Record<string, CampaignBuddySchema> = {};
 const uiLayout: UiLayout = [['agg']];
 
-addExample(
+addWidgetType(
 	'select',
 	types.choice,
 	(withBase) => ({
 		options: 'TO_OPTIONS_FROM_STRINGS([{$.agg}])',
 		selectedOption: withBase
-			? 'TO_OPTIONS_FROM_STRINGS([(<base> ? <base>.selectedOption.displayValue : "") + {$.agg}])[0]'
+			? 'TO_OPTIONS_FROM_STRINGS([{$.agg} + (<base> ? (" " + <base>.displayValue) : "")])[0]'
 			: 'TO_OPTIONS_FROM_STRINGS([{$.agg}])[0]',
 	}),
 	['A', 'B', 'C']
 );
 
-addExample(
+addWidgetType(
 	'string',
 	types.string,
 	(withBase) => `${withBase ? '(<base> || "") + " " + ' : ''}{$.agg}`
@@ -33,7 +33,7 @@ export const lotsOfAggregatesSchema = types.object({
 
 export const lotsOfAggregatesLayout = uiLayout;
 
-function addExample<TAggregateShape>(
+function addWidgetType<TAggregateShape>(
 	name: string,
 	type: (
 		info?: DisplayInfoWithEnum<TAggregateShape>

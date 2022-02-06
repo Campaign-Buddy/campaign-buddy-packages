@@ -19,13 +19,13 @@ export interface WidgetLookup {
 	[key: string]: React.FC<WidgetProps<any>>;
 }
 
-export interface WidgetProps<T> {
+export interface WidgetProps<TValue, TAggregates = Aggregates | string> {
 	/**
 	 * The change handler for the field. It's
 	 * first parameter should include the full
 	 * updated value.
 	 */
-	onChange: (value: T) => void;
+	onChange: (value: TValue) => void;
 
 	/**
 	 * The title of the field
@@ -44,7 +44,7 @@ export interface WidgetProps<T> {
 	 * specified in either the schema or the
 	 * aggregates object
 	 */
-	aggregation: Aggregates | string | undefined;
+	aggregation: TAggregates | undefined;
 
 	/**
 	 * The value from the form data (i.e.
@@ -52,7 +52,7 @@ export interface WidgetProps<T> {
 	 *
 	 * Initially, it is set to undefined
 	 */
-	value: T | undefined;
+	value: TValue | undefined;
 
 	/**
 	 * The value to display if not being edited,
@@ -60,7 +60,7 @@ export interface WidgetProps<T> {
 	 * a combination of `value` and other data,
 	 * or may be completely derived from other data
 	 */
-	aggregatedValue: T | undefined;
+	aggregatedValue: TValue | undefined;
 
 	/**
 	 * A property is editable if has no aggregations
