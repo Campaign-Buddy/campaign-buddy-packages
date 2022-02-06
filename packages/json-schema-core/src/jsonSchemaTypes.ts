@@ -1,22 +1,7 @@
 import { EntityDefinition } from './EntityDefinition';
 import { Widgets } from './Widgets';
 import { CampaignBuddySchema } from './CampaignBuddySchema';
-
-interface DisplayInfo<TAggregateShape = string> {
-	title: string;
-	description?: string;
-	cols?: number;
-	aggregate?: TAggregateShape;
-}
-
-interface DisplayInfoWithEnum<TAggregateShape = string>
-	extends DisplayInfo<TAggregateShape> {
-	options?: string[];
-}
-
-type CBSchemaFunc<TAggregateShape = string> = (
-	info?: DisplayInfo<TAggregateShape>
-) => CampaignBuddySchema<TAggregateShape>;
+import { CBSchemaFunc, DisplayInfo, DisplayInfoWithEnum } from './interfaces';
 
 /* Primitive Types */
 

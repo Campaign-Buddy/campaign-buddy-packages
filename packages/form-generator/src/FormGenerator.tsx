@@ -15,9 +15,11 @@ import {
 import { FormUiLayout } from './FormUiLayout';
 import styled from 'styled-components';
 
+const defaultData = {};
+
 export const FormGenerator: React.FC<FormGeneratorProps> = ({
 	schema,
-	data,
+	data = defaultData,
 	onChange,
 	widgets,
 	uiLayout: providedUiLayout,

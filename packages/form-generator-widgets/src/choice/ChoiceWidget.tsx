@@ -14,6 +14,7 @@ export const ChoiceWidget: React.FC<WidgetProps<Choice>> = ({
 	aggregatedValue,
 	schema,
 	label,
+	isEditable,
 }) => {
 	const options = useMemo(
 		() =>
@@ -38,13 +39,16 @@ export const ChoiceWidget: React.FC<WidgetProps<Choice>> = ({
 		[onChange, value]
 	);
 
+	const selectedOption =
+		aggregatedValue?.selectedOption ?? value?.selectedOption;
+
 	const mappedValue = useMemo(
 		() =>
-			value?.selectedOption && {
-				id: value?.selectedOption?.id ?? '',
-				displayValue: value?.selectedOption?.displayValue ?? '',
+			selectedOption && {
+				id: selectedOption.id ?? '',
+				displayValue: selectedOption.displayValue ?? '',
 			},
-		[value?.selectedOption]
+		[selectedOption]
 	);
 
 	return (
@@ -53,6 +57,7 @@ export const ChoiceWidget: React.FC<WidgetProps<Choice>> = ({
 			value={mappedValue}
 			onChange={handleChange}
 			label={label}
+			isDisabled={!isEditable}
 		/>
 	);
 };

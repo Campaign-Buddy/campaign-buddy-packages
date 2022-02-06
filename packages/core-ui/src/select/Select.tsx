@@ -16,6 +16,7 @@ export interface SelectProps<TData> {
 	onChange: (value: IOption<TData>) => void;
 	label?: string;
 	placeholder?: string;
+	isDisabled?: boolean;
 }
 
 export function Select<TData>({
@@ -24,6 +25,7 @@ export function Select<TData>({
 	onChange,
 	label,
 	placeholder,
+	isDisabled,
 }: SelectProps<TData>): JSX.Element {
 	const htmlId = useHtmlId();
 	const [query, setQuery] = useState('');
@@ -59,6 +61,7 @@ export function Select<TData>({
 				popoverProps={popoverProps}
 				query={query}
 				onQueryChange={handleQueryChange}
+				disabled={isDisabled}
 			>
 				<SelectButton
 					_style="minimal"
