@@ -18,3 +18,5 @@ export const AggregatedTextInput: React.FC<
 export const AggregatedTextArea: React.FC<
 	DerivedAggregatedInputProps<string, 'textarea'>
 > = (props) => <AggregatedInput {...props} InputComponent={TextArea} />;
+
+export { AggregatedDisplayText } from './AggregatedInput.styled';

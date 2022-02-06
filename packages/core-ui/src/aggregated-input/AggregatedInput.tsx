@@ -8,7 +8,7 @@ import { FormGroup } from '../form-group';
 import { Popover } from '../popover';
 import { Button } from '../button';
 import {
-	AggregatedDisplayText,
+	InteractiveDisplayText,
 	PopoverContentRoot,
 	AggregationPreviewText,
 	DisplayValueContainer,
@@ -141,7 +141,7 @@ export const AggregatedInput = <
 					onClose={closePopover}
 					content={PopoverContent}
 				>
-					<AggregatedDisplayText
+					<InteractiveDisplayText
 						fontSize={fontSize ?? 14}
 						onClick={openPopover}
 						tabIndex={hideButton ? 0 : undefined}
@@ -150,7 +150,7 @@ export const AggregatedInput = <
 						role={hideButton ? 'button' : undefined}
 					>
 						{aggregatedDisplayValue}
-					</AggregatedDisplayText>
+					</InteractiveDisplayText>
 				</Popover>
 				{!hideButton && (
 					<AnimatedButtonContainer

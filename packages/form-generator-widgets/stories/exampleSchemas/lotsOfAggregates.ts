@@ -23,7 +23,7 @@ addExample(
 addExample(
 	'string',
 	types.string,
-	(withBase) => `${withBase ? '<base> || ""' : ''} + {$.agg}`
+	(withBase) => `${withBase ? '(<base> || "") + " " + ' : ''}{$.agg}`
 );
 
 export const lotsOfAggregatesSchema = types.object({

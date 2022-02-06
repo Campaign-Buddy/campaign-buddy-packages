@@ -2,21 +2,27 @@ import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { defaultTheme } from '../theme';
 
-export const AggregatedDisplayText = styled.p<{ fontSize: number }>`
+export const AggregatedDisplayText = styled.p<{ fontSize?: number }>`
 	color: ${({ theme }) => theme.colors.text};
 	margin: 0;
-	cursor: pointer;
-	font-size: ${({ fontSize }) => fontSize}px;
+	font-size: ${({ fontSize }) => fontSize ?? 14}px;
 	outline: none !important;
+	min-height: 30px;
+	display: flex;
+	align-items: center;
+`;
+AggregatedDisplayText.defaultProps = {
+	theme: defaultTheme,
+};
+
+export const InteractiveDisplayText = styled(AggregatedDisplayText)`
+	cursor: pointer;
 
 	&:hover,
 	&:focus {
 		text-decoration: underline;
 	}
 `;
-AggregatedDisplayText.defaultProps = {
-	theme: defaultTheme,
-};
 
 export const PopoverContentRoot = styled.div`
 	width: 400px;
