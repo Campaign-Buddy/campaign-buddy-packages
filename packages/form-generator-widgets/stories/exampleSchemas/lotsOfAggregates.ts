@@ -9,6 +9,24 @@ const schemaParts: Record<string, CampaignBuddySchema> = {};
 const uiLayout: UiLayout = [['agg']];
 
 addWidgetType(
+	'string',
+	types.string,
+	(withBase) => `${withBase ? '(<base> || "") + " " + ' : ''}{$.agg}`
+);
+
+addWidgetType(
+	'number',
+	types.number,
+	(withBase) => `${withBase ? 'TO_NUMBER(<base>) + ' : ''}TO_NUMBER({$.agg})`
+);
+
+addWidgetType(
+	'boolean',
+	types.boolean,
+	(withBase) => `${withBase ? '<base> && ' : ''}TO_BOOLEAN({$.agg})`
+);
+
+addWidgetType(
 	'select',
 	types.choice,
 	(withBase) => ({
@@ -18,12 +36,6 @@ addWidgetType(
 			: 'TO_OPTIONS_FROM_STRINGS([{$.agg}])[0]',
 	}),
 	['A', 'B', 'C']
-);
-
-addWidgetType(
-	'string',
-	types.string,
-	(withBase) => `${withBase ? '(<base> || "") + " " + ' : ''}{$.agg}`
 );
 
 export const lotsOfAggregatesSchema = types.object({
