@@ -53,3 +53,21 @@ export function TO_OPTIONS_FROM_STRINGS(
 		id: `#aggregate_${x}`,
 	}));
 }
+
+interface DehyrdatedEntity {
+	id: string;
+}
+
+export function TO_ENTITY_FROM_ID(
+	...values: QueryResults<any>
+): DehyrdatedEntity | undefined {
+	const stringValue = toStrings(values)?.[0];
+
+	if (!stringValue) {
+		return;
+	}
+
+	return {
+		id: stringValue,
+	};
+}

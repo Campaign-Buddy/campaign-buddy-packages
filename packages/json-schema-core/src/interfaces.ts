@@ -22,7 +22,8 @@ export interface NumericResourceAggregate {
 }
 
 export interface EntityAggregation {
-	options?: string;
+	availableEntityIds?: string;
+	entity?: string;
 }
 
 export interface StatAggregation {

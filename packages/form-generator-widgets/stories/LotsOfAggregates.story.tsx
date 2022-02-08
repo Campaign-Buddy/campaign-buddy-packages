@@ -5,6 +5,7 @@ import { MockMediaApi } from './mockMediaApi';
 import {
 	lotsOfAggregatesSchema,
 	lotsOfAggregatesLayout,
+	MockEntityApi,
 } from './exampleSchemas';
 import { QueryClient } from 'react-query';
 
@@ -14,6 +15,7 @@ export default {
 
 const mediaApi = new MockMediaApi();
 const queryClient = new QueryClient();
+const entityApi = new MockEntityApi();
 
 export const Primary = () => {
 	const [state, setState] = useState({});
@@ -26,6 +28,7 @@ export const Primary = () => {
 				schema={lotsOfAggregatesSchema}
 				uiLayout={lotsOfAggregatesLayout}
 				widgets={widgets}
+				entityApi={entityApi}
 			/>
 		</FormWidgetProvider>
 	);

@@ -1,9 +1,11 @@
 import {
 	CampaignBuddySchema,
 	DisplayInfoWithEnum,
+	EntityAggregation,
 	types,
 	UiLayout,
 } from '@campaign-buddy/json-schema-core';
+import { characterClassEntity } from './characterClass';
 
 const schemaParts: Record<string, CampaignBuddySchema> = {};
 const uiLayout: UiLayout = [['agg']];
@@ -48,6 +50,15 @@ addWidgetType(
 		}]`,
 	}),
 	['A', 'B', 'C']
+);
+
+addWidgetType<EntityAggregation>(
+	'entity',
+	(info) => types.entity(characterClassEntity, info),
+	() => ({
+		availableEntityIds: `[({$.agg} || "1"), '1', '2']`,
+		entity: `TO_ENTITY_FROM_ID({$.agg})`,
+	})
 );
 
 export const lotsOfAggregatesSchema = types.object({
