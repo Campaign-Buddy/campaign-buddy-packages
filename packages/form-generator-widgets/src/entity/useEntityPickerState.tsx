@@ -7,25 +7,19 @@ export function useEntityPickerState(
 	entityApi: EntityApi,
 	definitionName: string,
 	selectedEntityIdsUnstable: string[],
-	availableEntityIdsUnstable: string[] | undefined
+	availableEntityIdsUnstable: string[] | undefined,
+	shouldLoadOptions: boolean
 ) {
-	const [selectedEntityIds, setSelectedEntityIds] = useState(
-		selectedEntityIdsUnstable
-	);
+	const selectedEntityIds = useStableValue(selectedEntityIdsUnstable);
 	const availableEntityIds = useStableValue(availableEntityIdsUnstable);
-
-	useEffect(() => {
-		if (!areArraysEqual(selectedEntityIdsUnstable, selectedEntityIds)) {
-			setSelectedEntityIds(selectedEntityIdsUnstable);
-		}
-	}, [selectedEntityIds, selectedEntityIdsUnstable]);
 
 	const selectedEntitiesRef = useRef<IOption<EntitySummary>[]>();
 	const [isLoadingSelectedEntities, setIsLoadingSelectedEntities] =
 		useState(false);
 	const [selectedEntities, setSelectedEntities] =
 		useState<IOption<EntitySummary>[]>();
-	const [isLoadingInitialOptions, setIsLoadingInitialOptions] = useState(true);
+	const [isLoadingInitialOptions, setIsLoadingInitialOptions] =
+		useState(shouldLoadOptions);
 	const [initialOptions, setInitialOptions] = useState<
 		IOption<EntitySummary>[]
 	>([]);
@@ -47,7 +41,7 @@ export function useEntityPickerState(
 
 		let isCanceled = false;
 		async function fetchInitialOptions() {
-			if (!definitionName) {
+			if (!definitionName || !shouldLoadOptions) {
 				return;
 			}
 
@@ -68,7 +62,12 @@ export function useEntityPickerState(
 		return () => {
 			isCanceled = true;
 		};
-	}, [definitionName, getDefaultEntities, availableEntityIds]);
+	}, [
+		definitionName,
+		getDefaultEntities,
+		availableEntityIds,
+		shouldLoadOptions,
+	]);
 
 	useEffect(() => {
 		setIsLoadingSelectedEntities(false);
@@ -164,10 +163,6 @@ function entityToOption(entity: EntitySummary): IOption<EntitySummary> {
 		kind: entity.definitionName,
 		displayValue: entity.name,
 	};
-}
-
-function areArraysEqual(a: string[], b: string[]): boolean {
-	return a.length === b.length && a.every((x, i) => b[i] === x);
 }
 
 function isSelectedEqualToLoaded(a: string[], b: IOption[] | undefined) {

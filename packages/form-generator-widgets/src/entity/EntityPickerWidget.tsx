@@ -1,8 +1,16 @@
-import { AsyncSelect, IOption } from '@campaign-buddy/core-ui';
+import {
+	AggregatedDisplayText,
+	AsyncSelect,
+	FormGroup,
+	IOption,
+	Spinner,
+} from '@campaign-buddy/core-ui';
 import { EntitySummary } from '@campaign-buddy/frontend-types';
 import { WidgetProps } from '@campaign-buddy/form-generator';
 import React, { useCallback, useMemo } from 'react';
 import { useEntityPickerState } from './useEntityPickerState';
+import { useAggregationContainsBase } from '../utility';
+import { EntityAggregation } from '@campaign-buddy/json-schema-core';
 
 interface EntityPickerData {
 	availableEntityIds?: string[];
@@ -11,14 +19,19 @@ interface EntityPickerData {
 	};
 }
 
-export const EntityPickerWidget: React.FC<WidgetProps<EntityPickerData>> = ({
+export const EntityPickerWidget: React.FC<
+	WidgetProps<EntityPickerData, EntityAggregation>
+> = ({
 	value,
 	aggregatedValue,
 	schema,
 	onChange,
 	label,
 	entityApi,
+	aggregation,
+	hasAggregation,
 }) => {
+	const isEditable = useAggregationContainsBase(aggregation?.entity);
 	const selectedEntityIdProp = aggregatedValue?.entity?.id ?? value?.entity?.id;
 	const availableEntityIds =
 		aggregatedValue?.availableEntityIds ?? value?.availableEntityIds;
@@ -50,7 +63,8 @@ export const EntityPickerWidget: React.FC<WidgetProps<EntityPickerData>> = ({
 		entityApi,
 		entityDefinitionName,
 		selectedEntityIds,
-		availableEntityIds
+		availableEntityIds,
+		isEditable
 	);
 
 	const handleOnChange = useCallback(
@@ -65,6 +79,20 @@ export const EntityPickerWidget: React.FC<WidgetProps<EntityPickerData>> = ({
 		},
 		[onChange, setSelectedEntities, value?.availableEntityIds]
 	);
+
+	if (hasAggregation && !isEditable) {
+		return (
+			<FormGroup label={label}>
+				<AggregatedDisplayText>
+					{isLoading ? (
+						<Spinner size={15} />
+					) : (
+						selectedEntities?.[0]?.displayValue ?? ''
+					)}
+				</AggregatedDisplayText>
+			</FormGroup>
+		);
+	}
 
 	return (
 		<AsyncSelect

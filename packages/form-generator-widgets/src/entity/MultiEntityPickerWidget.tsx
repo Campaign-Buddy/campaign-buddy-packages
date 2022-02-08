@@ -52,7 +52,8 @@ export const MultiEntityPickerWidget: React.FC<
 		entityApi,
 		entityDefinitionName,
 		selectedEntityIds,
-		availableEntityIds
+		availableEntityIds,
+		true
 	);
 
 	const handleOnChange = useCallback(
