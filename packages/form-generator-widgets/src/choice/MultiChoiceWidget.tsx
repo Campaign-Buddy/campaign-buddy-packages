@@ -30,10 +30,20 @@ export const MultiChoiceWidget: React.FC<WidgetProps<MultiChoice>> = ({
 	);
 
 	const handleChange = useCallback(
-		(newValue: IOption[]) => {
+		(_: IOption[], added: IOption[], removed: IOption[]) => {
+			const newValues = [...(value?.selectedOptions ?? [])];
+
+			const removedIndexes = removed
+				.map(({ id }) => newValues.findIndex((x) => id === x.id))
+				.filter((x) => x !== -1);
+
+			for (const index of removedIndexes) {
+				newValues.splice(index, 1);
+			}
+
 			onChange({
 				...value,
-				selectedOptions: newValue,
+				selectedOptions: [...newValues, ...added],
 			});
 		},
 		[onChange, value]
@@ -41,11 +51,13 @@ export const MultiChoiceWidget: React.FC<WidgetProps<MultiChoice>> = ({
 
 	const mappedValue = useMemo(
 		() =>
-			value?.selectedOptions?.map((x) => ({
-				id: x?.id ?? '',
-				displayValue: x?.displayValue ?? '',
-			})),
-		[value?.selectedOptions]
+			(aggregatedValue?.selectedOptions ?? value?.selectedOptions)?.map(
+				(x) => ({
+					id: x?.id ?? '',
+					displayValue: x?.displayValue ?? '',
+				})
+			),
+		[aggregatedValue?.selectedOptions, value?.selectedOptions]
 	);
 
 	return (

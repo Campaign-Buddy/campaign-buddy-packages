@@ -17,7 +17,11 @@ import { usePopoverProps } from './usePopoverProps';
 export interface MultiSelectProps<TData> {
 	options: IOption<TData>[];
 	value: IOption<TData>[] | undefined;
-	onChange: (value: IOption<TData>[]) => void;
+	onChange: (
+		value: IOption<TData>[],
+		added: IOption<TData>[],
+		removed: IOption<TData>[]
+	) => void;
 	label?: string;
 	placeholder?: string;
 }
@@ -54,16 +58,16 @@ export function MultiSelect<TData>({
 			) {
 				const copy = [...(value ?? [])];
 				copy.splice(alreadySelectedItemIndex, 1);
-				onChange(copy);
+				onChange(copy, [], [item]);
 				return;
 			}
 
 			if (!value) {
-				onChange([item]);
+				onChange([item], [item], []);
 				return;
 			}
 
-			onChange([...value, item]);
+			onChange([...value, item], [item], []);
 		},
 		[onChange, value]
 	);
@@ -72,7 +76,7 @@ export function MultiSelect<TData>({
 		(item, index) => {
 			const copy = [...(value ?? [])];
 			copy.splice(index, 1);
-			onChange(copy);
+			onChange(copy, [], [item]);
 		},
 		[onChange, value]
 	);

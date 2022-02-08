@@ -31,9 +31,21 @@ addWidgetType(
 	types.choice,
 	(withBase) => ({
 		options: 'TO_OPTIONS_FROM_STRINGS([{$.agg}])',
-		selectedOption: withBase
-			? 'TO_OPTIONS_FROM_STRINGS([{$.agg} + (<base> ? (" " + <base>.displayValue) : "")])[0]'
-			: 'TO_OPTIONS_FROM_STRINGS([{$.agg}])[0]',
+		selectedOption: `TO_OPTIONS_FROM_STRINGS([{$.agg}${
+			withBase ? ' + (<base> ? (" " + <base>.displayValue) : "")' : ''
+		}])[0]`,
+	}),
+	['A', 'B', 'C']
+);
+
+addWidgetType(
+	'multiSelect',
+	types.multiChoice,
+	(withBase) => ({
+		options: 'TO_OPTIONS_FROM_STRINGS([{$.agg}])',
+		selectedOptions: `[...TO_OPTIONS_FROM_STRINGS([{$.agg}])${
+			withBase ? ', ...(<base> || [])' : ''
+		}]`,
 	}),
 	['A', 'B', 'C']
 );
