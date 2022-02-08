@@ -1,3 +1,4 @@
+import { useStableValue } from '@campaign-buddy/common-hooks';
 import { IOption } from '@campaign-buddy/core-ui';
 import { EntityApi, EntitySummary } from '@campaign-buddy/frontend-types';
 import { useCallback, useEffect, useRef, useState } from 'react';
@@ -5,17 +6,19 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 export function useEntityPickerState(
 	entityApi: EntityApi,
 	definitionName: string,
-	selectedEntityIds2: string[],
-	availableEntityIds: string[] | undefined
+	selectedEntityIdsUnstable: string[],
+	availableEntityIdsUnstable: string[] | undefined
 ) {
-	const [selectedEntityIds, setSelectedEntityIds] =
-		useState(selectedEntityIds2);
+	const [selectedEntityIds, setSelectedEntityIds] = useState(
+		selectedEntityIdsUnstable
+	);
+	const availableEntityIds = useStableValue(availableEntityIdsUnstable);
 
 	useEffect(() => {
-		if (!areArraysEqual(selectedEntityIds2, selectedEntityIds)) {
-			setSelectedEntityIds(selectedEntityIds2);
+		if (!areArraysEqual(selectedEntityIdsUnstable, selectedEntityIds)) {
+			setSelectedEntityIds(selectedEntityIdsUnstable);
 		}
-	}, [selectedEntityIds, selectedEntityIds2]);
+	}, [selectedEntityIds, selectedEntityIdsUnstable]);
 
 	const selectedEntitiesRef = useRef<IOption<EntitySummary>[]>();
 	const [isLoadingSelectedEntities, setIsLoadingSelectedEntities] =
