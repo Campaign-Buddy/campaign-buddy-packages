@@ -1,6 +1,10 @@
 import styled from 'styled-components';
 import { calculateFlex } from './utility';
 
+export const MinWidthContent = styled.div<{ minWidth: number }>`
+	min-width: ${({ minWidth }) => minWidth}px;
+`;
+
 export const FormCell = styled.div<{ cols: number }>`
 	margin-bottom: 4px;
 	flex: ${({ cols }) => calculateFlex(cols)};

@@ -1,3 +1,5 @@
+import { useMemo } from 'react';
+
 export function aggregationContainsBase(
 	...aggregations: (string | undefined)[]
 ) {
@@ -12,4 +14,11 @@ export function aggregationContainsBase(
 	}
 
 	return false;
+}
+
+export function useAggregationContainsBase(
+	...aggregations: (string | undefined)[]
+) {
+	// eslint-disable-next-line react-hooks/exhaustive-deps
+	return useMemo(() => aggregationContainsBase(...aggregations), aggregations);
 }

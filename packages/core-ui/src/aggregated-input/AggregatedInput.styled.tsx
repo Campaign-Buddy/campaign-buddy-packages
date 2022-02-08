@@ -1,19 +1,45 @@
+import React from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { defaultTheme } from '../theme';
+import { Popover } from '../popover';
 
-export const AggregatedDisplayText = styled.p<{ fontSize?: number }>`
+export const StyledPopover = styled(Popover)`
+	overflow: hidden;
+`;
+
+const AggregatedDisplayTextInner = styled.p<{ fontSize?: number }>`
 	color: ${({ theme }) => theme.colors.text};
 	margin: 0;
 	font-size: ${({ fontSize }) => fontSize ?? 14}px;
 	outline: none !important;
+	text-overflow: ellipsis;
+	overflow: hidden;
+`;
+AggregatedDisplayTextInner.defaultProps = {
+	theme: defaultTheme,
+};
+
+export const AggregatedDisplayTextOuter = styled.div<{ fontSize?: number }>`
 	min-height: 30px;
 	display: flex;
 	align-items: center;
 `;
-AggregatedDisplayText.defaultProps = {
-	theme: defaultTheme,
+
+type AggregatedDisplayTextProps = React.HTMLAttributes<HTMLParagraphElement> & {
+	fontSize?: number;
 };
+export const AggregatedDisplayText: React.FC<AggregatedDisplayTextProps> = ({
+	className,
+	children,
+	...props
+}) => (
+	<AggregatedDisplayTextOuter className={className}>
+		<AggregatedDisplayTextInner {...props}>
+			{children}
+		</AggregatedDisplayTextInner>
+	</AggregatedDisplayTextOuter>
+);
 
 export const InteractiveDisplayText = styled(AggregatedDisplayText)`
 	cursor: pointer;
@@ -33,6 +59,8 @@ PopoverContentRoot.defaultProps = {
 
 export const AggregationPreviewText = styled.p`
 	color: ${({ theme }) => theme.colors.text};
+	text-overflow: ellipsis;
+	overflow: hidden;
 
 	.bp3-icon {
 		vertical-align: super;
@@ -50,4 +78,6 @@ export const DisplayValueContainer = styled.div`
 export const AnimatedButtonContainer = styled(motion.div)`
 	overflow: hidden;
 	padding: 3px;
+	margin-right: 2px;
+	flex-shrink: 0;
 `;

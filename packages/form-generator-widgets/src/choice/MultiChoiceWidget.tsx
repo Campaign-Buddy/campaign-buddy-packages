@@ -1,6 +1,8 @@
-import { IOption, MultiSelect } from '@campaign-buddy/core-ui';
+import { FormGroup, IOption, MultiSelect, Tag } from '@campaign-buddy/core-ui';
 import { WidgetProps } from '@campaign-buddy/form-generator';
+import { MultiChoiceAggregation } from '@campaign-buddy/json-schema-core';
 import React, { useCallback, useMemo } from 'react';
+import { useAggregationContainsBase, TagContainer } from '../utility';
 import { Option } from './Option';
 
 interface MultiChoice {
@@ -9,13 +11,19 @@ interface MultiChoice {
 	maxChoices?: number;
 }
 
-export const MultiChoiceWidget: React.FC<WidgetProps<MultiChoice>> = ({
+export const MultiChoiceWidget: React.FC<
+	WidgetProps<MultiChoice, MultiChoiceAggregation>
+> = ({
 	value,
 	onChange,
 	aggregatedValue,
 	schema,
 	label,
+	aggregation,
+	hasAggregation,
 }) => {
+	const isEditable = useAggregationContainsBase(aggregation?.selectedOptions);
+
 	const options = useMemo(
 		() =>
 			[
@@ -59,6 +67,20 @@ export const MultiChoiceWidget: React.FC<WidgetProps<MultiChoice>> = ({
 			),
 		[aggregatedValue?.selectedOptions, value?.selectedOptions]
 	);
+
+	if (!isEditable && hasAggregation) {
+		return (
+			<FormGroup label={label}>
+				<TagContainer>
+					{aggregatedValue?.selectedOptions
+						?.filter((x) => x?.displayValue && x.id)
+						.map((x) => (
+							<Tag key={x.id}>{x.displayValue}</Tag>
+						))}
+				</TagContainer>
+			</FormGroup>
+		);
+	}
 
 	return (
 		<MultiSelect

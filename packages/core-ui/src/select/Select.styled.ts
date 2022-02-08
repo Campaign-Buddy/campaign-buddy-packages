@@ -37,6 +37,8 @@ export const SelectButton = styled(ButtonCore)`
 
 	& .bp3-button-text {
 		width: 100%;
+		overflow: hidden;
+		text-overflow: ellipsis;
 	}
 `;
 SelectButton.defaultProps = {

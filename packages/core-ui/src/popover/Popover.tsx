@@ -1,7 +1,11 @@
 import React from 'react';
 import { Popover2 as PopoverCore, Placement } from '@blueprintjs/popover2';
-import { createGlobalStyle } from 'styled-components';
+import styled, { createGlobalStyle } from 'styled-components';
 import { defaultTheme } from '../theme';
+
+const StyledPopoverCore = styled(PopoverCore)`
+	max-width: 100%;
+`;
 
 const GlobalStyle = createGlobalStyle`
 	.bp-overrides-popover .bp3-popover2-content {
@@ -28,6 +32,7 @@ export interface PopoverProps {
 	placement?: Placement;
 	autoFocus?: boolean;
 	noMargin?: boolean;
+	className?: string;
 }
 
 const popoverModifiers = {
@@ -47,11 +52,12 @@ export const Popover: React.FC<PopoverProps> = ({
 	placement,
 	autoFocus,
 	noMargin,
+	className,
 }) => {
 	return (
 		<>
 			<GlobalStyle />
-			<PopoverCore
+			<StyledPopoverCore
 				content={<div>{content}</div>}
 				isOpen={isOpen}
 				onClose={onClose}
@@ -62,9 +68,10 @@ export const Popover: React.FC<PopoverProps> = ({
 				openOnTargetFocus={false}
 				enforceFocus={false}
 				autoFocus={autoFocus}
+				className={className}
 			>
 				{children}
-			</PopoverCore>
+			</StyledPopoverCore>
 		</>
 	);
 };

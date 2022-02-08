@@ -10,5 +10,6 @@ export * from './select';
 export * from './layout-primitives';
 export * from './menu';
 export * from './spinner';
+export * from './tag';
 export { defaultTheme } from './theme';
 export { DefaultTheme } from 'styled-components';

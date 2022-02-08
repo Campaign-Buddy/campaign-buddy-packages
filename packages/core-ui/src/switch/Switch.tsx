@@ -7,6 +7,10 @@ import { BaseInputProps } from '../BaseInputProps';
 const StyledSwitch = styled(SwitchCore)`
 	color: ${({ theme }) => theme.colors.text};
 	margin-bottom: 0;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	padding: 2px 2px 2px 40px !important;
 
 	&.bp3-control.bp3-switch input:checked ~ .bp3-control-indicator {
 		background-color: ${({ theme }) => theme.colors.primary} !important;

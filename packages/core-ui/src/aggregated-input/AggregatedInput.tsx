@@ -5,13 +5,13 @@ import { Variants } from 'framer-motion';
 import { useBooleanState } from '@campaign-buddy/common-hooks';
 import { BaseInputProps } from '../BaseInputProps';
 import { FormGroup } from '../form-group';
-import { Popover } from '../popover';
 import { Button } from '../button';
 import {
 	InteractiveDisplayText,
 	PopoverContentRoot,
 	AggregationPreviewText,
 	DisplayValueContainer,
+	StyledPopover,
 	AnimatedButtonContainer,
 } from './AggregatedInput.styled';
 
@@ -90,7 +90,6 @@ export const AggregatedInput = <
 
 	const popoverContentRef = useRef<HTMLDivElement>(null);
 	const buttonRef = useRef<HTMLButtonElement>(null);
-	const displayTextRef = useRef<HTMLParagraphElement>(null);
 
 	const closePopover = useCallback(() => {
 		setIsPopoverOpen(false);
@@ -136,7 +135,7 @@ export const AggregatedInput = <
 				onMouseEnter={onMouseEnter}
 				onMouseLeave={onMouseLeave}
 			>
-				<Popover
+				<StyledPopover
 					isOpen={isPopoverOpen}
 					onClose={closePopover}
 					content={PopoverContent}
@@ -146,12 +145,11 @@ export const AggregatedInput = <
 						onClick={openPopover}
 						tabIndex={hideButton ? 0 : undefined}
 						onKeyDown={hideButton ? handleDisplayTextKeyDown : undefined}
-						ref={displayTextRef}
 						role={hideButton ? 'button' : undefined}
 					>
 						{aggregatedDisplayValue}
 					</InteractiveDisplayText>
-				</Popover>
+				</StyledPopover>
 				{!hideButton && (
 					<AnimatedButtonContainer
 						variants={editButtonVariants}

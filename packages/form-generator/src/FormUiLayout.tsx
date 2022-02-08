@@ -21,6 +21,7 @@ import {
 	ColumnLayout,
 	FormColumn,
 	WhiteSpace,
+	MinWidthContent,
 } from './FormUiLayout.styled';
 
 interface FormUiLayoutProps {
@@ -95,17 +96,19 @@ export const FormUiLayout: React.FC<FormUiLayoutProps> = ({
 
 				nodes.push(
 					<FormCell cols={cols}>
-						<FormWidget
-							schema={subSchema}
-							widgetLookup={widgetLookup}
-							path={element}
-							updateValue={updateValue}
-							data={dataForPath}
-							aggregatedData={aggregatedDataForPath}
-							isEditable={isDataEditable}
-							aggregation={aggregation}
-							entityApi={entityApi}
-						/>
+						<MinWidthContent minWidth={100}>
+							<FormWidget
+								schema={subSchema}
+								widgetLookup={widgetLookup}
+								path={element}
+								updateValue={updateValue}
+								data={dataForPath}
+								aggregatedData={aggregatedDataForPath}
+								isEditable={isDataEditable}
+								aggregation={aggregation}
+								entityApi={entityApi}
+							/>
+						</MinWidthContent>
 					</FormCell>
 				);
 			}

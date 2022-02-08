@@ -4,6 +4,7 @@ import { defaultTheme } from '../theme';
 
 export const StyledMenu = styled(MenuCore)`
 	background-color: ${({ theme }) => theme.colors.background};
+	max-width: 95vw;
 `;
 StyledMenu.defaultProps = {
 	theme: defaultTheme,
