@@ -20,7 +20,8 @@ export interface MultiSelectProps<TData> {
 	onChange: (
 		value: IOption<TData>[],
 		added: IOption<TData>[],
-		removed: IOption<TData>[]
+		removed: IOption<TData>[],
+		previousValue: IOption<TData>[]
 	) => void;
 	label?: string;
 	placeholder?: string;
@@ -58,16 +59,16 @@ export function MultiSelect<TData>({
 			) {
 				const copy = [...(value ?? [])];
 				copy.splice(alreadySelectedItemIndex, 1);
-				onChange(copy, [], [item]);
+				onChange(copy, [], [item], value ?? []);
 				return;
 			}
 
 			if (!value) {
-				onChange([item], [item], []);
+				onChange([item], [item], [], []);
 				return;
 			}
 
-			onChange([...value, item], [item], []);
+			onChange([...value, item], [item], [], value);
 		},
 		[onChange, value]
 	);
@@ -76,7 +77,7 @@ export function MultiSelect<TData>({
 		(item, index) => {
 			const copy = [...(value ?? [])];
 			copy.splice(index, 1);
-			onChange(copy, [], [item]);
+			onChange(copy, [], [item], value ?? []);
 		},
 		[onChange, value]
 	);

@@ -57,14 +57,50 @@ export const MultiEntityPickerWidget: React.FC<
 	);
 
 	const handleOnChange = useCallback(
-		(selectedValues: IOption<EntitySummary>[]) => {
-			setSelectedEntities(selectedValues);
+		(
+			selectedValues: IOption<EntitySummary>[],
+			added: IOption<EntitySummary>[],
+			removed: IOption<EntitySummary>[],
+			previousValue: IOption<EntitySummary>[]
+		) => {
+			const selectedEntitiesFromValue = previousValue.filter((x) =>
+				value?.entities?.find((a) => a.id === x.id)
+			);
+
+			const selectedEntitiesFromAggregation = previousValue.filter(
+				(x) =>
+					aggregatedValue?.entities?.find((a) => a.id === x.id) &&
+					!selectedEntitiesFromValue.find((a) => a.id === x.id)
+			);
+
+			const indexesToRemove = removed
+				.map(({ id }) =>
+					selectedEntitiesFromValue.findIndex((x) => x.id === id)
+				)
+				.filter((x) => x !== -1);
+
+			for (const index of indexesToRemove) {
+				selectedEntitiesFromValue.splice(index, 1);
+			}
+
+			selectedEntitiesFromValue.push(...added);
+
+			setSelectedEntities([
+				...selectedEntitiesFromAggregation,
+				...selectedEntitiesFromValue,
+			]);
 			onChange({
-				entities: selectedValues.map((x) => ({ id: x.id })),
+				entities: selectedEntitiesFromValue.map(({ id }) => ({ id })),
 				availableEntityIds: value?.availableEntityIds,
 			});
 		},
-		[onChange, setSelectedEntities, value?.availableEntityIds]
+		[
+			aggregatedValue?.entities,
+			onChange,
+			setSelectedEntities,
+			value?.availableEntityIds,
+			value?.entities,
+		]
 	);
 
 	return (
