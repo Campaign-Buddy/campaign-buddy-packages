@@ -3,14 +3,14 @@ import { FormGenerator } from '@campaign-buddy/form-generator';
 import { widgets, FormWidgetProvider } from '../src';
 import { MockMediaApi } from './mockMediaApi';
 import {
-	lotsOfAggregatesSchema,
-	lotsOfAggregatesLayout,
+	aggregationAuditSchema,
+	aggregationAuditLayout,
 	MockEntityApi,
 } from './exampleSchemas';
 import { QueryClient } from 'react-query';
 
 export default {
-	title: 'form-generator-widgets/LotsOfAggregates',
+	title: 'form-generator-widgets/AggregationAudit',
 };
 
 const mediaApi = new MockMediaApi();
@@ -25,8 +25,8 @@ export const Primary = () => {
 			<FormGenerator
 				data={state}
 				onChange={setState}
-				schema={lotsOfAggregatesSchema}
-				uiLayout={lotsOfAggregatesLayout}
+				schema={aggregationAuditSchema}
+				uiLayout={aggregationAuditLayout}
 				widgets={widgets}
 				entityApi={entityApi}
 			/>

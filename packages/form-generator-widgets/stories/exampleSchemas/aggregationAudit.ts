@@ -78,12 +78,12 @@ addWidgetType<MultiEntityAggregation>(
 	})
 );
 
-export const lotsOfAggregatesSchema = types.object({
+export const aggregationAuditSchema = types.object({
 	agg: types.string({ title: 'Aggregate Value' }),
 	...schemaParts,
 });
 
-export const lotsOfAggregatesLayout = uiLayout;
+export const aggregationAuditLayout = uiLayout;
 
 function addWidgetType<TAggregateShape>(
 	name: string,
