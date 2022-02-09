@@ -9,6 +9,7 @@ import {
 	EntityAggregation,
 	IconAggregation,
 	MultiChoiceAggregation,
+	MultiEntityAggregation,
 	NumericResourceAggregate,
 	OptionAggregation,
 	StatAggregation,
@@ -144,8 +145,8 @@ export const entity: (
 
 export const multiEntity: (
 	entity: EntityDefinition,
-	info?: DisplayInfo<never>
-) => CampaignBuddySchema<EntityAggregation> = (object, info) => ({
+	info?: DisplayInfo<MultiEntityAggregation>
+) => CampaignBuddySchema<MultiEntityAggregation> = (object, info) => ({
 	type: 'object',
 	properties: {
 		// By convention should never be set manually, only

@@ -31,3 +31,7 @@ export function SPLIT(
 
 	return JOIN(separator, messages).split(separator);
 }
+
+export function TRIM_ALL(...results: QueryResults<any>) {
+	return toStrings(results).map((x) => x.trim());
+}

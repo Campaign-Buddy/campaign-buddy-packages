@@ -4,6 +4,7 @@ import {
 	EntityAggregation,
 	types,
 	UiLayout,
+	MultiEntityAggregation,
 } from '@campaign-buddy/json-schema-core';
 import { characterClassEntity } from './characterClass';
 
@@ -44,8 +45,8 @@ addWidgetType(
 	'multiSelect',
 	types.multiChoice,
 	(withBase) => ({
-		options: 'TO_OPTIONS_FROM_STRINGS([{$.agg}])',
-		selectedOptions: `[...TO_OPTIONS_FROM_STRINGS([{$.agg}])${
+		options: 'TO_OPTIONS_FROM_STRINGS(SPLIT(",", {$.agg}))',
+		selectedOptions: `[...TO_OPTIONS_FROM_STRINGS(SPLIT(",", {$.agg}))${
 			withBase ? ', ...(<base> || [])' : ''
 		}]`,
 	}),
@@ -56,8 +57,24 @@ addWidgetType<EntityAggregation>(
 	'entity',
 	(info) => types.entity(characterClassEntity, info),
 	() => ({
-		availableEntityIds: `[({$.agg} || "1"), '1', '2']`,
-		entity: `TO_ENTITY_FROM_ID({$.agg})`,
+		availableEntityIds: '[({$.agg} || "1"), "1", "2", "3"]',
+		entity: 'TO_ENTITY_FROM_ID({$.agg})',
+	})
+);
+
+addWidgetType<MultiEntityAggregation>(
+	'multiEntity',
+	(info) => types.multiEntity(characterClassEntity, info),
+	(withBase) => ({
+		availableEntityIds:
+			'[...TRIM_ALL(SPLIT(",", {$.agg} || "1")), "1", "2", "3"]',
+		entities: `[
+				...TO_ENTITIES_FROM_IDS(
+					TRIM_ALL(
+						SPLIT(",", {$.agg} || "1")
+					)
+				)${withBase ? ',...(<base> || [])' : ''}
+			]`,
 	})
 );
 

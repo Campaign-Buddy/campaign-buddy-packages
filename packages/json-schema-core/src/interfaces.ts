@@ -26,6 +26,11 @@ export interface EntityAggregation {
 	entity?: string;
 }
 
+export interface MultiEntityAggregation {
+	availableEntityIds?: string;
+	entities?: string;
+}
+
 export interface StatAggregation {
 	base?: string;
 	bonus?: string;

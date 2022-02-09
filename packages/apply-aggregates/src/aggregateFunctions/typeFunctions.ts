@@ -71,3 +71,11 @@ export function TO_ENTITY_FROM_ID(
 		id: stringValue,
 	};
 }
+
+export function TO_ENTITIES_FROM_IDS(
+	...values: QueryResults<any>
+): DehyrdatedEntity[] | undefined {
+	return toStrings(values).map((id) => ({
+		id,
+	}));
+}
