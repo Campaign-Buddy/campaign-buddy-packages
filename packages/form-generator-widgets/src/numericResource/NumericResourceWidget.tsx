@@ -1,7 +1,13 @@
-import { AggregatedNumberInput, FormGroup } from '@campaign-buddy/core-ui';
+import {
+	AggregatedDisplayText,
+	AggregatedNumberInput,
+	FormGroup,
+} from '@campaign-buddy/core-ui';
 import { WidgetProps } from '@campaign-buddy/form-generator';
+import { NumericResourceAggregate } from '@campaign-buddy/json-schema-core';
 import React, { useCallback } from 'react';
 import styled from 'styled-components';
+import { useAggregationContainsBase } from '../utility';
 
 const NumericResourceContainer = styled.div`
 	display: flex;
@@ -15,13 +21,11 @@ interface NumericResource {
 	max?: number;
 }
 
-export const NumericResourceWidget: React.FC<WidgetProps<NumericResource>> = ({
-	value,
-	aggregatedValue,
-	aggregation,
-	onChange,
-	label,
-}) => {
+export const NumericResourceWidget: React.FC<
+	WidgetProps<NumericResource, NumericResourceAggregate>
+> = ({ value, aggregatedValue, aggregation, onChange, label }) => {
+	const isMaxEditable = useAggregationContainsBase(aggregation?.max);
+	const isCurrentEditable = useAggregationContainsBase(aggregation?.current);
 	const max = aggregatedValue?.max ?? value?.max ?? 0;
 	const current = aggregatedValue?.current ?? value?.current ?? 0;
 
@@ -54,29 +58,41 @@ export const NumericResourceWidget: React.FC<WidgetProps<NumericResource>> = ({
 	return (
 		<FormGroup label={label}>
 			<NumericResourceContainer>
-				<AggregatedNumberInput
-					value={value?.current ?? 0}
-					aggregatedDisplayValue={`${current}`}
-					onChange={onCurrentChange}
-					hideButton
-					baseValueLabel={
-						currentHasAggregation ? `${label} modifier` : `${label} (current)`
-					}
-					fontSize={20}
-				/>
+				{isCurrentEditable ? (
+					<AggregatedNumberInput
+						value={value?.current ?? 0}
+						aggregatedDisplayValue={`${current}`}
+						onChange={onCurrentChange}
+						hideButton
+						baseValueLabel={
+							currentHasAggregation ? `${label} modifier` : `${label} (current)`
+						}
+						fontSize={20}
+					/>
+				) : (
+					<AggregatedDisplayText fontSize={20}>
+						{aggregatedValue?.current ?? 0}
+					</AggregatedDisplayText>
+				)}
 				{'/'}
-				<AggregatedNumberInput
-					value={value?.max ?? 0}
-					aggregatedDisplayValue={`${max}`}
-					onChange={onMaxChange}
-					hideButton
-					baseValueLabel={
-						maxHasAggregation
-							? `${label} maximum modifier`
-							: `${label} (maximum value)`
-					}
-					fontSize={20}
-				/>
+				{isMaxEditable ? (
+					<AggregatedNumberInput
+						value={value?.max ?? 0}
+						aggregatedDisplayValue={`${max}`}
+						onChange={onMaxChange}
+						hideButton
+						baseValueLabel={
+							maxHasAggregation
+								? `${label} maximum modifier`
+								: `${label} (maximum value)`
+						}
+						fontSize={20}
+					/>
+				) : (
+					<AggregatedDisplayText fontSize={20}>
+						{aggregatedValue?.max ?? 0}
+					</AggregatedDisplayText>
+				)}
 			</NumericResourceContainer>
 		</FormGroup>
 	);

@@ -29,6 +29,11 @@ addWidgetType(
 	(withBase) => `${withBase ? '<base> && ' : ''}TO_BOOLEAN({$.agg})`
 );
 
+addWidgetType('numericResource', types.numericResource, (withBase) => ({
+	max: `TO_NUMBER({$.agg})${withBase ? ' + TO_NUMBER(<base>)' : ''}`,
+	current: `TO_NUMBER({$.agg})${withBase ? ' + TO_NUMBER(<base>)' : ''} - 1`,
+}));
+
 addWidgetType(
 	'select',
 	types.choice,
