@@ -1,8 +1,17 @@
-import { AsyncMultiSelect, IOption } from '@campaign-buddy/core-ui';
+import {
+	AggregatedDisplayText,
+	AsyncMultiSelect,
+	FormGroup,
+	IOption,
+	Spinner,
+	Tag,
+} from '@campaign-buddy/core-ui';
 import { EntitySummary } from '@campaign-buddy/frontend-types';
 import { WidgetProps } from '@campaign-buddy/form-generator';
+import { MultiEntityAggregation } from '@campaign-buddy/json-schema-core';
 import React, { useCallback, useMemo } from 'react';
 import { useEntityPickerState } from './useEntityPickerState';
+import { TagContainer, useAggregationContainsBase } from '../utility';
 
 interface MultiEntityPickerData {
 	availableEntityIds?: string[];
@@ -12,8 +21,19 @@ interface MultiEntityPickerData {
 }
 
 export const MultiEntityPickerWidget: React.FC<
-	WidgetProps<MultiEntityPickerData>
-> = ({ value, aggregatedValue, schema, onChange, label, entityApi }) => {
+	WidgetProps<MultiEntityPickerData, MultiEntityAggregation>
+> = ({
+	value,
+	aggregatedValue,
+	schema,
+	onChange,
+	label,
+	entityApi,
+	hasAggregation,
+	aggregation,
+}) => {
+	const isEditable = useAggregationContainsBase(aggregation?.entities);
+
 	const availableEntityIds =
 		aggregatedValue?.availableEntityIds ?? value?.availableEntityIds;
 
@@ -102,6 +122,24 @@ export const MultiEntityPickerWidget: React.FC<
 			value?.entities,
 		]
 	);
+
+	if (hasAggregation && !isEditable) {
+		return (
+			<FormGroup label={label}>
+				<AggregatedDisplayText>
+					{isLoading ? (
+						<Spinner size={15} />
+					) : (
+						<TagContainer>
+							{selectedEntities?.map((x) => (
+								<Tag key={x.id}>{x.displayValue}</Tag>
+							))}
+						</TagContainer>
+					)}
+				</AggregatedDisplayText>
+			</FormGroup>
+		);
+	}
 
 	return (
 		<AsyncMultiSelect
