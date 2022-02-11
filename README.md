@@ -4,7 +4,7 @@ This repository houses several frontend packages (using yarn workspaces) used to
 
 ## Todo
 
-- [ ] Audit form widget handling of aggregates
+- [X] Audit form widget handling of aggregates
 - [ ] Think through aggregation settings (and other field level settings)
 	- [ ] Some DMs may want to disable aggregations completely on certain fields, there should be a system level way to disable aggregates per field (or at least it should be made available to the widget components)
 	- [ ] Some DMs may want to hide certain fields from players that would otherwise have access to the data
