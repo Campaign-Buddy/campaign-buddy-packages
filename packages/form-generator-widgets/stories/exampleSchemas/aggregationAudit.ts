@@ -34,6 +34,11 @@ addWidgetType('numericResource', types.numericResource, (withBase) => ({
 	current: `TO_NUMBER({$.agg})${withBase ? ' + TO_NUMBER(<base>)' : ''} - 1`,
 }));
 
+addWidgetType('stat', types.stat, (withBase) => ({
+	base: `TO_NUMBER({$.agg})${withBase ? ' + TO_NUMBER(<base>)' : ''}`,
+	bonus: `TO_NUMBER({$.agg})${withBase ? ' + TO_NUMBER(<base>)' : ''} - 1`,
+}));
+
 addWidgetType(
 	'select',
 	types.choice,

@@ -1,7 +1,13 @@
 import React, { useCallback } from 'react';
 import { WidgetProps } from '@campaign-buddy/form-generator';
-import { AggregatedNumberInput, FormGroup } from '@campaign-buddy/core-ui';
+import {
+	AggregatedDisplayText,
+	AggregatedNumberInput,
+	FormGroup,
+} from '@campaign-buddy/core-ui';
 import styled from 'styled-components';
+import { useAggregationContainsBase } from '../utility';
+import { StatAggregation } from '@campaign-buddy/json-schema-core';
 
 const StatContainer = styled.div`
 	display: flex;
@@ -21,13 +27,16 @@ interface Stat {
 	bonus?: number;
 }
 
-export const StatWidget: React.FC<WidgetProps<Stat>> = ({
+export const StatWidget: React.FC<WidgetProps<Stat, StatAggregation>> = ({
 	value,
 	onChange,
 	label,
 	aggregatedValue,
 	aggregation,
 }) => {
+	const isBaseEditable = useAggregationContainsBase(aggregation?.base);
+	const isBonusEditable = useAggregationContainsBase(aggregation?.bonus);
+
 	const handleBaseChange = useCallback(
 		(base: number) => {
 			onChange({ ...(value ?? {}), base });
@@ -51,33 +60,45 @@ export const StatWidget: React.FC<WidgetProps<Stat>> = ({
 	return (
 		<StyledFormGroup label={label}>
 			<StatContainer>
-				<AggregatedNumberInput
-					value={value?.base ?? 0}
-					onChange={handleBaseChange}
-					aggregatedDisplayValue={`${
-						baseHasAggregation ? aggregatedValue?.base : value?.base ?? 0
-					}`}
-					baseValueLabel={
-						baseHasAggregation
-							? 'Additional base modifier'
-							: `${label} (base value)`
-					}
-					fontSize={20}
-					hideButton
-				/>
-				<AggregatedNumberInput
-					value={value?.bonus ?? 0}
-					onChange={handleBonusChange}
-					aggregatedDisplayValue={getBonusDisplay(
-						(bonusHasAggregation ? aggregatedValue?.bonus : value?.bonus) ?? 0
-					)}
-					baseValueLabel={
-						bonusHasAggregation
-							? 'Additional bonus modifier'
-							: `${label} (bonus)`
-					}
-					hideButton
-				/>
+				{isBaseEditable ? (
+					<AggregatedNumberInput
+						value={value?.base ?? 0}
+						onChange={handleBaseChange}
+						aggregatedDisplayValue={`${
+							baseHasAggregation ? aggregatedValue?.base : value?.base ?? 0
+						}`}
+						baseValueLabel={
+							baseHasAggregation
+								? 'Additional base modifier'
+								: `${label} (base value)`
+						}
+						fontSize={20}
+						hideButton
+					/>
+				) : (
+					<AggregatedDisplayText fontSize={20}>
+						{aggregatedValue?.base ?? 0}
+					</AggregatedDisplayText>
+				)}
+				{isBonusEditable ? (
+					<AggregatedNumberInput
+						value={value?.bonus ?? 0}
+						onChange={handleBonusChange}
+						aggregatedDisplayValue={getBonusDisplay(
+							(bonusHasAggregation ? aggregatedValue?.bonus : value?.bonus) ?? 0
+						)}
+						baseValueLabel={
+							bonusHasAggregation
+								? 'Additional bonus modifier'
+								: `${label} (bonus)`
+						}
+						hideButton
+					/>
+				) : (
+					<AggregatedDisplayText>
+						({aggregatedValue?.bonus ?? 0})
+					</AggregatedDisplayText>
+				)}
 			</StatContainer>
 		</StyledFormGroup>
 	);
