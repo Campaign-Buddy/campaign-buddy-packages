@@ -13,3 +13,4 @@ export { useHydratedEntities } from './useHydratedEntities';
 export { isUiDirective } from './isUiDirective';
 export { calculateFlex } from './calculateFlex';
 export { getAggregationSupport } from './getAggregationSupport';
+export { removeDisabledAggregations } from './removeDisabledAggregations';

@@ -6,7 +6,7 @@ import { EntityApi, FieldSettings } from '@campaign-buddy/frontend-types';
 import React, { useMemo } from 'react';
 import { useState, useEffect, useCallback } from 'react';
 import { WidgetLookup, WidgetProps } from './FormGeneratorProps';
-import { getAggregationSupport } from './utility';
+import { getAggregationSupport, removeDisabledAggregations } from './utility';
 
 interface FormWidgetProps {
 	schema: CampaignBuddySchema;
@@ -105,10 +105,10 @@ export const DebouncedWidget: React.FC<DebouncedWidgetProps<any>> = ({
 	value: propsValue,
 	Widget,
 	label,
-	aggregatedValue,
+	aggregatedValue: propsAggregatedValue,
 	isEditable,
 	hasAggregation,
-	aggregation,
+	aggregation: propsAggregation,
 	schema,
 	entityApi,
 	updateFieldSettings: propsUpdateFieldSettings,
@@ -142,8 +142,26 @@ export const DebouncedWidget: React.FC<DebouncedWidgetProps<any>> = ({
 	);
 
 	const aggregationSupport = useMemo(
-		() => getAggregationSupport(aggregation, schema),
-		[aggregation, schema]
+		() => getAggregationSupport(propsAggregation, schema),
+		[propsAggregation, schema]
+	);
+
+	const aggregatedValue = useMemo(
+		() =>
+			removeDisabledAggregations(
+				propsAggregatedValue,
+				fieldSettings?.aggregationSettings
+			),
+		[fieldSettings?.aggregationSettings, propsAggregatedValue]
+	);
+
+	const aggregation = useMemo(
+		() =>
+			removeDisabledAggregations(
+				propsAggregation,
+				fieldSettings?.aggregationSettings
+			),
+		[fieldSettings?.aggregationSettings, propsAggregation]
 	);
 
 	return (
@@ -153,7 +171,9 @@ export const DebouncedWidget: React.FC<DebouncedWidgetProps<any>> = ({
 			label={label}
 			aggregatedValue={aggregatedValue}
 			isEditable={isEditable}
-			hasAggregation={hasAggregation}
+			hasAggregation={
+				hasAggregation && fieldSettings?.aggregationSettings !== false
+			}
 			aggregation={aggregation}
 			schema={schema}
 			entityApi={entityApi}
