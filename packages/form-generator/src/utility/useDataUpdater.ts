@@ -74,7 +74,7 @@ export function useDataUpdater(
 			pendingUpdates.current.push({ path, update });
 			timer.current = setTimeout(executeUpdates, debounceTime);
 		},
-		[debounceTime]
+		[debounceTime, executeUpdates]
 	);
 
 	return addUpdate;
