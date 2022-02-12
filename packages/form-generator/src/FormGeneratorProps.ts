@@ -3,8 +3,13 @@ import {
 	Aggregates,
 	CampaignBuddySchema,
 } from '@campaign-buddy/json-schema-core';
-import { EntityApi } from '@campaign-buddy/frontend-types';
+import {
+	EntityApi,
+	EntityFieldSettings,
+	FieldSettings,
+} from '@campaign-buddy/frontend-types';
 import React from 'react';
+import { AggregationSupport } from './AggregationSupport';
 
 export interface UiSectionProps {
 	title: string;
@@ -74,9 +79,28 @@ export interface WidgetProps<TValue, TAggregates = Aggregates | string> {
 	schema: CampaignBuddySchema;
 
 	/**
+	 * Whether or not this field supports aggregation (regardless
+	 * of current field settings). This will be an object for
+	 * complex aggregations.
+	 */
+	aggregationSupport: AggregationSupport<TAggregates>;
+
+	/**
 	 * If provided, the api to query entities
 	 */
 	entityApi: EntityApi | undefined;
+
+	/**
+	 * The field settings for the rendered field
+	 */
+	fieldSettings: FieldSettings<TAggregates> | undefined;
+
+	/**
+	 * An optional callback to update field settings
+	 */
+	updateFieldSettings:
+		| ((fieldSettings: FieldSettings<TAggregates>) => Promise<void>)
+		| undefined;
 }
 
 export interface FormGeneratorProps {
@@ -94,4 +118,26 @@ export interface FormGeneratorProps {
 	 * api is not provided
 	 */
 	entityApi?: EntityApi;
+
+	/**
+	 * Field level settings for the data being
+	 * operated on
+	 */
+	fieldSettings?: EntityFieldSettings;
+
+	/**
+	 * Allows for widget components to update field settings
+	 * for individual fields
+	 */
+	updateFieldSettings?: (fieldSettings: EntityFieldSettings) => Promise<void>;
+
+	/**
+	 * The role of the current user. The semantic
+	 * values for role is left to the consumer. This
+	 * property is used to match field visibility
+	 * settings in fieldSettings. If left undefined,
+	 * it is assumed the current user has all visibility
+	 * permissions.
+	 */
+	currentUserRole?: string;
 }
