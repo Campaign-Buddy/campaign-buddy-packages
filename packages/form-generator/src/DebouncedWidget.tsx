@@ -2,10 +2,11 @@ import {
 	Aggregates,
 	CampaignBuddySchema,
 } from '@campaign-buddy/json-schema-core';
-import { EntityApi } from '@campaign-buddy/frontend-types';
-import React from 'react';
+import { EntityApi, FieldSettings } from '@campaign-buddy/frontend-types';
+import React, { useMemo } from 'react';
 import { useState, useEffect, useCallback } from 'react';
 import { WidgetLookup, WidgetProps } from './FormGeneratorProps';
+import { getAggregationSupport } from './utility';
 
 interface FormWidgetProps {
 	schema: CampaignBuddySchema;
@@ -17,6 +18,10 @@ interface FormWidgetProps {
 	isEditable: boolean;
 	aggregation: Aggregates | string | undefined;
 	entityApi: EntityApi | undefined;
+	updateFieldSettings:
+		| ((path: string, fieldSetting: FieldSettings<string | Aggregates>) => void)
+		| undefined;
+	fieldSettings: FieldSettings | undefined;
 }
 
 export const FormWidget: React.FC<FormWidgetProps> = ({
@@ -29,6 +34,8 @@ export const FormWidget: React.FC<FormWidgetProps> = ({
 	isEditable,
 	aggregation,
 	entityApi,
+	updateFieldSettings,
+	fieldSettings,
 }) => {
 	let Widget: React.FC<WidgetProps<any>> = () => null;
 
@@ -66,11 +73,17 @@ export const FormWidget: React.FC<FormWidgetProps> = ({
 			hasAggregation={aggregation !== undefined}
 			schema={schema}
 			entityApi={entityApi}
+			updateFieldSettings={updateFieldSettings}
+			fieldSettings={fieldSettings}
 		/>
 	);
 };
 
-interface DebouncedWidgetProps<T> extends Omit<WidgetProps<T>, 'onChange'> {
+interface DebouncedWidgetProps<T>
+	extends Omit<
+		WidgetProps<T>,
+		'onChange' | 'updateFieldSettings' | 'aggregationSupport'
+	> {
 	path: string;
 	updateValue: (path: string, data: T) => void;
 	value: T | undefined;
@@ -80,6 +93,10 @@ interface DebouncedWidgetProps<T> extends Omit<WidgetProps<T>, 'onChange'> {
 	Widget: React.FC<WidgetProps<T>>;
 	schema: CampaignBuddySchema;
 	entityApi: EntityApi | undefined;
+	updateFieldSettings:
+		| ((path: string, fieldSetting: FieldSettings<string | Aggregates>) => void)
+		| undefined;
+	fieldSettings: FieldSettings | undefined;
 }
 
 export const DebouncedWidget: React.FC<DebouncedWidgetProps<any>> = ({
@@ -94,12 +111,19 @@ export const DebouncedWidget: React.FC<DebouncedWidgetProps<any>> = ({
 	aggregation,
 	schema,
 	entityApi,
+	updateFieldSettings: propsUpdateFieldSettings,
+	fieldSettings: propsFieldSettings,
 }) => {
 	const [value, setValue] = useState(propsValue);
+	const [fieldSettings, setFieldSettings] = useState(propsFieldSettings);
 
 	useEffect(() => {
 		setValue(propsValue);
 	}, [propsValue]);
+
+	useEffect(() => {
+		setFieldSettings(propsFieldSettings);
+	}, [propsFieldSettings]);
 
 	const updateValue = useCallback(
 		(data: any) => {
@@ -107,6 +131,19 @@ export const DebouncedWidget: React.FC<DebouncedWidgetProps<any>> = ({
 			propsUpdateValue(path, data);
 		},
 		[propsUpdateValue, path]
+	);
+
+	const updateFieldSettings = useCallback(
+		(fieldSettings: FieldSettings<string | Aggregates>) => {
+			setFieldSettings(fieldSettings);
+			propsUpdateFieldSettings?.(path, fieldSettings);
+		},
+		[path, propsUpdateFieldSettings]
+	);
+
+	const aggregationSupport = useMemo(
+		() => getAggregationSupport(aggregation, schema),
+		[aggregation, schema]
 	);
 
 	return (
@@ -120,6 +157,9 @@ export const DebouncedWidget: React.FC<DebouncedWidgetProps<any>> = ({
 			aggregation={aggregation}
 			schema={schema}
 			entityApi={entityApi}
+			fieldSettings={fieldSettings}
+			updateFieldSettings={propsUpdateFieldSettings && updateFieldSettings}
+			aggregationSupport={aggregationSupport}
 		/>
 	);
 };

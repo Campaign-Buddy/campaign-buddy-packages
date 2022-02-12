@@ -99,7 +99,7 @@ export interface WidgetProps<TValue, TAggregates = Aggregates | string> {
 	 * An optional callback to update field settings
 	 */
 	updateFieldSettings:
-		| ((fieldSettings: FieldSettings<TAggregates>) => Promise<void>)
+		| ((fieldSettings: FieldSettings<TAggregates>) => void)
 		| undefined;
 }
 

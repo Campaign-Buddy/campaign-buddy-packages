@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { FormGeneratorProps } from './FormGeneratorProps';
 import {
 	applyAggregates,
@@ -16,6 +16,7 @@ import { FormUiLayout } from './FormUiLayout';
 import styled from 'styled-components';
 
 const defaultData = {};
+const defaultFieldSettings = {};
 
 export const FormGenerator: React.FC<FormGeneratorProps> = ({
 	schema,
@@ -26,6 +27,8 @@ export const FormGenerator: React.FC<FormGeneratorProps> = ({
 	UiSection,
 	aggregates,
 	entityApi,
+	updateFieldSettings: providedUpdateFieldSettings,
+	fieldSettings = defaultFieldSettings,
 }) => {
 	const resolvedSchema = useMemo(() => {
 		if (!hasDynamicSchemas(schema)) {
@@ -44,6 +47,18 @@ export const FormGenerator: React.FC<FormGeneratorProps> = ({
 	}, [providedUiLayout, resolvedSchema]);
 
 	const updateData = useDataUpdater(schema, data, onChange);
+
+	const updateFieldSettingsOrNoop = useCallback(
+		(newFieldSettings: any) => {
+			providedUpdateFieldSettings?.(newFieldSettings);
+		},
+		[providedUpdateFieldSettings]
+	);
+	const updateFieldSettings = useDataUpdater(
+		schema,
+		fieldSettings,
+		updateFieldSettingsOrNoop
+	);
 
 	const fullAggregates = useMemo(
 		() => getFullAggregates(aggregates, resolvedSchema),
@@ -69,6 +84,8 @@ export const FormGenerator: React.FC<FormGeneratorProps> = ({
 				aggregatedData={aggregatedData}
 				aggregates={fullAggregates}
 				entityApi={entityApi}
+				updateFieldSettings={updateFieldSettings}
+				fieldSettings={fieldSettings}
 			/>
 		</FormRoot>
 	);

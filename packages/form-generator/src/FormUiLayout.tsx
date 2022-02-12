@@ -3,8 +3,13 @@ import {
 	EntityDefinition,
 	UiLayout,
 	CampaignBuddySchema,
+	Aggregates,
 } from '@campaign-buddy/json-schema-core';
-import { EntityApi } from '@campaign-buddy/frontend-types';
+import {
+	EntityApi,
+	EntityFieldSettings,
+	FieldSettings,
+} from '@campaign-buddy/frontend-types';
 import { UiSectionProps, WidgetLookup } from './FormGeneratorProps';
 import {
 	generateUiLayout,
@@ -34,6 +39,10 @@ interface FormUiLayoutProps {
 	aggregates: EntityDefinition['aggregates'];
 	UiSection?: React.FC<UiSectionProps>;
 	entityApi: EntityApi | undefined;
+	updateFieldSettings:
+		| ((path: string, fieldSetting: FieldSettings<string | Aggregates>) => void)
+		| undefined;
+	fieldSettings: EntityFieldSettings | undefined;
 }
 
 export const FormUiLayout: React.FC<FormUiLayoutProps> = ({
@@ -46,6 +55,8 @@ export const FormUiLayout: React.FC<FormUiLayoutProps> = ({
 	aggregatedData,
 	aggregates,
 	entityApi,
+	updateFieldSettings,
+	fieldSettings,
 }) => {
 	const nodes: React.ReactElement[] = [];
 
@@ -61,6 +72,8 @@ export const FormUiLayout: React.FC<FormUiLayoutProps> = ({
 				aggregatedData={aggregatedData}
 				aggregates={aggregates}
 				entityApi={entityApi}
+				updateFieldSettings={updateFieldSettings}
+				fieldSettings={fieldSettings}
 			/>
 		);
 	}
@@ -77,6 +90,11 @@ export const FormUiLayout: React.FC<FormUiLayoutProps> = ({
 			}
 
 			const dataForPath = getDataForPath(element, data, subSchema);
+			const fieldSettingsForPath = getDataForPath(
+				element,
+				fieldSettings,
+				subSchema
+			);
 			const aggregatedDataForPath =
 				getDataForPath(element, aggregatedData, undefined) ?? dataForPath;
 			const aggregation = getDataForPath(element, aggregates ?? {}, undefined);
@@ -107,6 +125,8 @@ export const FormUiLayout: React.FC<FormUiLayoutProps> = ({
 								isEditable={isDataEditable}
 								aggregation={aggregation}
 								entityApi={entityApi}
+								fieldSettings={fieldSettingsForPath}
+								updateFieldSettings={updateFieldSettings}
 							/>
 						</MinWidthContent>
 					</FormCell>
