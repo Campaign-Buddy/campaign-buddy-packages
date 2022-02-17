@@ -1,5 +1,5 @@
 import React from 'react';
-import { Meta, Story } from '@storybook/react';
+import { Meta } from '@storybook/react';
 import { FormGenerator } from '../src';
 import {
 	exampleSchema,
@@ -14,7 +14,7 @@ export default {
 	title: 'form-generator/FieldSettings',
 } as Meta;
 
-const Template: Story = () => {
+export const AggregationSettings = () => {
 	const [data, setData] = useState({
 		name: 'Joseph Stewart',
 		description: 'This is a description',
@@ -47,5 +47,3 @@ const Template: Story = () => {
 		/>
 	);
 };
-
-export const Primary = Template.bind({});
