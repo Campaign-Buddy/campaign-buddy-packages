@@ -2,12 +2,19 @@
 // aren't defined in the schema to avoid
 // trying rendering empty sections and
 
+import { EntityFieldSettings } from '@campaign-buddy/frontend-types';
 import { UiLayout } from '@campaign-buddy/json-schema-core';
 import { JSONSchema4 } from 'json-schema';
+import { getDataForPath } from './getDataForPath';
 import { getSchemaForPath } from './getSchemaForPath';
 
 // widgets that don't exist
-export function cleanUiLayout(layout: UiLayout, schema: JSONSchema4): UiLayout {
+export function cleanUiLayout(
+	layout: UiLayout,
+	schema: JSONSchema4,
+	fieldSettings: EntityFieldSettings,
+	currentUserRole?: string
+): UiLayout {
 	return layout
 		.map((element) => {
 			if (typeof element === 'string') {
@@ -24,11 +31,30 @@ export function cleanUiLayout(layout: UiLayout, schema: JSONSchema4): UiLayout {
 					return '';
 				}
 
+				const fieldSettingsAtPath = getDataForPath(
+					element,
+					fieldSettings,
+					undefined
+				);
+
+				if (
+					currentUserRole &&
+					fieldSettingsAtPath?.visibleRoles?.length &&
+					!fieldSettingsAtPath.visibleRoles.includes(currentUserRole)
+				) {
+					return '';
+				}
+
 				return element;
 			}
 
 			if (Array.isArray(element)) {
-				const result = cleanUiLayout(element, schema);
+				const result = cleanUiLayout(
+					element,
+					schema,
+					fieldSettings,
+					currentUserRole
+				);
 
 				if (result.length === 0) {
 					return '';
@@ -36,7 +62,12 @@ export function cleanUiLayout(layout: UiLayout, schema: JSONSchema4): UiLayout {
 
 				return result;
 			} else if (element.kind === 'section') {
-				const result = cleanUiLayout(element.uiLayout, schema);
+				const result = cleanUiLayout(
+					element.uiLayout,
+					schema,
+					fieldSettings,
+					currentUserRole
+				);
 
 				if (result.length === 0) {
 					return '';
@@ -50,7 +81,12 @@ export function cleanUiLayout(layout: UiLayout, schema: JSONSchema4): UiLayout {
 				const columns = element.columns
 					.map((x) => ({
 						...x,
-						uiLayout: cleanUiLayout(x.uiLayout, schema),
+						uiLayout: cleanUiLayout(
+							x.uiLayout,
+							schema,
+							fieldSettings,
+							currentUserRole
+						),
 					}))
 					.filter((x) => x.uiLayout.length !== 0);
 

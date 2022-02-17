@@ -29,6 +29,7 @@ export const FormGenerator: React.FC<FormGeneratorProps> = ({
 	entityApi,
 	updateFieldSettings: providedUpdateFieldSettings,
 	fieldSettings = defaultFieldSettings,
+	currentUserRole,
 }) => {
 	const resolvedSchema = useMemo(() => {
 		if (!hasDynamicSchemas(schema)) {
@@ -43,8 +44,13 @@ export const FormGenerator: React.FC<FormGeneratorProps> = ({
 			return generateUiLayout(resolvedSchema);
 		}
 
-		return cleanUiLayout(providedUiLayout, resolvedSchema);
-	}, [providedUiLayout, resolvedSchema]);
+		return cleanUiLayout(
+			providedUiLayout,
+			resolvedSchema,
+			fieldSettings,
+			currentUserRole
+		);
+	}, [currentUserRole, fieldSettings, providedUiLayout, resolvedSchema]);
 
 	const updateData = useDataUpdater(schema, data, onChange);
 
@@ -85,7 +91,9 @@ export const FormGenerator: React.FC<FormGeneratorProps> = ({
 				aggregates={fullAggregates}
 				entityApi={entityApi}
 				updateFieldSettings={updateFieldSettings}
+				shouldShowFieldSettingControls={Boolean(providedUpdateFieldSettings)}
 				fieldSettings={fieldSettings}
+				currentUserRole={currentUserRole}
 			/>
 		</FormRoot>
 	);

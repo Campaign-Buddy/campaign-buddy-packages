@@ -22,6 +22,8 @@ interface FormWidgetProps {
 		| ((path: string, fieldSetting: FieldSettings<string | Aggregates>) => void)
 		| undefined;
 	fieldSettings: FieldSettings | undefined;
+	currentUserRole: string | undefined;
+	shouldShowFieldSettingControls: boolean;
 }
 
 export const FormWidget: React.FC<FormWidgetProps> = ({
@@ -36,6 +38,8 @@ export const FormWidget: React.FC<FormWidgetProps> = ({
 	entityApi,
 	updateFieldSettings,
 	fieldSettings,
+	currentUserRole,
+	shouldShowFieldSettingControls,
 }) => {
 	let Widget: React.FC<WidgetProps<any>> = () => null;
 
@@ -75,6 +79,8 @@ export const FormWidget: React.FC<FormWidgetProps> = ({
 			entityApi={entityApi}
 			updateFieldSettings={updateFieldSettings}
 			fieldSettings={fieldSettings}
+			currentUserRole={currentUserRole}
+			shouldShowFieldSettingControls={shouldShowFieldSettingControls}
 		/>
 	);
 };
@@ -97,6 +103,7 @@ interface DebouncedWidgetProps<T>
 		| ((path: string, fieldSetting: FieldSettings<string | Aggregates>) => void)
 		| undefined;
 	fieldSettings: FieldSettings | undefined;
+	shouldShowFieldSettingControls: boolean;
 }
 
 export const DebouncedWidget: React.FC<DebouncedWidgetProps<any>> = ({
@@ -113,6 +120,8 @@ export const DebouncedWidget: React.FC<DebouncedWidgetProps<any>> = ({
 	entityApi,
 	updateFieldSettings: propsUpdateFieldSettings,
 	fieldSettings: propsFieldSettings,
+	currentUserRole,
+	shouldShowFieldSettingControls,
 }) => {
 	const [value, setValue] = useState(propsValue);
 	const [fieldSettings, setFieldSettings] = useState(propsFieldSettings);
@@ -178,8 +187,11 @@ export const DebouncedWidget: React.FC<DebouncedWidgetProps<any>> = ({
 			schema={schema}
 			entityApi={entityApi}
 			fieldSettings={fieldSettings}
-			updateFieldSettings={propsUpdateFieldSettings && updateFieldSettings}
+			updateFieldSettings={
+				shouldShowFieldSettingControls ? updateFieldSettings : undefined
+			}
 			aggregationSupport={aggregationSupport}
+			currentUserRole={currentUserRole}
 		/>
 	);
 };

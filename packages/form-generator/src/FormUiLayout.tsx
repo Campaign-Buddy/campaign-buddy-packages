@@ -43,6 +43,8 @@ interface FormUiLayoutProps {
 		| ((path: string, fieldSetting: FieldSettings<string | Aggregates>) => void)
 		| undefined;
 	fieldSettings: EntityFieldSettings | undefined;
+	currentUserRole: string | undefined;
+	shouldShowFieldSettingControls: boolean;
 }
 
 export const FormUiLayout: React.FC<FormUiLayoutProps> = ({
@@ -57,6 +59,8 @@ export const FormUiLayout: React.FC<FormUiLayoutProps> = ({
 	entityApi,
 	updateFieldSettings,
 	fieldSettings,
+	currentUserRole,
+	shouldShowFieldSettingControls,
 }) => {
 	const nodes: React.ReactElement[] = [];
 
@@ -74,6 +78,8 @@ export const FormUiLayout: React.FC<FormUiLayoutProps> = ({
 				entityApi={entityApi}
 				updateFieldSettings={updateFieldSettings}
 				fieldSettings={fieldSettings}
+				currentUserRole={currentUserRole}
+				shouldShowFieldSettingControls={shouldShowFieldSettingControls}
 			/>
 		);
 	}
@@ -127,6 +133,8 @@ export const FormUiLayout: React.FC<FormUiLayoutProps> = ({
 								entityApi={entityApi}
 								fieldSettings={fieldSettingsForPath}
 								updateFieldSettings={updateFieldSettings}
+								currentUserRole={currentUserRole}
+								shouldShowFieldSettingControls={shouldShowFieldSettingControls}
 							/>
 						</MinWidthContent>
 					</FormCell>

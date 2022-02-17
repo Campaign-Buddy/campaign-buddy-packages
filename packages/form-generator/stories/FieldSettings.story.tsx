@@ -1,5 +1,6 @@
 import React from 'react';
 import { Meta } from '@storybook/react';
+import { IOption, Select } from '@campaign-buddy/core-ui';
 import { FormGenerator } from '../src';
 import {
 	exampleSchema,
@@ -9,10 +10,24 @@ import {
 import { exampleWidgets } from '../examples/exampleSettingsWidgets';
 import { ExampleUiSection } from '../examples/ExampleUiSection';
 import { useCallback, useState } from 'react';
+import { EntityFieldSettings } from '@campaign-buddy/frontend-types';
 
 export default {
 	title: 'form-generator/FieldSettings',
 } as Meta;
+
+const roleOptions = [
+	{
+		displayValue: 'Admin',
+		id: 'admin',
+		data: 'admin',
+	},
+	{
+		displayValue: 'Non-Admin',
+		id: 'non-admin',
+		data: 'non-admin',
+	},
+];
 
 export const Primary = () => {
 	const [data, setData] = useState({
@@ -29,6 +44,8 @@ export const Primary = () => {
 			},
 		},
 	});
+	const [role, setRole] = useState<IOption<string>>(roleOptions[0]);
+	const [fieldSettings, setFieldSettings] = useState<EntityFieldSettings>({});
 
 	const handleUpdate = useCallback((update) => {
 		console.log(update);
@@ -36,14 +53,25 @@ export const Primary = () => {
 	}, []);
 
 	return (
-		<FormGenerator
-			schema={exampleSchema}
-			data={data}
-			onChange={handleUpdate}
-			widgets={exampleWidgets}
-			UiSection={ExampleUiSection}
-			uiLayout={exampleLayout}
-			aggregates={exampleAggregation}
-		/>
+		<div>
+			<Select
+				label="Your role"
+				options={roleOptions}
+				value={role}
+				onChange={setRole}
+			/>
+			<FormGenerator
+				schema={exampleSchema}
+				data={data}
+				onChange={handleUpdate}
+				widgets={exampleWidgets}
+				UiSection={ExampleUiSection}
+				uiLayout={exampleLayout}
+				aggregates={exampleAggregation}
+				currentUserRole={role.data}
+				fieldSettings={fieldSettings}
+				updateFieldSettings={setFieldSettings}
+			/>
+		</div>
 	);
 };

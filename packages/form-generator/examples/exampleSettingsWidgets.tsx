@@ -18,6 +18,7 @@ const StringWidget: React.FC<WidgetProps<string, string>> = ({
 	fieldSettings,
 	aggregation,
 	aggregationSupport,
+	currentUserRole,
 }) => {
 	const [isFocused, setIsFocused] = useState(false);
 	const onBlur = useCallback(() => setIsFocused(false), []);
@@ -40,12 +41,16 @@ const StringWidget: React.FC<WidgetProps<string, string>> = ({
 
 	const menuItems: MenuItem[] = [];
 
-	if (aggregationSupport) {
+	if (
+		currentUserRole === 'admin' &&
+		aggregationSupport &&
+		updateFieldSettings
+	) {
 		menuItems.push({
 			displayText: 'Compute this field?',
 			icon: fieldSettings?.aggregationSettings === false ? 'blank' : 'tick',
 			onClick: () => {
-				updateFieldSettings?.({
+				updateFieldSettings({
 					...(fieldSettings ?? {}),
 					aggregationSettings: !(fieldSettings?.aggregationSettings ?? true),
 				});
@@ -54,7 +59,41 @@ const StringWidget: React.FC<WidgetProps<string, string>> = ({
 		});
 	}
 
-	return aggregationSupport && updateFieldSettings ? (
+	if (currentUserRole === 'admin' && updateFieldSettings) {
+		const updateVisibility = (roles?: ('admin' | 'non-admin')[]) => {
+			updateFieldSettings({
+				...(fieldSettings ?? {}),
+				visibleRoles: roles,
+			});
+		};
+
+		menuItems.push({
+			displayText: 'Visibility settings',
+			icon: 'eye-open',
+			subItems: [
+				{
+					displayText: 'Use default settings',
+					icon: !fieldSettings?.visibleRoles ? 'tick' : 'blank',
+					onClick: () => updateVisibility(),
+					shouldCloseMenuOnClick: false,
+				},
+				{
+					displayText: 'Only admins',
+					icon: fieldSettings?.visibleRoles?.length === 1 ? 'tick' : 'blank',
+					onClick: () => updateVisibility(['admin']),
+					shouldCloseMenuOnClick: false,
+				},
+				{
+					displayText: 'Everyone',
+					icon: fieldSettings?.visibleRoles?.length === 2 ? 'tick' : 'blank',
+					onClick: () => updateVisibility(['admin', 'non-admin']),
+					shouldCloseMenuOnClick: false,
+				},
+			],
+		});
+	}
+
+	return menuItems.length ? (
 		<ContextMenu menuItems={menuItems}>{input}</ContextMenu>
 	) : (
 		input

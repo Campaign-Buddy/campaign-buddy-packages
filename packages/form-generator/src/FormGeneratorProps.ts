@@ -101,6 +101,13 @@ export interface WidgetProps<TValue, TAggregates = any> {
 	updateFieldSettings:
 		| ((fieldSettings: FieldSettings<TAggregates>) => void)
 		| undefined;
+
+	/**
+	 * If provided to the FormGenerator component, the
+	 * role of the current user. This property is useful
+	 * for determining what field settings a user may change.
+	 */
+	currentUserRole: string | undefined;
 }
 
 export interface FormGeneratorProps {
@@ -129,7 +136,7 @@ export interface FormGeneratorProps {
 	 * Allows for widget components to update field settings
 	 * for individual fields
 	 */
-	updateFieldSettings?: (fieldSettings: EntityFieldSettings) => Promise<void>;
+	updateFieldSettings?: (fieldSettings: EntityFieldSettings) => void;
 
 	/**
 	 * The role of the current user. The semantic
