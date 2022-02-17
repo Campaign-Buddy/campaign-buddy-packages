@@ -24,7 +24,7 @@ export interface WidgetLookup {
 	[key: string]: React.FC<WidgetProps<any>>;
 }
 
-export interface WidgetProps<TValue, TAggregates = Aggregates | string> {
+export interface WidgetProps<TValue, TAggregates = any> {
 	/**
 	 * The change handler for the field. It's
 	 * first parameter should include the full

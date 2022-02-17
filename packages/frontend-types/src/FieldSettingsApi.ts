@@ -15,8 +15,8 @@ export type AggregationSetting<TAggregation> = TAggregation extends Record<
 	: boolean;
 
 export interface FieldSettings<TAggregation = any> {
-	visibleRoles: string[];
-	aggregationSettings: AggregationSetting<TAggregation>;
+	visibleRoles?: string[];
+	aggregationSettings?: AggregationSetting<TAggregation>;
 }
 
 export interface EntityFieldSettings {
