@@ -26,6 +26,7 @@ export interface IconMenuItem {
 	icon: IconName;
 	onClick?: () => void;
 	altText: string;
+	shouldCloseMenuOnClick?: boolean;
 }
 
 const popoverProps = {
@@ -40,6 +41,7 @@ function IconMenuItem({ item }: { item: IconMenuItem }): JSX.Element {
 			popoverProps={popoverProps}
 			tagName="button"
 			aria-label={item.altText}
+			shouldDismissPopover={item.shouldCloseMenuOnClick ?? true}
 		/>
 	);
 }

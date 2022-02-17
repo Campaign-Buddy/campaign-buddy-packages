@@ -19,6 +19,7 @@ export interface MenuItem {
 	icon?: IconName;
 	subItems?: MenuItem[];
 	onClick?: () => void;
+	shouldCloseMenuOnClick?: boolean;
 }
 
 interface MenuProps {
@@ -37,6 +38,7 @@ function MenuItem({ item }: { item: MenuItem }): JSX.Element {
 			onClick={item.onClick}
 			popoverProps={popoverProps}
 			tagName="button"
+			shouldDismissPopover={item.shouldCloseMenuOnClick ?? true}
 		>
 			{item?.subItems?.map((subItem) => (
 				<MenuItem key={subItem.displayText} item={subItem} />

@@ -6,6 +6,7 @@ import {
 	MenuItem,
 	IconMenuItem,
 	IconMenuPopover,
+	ContextMenu,
 } from '../src';
 
 export default {
@@ -84,5 +85,33 @@ export function IconMenu() {
 				icon="align-center"
 			/>
 		</IconMenuPopover>
+	);
+}
+
+export function ContextMenuExample() {
+	return (
+		<ContextMenu
+			menuItems={[
+				{
+					displayText: 'Foo',
+					icon: 'add',
+					onClick: () => console.log('foo clicked'),
+				},
+				{
+					displayText: 'Bar',
+					icon: 'minus',
+					subItems: [
+						{
+							displayText: 'Baz',
+							icon: 'blank',
+							onClick: () => console.log('baz clicked'),
+							shouldCloseMenuOnClick: false,
+						},
+					],
+				},
+			]}
+		>
+			<p>Right click on me</p>
+		</ContextMenu>
 	);
 }
