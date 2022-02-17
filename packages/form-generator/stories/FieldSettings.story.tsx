@@ -14,7 +14,7 @@ export default {
 	title: 'form-generator/FieldSettings',
 } as Meta;
 
-export const AggregationSettings = () => {
+export const Primary = () => {
 	const [data, setData] = useState({
 		name: 'Joseph Stewart',
 		description: 'This is a description',

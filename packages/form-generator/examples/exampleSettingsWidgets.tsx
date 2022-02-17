@@ -1,11 +1,11 @@
 import React, { useCallback, useState } from 'react';
 import { WidgetLookup, WidgetProps } from '../src';
 import {
-	Flex,
-	FormGroup,
+	ContextMenu,
 	Input,
 	NumberInput,
 	Switch,
+	MenuItem,
 } from '@campaign-buddy/core-ui';
 
 const StringWidget: React.FC<WidgetProps<string, string>> = ({
@@ -23,13 +23,6 @@ const StringWidget: React.FC<WidgetProps<string, string>> = ({
 	const onBlur = useCallback(() => setIsFocused(false), []);
 	const onFocus = useCallback(() => setIsFocused(true), []);
 
-	const toggleAggregations = useCallback(() => {
-		updateFieldSettings?.({
-			...(fieldSettings ?? {}),
-			aggregationSettings: !(fieldSettings?.aggregationSettings ?? true),
-		});
-	}, [updateFieldSettings, fieldSettings]);
-
 	const input = (
 		<Input
 			value={
@@ -41,24 +34,30 @@ const StringWidget: React.FC<WidgetProps<string, string>> = ({
 			onFocus={onFocus}
 			onBlur={onBlur}
 			disabled={!isEditable}
+			label={label}
 		/>
 	);
 
-	return (
-		<FormGroup label={label}>
-			{aggregationSupport ? (
-				<Flex>
-					{input}
-					<button onClick={toggleAggregations}>
-						{fieldSettings?.aggregationSettings === false
-							? 'Enable aggregations'
-							: 'Disable aggregations'}
-					</button>
-				</Flex>
-			) : (
-				input
-			)}
-		</FormGroup>
+	const menuItems: MenuItem[] = [];
+
+	if (aggregationSupport) {
+		menuItems.push({
+			displayText: 'Compute this field?',
+			icon: fieldSettings?.aggregationSettings === false ? 'blank' : 'tick',
+			onClick: () => {
+				updateFieldSettings?.({
+					...(fieldSettings ?? {}),
+					aggregationSettings: !(fieldSettings?.aggregationSettings ?? true),
+				});
+			},
+			shouldCloseMenuOnClick: false,
+		});
+	}
+
+	return aggregationSupport && updateFieldSettings ? (
+		<ContextMenu menuItems={menuItems}>{input}</ContextMenu>
+	) : (
+		input
 	);
 };
 
