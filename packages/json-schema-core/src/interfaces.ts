@@ -5,6 +5,7 @@ export interface DisplayInfo<TAggregateShape = string> {
 	description?: string;
 	cols?: number;
 	aggregate?: TAggregateShape;
+	defaultVisibleRoles?: string[];
 }
 
 export interface DisplayInfoWithEnum<TAggregateShape = string>

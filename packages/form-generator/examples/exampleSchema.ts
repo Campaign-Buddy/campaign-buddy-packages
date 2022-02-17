@@ -14,6 +14,10 @@ export const exampleSchema = types.object({
 		state: types.string({ title: 'State' }),
 		zip: types.number({ title: 'Zip Code' }),
 	}),
+	secretField: types.string({
+		title: 'Secret Field',
+		defaultVisibleRoles: ['gm'],
+	}),
 	canMail: types.boolean({ title: 'Can we mail you?' }),
 	favoriteNumber: types.number({ title: 'Armor class' }),
 	additionalProperties: types.schema(),
@@ -31,6 +35,7 @@ export const exampleAggregation: Aggregates = {
 
 export const exampleLayout: UiLayout = [
 	['name', 'nickName', 'age', 'gender'],
+	'secretField',
 	'description',
 	'phoneNumber',
 	{

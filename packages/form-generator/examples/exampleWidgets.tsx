@@ -1,32 +1,54 @@
 import React, { useCallback, useState } from 'react';
 import { WidgetLookup, WidgetProps } from '../src';
-import { Input, NumberInput, Switch } from '@campaign-buddy/core-ui';
+import {
+	ContextMenu,
+	Input,
+	NumberInput,
+	Switch,
+	MenuItem,
+} from '@campaign-buddy/core-ui';
+import { AggregationSupport } from '../src/AggregationSupport';
+import { FieldSettings } from '@campaign-buddy/frontend-types';
 
-const StringWidget: React.FC<WidgetProps<string>> = ({
+const adminRole = 'gm';
+const nonAdminRole = 'player';
+
+const StringWidget: React.FC<WidgetProps<string, string>> = ({
 	value,
 	onChange,
 	label,
 	aggregatedValue,
-	aggregation,
 	isEditable,
+	updateFieldSettings,
+	fieldSettings,
+	aggregation,
+	aggregationSupport,
+	currentUserRole,
 }) => {
 	const [isFocused, setIsFocused] = useState(false);
 	const onBlur = useCallback(() => setIsFocused(false), []);
 	const onFocus = useCallback(() => setIsFocused(true), []);
 
 	return (
-		<Input
-			value={
-				(!isEditable || !isFocused) && aggregation
-					? aggregatedValue ?? ''
-					: value ?? ''
-			}
-			onChange={onChange}
-			label={label}
-			onFocus={onFocus}
-			onBlur={onBlur}
-			disabled={!isEditable}
-		/>
+		<WithFieldSettings
+			aggregationSupport={aggregationSupport}
+			updateFieldSettings={updateFieldSettings}
+			currentUserRole={currentUserRole}
+			fieldSettings={fieldSettings}
+		>
+			<Input
+				value={
+					(!isEditable || !isFocused) && aggregation
+						? aggregatedValue ?? ''
+						: value ?? ''
+				}
+				onChange={onChange}
+				onFocus={onFocus}
+				onBlur={onBlur}
+				disabled={!isEditable}
+				label={label}
+			/>
+		</WithFieldSettings>
 	);
 };
 
@@ -35,26 +57,37 @@ const NumberWidget: React.FC<WidgetProps<number>> = ({
 	onChange,
 	label,
 	aggregatedValue,
-	aggregation,
 	isEditable,
+	aggregation,
+	aggregationSupport,
+	updateFieldSettings,
+	currentUserRole,
+	fieldSettings,
 }) => {
 	const [isFocused, setIsFocused] = useState(false);
 	const onBlur = useCallback(() => setIsFocused(false), []);
 	const onFocus = useCallback(() => setIsFocused(true), []);
 
 	return (
-		<NumberInput
-			value={
-				(!isEditable || !isFocused) && aggregation
-					? aggregatedValue ?? 0
-					: value ?? 0
-			}
-			onChange={onChange}
-			label={label}
-			onFocus={onFocus}
-			onBlur={onBlur}
-			disabled={!isEditable}
-		/>
+		<WithFieldSettings
+			aggregationSupport={aggregationSupport}
+			updateFieldSettings={updateFieldSettings}
+			currentUserRole={currentUserRole}
+			fieldSettings={fieldSettings}
+		>
+			<NumberInput
+				value={
+					(!isEditable || !isFocused) && aggregation
+						? aggregatedValue ?? 0
+						: value ?? 0
+				}
+				onChange={onChange}
+				label={label}
+				onFocus={onFocus}
+				onBlur={onBlur}
+				disabled={!isEditable}
+			/>
+		</WithFieldSettings>
 	);
 };
 
@@ -65,30 +98,39 @@ const BooleanWidget: React.FC<WidgetProps<boolean>> = ({
 	isEditable,
 	aggregatedValue,
 	aggregation,
+	aggregationSupport,
+	updateFieldSettings,
+	currentUserRole,
+	fieldSettings,
 }) => {
 	const [isFocused, setIsFocused] = useState(false);
 	const onBlur = useCallback(() => setIsFocused(false), []);
 	const onFocus = useCallback(() => setIsFocused(true), []);
 
 	return (
-		<Switch
-			value={
-				(!isEditable || !isFocused) && aggregation
-					? aggregatedValue ?? false
-					: value ?? false
-			}
-			onChange={onChange}
-			label={label}
-			onFocus={onFocus}
-			onBlur={onBlur}
-			disabled={!isEditable}
-		/>
+		<WithFieldSettings
+			aggregationSupport={aggregationSupport}
+			updateFieldSettings={updateFieldSettings}
+			currentUserRole={currentUserRole}
+			fieldSettings={fieldSettings}
+		>
+			<Switch
+				value={
+					(!isEditable || !isFocused) && aggregation
+						? aggregatedValue ?? false
+						: value ?? false
+				}
+				onChange={onChange}
+				label={label}
+				onFocus={onFocus}
+				onBlur={onBlur}
+				disabled={!isEditable}
+			/>
+		</WithFieldSettings>
 	);
 };
 
-const AraryWidget: React.FC<WidgetProps<any>> = () => (
-	<p>Not implemented yet</p>
-);
+const AraryWidget: React.FC<WidgetProps<any>> = () => <p>Derp</p>;
 
 export const exampleWidgets: WidgetLookup = {
 	string: StringWidget,
@@ -96,4 +138,81 @@ export const exampleWidgets: WidgetLookup = {
 	boolean: BooleanWidget,
 	array: AraryWidget,
 	randoType: StringWidget,
+};
+
+interface WithFieldSettingsProps<TAggregation> {
+	aggregationSupport: AggregationSupport<TAggregation>;
+	fieldSettings: FieldSettings<TAggregation> | undefined;
+	currentUserRole: string | undefined;
+	updateFieldSettings:
+		| ((fieldSettings: FieldSettings<TAggregation>) => void)
+		| undefined;
+}
+
+const WithFieldSettings: React.FC<WithFieldSettingsProps<any>> = ({
+	aggregationSupport,
+	fieldSettings,
+	currentUserRole,
+	updateFieldSettings,
+	children,
+}) => {
+	const menuItems: MenuItem[] = [];
+
+	if (
+		currentUserRole === adminRole &&
+		aggregationSupport &&
+		updateFieldSettings
+	) {
+		menuItems.push({
+			displayText: 'Compute this field?',
+			icon: fieldSettings?.aggregationSettings === false ? 'blank' : 'tick',
+			onClick: () => {
+				updateFieldSettings({
+					...(fieldSettings ?? {}),
+					aggregationSettings: !(fieldSettings?.aggregationSettings ?? true),
+				});
+			},
+			shouldCloseMenuOnClick: false,
+		});
+	}
+
+	if (currentUserRole === adminRole && updateFieldSettings) {
+		const updateVisibility = (roles?: string[]) => {
+			updateFieldSettings({
+				...(fieldSettings ?? {}),
+				visibleRoles: roles,
+			});
+		};
+
+		menuItems.push({
+			displayText: 'Visibility settings',
+			icon: 'eye-open',
+			subItems: [
+				{
+					displayText: 'Use default settings',
+					icon: !fieldSettings?.visibleRoles ? 'tick' : 'blank',
+					onClick: () => updateVisibility(),
+					shouldCloseMenuOnClick: false,
+				},
+				{
+					displayText: 'Game master only',
+					icon: fieldSettings?.visibleRoles?.length === 1 ? 'tick' : 'blank',
+					onClick: () => updateVisibility([adminRole]),
+					shouldCloseMenuOnClick: false,
+				},
+				{
+					displayText: 'Everyone',
+					icon: fieldSettings?.visibleRoles?.length === 2 ? 'tick' : 'blank',
+					onClick: () => updateVisibility([adminRole, nonAdminRole]),
+					shouldCloseMenuOnClick: false,
+				},
+			],
+		});
+	}
+
+	return menuItems.length ? (
+		<ContextMenu menuItems={menuItems}>{children}</ContextMenu>
+	) : (
+		<>{children}</>
+	);
 };

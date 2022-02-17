@@ -7,7 +7,7 @@ import {
 	exampleLayout,
 	exampleAggregation,
 } from '../examples/exampleSchema';
-import { exampleWidgets } from '../examples/exampleSettingsWidgets';
+import { exampleWidgets } from '../examples/exampleWidgets';
 import { ExampleUiSection } from '../examples/ExampleUiSection';
 import { useCallback, useState } from 'react';
 import { EntityFieldSettings } from '@campaign-buddy/frontend-types';
@@ -18,14 +18,14 @@ export default {
 
 const roleOptions = [
 	{
-		displayValue: 'Admin',
-		id: 'admin',
-		data: 'admin',
+		displayValue: 'Game Master',
+		id: 'gm',
+		data: 'gm',
 	},
 	{
-		displayValue: 'Non-Admin',
-		id: 'non-admin',
-		data: 'non-admin',
+		displayValue: 'Player',
+		id: 'player',
+		data: 'player',
 	},
 ];
 

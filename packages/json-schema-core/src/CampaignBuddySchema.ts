@@ -14,4 +14,5 @@ export interface CampaignBuddySchema<TAggregateShape = any>
 	$entity?: string;
 	$dynamicTypeExpression?: string;
 	$tags?: string[];
+	$defaultVisibleRoles?: string[];
 }

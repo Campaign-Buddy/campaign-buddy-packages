@@ -10,6 +10,7 @@ import {
 	EntityFieldSettings,
 	FieldSettings,
 } from '@campaign-buddy/frontend-types';
+import hash from 'hash-sum';
 import { UiSectionProps, WidgetLookup } from './FormGeneratorProps';
 import {
 	generateUiLayout,
@@ -112,14 +113,18 @@ export const FormUiLayout: React.FC<FormUiLayoutProps> = ({
 			if (subSchema.type === 'object' && !subSchema['$uiWidget']) {
 				const subLayout = generateUiLayout(subSchema, element);
 
-				nodes.push(<FormRow>{getNestedUiLayout(subLayout)}</FormRow>);
+				nodes.push(
+					<FormRow key={getKey(element)}>
+						{getNestedUiLayout(subLayout)}
+					</FormRow>
+				);
 			} else {
 				const cols =
 					subSchema['$uiCols'] ??
 					getDefaultColSizeForPath(uiLayout, schema, element);
 
 				nodes.push(
-					<FormCell cols={cols}>
+					<FormCell cols={cols} key={getKey(element)}>
 						<MinWidthContent minWidth={100}>
 							<FormWidget
 								schema={subSchema}
@@ -145,17 +150,17 @@ export const FormUiLayout: React.FC<FormUiLayoutProps> = ({
 
 			if (UiSection) {
 				nodes.push(
-					<FormRow>
+					<FormRow key={getKey(element)}>
 						<UiSection title={element.title}>{layout}</UiSection>
 					</FormRow>
 				);
 			} else {
-				nodes.push(<FormRow>{layout}</FormRow>);
+				nodes.push(<FormRow key={getKey(element)}>{layout}</FormRow>);
 			}
 		} else if (isUiDirective(element) && element.kind === 'columnLayout') {
 			const allCols = element.columns.map((x) => x.cols || 'auto');
 			nodes.push(
-				<ColumnLayout>
+				<ColumnLayout key={getKey(element)}>
 					{element.columns.map((x, i) => (
 						<FormColumn cols={x.cols || getDefaultColSize(allCols)} key={i}>
 							{getNestedUiLayout(x.uiLayout)}
@@ -168,12 +173,42 @@ export const FormUiLayout: React.FC<FormUiLayoutProps> = ({
 				<WhiteSpace
 					cols={getDefaultColSizeForPath(uiLayout, schema, element)}
 					marginBottom={element.marginBottom}
+					key={getKey(element)}
 				/>
 			);
 		} else {
-			nodes.push(<FormRow>{getNestedUiLayout(element)}</FormRow>);
+			nodes.push(
+				<FormRow key={getKey(element)}>{getNestedUiLayout(element)}</FormRow>
+			);
 		}
 	}
 
 	return <>{nodes}</>;
 };
+
+function getKey(element: ArrayElement<UiLayout>) {
+	if (typeof element === 'string') {
+		return element;
+	}
+
+	if (!isUiDirective(element)) {
+		return `ui-layout-${hash(element)}`;
+	}
+
+	if (element.kind === 'whiteSpace') {
+		return `white-space-${element.marginBottom}-${element.cols}`;
+	}
+
+	if (element.kind === 'columnLayout') {
+		return `column-layout-${hash(element)}`;
+	}
+
+	if (element.kind === 'section') {
+		return `section-layout-${element.title}-${hash(element)}`;
+	}
+
+	return `element-${hash(element)}`;
+}
+
+type ArrayElement<ArrayType extends readonly unknown[]> =
+	ArrayType extends readonly (infer ElementType)[] ? ElementType : never;

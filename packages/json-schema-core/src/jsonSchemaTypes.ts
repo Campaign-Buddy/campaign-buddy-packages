@@ -23,6 +23,7 @@ export const string: CBSchemaFunc = (info) => ({
 	description: info?.description,
 	$uiCols: info?.cols,
 	$aggregate: info?.aggregate,
+	$defaultVisibleRoles: info?.defaultVisibleRoles,
 });
 
 export const boolean: CBSchemaFunc = (info) => ({
@@ -31,6 +32,7 @@ export const boolean: CBSchemaFunc = (info) => ({
 	description: info?.description,
 	$uiCols: info?.cols,
 	$aggregate: info?.aggregate,
+	$defaultVisibleRoles: info?.defaultVisibleRoles,
 });
 
 export const number: CBSchemaFunc = (info) => ({
@@ -39,6 +41,7 @@ export const number: CBSchemaFunc = (info) => ({
 	description: info?.description,
 	$uiCols: info?.cols,
 	$aggregate: info?.aggregate,
+	$defaultVisibleRoles: info?.defaultVisibleRoles,
 });
 
 /**
@@ -63,6 +66,7 @@ export const numericResource: CBSchemaFunc<NumericResourceAggregate> = (
 	},
 	$uiCols: info?.cols,
 	$aggregate: info?.aggregate,
+	$defaultVisibleRoles: info?.defaultVisibleRoles,
 });
 
 export const genericObject: CBSchemaFunc<never> = (info) => ({
@@ -70,6 +74,7 @@ export const genericObject: CBSchemaFunc<never> = (info) => ({
 	title: info?.title,
 	description: info?.description,
 	$uiCols: info?.cols,
+	$defaultVisibleRoles: info?.defaultVisibleRoles,
 });
 
 export const dynamicallyResolvedType: (
@@ -81,6 +86,7 @@ export const dynamicallyResolvedType: (
 	title: info?.title,
 	description: info?.description,
 	$uiCols: info?.cols,
+	$defaultVisibleRoles: info?.defaultVisibleRoles,
 });
 
 // TODO: Actually return a schema representing a CampaignBuddySchema
@@ -90,6 +96,7 @@ export const schema: CBSchemaFunc<never> = (info) => ({
 	title: info?.title,
 	description: info?.description,
 	$uiCols: info?.cols,
+	$defaultVisibleRoles: info?.defaultVisibleRoles,
 });
 
 export const object: (object: {
@@ -112,6 +119,7 @@ const _arrayOf: (
 	$uiWidget: object.$uiWidget,
 	$uiCols: info?.cols ?? object?.cols,
 	$aggregate: info?.aggregate,
+	$defaultVisibleRoles: info?.defaultVisibleRoles,
 });
 
 export const entity: (
@@ -141,6 +149,7 @@ export const entity: (
 	description: info?.description,
 	$uiCols: info?.cols,
 	$aggregate: info?.aggregate,
+	$defaultVisibleRoles: info?.defaultVisibleRoles,
 });
 
 export const multiEntity: (
@@ -170,6 +179,7 @@ export const multiEntity: (
 	description: info?.description,
 	$uiCols: info?.cols,
 	$aggregate: info?.aggregate,
+	$defaultVisibleRoles: info?.defaultVisibleRoles,
 });
 
 export const stat: CBSchemaFunc<StatAggregation> = (info) => ({
@@ -183,6 +193,7 @@ export const stat: CBSchemaFunc<StatAggregation> = (info) => ({
 	description: info?.description,
 	$uiCols: info?.cols,
 	$aggregate: info?.aggregate,
+	$defaultVisibleRoles: info?.defaultVisibleRoles,
 });
 
 export const richText: CBSchemaFunc<never> = (info) => ({
@@ -195,6 +206,7 @@ export const richText: CBSchemaFunc<never> = (info) => ({
 	title: info?.title,
 	description: info?.description,
 	$uiCols: info?.cols,
+	$defaultVisibleRoles: info?.defaultVisibleRoles,
 });
 
 export const icon: CBSchemaFunc<IconAggregation> = (info) => ({
@@ -207,6 +219,7 @@ export const icon: CBSchemaFunc<IconAggregation> = (info) => ({
 	description: info?.description,
 	$uiCols: info?.cols,
 	$aggregate: info?.aggregate,
+	$defaultVisibleRoles: info?.defaultVisibleRoles,
 });
 
 export const arrayOf = {
@@ -237,6 +250,7 @@ const option: (
 	description: info?.description,
 	$uiCols: info?.cols,
 	$aggregate: info?.aggregate,
+	$defaultVisibleRoles: info?.defaultVisibleRoles,
 });
 
 export const choice: (
@@ -253,6 +267,7 @@ export const choice: (
 	$uiCols: info?.cols,
 	$aggregate: info?.aggregate,
 	$options: info?.options,
+	$defaultVisibleRoles: info?.defaultVisibleRoles,
 });
 
 export const multiChoice: (
@@ -270,4 +285,5 @@ export const multiChoice: (
 	$uiCols: info?.cols,
 	$aggregate: info?.aggregate,
 	$options: info?.options,
+	$defaultVisibleRoles: info?.defaultVisibleRoles,
 });

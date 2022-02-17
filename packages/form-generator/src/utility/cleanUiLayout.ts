@@ -37,10 +37,14 @@ export function cleanUiLayout(
 					undefined
 				);
 
+				const visibleRoles =
+					fieldSettingsAtPath?.visibleRoles ?? subSchema?.$defaultVisibleRoles;
+
 				if (
 					currentUserRole &&
-					fieldSettingsAtPath?.visibleRoles?.length &&
-					!fieldSettingsAtPath.visibleRoles.includes(currentUserRole)
+					Array.isArray(visibleRoles) &&
+					visibleRoles.length &&
+					!visibleRoles.includes(currentUserRole)
 				) {
 					return '';
 				}
