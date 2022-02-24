@@ -1,5 +1,5 @@
 import React from 'react';
-import { Meta, Story } from '@storybook/react';
+import { Meta } from '@storybook/react';
 import { FormGroup } from '../src';
 
 export default {
@@ -7,10 +7,21 @@ export default {
 	component: FormGroup,
 } as Meta;
 
-const Template: Story = () => (
+export const Primary = () => (
 	<FormGroup label="I am a form control" labelFor="someinput">
 		<input id="someinput" />
 	</FormGroup>
 );
 
-export const Primary = Template.bind({});
+export const WithElementLabel = () => (
+	<FormGroup
+		label={
+			<span>
+				I am using <i>JSX!</i>!
+			</span>
+		}
+		labelFor="someinput2"
+	>
+		<input id="someinput2" />
+	</FormGroup>
+);

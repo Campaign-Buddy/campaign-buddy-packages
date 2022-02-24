@@ -19,7 +19,7 @@ StyledFormGroup.defaultProps = {
 };
 
 interface FormGroupProps {
-	label?: string;
+	label?: React.ReactNode;
 	labelFor?: string;
 	className?: string;
 	onClick?: () => void;
