@@ -43,6 +43,8 @@ This repository houses several frontend packages (using yarn workspaces) used to
 - [ ] Package level documentation
 	- [ ] frontend-types. When does a type go in that package?
 	- [ ] apply-aggregates. What functions are available and how do I use them? (Note this documentation can likely be auto-generated)
+- [ ] Refactor stories to group together logically connected stories (like aggregated inputs)
+- [ ] Set up lerna (maybe), commit lint, and semantic release
 
 ## Design Philosophy
 
