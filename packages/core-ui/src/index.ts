@@ -4,6 +4,7 @@ export { defaultTheme } from './theme';
 export * from './aggregated-input';
 export * from './button';
 export * from './form-group';
+export * from './icon';
 export * from './input';
 export * from './layout-primitives';
 export * from './menu';
