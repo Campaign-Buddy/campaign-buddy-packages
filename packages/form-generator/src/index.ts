@@ -4,3 +4,4 @@ export {
 	UiSectionProps,
 } from './FormGeneratorProps';
 export { FormGenerator } from './FormGenerator';
+export * from './AggregationSupport';
