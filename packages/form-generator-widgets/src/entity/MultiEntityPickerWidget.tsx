@@ -29,7 +29,6 @@ export const MultiEntityPickerWidget: React.FC<
 	onChange,
 	label,
 	entityApi,
-	hasAggregation,
 	aggregation,
 }) => {
 	const isEditable = useAggregationContainsBase(aggregation?.entities);
@@ -123,7 +122,7 @@ export const MultiEntityPickerWidget: React.FC<
 		]
 	);
 
-	if (hasAggregation && !isEditable) {
+	if (aggregation && !isEditable) {
 		return (
 			<FormGroup label={label}>
 				<AggregatedDisplayText>

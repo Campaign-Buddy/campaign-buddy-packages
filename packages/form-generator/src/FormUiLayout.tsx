@@ -105,8 +105,6 @@ export const FormUiLayout: React.FC<FormUiLayoutProps> = ({
 			const aggregatedDataForPath =
 				getDataForPath(element, aggregatedData, undefined) ?? dataForPath;
 			const aggregation = getDataForPath(element, aggregates ?? {}, undefined);
-			const isDataEditable =
-				typeof aggregation !== 'string' || /<\s*base\s*>/i.test(aggregation);
 
 			// So that we don't have to manually type out all properties in an object
 			// if the default layout is good enough
@@ -133,7 +131,6 @@ export const FormUiLayout: React.FC<FormUiLayoutProps> = ({
 								updateValue={updateValue}
 								data={dataForPath}
 								aggregatedData={aggregatedDataForPath}
-								isEditable={isDataEditable}
 								aggregation={aggregation}
 								entityApi={entityApi}
 								fieldSettings={fieldSettingsForPath}

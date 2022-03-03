@@ -13,15 +13,7 @@ interface MultiChoice {
 
 export const MultiChoiceWidget: React.FC<
 	WidgetProps<MultiChoice, MultiChoiceAggregation>
-> = ({
-	value,
-	onChange,
-	aggregatedValue,
-	schema,
-	label,
-	aggregation,
-	hasAggregation,
-}) => {
+> = ({ value, onChange, aggregatedValue, schema, label, aggregation }) => {
 	const isEditable = useAggregationContainsBase(aggregation?.selectedOptions);
 
 	const options = useMemo(
@@ -68,7 +60,7 @@ export const MultiChoiceWidget: React.FC<
 		[aggregatedValue?.selectedOptions, value?.selectedOptions]
 	);
 
-	if (!isEditable && hasAggregation) {
+	if (!isEditable && aggregation) {
 		return (
 			<FormGroup label={label}>
 				<TagContainer>

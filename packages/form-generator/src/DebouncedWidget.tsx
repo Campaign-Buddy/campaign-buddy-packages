@@ -15,7 +15,6 @@ interface FormWidgetProps {
 	updateValue: (path: string, data: any) => void;
 	data: any;
 	aggregatedData: any;
-	isEditable: boolean;
 	aggregation: Aggregates | string | undefined;
 	entityApi: EntityApi | undefined;
 	updateFieldSettings:
@@ -33,7 +32,6 @@ export const FormWidget: React.FC<FormWidgetProps> = ({
 	updateValue,
 	data,
 	aggregatedData,
-	isEditable,
 	aggregation,
 	entityApi,
 	updateFieldSettings,
@@ -72,9 +70,7 @@ export const FormWidget: React.FC<FormWidgetProps> = ({
 			Widget={Widget}
 			label={schema.title ?? ''}
 			aggregatedValue={aggregatedData}
-			isEditable={isEditable}
 			aggregation={aggregation}
-			hasAggregation={aggregation !== undefined}
 			schema={schema}
 			entityApi={entityApi}
 			updateFieldSettings={updateFieldSettings}
@@ -95,7 +91,6 @@ interface DebouncedWidgetProps<T>
 	value: T | undefined;
 	aggregatedValue: T | undefined;
 	aggregation: Aggregates | string | undefined;
-	isEditable: boolean;
 	Widget: React.FC<WidgetProps<T>>;
 	schema: CampaignBuddySchema;
 	entityApi: EntityApi | undefined;
@@ -113,8 +108,6 @@ export const DebouncedWidget: React.FC<DebouncedWidgetProps<any>> = ({
 	Widget,
 	label,
 	aggregatedValue: propsAggregatedValue,
-	isEditable,
-	hasAggregation,
 	aggregation: propsAggregation,
 	schema,
 	entityApi,
@@ -179,10 +172,6 @@ export const DebouncedWidget: React.FC<DebouncedWidgetProps<any>> = ({
 			onChange={updateValue}
 			label={label}
 			aggregatedValue={aggregatedValue}
-			isEditable={isEditable}
-			hasAggregation={
-				hasAggregation && fieldSettings?.aggregationSettings !== false
-			}
 			aggregation={aggregation}
 			schema={schema}
 			entityApi={entityApi}

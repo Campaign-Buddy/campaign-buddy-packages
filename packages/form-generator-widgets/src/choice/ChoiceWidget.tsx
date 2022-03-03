@@ -21,7 +21,6 @@ export const ChoiceWidget: React.FC<WidgetProps<Choice, ChoiceAggregation>> = ({
 	aggregatedValue,
 	schema,
 	label,
-	hasAggregation,
 	aggregation,
 }) => {
 	const isEditable = useMemo(
@@ -62,7 +61,7 @@ export const ChoiceWidget: React.FC<WidgetProps<Choice, ChoiceAggregation>> = ({
 			value?.selectedOption?.displayValue;
 
 		const selectedOptionId =
-			hasAggregation && isEditable
+			aggregation && isEditable
 				? value?.selectedOption?.id ?? aggregatedValue?.selectedOption?.id
 				: aggregatedValue?.selectedOption?.id ?? value?.selectedOption?.id;
 
@@ -73,11 +72,11 @@ export const ChoiceWidget: React.FC<WidgetProps<Choice, ChoiceAggregation>> = ({
 	}, [
 		aggregatedValue?.selectedOption,
 		value?.selectedOption,
-		hasAggregation,
+		aggregation,
 		isEditable,
 	]);
 
-	if (hasAggregation && !isEditable) {
+	if (aggregation && !isEditable) {
 		return (
 			<FormGroup label={label}>
 				<AggregatedDisplayText>

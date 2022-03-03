@@ -5,21 +5,23 @@ import {
 	AggregatedDisplayText,
 } from '@campaign-buddy/core-ui';
 import { WidgetProps } from '@campaign-buddy/form-generator';
+import { useAggregationContainsBase } from '../utility';
 
-export const StringWidget: React.FC<WidgetProps<string>> = ({
+export const StringWidget: React.FC<WidgetProps<string, string>> = ({
 	value,
 	aggregatedValue,
-	hasAggregation,
 	onChange,
-	isEditable,
+	aggregation,
 }) => {
-	if (hasAggregation && !isEditable) {
+	const isEditable = useAggregationContainsBase(aggregation);
+
+	if (aggregation && !isEditable) {
 		return (
 			<AggregatedDisplayText>{aggregatedValue ?? ''}</AggregatedDisplayText>
 		);
 	}
 
-	if (hasAggregation) {
+	if (aggregation) {
 		return (
 			<AggregatedTextInput
 				value={value ?? ''}
@@ -29,7 +31,5 @@ export const StringWidget: React.FC<WidgetProps<string>> = ({
 		);
 	}
 
-	return (
-		<Input value={value ?? ''} onChange={onChange} disabled={!isEditable} />
-	);
+	return <Input value={value ?? ''} onChange={onChange} />;
 };

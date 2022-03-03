@@ -18,7 +18,6 @@ const StringWidget: React.FC<WidgetProps<string, string>> = ({
 	onChange,
 	label,
 	aggregatedValue,
-	isEditable,
 	updateFieldSettings,
 	fieldSettings,
 	aggregation,
@@ -37,15 +36,10 @@ const StringWidget: React.FC<WidgetProps<string, string>> = ({
 			fieldSettings={fieldSettings}
 		>
 			<Input
-				value={
-					(!isEditable || !isFocused) && aggregation
-						? aggregatedValue ?? ''
-						: value ?? ''
-				}
+				value={!isFocused && aggregation ? aggregatedValue ?? '' : value ?? ''}
 				onChange={onChange}
 				onFocus={onFocus}
 				onBlur={onBlur}
-				disabled={!isEditable}
 				label={label}
 			/>
 		</WithFieldSettings>
@@ -57,7 +51,6 @@ const NumberWidget: React.FC<WidgetProps<number>> = ({
 	onChange,
 	label,
 	aggregatedValue,
-	isEditable,
 	aggregation,
 	aggregationSupport,
 	updateFieldSettings,
@@ -76,16 +69,11 @@ const NumberWidget: React.FC<WidgetProps<number>> = ({
 			fieldSettings={fieldSettings}
 		>
 			<NumberInput
-				value={
-					(!isEditable || !isFocused) && aggregation
-						? aggregatedValue ?? 0
-						: value ?? 0
-				}
+				value={!isFocused && aggregation ? aggregatedValue ?? 0 : value ?? 0}
 				onChange={onChange}
 				label={label}
 				onFocus={onFocus}
 				onBlur={onBlur}
-				disabled={!isEditable}
 			/>
 		</WithFieldSettings>
 	);
@@ -95,7 +83,6 @@ const BooleanWidget: React.FC<WidgetProps<boolean>> = ({
 	value,
 	onChange,
 	label,
-	isEditable,
 	aggregatedValue,
 	aggregation,
 	aggregationSupport,
@@ -116,15 +103,12 @@ const BooleanWidget: React.FC<WidgetProps<boolean>> = ({
 		>
 			<Switch
 				value={
-					(!isEditable || !isFocused) && aggregation
-						? aggregatedValue ?? false
-						: value ?? false
+					!isFocused && aggregation ? aggregatedValue ?? false : value ?? false
 				}
 				onChange={onChange}
 				label={label}
 				onFocus={onFocus}
 				onBlur={onBlur}
-				disabled={!isEditable}
 			/>
 		</WithFieldSettings>
 	);

@@ -38,12 +38,6 @@ export interface WidgetProps<TValue, TAggregates = any> {
 	label: string;
 
 	/**
-	 * A boolean describing if this field
-	 * has any aggregates at all
-	 */
-	hasAggregation: boolean;
-
-	/**
 	 * If the field has aggregates, this prop
 	 * will contain the raw aggregate expressions
 	 * specified in either the schema or the
@@ -66,12 +60,6 @@ export interface WidgetProps<TValue, TAggregates = any> {
 	 * or may be completely derived from other data
 	 */
 	aggregatedValue: TValue | undefined;
-
-	/**
-	 * A property is editable if has no aggregations
-	 * _or_ it's aggregations contain the <base> keyword
-	 */
-	isEditable: boolean;
 
 	/**
 	 * The JSON scheme for this property
