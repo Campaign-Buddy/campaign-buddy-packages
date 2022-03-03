@@ -5,10 +5,10 @@ import {
 	FormGroup,
 	AggregatedDisplayText,
 } from '@campaign-buddy/core-ui';
-import { WidgetProps } from '@campaign-buddy/form-generator';
 import { useAggregationContainsBase } from '../utility';
+import { CBWidgetProps } from '../CBWidgetProps';
 
-export const NumberWidget: React.FC<WidgetProps<number, string>> = ({
+export const NumberWidget: React.FC<CBWidgetProps<number, string>> = ({
 	value,
 	aggregatedValue,
 	aggregation,

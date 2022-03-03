@@ -19,7 +19,7 @@ type ExtensionWidgets = Record<Widgets, React.FC<WidgetProps<any>>>;
 
 export const widgets: WidgetLookup & ExtensionWidgets = {
 	// Primitives
-	number: NumberWidget,
+	number: withWidgetLabel(NumberWidget),
 	string: withWidgetLabel(StringWidget),
 	boolean: BooleanWidget,
 	array: ArrayWidget,
