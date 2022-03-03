@@ -25,7 +25,16 @@ export const widgets: WidgetLookup & ExtensionWidgets = {
 	array: ArrayWidget,
 
 	// Complex components
-	Stat: StatWidget,
+	Stat: withWidgetLabel(StatWidget, [
+		{
+			label: 'Compute base value?',
+			path: '$.base',
+		},
+		{
+			label: 'Compute bonus value?',
+			path: '$.bonus',
+		},
+	]),
 	EntityPicker: EntityPickerWidget,
 	MultiEntityPicker: MultiEntityPickerWidget,
 	RichText: RichTextWidget,

@@ -1,5 +1,4 @@
 import React, { useCallback } from 'react';
-import { WidgetProps } from '@campaign-buddy/form-generator';
 import {
 	AggregatedDisplayText,
 	AggregatedNumberInput,
@@ -8,6 +7,7 @@ import {
 import styled from 'styled-components';
 import { useAggregationContainsBase } from '../utility';
 import { StatAggregation } from '@campaign-buddy/json-schema-core';
+import { CBWidgetProps } from '../CBWidgetProps';
 
 const StatContainer = styled.div`
 	display: flex;
@@ -27,7 +27,7 @@ interface Stat {
 	bonus?: number;
 }
 
-export const StatWidget: React.FC<WidgetProps<Stat, StatAggregation>> = ({
+export const StatWidget: React.FC<CBWidgetProps<Stat, StatAggregation>> = ({
 	value,
 	onChange,
 	label,

@@ -26,7 +26,10 @@ export function removeDisabledAggregations<T>(
 
 	const aggregationCopy = { ...aggregation } as Record<any, any>;
 	for (const [key, value] of Object.entries(aggregationSettings)) {
-		aggregationCopy[key] = removeDisabledAggregations(aggregationCopy, value);
+		aggregationCopy[key] = removeDisabledAggregations(
+			aggregationCopy[key],
+			value
+		);
 	}
 
 	return aggregationCopy;

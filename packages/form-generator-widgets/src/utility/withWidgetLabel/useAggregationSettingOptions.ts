@@ -19,6 +19,7 @@ export function useAggregationSettingOptions(
 	aggregationSupport: AggregationSupport<any>,
 	updateFieldSettings: ((fieldSettings: FieldSettings<any>) => void) | undefined
 ): { items: MenuItem[]; hasAggregations: boolean } {
+	console.log(aggregationSupport);
 	const menuItems = useMemo(
 		() =>
 			updateFieldSettings &&
@@ -82,6 +83,9 @@ function getAggregationSettingOptions(
 	aggregationSupport: AggregationSupport<any>,
 	updateFieldSettings: (fieldSettings: FieldSettings<any>) => void
 ): MenuItem[] {
+	const defaultAggregationSupport =
+		typeof aggregationSupport === 'boolean' ? true : {};
+
 	if (!configurableAggregations || configurableAggregations.length === 0) {
 		if (!fieldSupportsAggregation('$', aggregationSupport)) {
 			return [];
@@ -93,7 +97,7 @@ function getAggregationSettingOptions(
 					path: '$',
 					label: defaultLabel,
 				},
-				fieldSettings.aggregationSettings ?? true,
+				fieldSettings.aggregationSettings ?? defaultAggregationSupport,
 				(aggregationSettings) =>
 					updateFieldSettings({
 						...fieldSettings,
@@ -108,7 +112,7 @@ function getAggregationSettingOptions(
 		.map((itemSetting) =>
 			getAggregationSettingItem(
 				itemSetting,
-				fieldSettings.aggregationSettings ?? true,
+				fieldSettings.aggregationSettings ?? defaultAggregationSupport,
 				(aggregationSettings) =>
 					updateFieldSettings({
 						...fieldSettings,
@@ -162,12 +166,12 @@ function updateAggregationSettingAtPath(
 	let nextPart: string = pathParts[0];
 
 	for (let i = 0; i < pathParts.length - 1; i++) {
-		if (pathParts[i] === '$' && i === 0) {
-			continue;
-		}
-
 		const curPart = pathParts[i];
 		nextPart = pathParts[i + 1];
+
+		if (curPart === '$') {
+			continue;
+		}
 
 		if (typeof cur[curPart] !== 'object') {
 			cur[curPart] = {};

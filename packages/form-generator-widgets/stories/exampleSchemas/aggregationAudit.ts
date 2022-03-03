@@ -39,6 +39,14 @@ addWidgetType('stat', types.stat, (withBase) => ({
 	bonus: `TO_NUMBER({$.agg})${withBase ? ' + TO_NUMBER(<base>)' : ''} - 1`,
 }));
 
+addWidgetType('statOnlyBonus', types.stat, (withBase) => ({
+	bonus: `TO_NUMBER({$.agg})${withBase ? ' + TO_NUMBER(<base>)' : ''} - 1`,
+}));
+
+addWidgetType('statOnlyBase', types.stat, (withBase) => ({
+	base: `TO_NUMBER({$.agg})${withBase ? ' + TO_NUMBER(<base>)' : ''}`,
+}));
+
 addWidgetType(
 	'select',
 	types.choice,
