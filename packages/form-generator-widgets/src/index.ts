@@ -21,7 +21,7 @@ export const widgets: WidgetLookup & ExtensionWidgets = {
 	// Primitives
 	number: withWidgetLabel(NumberWidget),
 	string: withWidgetLabel(StringWidget),
-	boolean: BooleanWidget,
+	boolean: withWidgetLabel(BooleanWidget),
 	array: ArrayWidget,
 
 	// Complex components

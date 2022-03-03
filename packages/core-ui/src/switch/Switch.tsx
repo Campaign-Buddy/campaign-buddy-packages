@@ -26,7 +26,7 @@ StyledSwitch.defaultProps = {
 };
 
 interface SwitchProps extends Omit<BaseInputProps<boolean>, 'label'> {
-	label: string;
+	label?: string;
 }
 
 export const Switch: React.FC<SwitchProps> = ({
