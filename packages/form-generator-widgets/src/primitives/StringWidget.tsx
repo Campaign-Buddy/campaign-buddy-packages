@@ -3,7 +3,6 @@ import {
 	Input,
 	AggregatedTextInput,
 	AggregatedDisplayText,
-	FormGroup,
 } from '@campaign-buddy/core-ui';
 import { WidgetProps } from '@campaign-buddy/form-generator';
 
@@ -13,13 +12,10 @@ export const StringWidget: React.FC<WidgetProps<string>> = ({
 	hasAggregation,
 	onChange,
 	isEditable,
-	label,
 }) => {
 	if (hasAggregation && !isEditable) {
 		return (
-			<FormGroup label={label}>
-				<AggregatedDisplayText>{aggregatedValue ?? ''}</AggregatedDisplayText>
-			</FormGroup>
+			<AggregatedDisplayText>{aggregatedValue ?? ''}</AggregatedDisplayText>
 		);
 	}
 
@@ -29,17 +25,11 @@ export const StringWidget: React.FC<WidgetProps<string>> = ({
 				value={value ?? ''}
 				aggregatedDisplayValue={aggregatedValue ?? ''}
 				onChange={onChange}
-				label={label}
 			/>
 		);
 	}
 
 	return (
-		<Input
-			value={value ?? ''}
-			onChange={onChange}
-			label={label}
-			disabled={!isEditable}
-		/>
+		<Input value={value ?? ''} onChange={onChange} disabled={!isEditable} />
 	);
 };

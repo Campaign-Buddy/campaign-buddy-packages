@@ -8,6 +8,24 @@ import {
 	useAggregationSettingOptions,
 } from './useAggregationSettingOptions';
 import { useVisibilitySettingOptions } from './useVisibilitySettingOptions';
+import styled from 'styled-components';
+
+const LabelContainer = styled.span<{ isMenuOpen: boolean }>`
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+
+	& > .bp3-popover2-target {
+		margin: 0 !important;
+
+		opacity: ${({ isMenuOpen }) => (isMenuOpen ? 1 : 0)};
+		transition: opacity 0.2s;
+	}
+
+	.bp3-label:hover & > .bp3-popover2-target {
+		opacity: 1;
+	}
+`;
 
 interface WidgetLabelProps {
 	label: string;
@@ -55,7 +73,9 @@ export const WidgetLabel: React.FC<WidgetLabelProps> = ({
 	const labelElements = [<span key="label-text">{label}</span>];
 
 	if (hasAggregations) {
-		labelElements.push(<Icon icon="predictive-analysis" />);
+		labelElements.push(
+			<Icon key="aggregation-indicator" icon="predictive-analysis" />
+		);
 	}
 
 	if (menuItems.length > 0) {
@@ -64,6 +84,7 @@ export const WidgetLabel: React.FC<WidgetLabelProps> = ({
 				items={menuItems}
 				onClose={closeSettingsMenu}
 				isOpen={isSettingsMenuOpen}
+				key="settings-menu"
 			>
 				<Button
 					key="settings-button"
@@ -76,5 +97,16 @@ export const WidgetLabel: React.FC<WidgetLabelProps> = ({
 		);
 	}
 
-	return <FormGroup label={<>{labelElements}</>}>{children}</FormGroup>;
+	return (
+		<FormGroup
+			labelFor=""
+			label={
+				<LabelContainer isMenuOpen={isSettingsMenuOpen}>
+					{labelElements}
+				</LabelContainer>
+			}
+		>
+			{children}
+		</FormGroup>
+	);
 };

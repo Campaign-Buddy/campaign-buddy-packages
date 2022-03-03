@@ -1,16 +1,24 @@
 import { MenuItem } from '@campaign-buddy/core-ui';
 import { FieldSettings } from '@campaign-buddy/frontend-types';
 import { useMemo } from 'react';
-import { useVisibilitySettings } from '../../FormWidgetProvider';
+import {
+	useAvailableActions,
+	useVisibilitySettings,
+} from '../../FormWidgetProvider';
 
 export function useVisibilitySettingOptions(
 	fieldSettings: FieldSettings<any> | undefined,
 	updateFieldSettings: ((fieldSettings: FieldSettings<any>) => void) | undefined
 ): MenuItem[] {
 	const visibilitySettings = useVisibilitySettings();
+	const availableActions = useAvailableActions();
 
 	return useMemo(() => {
-		if (!updateFieldSettings) {
+		if (
+			!updateFieldSettings ||
+			!availableActions.canUpdateVisibilitySettings ||
+			!visibilitySettings.length
+		) {
 			return [];
 		}
 
@@ -44,14 +52,21 @@ export function useVisibilitySettingOptions(
 						displayText: 'Default visibility',
 						icon: !fieldSettings?.visibleRoles ? 'tick' : 'blank',
 						onClick: () => setVisibility(),
+						shouldCloseMenuOnClick: false,
 					},
 					...visibilitySettings.map<MenuItem>((setting) => ({
 						displayText: setting.label,
 						icon: isActiveVisibilitySetting(setting.roles) ? 'tick' : 'blank',
 						onClick: () => setVisibility(setting.roles),
+						shouldCloseMenuOnClick: false,
 					})),
 				],
 			},
 		];
-	}, [fieldSettings, updateFieldSettings, visibilitySettings]);
+	}, [
+		availableActions.canUpdateVisibilitySettings,
+		fieldSettings,
+		updateFieldSettings,
+		visibilitySettings,
+	]);
 }

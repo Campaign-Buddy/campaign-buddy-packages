@@ -16,6 +16,7 @@ GlobalStyle.defaultProps = {
 
 const popoverProps = {
 	popoverClassName: 'bp-overrides-context-menu-popover',
+	hasBackdrop: false,
 };
 
 function MenuItem({ item }: { item: MenuItemType }): JSX.Element {

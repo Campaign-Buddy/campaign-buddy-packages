@@ -173,7 +173,7 @@ export const FormUiLayout: React.FC<FormUiLayoutProps> = ({
 				<WhiteSpace
 					cols={getDefaultColSizeForPath(uiLayout, schema, element)}
 					marginBottom={element.marginBottom}
-					key={getKey(element)}
+					key={`white-space-${nodes.length}`}
 				/>
 			);
 		} else {
@@ -193,10 +193,6 @@ function getKey(element: ArrayElement<UiLayout>) {
 
 	if (!isUiDirective(element)) {
 		return `ui-layout-${hash(element)}`;
-	}
-
-	if (element.kind === 'whiteSpace') {
-		return `white-space-${element.marginBottom}-${element.cols}`;
 	}
 
 	if (element.kind === 'columnLayout') {

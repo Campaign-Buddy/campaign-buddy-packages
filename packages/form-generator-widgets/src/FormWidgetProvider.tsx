@@ -2,12 +2,12 @@ import { MediaApi } from '@campaign-buddy/frontend-types';
 import React, { createContext, useContext, useMemo } from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query';
 
-interface AvailableFormActions {
+export interface AvailableFormActions {
 	canUpdateVisibilitySettings: boolean;
 	canUpdateAggregationSettings: boolean;
 }
 
-interface VisibilitySetting {
+export interface VisibilitySetting {
 	roles: string[];
 	label: string;
 }
@@ -24,6 +24,7 @@ export interface FormWidgetProviderProps {
 	queryClient: QueryClient;
 	mediaApi: MediaApi;
 	visibilitySettings?: VisibilitySetting[];
+	availableActions?: AvailableFormActions;
 }
 
 export const FormWidgetProvider: React.FC<FormWidgetProviderProps> = ({
@@ -31,10 +32,11 @@ export const FormWidgetProvider: React.FC<FormWidgetProviderProps> = ({
 	children,
 	mediaApi,
 	visibilitySettings,
+	availableActions,
 }) => {
 	const contextValue = useMemo(
-		() => ({ mediaApi, visibilitySettings }),
-		[mediaApi, visibilitySettings]
+		() => ({ mediaApi, visibilitySettings, availableActions }),
+		[availableActions, mediaApi, visibilitySettings]
 	);
 	return (
 		<QueryClientProvider client={queryClient}>

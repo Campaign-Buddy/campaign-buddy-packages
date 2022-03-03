@@ -13,13 +13,14 @@ import { ChoiceWidget, MultiChoiceWidget } from './choice';
 import { EntityPickerWidget, MultiEntityPickerWidget } from './entity';
 import { NumericResourceWidget } from './numericResource';
 import { RichTextWidget } from './richText';
+import { withWidgetLabel } from './utility';
 
 type ExtensionWidgets = Record<Widgets, React.FC<WidgetProps<any>>>;
 
 export const widgets: WidgetLookup & ExtensionWidgets = {
 	// Primitives
 	number: NumberWidget,
-	string: StringWidget,
+	string: withWidgetLabel(StringWidget),
 	boolean: BooleanWidget,
 	array: ArrayWidget,
 
@@ -35,4 +36,4 @@ export const widgets: WidgetLookup & ExtensionWidgets = {
 	NumericResource: NumericResourceWidget,
 };
 
-export { FormWidgetProvider } from './FormWidgetProvider';
+export * from './FormWidgetProvider';
