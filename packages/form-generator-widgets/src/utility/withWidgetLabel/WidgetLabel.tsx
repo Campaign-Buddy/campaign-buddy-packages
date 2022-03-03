@@ -1,7 +1,7 @@
 import { AggregationSupport } from '@campaign-buddy/form-generator';
 import { FieldSettings } from '@campaign-buddy/frontend-types';
-import { FormGroup, Button, MenuPopover, Icon } from '@campaign-buddy/core-ui';
-import React, { useMemo } from 'react';
+import { Button, MenuPopover, Icon } from '@campaign-buddy/core-ui';
+import React, { useCallback, useMemo } from 'react';
 import { useBooleanState } from '@campaign-buddy/common-hooks';
 import {
 	ConfigurableAggregation,
@@ -47,7 +47,6 @@ export const WidgetLabel: React.FC<WidgetLabelProps> = ({
 	updateFieldSettings,
 	configurableAggregations,
 	label,
-	children,
 }) => {
 	const [isSettingsMenuOpen, openSettingsMenu, closeSettingsMenu] =
 		useBooleanState();
@@ -70,6 +69,15 @@ export const WidgetLabel: React.FC<WidgetLabelProps> = ({
 		[aggregationSettingOptions, visibilitySettingOptions]
 	);
 
+	const handleOpenSettingsMenu = useCallback(
+		(e: React.MouseEvent) => {
+			e.preventDefault();
+			e.stopPropagation();
+			openSettingsMenu();
+		},
+		[openSettingsMenu]
+	);
+
 	const labelElements = [<span key="label-text">{label}</span>];
 
 	if (hasAggregations) {
@@ -88,7 +96,7 @@ export const WidgetLabel: React.FC<WidgetLabelProps> = ({
 			>
 				<Button
 					key="settings-button"
-					onClick={openSettingsMenu}
+					onClick={handleOpenSettingsMenu}
 					icon="settings"
 					style="minimal"
 					size="small"
@@ -98,15 +106,8 @@ export const WidgetLabel: React.FC<WidgetLabelProps> = ({
 	}
 
 	return (
-		<FormGroup
-			labelFor=""
-			label={
-				<LabelContainer isMenuOpen={isSettingsMenuOpen}>
-					{labelElements}
-				</LabelContainer>
-			}
-		>
-			{children}
-		</FormGroup>
+		<LabelContainer isMenuOpen={isSettingsMenuOpen}>
+			{labelElements}
+		</LabelContainer>
 	);
 };

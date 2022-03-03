@@ -3,33 +3,33 @@ import {
 	Input,
 	AggregatedTextInput,
 	AggregatedDisplayText,
+	FormGroup,
 } from '@campaign-buddy/core-ui';
-import { WidgetProps } from '@campaign-buddy/form-generator';
 import { useAggregationContainsBase } from '../utility';
+import { CampaignBuddyWidgetProps } from '../CampaignBuddyWidgetProps';
 
-export const StringWidget: React.FC<WidgetProps<string, string>> = ({
-	value,
-	aggregatedValue,
-	onChange,
-	aggregation,
-}) => {
-	const isEditable = useAggregationContainsBase(aggregation);
+export const StringWidget: React.FC<CampaignBuddyWidgetProps<string, string>> =
+	({ value, aggregatedValue, onChange, aggregation, label }) => {
+		const isEditable = useAggregationContainsBase(aggregation);
 
-	if (aggregation && !isEditable) {
-		return (
-			<AggregatedDisplayText>{aggregatedValue ?? ''}</AggregatedDisplayText>
-		);
-	}
+		if (aggregation && !isEditable) {
+			return (
+				<FormGroup label={label} labelFor="">
+					<AggregatedDisplayText>{aggregatedValue ?? ''}</AggregatedDisplayText>
+				</FormGroup>
+			);
+		}
 
-	if (aggregation) {
-		return (
-			<AggregatedTextInput
-				value={value ?? ''}
-				aggregatedDisplayValue={aggregatedValue ?? ''}
-				onChange={onChange}
-			/>
-		);
-	}
+		if (aggregation) {
+			return (
+				<AggregatedTextInput
+					value={value ?? ''}
+					aggregatedDisplayValue={aggregatedValue ?? ''}
+					onChange={onChange}
+					label={label}
+				/>
+			);
+		}
 
-	return <Input value={value ?? ''} onChange={onChange} />;
-};
+		return <Input label={label} value={value ?? ''} onChange={onChange} />;
+	};

@@ -5,7 +5,7 @@ import { StyledButton, ButtonStyle } from './Button.styled';
 interface ButtonProps
 	extends Omit<React.ComponentProps<'button'>, 'style' | 'onClick' | 'ref'> {
 	icon?: IconName;
-	onClick?: () => void;
+	onClick?: (event: React.MouseEvent<HTMLElement, MouseEvent>) => void;
 	style?: ButtonStyle;
 	buttonRef?: React.RefObject<HTMLButtonElement>;
 	size?: 'small' | 'normal' | 'large';

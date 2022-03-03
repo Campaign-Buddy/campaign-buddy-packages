@@ -79,7 +79,7 @@ export const NumberInput: React.FC<NumberInputProps> = ({
 		} catch {
 			/* :shrug: */
 		}
-	}, [internalValue]);
+	}, [internalValue, onChange]);
 
 	const step = useCallback(
 		(value: number) => {
@@ -110,7 +110,7 @@ export const NumberInput: React.FC<NumberInputProps> = ({
 
 			onKeyDownProps?.(event);
 		},
-		[onConfirm, onKeyDownProps]
+		[onConfirm, onKeyDownProps, stepDown, stepUp]
 	);
 
 	const onBlur = useCallback(
@@ -121,15 +121,18 @@ export const NumberInput: React.FC<NumberInputProps> = ({
 		[onConfirm, onBlurProps]
 	);
 
-	const handleChange = useCallback((event) => {
-		setInternalValue(event.target.value);
+	const handleChange = useCallback(
+		(event) => {
+			setInternalValue(event.target.value);
 
-		const numValue = parseFloat(event.target.value);
+			const numValue = parseFloat(event.target.value);
 
-		if (!isNaN(numValue)) {
-			onChange(numValue);
-		}
-	}, []);
+			if (!isNaN(numValue)) {
+				onChange(numValue);
+			}
+		},
+		[onChange]
+	);
 
 	return (
 		<FormGroup label={label} labelFor={id}>

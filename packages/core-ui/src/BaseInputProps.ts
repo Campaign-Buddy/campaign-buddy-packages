@@ -3,7 +3,7 @@ import React from 'react';
 export interface CoreInputProps<T> {
 	value: T;
 	onChange: (value: T) => void;
-	label?: string;
+	label?: React.ReactNode;
 }
 
 export type BaseInputProps<

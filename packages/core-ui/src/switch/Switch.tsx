@@ -25,7 +25,9 @@ StyledSwitch.defaultProps = {
 	theme: defaultTheme,
 };
 
-type SwitchProps = BaseInputProps<boolean>;
+interface SwitchProps extends Omit<BaseInputProps<boolean>, 'label'> {
+	label: string;
+}
 
 export const Switch: React.FC<SwitchProps> = ({
 	value,

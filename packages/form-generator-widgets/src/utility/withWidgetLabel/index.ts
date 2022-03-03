@@ -1,2 +1,2 @@
-export * from './WidgetLabel';
 export { ConfigurableAggregation } from './useAggregationSettingOptions';
+export * from './withWidgetLabel';
