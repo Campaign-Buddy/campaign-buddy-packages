@@ -39,7 +39,7 @@ export const FormGroup: React.FC<FormGroupProps> = ({
 			label={
 				onClick && label ? <span onClick={handleClick}>{label}</span> : label
 			}
-			labelFor={labelFor}
+			labelFor={labelFor ?? ''}
 			className={className}
 		>
 			{children}
