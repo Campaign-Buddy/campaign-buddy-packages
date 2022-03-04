@@ -1,6 +1,6 @@
 import { AggregationSupport } from '@campaign-buddy/form-generator';
 import { FieldSettings } from '@campaign-buddy/frontend-types';
-import { Button, MenuPopover, Icon } from '@campaign-buddy/core-ui';
+import { Button, MenuPopover, Icon, Tooltip } from '@campaign-buddy/core-ui';
 import React, { useCallback, useMemo } from 'react';
 import { useBooleanState } from '@campaign-buddy/common-hooks';
 import {
@@ -11,7 +11,18 @@ import { useVisibilitySettingOptions } from './useVisibilitySettingOptions';
 import styled from 'styled-components';
 import { useShouldShowAggregationIndicator } from '../../FormWidgetProvider';
 
-const LabelContainer = styled.span<{ isMenuOpen: boolean }>`
+const SettingsButtonContainer = styled.span<{ isMenuOpen: boolean }>`
+	& .bp3-popover2-target {
+		opacity: ${({ isMenuOpen }) => (isMenuOpen ? 1 : 0)};
+		transition: opacity 0.2s;
+	}
+
+	.bp3-label:hover & .bp3-popover2-target {
+		opacity: 1;
+	}
+`;
+
+const LabelContainer = styled.span`
 	display: inline-flex;
 	align-items: center;
 	gap: 8px;
@@ -19,13 +30,6 @@ const LabelContainer = styled.span<{ isMenuOpen: boolean }>`
 
 	& .bp3-popover2-target {
 		margin: 0 !important;
-
-		opacity: ${({ isMenuOpen }) => (isMenuOpen ? 1 : 0)};
-		transition: opacity 0.2s;
-	}
-
-	.bp3-label:hover & .bp3-popover2-target {
-		opacity: 1;
 	}
 `;
 
@@ -91,13 +95,18 @@ export const WidgetLabel: React.FC<WidgetLabelProps> = ({
 
 	if (hasAggregations && shouldShowAggregationIndicator) {
 		labelElements.push(
-			<Icon key="aggregation-indicator" icon="predictive-analysis" />
+			<Tooltip text="Some or all of this field may be calculated">
+				<Icon key="aggregation-indicator" icon="predictive-analysis" />
+			</Tooltip>
 		);
 	}
 
 	if (menuItems.length > 0) {
 		labelElements.push(
-			<span onClick={eatClicks}>
+			<SettingsButtonContainer
+				onClick={eatClicks}
+				isMenuOpen={isSettingsMenuOpen}
+			>
 				<MenuPopover
 					items={menuItems}
 					onClose={closeSettingsMenu}
@@ -112,13 +121,9 @@ export const WidgetLabel: React.FC<WidgetLabelProps> = ({
 						size="small"
 					/>
 				</MenuPopover>
-			</span>
+			</SettingsButtonContainer>
 		);
 	}
 
-	return (
-		<LabelContainer isMenuOpen={isSettingsMenuOpen}>
-			{labelElements}
-		</LabelContainer>
-	);
+	return <LabelContainer>{labelElements}</LabelContainer>;
 };
