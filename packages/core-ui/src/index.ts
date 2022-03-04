@@ -15,3 +15,4 @@ export * from './spinner';
 export * from './switch';
 export * from './tag';
 export * from './text';
+export * from './tooltip';
