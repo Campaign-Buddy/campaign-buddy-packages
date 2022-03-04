@@ -31,6 +31,7 @@ export const StatWidget: React.FC<CBWidgetProps<Stat, StatAggregation>> = ({
 	value,
 	onChange,
 	label,
+	rawLabel,
 	aggregatedValue,
 	aggregation,
 }) => {
@@ -70,7 +71,7 @@ export const StatWidget: React.FC<CBWidgetProps<Stat, StatAggregation>> = ({
 						baseValueLabel={
 							baseHasAggregation
 								? 'Additional base modifier'
-								: `${label} (base value)`
+								: `${rawLabel} (base value)`
 						}
 						fontSize={20}
 						hideButton
@@ -90,7 +91,7 @@ export const StatWidget: React.FC<CBWidgetProps<Stat, StatAggregation>> = ({
 						baseValueLabel={
 							bonusHasAggregation
 								? 'Additional bonus modifier'
-								: `${label} (bonus)`
+								: `${rawLabel} (bonus)`
 						}
 						hideButton
 					/>

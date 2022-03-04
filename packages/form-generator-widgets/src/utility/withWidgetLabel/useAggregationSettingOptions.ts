@@ -19,7 +19,6 @@ export function useAggregationSettingOptions(
 	aggregationSupport: AggregationSupport<any>,
 	updateFieldSettings: ((fieldSettings: FieldSettings<any>) => void) | undefined
 ): { items: MenuItem[]; hasAggregations: boolean } {
-	console.log(aggregationSupport);
 	const menuItems = useMemo(
 		() =>
 			updateFieldSettings &&

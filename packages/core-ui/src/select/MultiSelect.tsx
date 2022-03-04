@@ -23,7 +23,7 @@ export interface MultiSelectProps<TData> {
 		removed: IOption<TData>[],
 		previousValue: IOption<TData>[]
 	) => void;
-	label?: string;
+	label?: React.ReactNode;
 	placeholder?: string;
 }
 

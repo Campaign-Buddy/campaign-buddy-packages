@@ -20,7 +20,7 @@ export interface AsyncMultiSelectProps<TData> {
 	) => void;
 	initialOptions?: IOption<TData>[];
 	placeholder?: string;
-	label?: string;
+	label?: React.ReactNode;
 	disabled?: boolean;
 	isLoading?: boolean;
 }

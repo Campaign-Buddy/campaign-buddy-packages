@@ -14,7 +14,7 @@ export interface SelectProps<TData> {
 	options: IOption<TData>[];
 	value: IOption<TData> | undefined;
 	onChange: (value: IOption<TData>) => void;
-	label?: string;
+	label?: React.ReactNode;
 	placeholder?: string;
 	isDisabled?: boolean;
 }

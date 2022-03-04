@@ -6,11 +6,11 @@ import {
 	Spinner,
 } from '@campaign-buddy/core-ui';
 import { EntitySummary } from '@campaign-buddy/frontend-types';
-import { WidgetProps } from '@campaign-buddy/form-generator';
 import React, { useCallback, useMemo } from 'react';
 import { useEntityPickerState } from './useEntityPickerState';
 import { useAggregationContainsBase } from '../utility';
 import { EntityAggregation } from '@campaign-buddy/json-schema-core';
+import { CBWidgetProps } from '../CBWidgetProps';
 
 interface EntityPickerData {
 	availableEntityIds?: string[];
@@ -20,7 +20,7 @@ interface EntityPickerData {
 }
 
 export const EntityPickerWidget: React.FC<
-	WidgetProps<EntityPickerData, EntityAggregation>
+	CBWidgetProps<EntityPickerData, EntityAggregation>
 > = ({
 	value,
 	aggregatedValue,

@@ -35,8 +35,26 @@ export const widgets: WidgetLookup & ExtensionWidgets = {
 			path: '$.bonus',
 		},
 	]),
-	EntityPicker: EntityPickerWidget,
-	MultiEntityPicker: MultiEntityPickerWidget,
+	EntityPicker: withWidgetLabel(EntityPickerWidget, [
+		{
+			label: 'Compute selected value?',
+			path: '$.entity',
+		},
+		{
+			label: 'Compute available options?',
+			path: '$.availableEntityIds',
+		},
+	]),
+	MultiEntityPicker: withWidgetLabel(MultiEntityPickerWidget, [
+		{
+			label: 'Compute selected values?',
+			path: '$.entities',
+		},
+		{
+			label: 'Compute available options?',
+			path: '$.availableEntityIds',
+		},
+	]),
 	RichText: RichTextWidget,
 	MultiChoice: MultiChoiceWidget,
 	Choice: ChoiceWidget,

@@ -22,7 +22,7 @@ export function withWidgetLabel<T>(
 			/>
 		);
 
-		return <Component {...props} label={label} />;
+		return <Component {...props} label={label} rawLabel={rawLabel} />;
 	};
 
 	return WithWidgetLabel;

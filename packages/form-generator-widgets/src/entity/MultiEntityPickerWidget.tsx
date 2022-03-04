@@ -7,11 +7,11 @@ import {
 	Tag,
 } from '@campaign-buddy/core-ui';
 import { EntitySummary } from '@campaign-buddy/frontend-types';
-import { WidgetProps } from '@campaign-buddy/form-generator';
 import { MultiEntityAggregation } from '@campaign-buddy/json-schema-core';
 import React, { useCallback, useMemo } from 'react';
 import { useEntityPickerState } from './useEntityPickerState';
 import { TagContainer, useAggregationContainsBase } from '../utility';
+import { CBWidgetProps } from '../CBWidgetProps';
 
 interface MultiEntityPickerData {
 	availableEntityIds?: string[];
@@ -21,7 +21,7 @@ interface MultiEntityPickerData {
 }
 
 export const MultiEntityPickerWidget: React.FC<
-	WidgetProps<MultiEntityPickerData, MultiEntityAggregation>
+	CBWidgetProps<MultiEntityPickerData, MultiEntityAggregation>
 > = ({
 	value,
 	aggregatedValue,
