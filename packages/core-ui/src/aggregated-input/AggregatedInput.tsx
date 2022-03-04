@@ -119,7 +119,6 @@ export const AggregatedInput = <
 				value={value}
 				onChange={onChange}
 				label={baseValueLabel}
-				autoFocus
 				{...rest}
 			/>
 			<AggregationPreviewText>

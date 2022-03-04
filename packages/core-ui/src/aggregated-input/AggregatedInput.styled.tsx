@@ -51,7 +51,7 @@ export const InteractiveDisplayText = styled(AggregatedDisplayText)`
 `;
 
 export const PopoverContentRoot = styled.div`
-	width: 400px;
+	width: 300px;
 `;
 PopoverContentRoot.defaultProps = {
 	theme: defaultTheme,
