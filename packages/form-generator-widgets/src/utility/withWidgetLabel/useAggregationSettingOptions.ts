@@ -52,17 +52,7 @@ export function useAggregationSettingOptions(
 			return [];
 		}
 
-		if (menuItems.length === 1) {
-			return menuItems;
-		}
-
-		return [
-			{
-				displayText: 'Computed property settings',
-				icon: 'predictive-analysis',
-				subItems: menuItems,
-			},
-		] as MenuItem[];
+		return menuItems;
 	}, [
 		availableActions.canUpdateAggregationSettings,
 		hasAggregations,
