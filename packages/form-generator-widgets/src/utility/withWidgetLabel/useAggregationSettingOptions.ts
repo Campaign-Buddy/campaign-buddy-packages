@@ -147,7 +147,6 @@ function getAggregationSettingItem(
 			);
 			updateAggregationSettings(updatedCopy);
 		},
-		shouldCloseMenuOnClick: false,
 	};
 }
 

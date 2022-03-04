@@ -69,14 +69,14 @@ export const WidgetLabel: React.FC<WidgetLabelProps> = ({
 		[aggregationSettingOptions, visibilitySettingOptions]
 	);
 
-	const handleOpenSettingsMenu = useCallback(
-		(e: React.MouseEvent) => {
-			e.preventDefault();
-			e.stopPropagation();
-			openSettingsMenu();
-		},
-		[openSettingsMenu]
-	);
+	const eatClicks = useCallback((e: React.MouseEvent) => {
+		e.preventDefault();
+		e.stopPropagation();
+	}, []);
+
+	const handleOpenSettingsMenu = useCallback(() => {
+		openSettingsMenu();
+	}, [openSettingsMenu]);
 
 	const labelElements = [<span key="label-text">{label}</span>];
 
@@ -88,20 +88,22 @@ export const WidgetLabel: React.FC<WidgetLabelProps> = ({
 
 	if (menuItems.length > 0) {
 		labelElements.push(
-			<MenuPopover
-				items={menuItems}
-				onClose={closeSettingsMenu}
-				isOpen={isSettingsMenuOpen}
-				key="settings-menu"
-			>
-				<Button
-					key="settings-button"
-					onClick={handleOpenSettingsMenu}
-					icon="settings"
-					style="minimal"
-					size="small"
-				/>
-			</MenuPopover>
+			<span onClick={eatClicks}>
+				<MenuPopover
+					items={menuItems}
+					onClose={closeSettingsMenu}
+					isOpen={isSettingsMenuOpen}
+					key="settings-menu"
+				>
+					<Button
+						key="settings-button"
+						onClick={handleOpenSettingsMenu}
+						icon="settings"
+						style="minimal"
+						size="small"
+					/>
+				</MenuPopover>
+			</span>
 		);
 	}
 

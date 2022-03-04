@@ -70,7 +70,16 @@ export const widgets: WidgetLookup & ExtensionWidgets = {
 	]),
 	Icon: () => null,
 	SchemaBuilder: () => null,
-	NumericResource: NumericResourceWidget,
+	NumericResource: withWidgetLabel(NumericResourceWidget, [
+		{
+			label: 'Compute current value?',
+			path: '$.current',
+		},
+		{
+			label: 'Compute max value?',
+			path: '$.max',
+		},
+	]),
 };
 
 export * from './FormWidgetProvider';

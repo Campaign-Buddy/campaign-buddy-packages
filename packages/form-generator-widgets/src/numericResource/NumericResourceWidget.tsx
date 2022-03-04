@@ -3,10 +3,10 @@ import {
 	AggregatedNumberInput,
 	FormGroup,
 } from '@campaign-buddy/core-ui';
-import { WidgetProps } from '@campaign-buddy/form-generator';
 import { NumericResourceAggregate } from '@campaign-buddy/json-schema-core';
 import React, { useCallback } from 'react';
 import styled from 'styled-components';
+import { CBWidgetProps } from '../CBWidgetProps';
 import { useAggregationContainsBase } from '../utility';
 
 const NumericResourceContainer = styled.div`
@@ -22,8 +22,8 @@ interface NumericResource {
 }
 
 export const NumericResourceWidget: React.FC<
-	WidgetProps<NumericResource, NumericResourceAggregate>
-> = ({ value, aggregatedValue, aggregation, onChange, label }) => {
+	CBWidgetProps<NumericResource, NumericResourceAggregate>
+> = ({ value, aggregatedValue, aggregation, onChange, label, rawLabel }) => {
 	const isMaxEditable = useAggregationContainsBase(aggregation?.max);
 	const isCurrentEditable = useAggregationContainsBase(aggregation?.current);
 	const max = aggregatedValue?.max ?? value?.max ?? 0;
@@ -65,7 +65,9 @@ export const NumericResourceWidget: React.FC<
 						onChange={onCurrentChange}
 						hideButton
 						baseValueLabel={
-							currentHasAggregation ? `${label} modifier` : `${label} (current)`
+							currentHasAggregation
+								? `${rawLabel} modifier`
+								: `${rawLabel} (current)`
 						}
 						fontSize={20}
 					/>
@@ -83,8 +85,8 @@ export const NumericResourceWidget: React.FC<
 						hideButton
 						baseValueLabel={
 							maxHasAggregation
-								? `${label} maximum modifier`
-								: `${label} (maximum value)`
+								? `${rawLabel} maximum modifier`
+								: `${rawLabel} (maximum value)`
 						}
 						fontSize={20}
 					/>

@@ -52,13 +52,11 @@ export function useVisibilitySettingOptions(
 						displayText: 'Default visibility',
 						icon: !fieldSettings?.visibleRoles ? 'tick' : 'blank',
 						onClick: () => setVisibility(),
-						shouldCloseMenuOnClick: false,
 					},
 					...visibilitySettings.map<MenuItem>((setting) => ({
 						displayText: setting.label,
 						icon: isActiveVisibilitySetting(setting.roles) ? 'tick' : 'blank',
 						onClick: () => setVisibility(setting.roles),
-						shouldCloseMenuOnClick: false,
 					})),
 				],
 			},
