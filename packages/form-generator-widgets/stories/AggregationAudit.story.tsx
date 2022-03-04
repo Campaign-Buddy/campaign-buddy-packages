@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from 'react';
-import { IOption, Select } from '@campaign-buddy/core-ui';
+import { IOption, Select, Switch } from '@campaign-buddy/core-ui';
 import { FormGenerator } from '@campaign-buddy/form-generator';
 import { widgets, FormWidgetProvider } from '../src';
 import { MockMediaApi } from './mockMediaApi';
@@ -45,6 +45,8 @@ const visibilitySettings = [
 
 export const Primary = () => {
 	const [state, setState] = useState({});
+	const [shouldShowAggregationIcon, setShouldShowAggregationIcon] =
+		useState(true);
 	const [currentRole, setCurrentRole] = useState(roleOptions[0]);
 	const [fieldSettings, setFieldSettings] = useState<EntityFieldSettings>({});
 
@@ -58,6 +60,13 @@ export const Primary = () => {
 
 	return (
 		<div>
+			<div style={{ marginBottom: '16px' }}>
+				<Switch
+					label="Show aggregation icon"
+					value={shouldShowAggregationIcon}
+					onChange={setShouldShowAggregationIcon}
+				/>
+			</div>
 			<Select
 				label="Current user role"
 				options={roleOptions}
@@ -69,6 +78,7 @@ export const Primary = () => {
 				queryClient={queryClient}
 				visibilitySettings={visibilitySettings}
 				availableActions={availableActions}
+				showAggregationIndicator={shouldShowAggregationIcon}
 			>
 				<FormGenerator
 					data={state}

@@ -19,7 +19,11 @@ const Template: Story = () => {
 	const entityApi = useMemo(() => new MockEntityApi(), []);
 
 	return (
-		<FormWidgetProvider mediaApi={mediaApi} queryClient={queryClient}>
+		<FormWidgetProvider
+			mediaApi={mediaApi}
+			queryClient={queryClient}
+			showAggregationIndicator
+		>
 			<FormGenerator
 				schema={characterSchema}
 				data={data}

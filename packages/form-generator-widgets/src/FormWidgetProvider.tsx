@@ -16,6 +16,7 @@ interface FormWidgetContextData {
 	mediaApi?: MediaApi;
 	visibilitySettings?: VisibilitySetting[];
 	availableActions?: AvailableFormActions;
+	showAggregationIndicator?: boolean;
 }
 
 const FormWidgetContext = createContext<FormWidgetContextData>({});
@@ -25,6 +26,7 @@ export interface FormWidgetProviderProps {
 	mediaApi: MediaApi;
 	visibilitySettings?: VisibilitySetting[];
 	availableActions?: AvailableFormActions;
+	showAggregationIndicator?: boolean;
 }
 
 export const FormWidgetProvider: React.FC<FormWidgetProviderProps> = ({
@@ -33,10 +35,16 @@ export const FormWidgetProvider: React.FC<FormWidgetProviderProps> = ({
 	mediaApi,
 	visibilitySettings,
 	availableActions,
+	showAggregationIndicator,
 }) => {
 	const contextValue = useMemo(
-		() => ({ mediaApi, visibilitySettings, availableActions }),
-		[availableActions, mediaApi, visibilitySettings]
+		() => ({
+			mediaApi,
+			visibilitySettings,
+			availableActions,
+			showAggregationIndicator,
+		}),
+		[availableActions, mediaApi, showAggregationIndicator, visibilitySettings]
 	);
 	return (
 		<QueryClientProvider client={queryClient}>
@@ -69,4 +77,9 @@ export function useAvailableActions(): AvailableFormActions {
 			canUpdateVisibilitySettings: false,
 		}
 	);
+}
+
+export function useShouldShowAggregationIndicator(): boolean {
+	const { showAggregationIndicator } = useContext(FormWidgetContext);
+	return Boolean(showAggregationIndicator);
 }

@@ -9,6 +9,7 @@ import {
 } from './useAggregationSettingOptions';
 import { useVisibilitySettingOptions } from './useVisibilitySettingOptions';
 import styled from 'styled-components';
+import { useShouldShowAggregationIndicator } from '../../FormWidgetProvider';
 
 const LabelContainer = styled.span<{ isMenuOpen: boolean }>`
 	display: inline-flex;
@@ -55,6 +56,7 @@ export const WidgetLabel: React.FC<WidgetLabelProps> = ({
 	configurableAggregations,
 	label,
 }) => {
+	const shouldShowAggregationIndicator = useShouldShowAggregationIndicator();
 	const [isSettingsMenuOpen, openSettingsMenu, closeSettingsMenu] =
 		useBooleanState();
 
@@ -87,7 +89,7 @@ export const WidgetLabel: React.FC<WidgetLabelProps> = ({
 
 	const labelElements = [<LabelText key="label-text">{label}</LabelText>];
 
-	if (hasAggregations) {
+	if (hasAggregations && shouldShowAggregationIndicator) {
 		labelElements.push(
 			<Icon key="aggregation-indicator" icon="predictive-analysis" />
 		);
