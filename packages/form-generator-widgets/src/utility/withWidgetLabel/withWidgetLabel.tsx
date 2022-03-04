@@ -1,11 +1,11 @@
 import { WidgetProps } from '@campaign-buddy/form-generator';
 import React from 'react';
-import { CampaignBuddyWidgetProps } from '../../CampaignBuddyWidgetProps';
+import { CBWidgetProps } from '../../CBWidgetProps';
 import { ConfigurableAggregation } from './useAggregationSettingOptions';
 import { WidgetLabel } from './WidgetLabel';
 
 export function withWidgetLabel<T>(
-	Component: React.FC<CampaignBuddyWidgetProps<T, any>>,
+	Component: React.FC<CBWidgetProps<T, any>>,
 	configurableAggregations?: ConfigurableAggregation[]
 ): React.FC<WidgetProps<T>> {
 	const WithWidgetLabel: React.FC<WidgetProps<T>> = ({
