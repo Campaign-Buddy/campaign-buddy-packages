@@ -56,8 +56,18 @@ export const widgets: WidgetLookup & ExtensionWidgets = {
 		},
 	]),
 	RichText: RichTextWidget,
-	MultiChoice: MultiChoiceWidget,
-	Choice: ChoiceWidget,
+	MultiChoice: withWidgetLabel(MultiChoiceWidget, [
+		{
+			label: 'Compute selected values?',
+			path: '$.selectedOptions',
+		},
+	]),
+	Choice: withWidgetLabel(ChoiceWidget, [
+		{
+			label: 'Compute selected value?',
+			path: '$.selectedOption',
+		},
+	]),
 	Icon: () => null,
 	SchemaBuilder: () => null,
 	NumericResource: NumericResourceWidget,

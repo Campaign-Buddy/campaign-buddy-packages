@@ -1,7 +1,7 @@
 import { FormGroup, IOption, MultiSelect, Tag } from '@campaign-buddy/core-ui';
-import { WidgetProps } from '@campaign-buddy/form-generator';
 import { MultiChoiceAggregation } from '@campaign-buddy/json-schema-core';
 import React, { useCallback, useMemo } from 'react';
+import { CBWidgetProps } from '../CBWidgetProps';
 import { useAggregationContainsBase, TagContainer } from '../utility';
 import { Option } from './Option';
 
@@ -12,7 +12,7 @@ interface MultiChoice {
 }
 
 export const MultiChoiceWidget: React.FC<
-	WidgetProps<MultiChoice, MultiChoiceAggregation>
+	CBWidgetProps<MultiChoice, MultiChoiceAggregation>
 > = ({ value, onChange, aggregatedValue, schema, label, aggregation }) => {
 	const isEditable = useAggregationContainsBase(aggregation?.selectedOptions);
 
