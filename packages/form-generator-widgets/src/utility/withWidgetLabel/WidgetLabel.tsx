@@ -14,17 +14,24 @@ const LabelContainer = styled.span<{ isMenuOpen: boolean }>`
 	display: inline-flex;
 	align-items: center;
 	gap: 8px;
+	max-width: 100%;
 
-	& > .bp3-popover2-target {
+	& .bp3-popover2-target {
 		margin: 0 !important;
 
 		opacity: ${({ isMenuOpen }) => (isMenuOpen ? 1 : 0)};
 		transition: opacity 0.2s;
 	}
 
-	.bp3-label:hover & > .bp3-popover2-target {
+	.bp3-label:hover & .bp3-popover2-target {
 		opacity: 1;
 	}
+`;
+
+const LabelText = styled.span`
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 `;
 
 interface WidgetLabelProps {
@@ -78,7 +85,7 @@ export const WidgetLabel: React.FC<WidgetLabelProps> = ({
 		openSettingsMenu();
 	}, [openSettingsMenu]);
 
-	const labelElements = [<span key="label-text">{label}</span>];
+	const labelElements = [<LabelText key="label-text">{label}</LabelText>];
 
 	if (hasAggregations) {
 		labelElements.push(
