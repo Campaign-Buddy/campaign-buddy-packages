@@ -10,7 +10,7 @@
     "lodash.clonedeep": "^4.5.0",
     "react-query": "^3.34.12",
     "semver": "^7.3.5",
-    "styled-components": "^5.3.1"
+    "styled-components": "^5.2.3"
   },
   "devDependencies": {
     "@campaign-buddy/form-generator": "0.1.0",
