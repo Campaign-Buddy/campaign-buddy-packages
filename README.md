@@ -9,12 +9,13 @@ This repository houses several frontend packages (using yarn workspaces) used to
 	- [X] Some DMs may want to disable aggregations completely on certain fields, there should be a system level way to disable aggregates per field (or at least it should be made available to the widget components)
 	- [X] Some DMs may want to hide certain fields from players that would otherwise have access to the data
 	- [X] Update form generator docs
+- [ ] Add image widget
+- [ ] Replace `existing-image-popover` with `image-picker-menu-popover`
 - [ ] Always show edit button in aggregated text when display text is whitespace
 - [ ] Add json-schema validation to form generator to guarantee that form data conforms to the provided schema
 	- Encapsulate validator in new package to be used in backend as well?
 - [ ] Add quick up and down buttons for numeric resource
 	- At the very least, keyboard shortcuts
-- [ ] Add image widget
 - [ ] UI tests
 	- [ ] Integration test for form-generator-widgets
 - [ ] Localization process (for packages that have copy) ([crowdin](https://crowdin.com/pricing#annual) has a free tier)
