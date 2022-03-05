@@ -11,6 +11,10 @@ This repository houses several frontend packages (using yarn workspaces) used to
 	- [X] Update form generator docs
 - [ ] Add image widget
 - [ ] Replace `existing-image-popover` with `image-picker-menu-popover`
+- [X] Investigate why image url aggregation is an empty array when the aggregation has no value
+	- [ ] Fix the problem. Hypothesis: json-path-ex is returning an empty array when querying for a match because the data doesn't exist
+- [ ] Escape curly braces when serializing sub-query results
+	- [ ] Investigate query injection possibility with sub-queries
 - [ ] Always show edit button in aggregated text when display text is whitespace
 - [ ] Add json-schema validation to form generator to guarantee that form data conforms to the provided schema
 	- Encapsulate validator in new package to be used in backend as well?
