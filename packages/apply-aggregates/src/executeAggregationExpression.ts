@@ -53,7 +53,10 @@ export function executeAggregationExpression(
 	customDataAccessor: (path: string, value: any) => any
 ): any {
 	const cleanedExpression = resolveSubQueries(rootData, expression, {
-		serializeObjectsInSubQuery: JSON.stringify,
+		serializeObjectsInSubQuery: (result) => {
+			console.log(result);
+			return JSON.stringify(result);
+		},
 		customDataAccessor,
 	});
 

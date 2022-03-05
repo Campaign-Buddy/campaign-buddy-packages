@@ -12,7 +12,8 @@ This repository houses several frontend packages (using yarn workspaces) used to
 - [ ] Add image widget
 - [ ] Replace `existing-image-popover` with `image-picker-menu-popover`
 - [X] Investigate why image url aggregation is an empty array when the aggregation has no value
-	- [ ] Fix the problem. Hypothesis: json-path-ex is returning an empty array when querying for a match because the data doesn't exist
+	- [X] Fix the problem. Hypothesis: json-path-ex is returning an empty array when querying for a match because the data doesn't exist
+	- [ ] Update handling of widgets to handle undefined aggregatedValue
 - [ ] Escape curly braces when serializing sub-query results
 	- [ ] Investigate query injection possibility with sub-queries
 - [ ] Always show edit button in aggregated text when display text is whitespace

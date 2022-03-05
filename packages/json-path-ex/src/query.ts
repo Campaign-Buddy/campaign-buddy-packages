@@ -151,6 +151,10 @@ function _query(json: any, q: string, options: QueryOptions): any | undefined {
 
 	allResults = allResults.filter(hasData);
 
+	if (allResults.length === 0) {
+		return undefined;
+	}
+
 	if (allResults.length === 1) {
 		return allResults[0].data;
 	}
