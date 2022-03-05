@@ -5,10 +5,10 @@ This repository houses several frontend packages (using yarn workspaces) used to
 ## Todo
 
 - [X] Audit form widget handling of aggregates
-- [ ] Think through aggregation settings (and other field level settings)
-	- [ ] Some DMs may want to disable aggregations completely on certain fields, there should be a system level way to disable aggregates per field (or at least it should be made available to the widget components)
-	- [ ] Some DMs may want to hide certain fields from players that would otherwise have access to the data
-	- [ ] Update form generator docs
+- [X] Think through aggregation settings (and other field level settings)
+	- [X] Some DMs may want to disable aggregations completely on certain fields, there should be a system level way to disable aggregates per field (or at least it should be made available to the widget components)
+	- [X] Some DMs may want to hide certain fields from players that would otherwise have access to the data
+	- [X] Update form generator docs
 - [ ] Always show edit button in aggregated text when display text is whitespace
 - [ ] Add json-schema validation to form generator to guarantee that form data conforms to the provided schema
 	- Encapsulate validator in new package to be used in backend as well?
