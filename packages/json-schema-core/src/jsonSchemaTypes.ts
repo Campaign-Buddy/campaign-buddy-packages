@@ -7,7 +7,7 @@ import {
 	DisplayInfo,
 	DisplayInfoWithEnum,
 	EntityAggregation,
-	IconAggregation,
+	ImageAggregation,
 	MultiChoiceAggregation,
 	MultiEntityAggregation,
 	NumericResourceAggregate,
@@ -209,12 +209,12 @@ export const richText: CBSchemaFunc<never> = (info) => ({
 	$defaultVisibleRoles: info?.defaultVisibleRoles,
 });
 
-export const icon: CBSchemaFunc<IconAggregation> = (info) => ({
+export const image: CBSchemaFunc<ImageAggregation> = (info) => ({
 	type: 'object',
 	properties: {
 		url: string(),
 	},
-	$uiWidget: Widgets.Icon,
+	$uiWidget: Widgets.Image,
 	title: info?.title,
 	description: info?.description,
 	$uiCols: info?.cols,

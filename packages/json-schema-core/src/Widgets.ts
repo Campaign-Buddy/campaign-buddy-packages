@@ -5,7 +5,7 @@ export enum Widgets {
 	RichText = 'RichText',
 	MultiChoice = 'MultiChoice',
 	Choice = 'Choice',
-	Icon = 'Icon',
+	Image = 'Image',
 	SchemaBuilder = 'SchemaBuilder',
 	NumericResource = 'NumericResource',
 }

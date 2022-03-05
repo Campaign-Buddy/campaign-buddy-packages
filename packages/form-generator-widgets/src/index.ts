@@ -14,6 +14,7 @@ import { EntityPickerWidget, MultiEntityPickerWidget } from './entity';
 import { NumericResourceWidget } from './numericResource';
 import { RichTextWidget } from './richText';
 import { withWidgetLabel } from './utility';
+import { ImageWidget } from './image';
 
 type ExtensionWidgets = Record<Widgets, React.FC<WidgetProps<any>>>;
 
@@ -68,7 +69,12 @@ export const widgets: WidgetLookup & ExtensionWidgets = {
 			path: '$.selectedOption',
 		},
 	]),
-	Icon: () => null,
+	Image: withWidgetLabel(ImageWidget, [
+		{
+			label: 'Compute image?',
+			path: '$.url',
+		},
+	]),
 	SchemaBuilder: () => null,
 	NumericResource: withWidgetLabel(NumericResourceWidget, [
 		{

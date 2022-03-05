@@ -5,6 +5,7 @@ import {
 	types,
 	UiLayout,
 	MultiEntityAggregation,
+	ImageAggregation,
 } from '@campaign-buddy/json-schema-core';
 import { characterClassEntity } from './characterClass';
 
@@ -95,6 +96,10 @@ addWidgetType<MultiEntityAggregation>(
 			]`,
 	})
 );
+
+addWidgetType<ImageAggregation>('image', types.image, () => ({
+	url: '{$.agg}',
+}));
 
 export const aggregationAuditSchema = types.object({
 	agg: types.string({ title: 'Aggregate Value' }),

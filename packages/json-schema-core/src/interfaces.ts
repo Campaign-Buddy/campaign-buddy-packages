@@ -37,7 +37,7 @@ export interface StatAggregation {
 	bonus?: string;
 }
 
-export interface IconAggregation {
+export interface ImageAggregation {
 	url?: string;
 }
 

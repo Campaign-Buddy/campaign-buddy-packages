@@ -5,6 +5,7 @@
   "license": "MIT",
   "dependencies": {
     "@campaign-buddy/core-ui": "0.1.0",
+    "@campaign-buddy/existing-image-popover": "0.1.0",
     "@campaign-buddy/frontend-types": "0.1.0",
     "@campaign-buddy/rich-text": "0.1.0",
     "lodash.clonedeep": "^4.5.0",
