@@ -31,6 +31,29 @@ export function cleanUiLayout(
 					return '';
 				}
 
+				if (
+					subSchema.type === 'object' &&
+					!subSchema.$uiWidget &&
+					subSchema.properties
+				) {
+					const allProperties = Object.keys(subSchema.properties).map(
+						(key) => `${element}.${key}`
+					);
+
+					const result = cleanUiLayout(
+						allProperties,
+						schema,
+						fieldSettings,
+						currentUserRole
+					);
+
+					if (result.length === 0) {
+						return '';
+					}
+
+					return result;
+				}
+
 				const fieldSettingsAtPath = getDataForPath(
 					element,
 					fieldSettings,

@@ -130,12 +130,6 @@ function addWidgetType<TAggregateShape>(
 			kind: 'whiteSpace',
 			marginBottom: 16,
 		},
-		[
-			[
-				`${name}.base`,
-				`${name}.aggregateEditable`,
-				`${name}.aggregateNonEditable`,
-			],
-		]
+		[[name]]
 	);
 }
