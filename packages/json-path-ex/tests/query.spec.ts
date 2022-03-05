@@ -485,6 +485,11 @@ const testCases: TestCase[] = [
 		query: '$.arr[{$.indicies[{$.idex}]}]',
 		expected: undefined,
 	},
+	{
+		json: {},
+		query: '$.agg',
+		expected: undefined,
+	},
 ];
 
 const errorTestCases: ErrorTestCase[] = [
