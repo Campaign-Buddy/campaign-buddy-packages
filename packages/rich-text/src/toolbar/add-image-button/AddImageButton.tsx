@@ -1,5 +1,7 @@
 import { ToggleButton, MenuPopover, MenuItem } from '@campaign-buddy/core-ui';
 import { Media } from '@campaign-buddy/frontend-types';
+import { ExistingImagePopover } from '@campaign-buddy/existing-image-popover';
+import { useQueryClient } from 'react-query';
 import React, { useCallback, useMemo, useRef, useState } from 'react';
 import { BaseRange, Transforms } from 'slate';
 import { useSlateStatic } from 'slate-react';
@@ -11,7 +13,6 @@ import {
 import { openFilePicker } from '../../openFilePicker';
 import { ImageNode } from '../../types';
 import { useMediaApi } from '../../useMediaApi';
-import { ExistingImagePopover } from './ExistingImagePopover';
 import { ExternalUrlPopover } from './ExternalUrlPopover';
 
 export const AddImageButton: React.FC = () => {
@@ -22,6 +23,7 @@ export const AddImageButton: React.FC = () => {
 		useSelectionSnapshot();
 
 	const mediaApi = useMediaApi();
+	const queryClient = useQueryClient();
 
 	const [openPopover, setOpenPopover] = useState<'none' | 'existing' | 'url'>(
 		'none'
@@ -129,6 +131,8 @@ export const AddImageButton: React.FC = () => {
 					isOpen={openPopover === 'existing' && !isMenuOpen}
 					onClose={closeAllPopovers}
 					onConfirm={insertMedia}
+					queryClient={queryClient}
+					mediaApi={mediaApi}
 				>
 					<ToggleButton
 						icon="media"
