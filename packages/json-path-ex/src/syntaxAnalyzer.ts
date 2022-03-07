@@ -147,9 +147,9 @@ export function popQueryExpression(
 }
 
 export function escapeString(str: string): string {
-	return str.replace(/["'{}.:@<>?()@$[\]\\]/g, (match) => `\\${match}`);
+	return str?.replace(/["'{}.:@<>?()@$[\]\\]/g, (match) => `\\${match}`);
 }
 
 export function unescapeString(str: string): string {
-	return str.replace(/\\(.)/g, (_, character) => character);
+	return str?.replace(/\\(.)/g, (_, character) => character);
 }
