@@ -9,16 +9,21 @@ This repository houses several frontend packages (using yarn workspaces) used to
 	- [X] Some DMs may want to disable aggregations completely on certain fields, there should be a system level way to disable aggregates per field (or at least it should be made available to the widget components)
 	- [X] Some DMs may want to hide certain fields from players that would otherwise have access to the data
 	- [X] Update form generator docs
-- [ ] Add image widget
+- [X] Add image widget
+	- Actually put thought into design
 - [ ] Replace `existing-image-popover` with `image-picker-menu-popover`
 - [X] Investigate why image url aggregation is an empty array when the aggregation has no value
 	- [X] Fix the problem. Hypothesis: json-path-ex is returning an empty array when querying for a match because the data doesn't exist
 	- [ ] Update handling of widgets to handle undefined aggregatedValue
-- [ ] Escape curly braces when serializing sub-query results
-	- [ ] Investigate query injection possibility with sub-queries
+- [X] Escape curly braces when serializing sub-query results
+	- [X] Investigate query injection possibility with sub-queries
 - [ ] Always show edit button in aggregated text when display text is whitespace
 - [ ] Add json-schema validation to form generator to guarantee that form data conforms to the provided schema
 	- Encapsulate validator in new package to be used in backend as well?
+- [ ] Investigate performance of form generator
+	- [ ] Brainstorm ways to prevent re-rendering entire form when only one piece of the data changes
+	- Idea: Every rendered form component "subscribes" to changes at a particular path and when the data prop changes (and when aggregated values change), a diff is a applied ([using some diffing library](https://github.com/AsyncBanana/microdiff)) and any changed paths are published to any subscribers that care, the whole form should never change.
+	- When should the whole form re-render? When the UI layout changes or the schema changes, then it is acceptable to re-render the whole form.
 - [ ] Add quick up and down buttons for numeric resource
 	- At the very least, keyboard shortcuts
 - [ ] UI tests
@@ -60,6 +65,10 @@ Below are some design philosophies which should guide code design and contributi
 ### Backend agnosticism
 
 Frontend packages should be developed agnostic to any particular backend system implementations. Packages and components that need backend functionality should describe the minimum backend API surface needed as an interface in the `@campaign-buddy/frontend-types` package. It is okay for the frontend and the backend to share *concepts*, but no frontend components should ever be making API requests directly.
+
+### Frontend agnosticism
+
+React components from this collection of packages should be as unaware of their consumers as possible. They should not rely on being rendered into a certain element or having a certain width/height. Components should assume they may be rendered into a modal (so they must prefer to use popovers instead of modals where applicable). They should not rely on media queries for responsive behavior since media queries only measure the width of the browser window, not necessarily the width of the container of the component. Components should default to taking up 100% of the width of their parent. Deviations from these guidelines should be visibly and explicitly documented.
 
 ### Focused packages
 
