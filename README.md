@@ -5,6 +5,9 @@ This repository houses several frontend packages (using yarn workspaces) used to
 ## Todo
 
 - [ ] Replace `existing-image-popover` with `image-picker-menu-popover`
+- [ ] Add tool that scans for `@campaign-buddy/` references and makes sure that A) the package exists in the projects package.json and B) the package exists in the tsconfig references
+	- [ ] Add a postinstall script that updates tsconfig?
+	- [ ] Add a tool that scans to make sure cross package references don't use relative imports
 - [ ] Update handling of widgets to handle undefined aggregatedValue
 - [ ] Always show edit button in aggregated text when display text is whitespace
 - [ ] Add json-schema validation to form generator to guarantee that form data conforms to the provided schema
