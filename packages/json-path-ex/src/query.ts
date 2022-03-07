@@ -1,5 +1,9 @@
 import { evaluateFilterExpression } from './filterExpressionEvaluator';
-import { popQueryExpression, QueryExpressionKind } from './syntaxAnalyzer';
+import {
+	escapeString,
+	popQueryExpression,
+	QueryExpressionKind,
+} from './syntaxAnalyzer';
 
 interface EvaluationResult {
 	path: string;
@@ -50,7 +54,7 @@ export function resolveSubQueries(
 		prevQuery = curQuery;
 
 		try {
-			curQuery = curQuery.replace(/\{([^{}]+)\}/g, (match, subQuery) => {
+			curQuery = curQuery.replace(/\{((?:\\.|[^\\{}])+)\}/g, (_, subQuery) => {
 				const result = _query(json, subQuery, options ?? {});
 
 				if (typeof result === 'object' || result === undefined) {
@@ -58,7 +62,11 @@ export function resolveSubQueries(
 						throw new Error(errorMessage);
 					}
 
-					return serializeObjectsInSubQuery(result);
+					return escapeString(serializeObjectsInSubQuery(result));
+				}
+
+				if (typeof result === 'string') {
+					return `"${escapeString(result)}"`;
 				}
 
 				return JSON.stringify(result);

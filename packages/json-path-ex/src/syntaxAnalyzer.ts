@@ -130,7 +130,7 @@ export function popQueryExpression(
 	const match = /^(?:\\.|[^{}.:@<>?()@$[\]\\])+/.exec(query);
 
 	if (!match) {
-		throw new Error('Invalid property accessor');
+		throw new Error(`Invalid property accessor at ${query}`);
 	}
 
 	if (/\s/.test(match[0])) {

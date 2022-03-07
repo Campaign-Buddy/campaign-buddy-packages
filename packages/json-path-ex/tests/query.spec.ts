@@ -603,6 +603,16 @@ const testCases: TestCase[] = [
 		query: '$.foo<?(@ \\> 15)>',
 		expected: 'bigger',
 	},
+	{
+		json: {
+			blorg: '{$.blorg}',
+			foo: {
+				'{$.blorg}': true,
+			},
+		},
+		query: 'foo[{$.blorg}]',
+		expected: true,
+	},
 ];
 
 const errorTestCases: ErrorTestCase[] = [
