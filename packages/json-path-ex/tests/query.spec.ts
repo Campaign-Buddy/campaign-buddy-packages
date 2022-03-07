@@ -490,6 +490,119 @@ const testCases: TestCase[] = [
 		query: '$.agg',
 		expected: undefined,
 	},
+	{
+		json: {
+			'bar.baz': true,
+		},
+		query: '$.bar\\.baz',
+		expected: true,
+	},
+	{
+		json: {
+			'bar"baz': {
+				buzz: true,
+			},
+		},
+		query: '$.["bar\\"baz"].buzz',
+		expected: true,
+	},
+	{
+		json: {
+			"bar'baz": {
+				buzz: true,
+			},
+		},
+		query: "$.['bar\\'baz'].buzz",
+		expected: true,
+	},
+	{
+		json: {
+			'bar"]baz': {
+				buzz: true,
+			},
+		},
+		query: '$.["bar\\"\\]baz"].buzz',
+		expected: true,
+	},
+	{
+		json: {
+			"bar']baz": {
+				buzz: true,
+			},
+		},
+		query: "$.['bar\\'\\]baz'].buzz",
+		expected: true,
+	},
+	{
+		json: {
+			'bar"baz': {
+				buzz: true,
+			},
+		},
+		query: '$.[bar\\"baz].buzz',
+		expected: true,
+	},
+	{
+		json: {
+			"bar'baz": {
+				buzz: true,
+			},
+		},
+		query: "$.[bar\\'baz].buzz",
+		expected: true,
+	},
+	{
+		json: {
+			'bar"]baz': {
+				buzz: true,
+			},
+		},
+		query: '$.[bar\\"\\]baz].buzz',
+		expected: true,
+	},
+	{
+		json: {
+			"bar']baz": {
+				buzz: true,
+			},
+		},
+		query: "$.[bar\\'\\]baz].buzz",
+		expected: true,
+	},
+	{
+		json: {
+			foo: ['hello', 'bello', 'cello'],
+		},
+		query: '$.foo[?(@.substring\\(2\\) === "llo")]',
+		expected: ['hello', 'bello', 'cello'],
+	},
+	{
+		json: {
+			foo: [[1], [2]],
+		},
+		query: '$.foo[?(@\\[0\\] === 1)]',
+		expected: [1],
+	},
+	{
+		json: {
+			foo: {
+				cello: 'instrument',
+				hello: 'greeting',
+			},
+		},
+		query: '$.foo<?(@.substring\\(2\\) === "llo")>',
+		expected: ['instrument', 'greeting'],
+	},
+	{
+		json: {
+			foo: {
+				10: 'big',
+				20: 'bigger',
+			},
+		},
+		query: '$.foo<?(@ \\> 15)>',
+		expected: 'bigger',
+	},
 ];
 
 const errorTestCases: ErrorTestCase[] = [

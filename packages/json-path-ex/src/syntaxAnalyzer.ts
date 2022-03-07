@@ -62,7 +62,7 @@ export function popQueryExpression(
 	}
 
 	if (query.startsWith('[?(')) {
-		const match = /^\[\?\(([^)]+)\)\]/.exec(query);
+		const match = /^\[\?\(((?:\\.|[^\\)])+)\)\]/.exec(query);
 
 		if (!match) {
 			throw new Error('Invalid value filter expression');
@@ -71,14 +71,16 @@ export function popQueryExpression(
 		return [
 			{
 				kind: QueryExpressionKind.ValueFilter,
-				content: match[1],
+				content: unescapeString(match[1]),
 			},
 			query.substring(match[0].length),
 		];
 	}
 
 	if (query.startsWith('[')) {
-		const sliceMatch = /^\[(\d+)?:(\d+)?(?::(\d+))?\]/.exec(query);
+		const sliceMatch = /^\[\s*(\d+)?\s*:\s*(\d+)?\s*(?::\s*(\d+))?\s*\]/.exec(
+			query
+		);
 
 		if (sliceMatch) {
 			const [match, start, end, increment] = sliceMatch;
@@ -92,7 +94,9 @@ export function popQueryExpression(
 			];
 		}
 
-		const propertyAccessor = /^\[((?:'|")?)([^[\]'"]+)\1\]/.exec(query);
+		const propertyAccessor = /^\[((?:'|")?)((?:\\.|[^\\[\]'"])+)\1\]/.exec(
+			query
+		);
 
 		if (!propertyAccessor) {
 			throw new Error('Invalid property accessor expression');
@@ -101,14 +105,14 @@ export function popQueryExpression(
 		return [
 			{
 				kind: QueryExpressionKind.PropertyAccessor,
-				content: propertyAccessor[2],
+				content: unescapeString(propertyAccessor[2]),
 			},
 			query.substring(propertyAccessor[0].length),
 		];
 	}
 
 	if (query.startsWith('<?(')) {
-		const match = /^<\?\(([^)]+)\)>/.exec(query);
+		const match = /^<\?\(((?:\\.|[^\\)])+)\)>/.exec(query);
 
 		if (!match) {
 			throw new Error('Invalid key filter expression');
@@ -117,13 +121,13 @@ export function popQueryExpression(
 		return [
 			{
 				kind: QueryExpressionKind.KeyFilter,
-				content: match[1],
+				content: unescapeString(match[1]),
 			},
 			query.substring(match[0].length),
 		];
 	}
 
-	const match = /^[^{}.:@<>?()@$[\]]+/.exec(query);
+	const match = /^(?:\\.|[^{}.:@<>?()@$[\]\\])+/.exec(query);
 
 	if (!match) {
 		throw new Error('Invalid property accessor');
@@ -136,8 +140,16 @@ export function popQueryExpression(
 	return [
 		{
 			kind: QueryExpressionKind.PropertyAccessor,
-			content: match[0],
+			content: unescapeString(match[0]),
 		},
 		query.substring(match[0].length),
 	];
+}
+
+export function escapeString(str: string): string {
+	return str.replace(/["'{}.:@<>?()@$[\]\\]/g, (match) => `\\${match}`);
+}
+
+export function unescapeString(str: string): string {
+	return str.replace(/\\(.)/g, (_, character) => character);
 }
