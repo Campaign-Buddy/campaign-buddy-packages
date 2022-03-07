@@ -12,6 +12,7 @@
     { "path": "../core-ui/tsconfig.json" },
 	{ "path": "../form-generator/tsconfig.json" },
 	{ "path": "../frontend-types/tsconfig.json" },
-	{ "path": "../rich-text/tsconfig.json" }
+	{ "path": "../rich-text/tsconfig.json" },
+	{ "path": "../existing-image-popover/tsconfig.json"}
   ]
 }
