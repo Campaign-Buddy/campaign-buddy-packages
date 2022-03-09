@@ -1,4 +1,7 @@
-import { resolveSubQueries } from '@campaign-buddy/json-path-ex';
+import {
+	resolveSubQueries,
+	unescapeString,
+} from '@campaign-buddy/json-path-ex';
 import * as aggregateFunctions from './aggregateFunctions';
 
 /**
@@ -52,10 +55,14 @@ export function executeAggregationExpression(
 	curValue: any,
 	customDataAccessor: (path: string, value: any) => any
 ): any {
-	const cleanedExpression = resolveSubQueries(rootData, expression, {
+	let cleanedExpression = resolveSubQueries(rootData, expression, {
 		serializeObjectsInSubQuery: (result) => JSON.stringify(result),
 		customDataAccessor,
 	});
+
+	if (cleanedExpression) {
+		cleanedExpression = unescapeString(cleanedExpression);
+	}
 
 	return _executeAggregationExpression(
 		cleanedExpression ?? expression,

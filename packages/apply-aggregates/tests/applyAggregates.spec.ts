@@ -261,4 +261,21 @@ describe('applyAggregates', () => {
 		expect(result.result).toEqual('foo');
 		expect(result.otherResult).toEqual('bar');
 	});
+
+	it('properly unescapes results', () => {
+		const data = {
+			foo: '\\{hello\\}',
+			bar: '"',
+		};
+
+		const aggregates = {
+			result: '{$.foo}',
+			resultBar: '{$.bar}',
+		};
+
+		const result = applyAggregates(data, aggregates);
+
+		expect(result.result).toEqual('\\{hello\\}');
+		expect(result.resultBar).toEqual('"');
+	});
 });

@@ -66,7 +66,10 @@ export function resolveSubQueries(
 				}
 
 				if (typeof result === 'string') {
-					return `"${escapeString(result)}"`;
+					const jsonEscapedString = JSON.stringify(result);
+					return `"${escapeString(
+						jsonEscapedString.substring(1, jsonEscapedString.length - 1)
+					)}"`;
 				}
 
 				return JSON.stringify(result);
