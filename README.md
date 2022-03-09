@@ -90,7 +90,7 @@ Frontend packages should have a clear and defined purpose and should be broken d
 
 Unlisted packages do not have additional documentation.
 
-- [@campaign-buddy/form-generator](./packages/form-generator/): responsible for generating UI for editing arbitrary data described by a campaign buddy schema (an extension of [json-schema](https://json-schema.org/)).
+- [@campaign-buddy/form-generator](./packages/form-generator/): responsible for generating UI for editing arbitrary relational data described by a campaign buddy schema (an extension of [json-schema](https://json-schema.org/)).
 - [@campaign-buddy/json-schema-core](./packages/json-schema-core/): a utility for building campaign buddy schemas using a prop-types like API.
 - [@campaign-buddy/json-path-ex](./packages/json-path-ex/): an implementation of [json-path](https://goessner.net/articles/JsonPath/) with some added functionality such as filtering by key-value.
 - [@campaign-buddy/core-ui](./packages/core-ui/): a shared ui library for core campaign buddy UI components
