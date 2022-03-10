@@ -4,6 +4,8 @@ import { feat } from './feat';
 
 export const characterSchema = types.object({
 	name: types.string({ title: 'Name' }),
+	playerName: types.string({ title: 'Player Name', cols: 4 }),
+	profileImage: types.image({ title: 'Image' }),
 	age: types.number({ title: 'Age' }),
 	race: types.choice({
 		title: 'Race',
@@ -46,10 +48,15 @@ export const characterSchema = types.object({
 			max: 'TO_NUMBER(<base>) + SUM({$..bonus.maxHp})',
 		},
 	}),
+	speed: types.number({ title: 'Speed' }),
+	armorClass: types.number({ title: 'AC' }),
 	class: types.entity(characterClassEntity, { title: 'Class' }),
 	customRaces: types.string({ title: 'Custom races (comma separated)' }),
 	customColors: types.string({ title: 'Custom colors (comma separated)' }),
-	isPlayer: types.boolean({ title: 'Is player controlled?' }),
+	isPlayer: types.boolean({
+		title: 'Is player controlled?',
+		aggregate: 'TO_BOOLEAN({$.playerName})',
+	}),
 	stats: types.object({
 		str: types.stat({
 			title: 'STR',
@@ -100,11 +107,27 @@ export const characterUiLayout: UiLayout = [
 		kind: 'columnLayout',
 		columns: [
 			{
+				uiLayout: ['profileImage'],
+				cols: 4,
+			},
+			{
 				uiLayout: [
-					['name', 'race', 'age'],
-					['class', 'feats'],
-					['hp', 'favoriteColors'],
+					['name', 'playerName'],
+					['race', 'class'],
+					['hp', 'speed', 'armorClass'],
 				],
+			},
+		],
+	},
+	{
+		kind: 'whiteSpace',
+		marginBottom: 48,
+	},
+	{
+		kind: 'columnLayout',
+		columns: [
+			{
+				uiLayout: [['age', 'feats'], ['favoriteColors']],
 			},
 			{
 				cols: 4,
@@ -118,7 +141,7 @@ export const characterUiLayout: UiLayout = [
 	},
 	{
 		kind: 'whiteSpace',
-		marginBottom: 24,
+		marginBottom: 48,
 	},
 	{
 		kind: 'columnLayout',
@@ -133,9 +156,8 @@ export const characterUiLayout: UiLayout = [
 	},
 	{
 		kind: 'whiteSpace',
-		marginBottom: 24,
+		marginBottom: 48,
 	},
-	['isPlayer'],
 	['customRaces', 'customColors'],
 ];
 
