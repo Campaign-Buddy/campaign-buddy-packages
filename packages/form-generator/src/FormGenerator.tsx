@@ -11,9 +11,12 @@ import {
 	resolveDynamicSchemas,
 	cleanUiLayout,
 	useHydratedEntities,
+	usePartialDataPublisher,
+	PartialDataSubscriptionContextProvider,
 } from './utility';
 import { FormUiLayout } from './FormUiLayout';
 import styled from 'styled-components';
+import { useStableValue } from '@campaign-buddy/common-hooks';
 
 const defaultData = {};
 const defaultFieldSettings = {};
@@ -39,18 +42,20 @@ export const FormGenerator: React.FC<FormGeneratorProps> = ({
 		return resolveDynamicSchemas(schema, data);
 	}, [schema, data]);
 
+	const stableSchema = useStableValue(resolvedSchema);
+
 	const uiLayout = useMemo(() => {
 		if (!providedUiLayout) {
-			return generateUiLayout(resolvedSchema);
+			return generateUiLayout(stableSchema);
 		}
 
 		return cleanUiLayout(
 			providedUiLayout,
-			resolvedSchema,
+			stableSchema,
 			fieldSettings,
 			currentUserRole
 		);
-	}, [currentUserRole, fieldSettings, providedUiLayout, resolvedSchema]);
+	}, [currentUserRole, fieldSettings, providedUiLayout, stableSchema]);
 
 	const updateData = useDataUpdater(schema, data, onChange);
 
@@ -67,8 +72,8 @@ export const FormGenerator: React.FC<FormGeneratorProps> = ({
 	);
 
 	const fullAggregates = useMemo(
-		() => getFullAggregates(aggregates, resolvedSchema),
-		[aggregates, resolvedSchema]
+		() => getFullAggregates(aggregates, stableSchema),
+		[aggregates, stableSchema]
 	);
 
 	const { hydratedData } = useHydratedEntities(entityApi, data, resolvedSchema);
@@ -78,23 +83,56 @@ export const FormGenerator: React.FC<FormGeneratorProps> = ({
 		[hydratedData, fullAggregates]
 	);
 
+	const { subscribe: subscribeToDataAtPath, getDataAtPath } =
+		usePartialDataPublisher(data);
+
+	const {
+		subscribe: subscribeToFieldSettingsAtPath,
+		getDataAtPath: getFieldSettingsAtPath,
+	} = usePartialDataPublisher(fieldSettings);
+
+	const {
+		subscribe: subscribeToAggregatedDataAtPath,
+		getDataAtPath: getAggregatedDataAtPath,
+	} = usePartialDataPublisher(aggregatedData);
+
+	const partialDataSubscriptionContextProviderValue = useMemo(
+		() => ({
+			subscribeToDataAtPath,
+			getDataAtPath,
+			subscribeToAggregatedDataAtPath,
+			getAggregatedDataAtPath,
+			subscribeToFieldSettingsAtPath,
+			getFieldSettingsAtPath,
+		}),
+		[
+			getAggregatedDataAtPath,
+			getDataAtPath,
+			getFieldSettingsAtPath,
+			subscribeToAggregatedDataAtPath,
+			subscribeToDataAtPath,
+			subscribeToFieldSettingsAtPath,
+		]
+	);
+
 	return (
 		<FormRoot>
-			<FormUiLayout
-				uiLayout={uiLayout}
-				schema={resolvedSchema}
-				widgetLookup={widgets}
-				updateValue={updateData}
-				data={data}
-				UiSection={UiSection}
-				aggregatedData={aggregatedData}
-				aggregates={fullAggregates}
-				entityApi={entityApi}
-				updateFieldSettings={updateFieldSettings}
-				shouldShowFieldSettingControls={Boolean(providedUpdateFieldSettings)}
-				fieldSettings={fieldSettings}
-				currentUserRole={currentUserRole}
-			/>
+			<PartialDataSubscriptionContextProvider
+				value={partialDataSubscriptionContextProviderValue}
+			>
+				<FormUiLayout
+					uiLayout={uiLayout}
+					schema={stableSchema}
+					widgetLookup={widgets}
+					updateValue={updateData}
+					UiSection={UiSection}
+					aggregates={fullAggregates}
+					entityApi={entityApi}
+					updateFieldSettings={updateFieldSettings}
+					shouldShowFieldSettingControls={Boolean(providedUpdateFieldSettings)}
+					currentUserRole={currentUserRole}
+				/>
+			</PartialDataSubscriptionContextProvider>
 		</FormRoot>
 	);
 };

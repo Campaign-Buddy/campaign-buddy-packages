@@ -6,21 +6,22 @@ import { EntityApi, FieldSettings } from '@campaign-buddy/frontend-types';
 import React, { useMemo } from 'react';
 import { useState, useEffect, useCallback } from 'react';
 import { WidgetLookup, WidgetProps } from './FormGeneratorProps';
-import { getAggregationSupport, removeDisabledAggregations } from './utility';
+import {
+	getAggregationSupport,
+	removeDisabledAggregations,
+	usePartialDataSubscription,
+} from './utility';
 
 interface FormWidgetProps {
 	schema: CampaignBuddySchema;
 	widgetLookup: WidgetLookup;
 	path: string;
 	updateValue: (path: string, data: any) => void;
-	data: any;
-	aggregatedData: any;
 	aggregation: Aggregates | string | undefined;
 	entityApi: EntityApi | undefined;
 	updateFieldSettings:
 		| ((path: string, fieldSetting: FieldSettings<string | Aggregates>) => void)
 		| undefined;
-	fieldSettings: FieldSettings | undefined;
 	currentUserRole: string | undefined;
 	shouldShowFieldSettingControls: boolean;
 }
@@ -30,12 +31,9 @@ export const FormWidget: React.FC<FormWidgetProps> = ({
 	widgetLookup,
 	path,
 	updateValue,
-	data,
-	aggregatedData,
 	aggregation,
 	entityApi,
 	updateFieldSettings,
-	fieldSettings,
 	currentUserRole,
 	shouldShowFieldSettingControls,
 }) => {
@@ -66,15 +64,12 @@ export const FormWidget: React.FC<FormWidgetProps> = ({
 		<DebouncedWidget
 			path={path}
 			updateValue={updateValue}
-			value={data}
 			Widget={Widget}
 			label={schema.title ?? ''}
-			aggregatedValue={aggregatedData}
 			aggregation={aggregation}
 			schema={schema}
 			entityApi={entityApi}
 			updateFieldSettings={updateFieldSettings}
-			fieldSettings={fieldSettings}
 			currentUserRole={currentUserRole}
 			shouldShowFieldSettingControls={shouldShowFieldSettingControls}
 		/>
@@ -84,12 +79,15 @@ export const FormWidget: React.FC<FormWidgetProps> = ({
 interface DebouncedWidgetProps<T>
 	extends Omit<
 		WidgetProps<T>,
-		'onChange' | 'updateFieldSettings' | 'aggregationSupport'
+		| 'onChange'
+		| 'updateFieldSettings'
+		| 'aggregationSupport'
+		| 'aggregatedValue'
+		| 'value'
+		| 'fieldSettings'
 	> {
 	path: string;
 	updateValue: (path: string, data: T) => void;
-	value: T | undefined;
-	aggregatedValue: T | undefined;
 	aggregation: Aggregates | string | undefined;
 	Widget: React.FC<WidgetProps<T>>;
 	schema: CampaignBuddySchema;
@@ -97,35 +95,35 @@ interface DebouncedWidgetProps<T>
 	updateFieldSettings:
 		| ((path: string, fieldSetting: FieldSettings<string | Aggregates>) => void)
 		| undefined;
-	fieldSettings: FieldSettings | undefined;
 	shouldShowFieldSettingControls: boolean;
 }
 
 export const DebouncedWidget: React.FC<DebouncedWidgetProps<any>> = ({
 	path,
 	updateValue: propsUpdateValue,
-	value: propsValue,
 	Widget,
 	label,
-	aggregatedValue: propsAggregatedValue,
 	aggregation: propsAggregation,
 	schema,
 	entityApi,
 	updateFieldSettings: propsUpdateFieldSettings,
-	fieldSettings: propsFieldSettings,
 	currentUserRole,
 	shouldShowFieldSettingControls,
 }) => {
-	const [value, setValue] = useState(propsValue);
-	const [fieldSettings, setFieldSettings] = useState(propsFieldSettings);
+	const { data, aggregatedData, fieldSettingsData } =
+		usePartialDataSubscription(path);
+	const dataOrDefault = data ?? schema?.default;
+
+	const [value, setValue] = useState(dataOrDefault);
+	const [fieldSettings, setFieldSettings] = useState(fieldSettingsData);
 
 	useEffect(() => {
-		setValue(propsValue);
-	}, [propsValue]);
+		setValue(dataOrDefault);
+	}, [dataOrDefault]);
 
 	useEffect(() => {
-		setFieldSettings(propsFieldSettings);
-	}, [propsFieldSettings]);
+		setFieldSettings(fieldSettingsData);
+	}, [fieldSettingsData]);
 
 	const updateValue = useCallback(
 		(data: any) => {
@@ -151,10 +149,10 @@ export const DebouncedWidget: React.FC<DebouncedWidgetProps<any>> = ({
 	const aggregatedValue = useMemo(
 		() =>
 			removeDisabledAggregations(
-				propsAggregatedValue,
+				aggregatedData,
 				fieldSettings?.aggregationSettings
 			),
-		[fieldSettings?.aggregationSettings, propsAggregatedValue]
+		[fieldSettings?.aggregationSettings, aggregatedData]
 	);
 
 	const aggregation = useMemo(

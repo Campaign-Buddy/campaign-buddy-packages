@@ -14,3 +14,8 @@ export { isUiDirective } from './isUiDirective';
 export { calculateFlex } from './calculateFlex';
 export { getAggregationSupport } from './getAggregationSupport';
 export { removeDisabledAggregations } from './removeDisabledAggregations';
+export { usePartialDataPublisher } from './usePartialDataPublisher';
+export {
+	usePartialDataSubscription,
+	PartialDataSubscriptionContextProvider,
+} from './usePartialDataSubscription';

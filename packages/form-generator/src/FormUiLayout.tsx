@@ -5,11 +5,7 @@ import {
 	CampaignBuddySchema,
 	Aggregates,
 } from '@campaign-buddy/json-schema-core';
-import {
-	EntityApi,
-	EntityFieldSettings,
-	FieldSettings,
-} from '@campaign-buddy/frontend-types';
+import { EntityApi, FieldSettings } from '@campaign-buddy/frontend-types';
 import hash from 'hash-sum';
 import { UiSectionProps, WidgetLookup } from './FormGeneratorProps';
 import {
@@ -35,31 +31,25 @@ interface FormUiLayoutProps {
 	schema: CampaignBuddySchema;
 	widgetLookup: WidgetLookup;
 	updateValue: (path: string, data: any) => void;
-	data: any;
-	aggregatedData: any;
 	aggregates: EntityDefinition['aggregates'];
 	UiSection?: React.FC<UiSectionProps>;
 	entityApi: EntityApi | undefined;
 	updateFieldSettings:
 		| ((path: string, fieldSetting: FieldSettings<string | Aggregates>) => void)
 		| undefined;
-	fieldSettings: EntityFieldSettings | undefined;
 	currentUserRole: string | undefined;
 	shouldShowFieldSettingControls: boolean;
 }
 
-export const FormUiLayout: React.FC<FormUiLayoutProps> = ({
+const FormUiLayoutCore: React.FC<FormUiLayoutProps> = ({
 	uiLayout,
 	schema,
 	widgetLookup,
 	updateValue,
-	data,
 	UiSection,
-	aggregatedData,
 	aggregates,
 	entityApi,
 	updateFieldSettings,
-	fieldSettings,
 	currentUserRole,
 	shouldShowFieldSettingControls,
 }) => {
@@ -72,13 +62,10 @@ export const FormUiLayout: React.FC<FormUiLayoutProps> = ({
 				schema={schema}
 				widgetLookup={widgetLookup}
 				updateValue={updateValue}
-				data={data}
 				UiSection={UiSection}
-				aggregatedData={aggregatedData}
 				aggregates={aggregates}
 				entityApi={entityApi}
 				updateFieldSettings={updateFieldSettings}
-				fieldSettings={fieldSettings}
 				currentUserRole={currentUserRole}
 				shouldShowFieldSettingControls={shouldShowFieldSettingControls}
 			/>
@@ -96,14 +83,6 @@ export const FormUiLayout: React.FC<FormUiLayoutProps> = ({
 				continue;
 			}
 
-			const dataForPath = getDataForPath(element, data, subSchema);
-			const fieldSettingsForPath = getDataForPath(
-				element,
-				fieldSettings,
-				subSchema
-			);
-			const aggregatedDataForPath =
-				getDataForPath(element, aggregatedData, undefined) ?? dataForPath;
 			const aggregation = getDataForPath(element, aggregates ?? {}, undefined);
 
 			// So that we don't have to manually type out all properties in an object
@@ -129,11 +108,8 @@ export const FormUiLayout: React.FC<FormUiLayoutProps> = ({
 								widgetLookup={widgetLookup}
 								path={element}
 								updateValue={updateValue}
-								data={dataForPath}
-								aggregatedData={aggregatedDataForPath}
 								aggregation={aggregation}
 								entityApi={entityApi}
-								fieldSettings={fieldSettingsForPath}
 								updateFieldSettings={updateFieldSettings}
 								currentUserRole={currentUserRole}
 								shouldShowFieldSettingControls={shouldShowFieldSettingControls}
@@ -182,6 +158,8 @@ export const FormUiLayout: React.FC<FormUiLayoutProps> = ({
 
 	return <>{nodes}</>;
 };
+
+export const FormUiLayout = React.memo(FormUiLayoutCore);
 
 function getKey(element: ArrayElement<UiLayout>) {
 	if (typeof element === 'string') {
