@@ -30,10 +30,6 @@ function _executeAggregationExpression(
 	expression: string,
 	baseValue: any
 ): any {
-	if (expression.includes('return')) {
-		throw new Error('Filter expression must not contain return statement');
-	}
-
 	const normalizedExpression = `return (${expression.replace(
 		/<base>/gi,
 		'base'
@@ -55,6 +51,10 @@ export function executeAggregationExpression(
 	curValue: any,
 	customDataAccessor: (path: string, value: any) => any
 ): any {
+	if (expression.includes('return')) {
+		throw new Error('Filter expression must not contain return statement');
+	}
+
 	let cleanedExpression = resolveSubQueries(rootData, expression, {
 		serializeObjectsInSubQuery: (result) => JSON.stringify(result),
 		customDataAccessor,

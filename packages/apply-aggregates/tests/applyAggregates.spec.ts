@@ -264,18 +264,32 @@ describe('applyAggregates', () => {
 
 	it('properly unescapes results', () => {
 		const data = {
-			foo: '\\{hello\\}',
-			bar: '"',
+			a: '\\{hello\\}',
+			b: '"',
 		};
 
 		const aggregates = {
-			result: '{$.foo}',
-			resultBar: '{$.bar}',
+			resultA: '{$.a}',
+			resultB: '{$.b}',
 		};
 
 		const result = applyAggregates(data, aggregates);
 
-		expect(result.result).toEqual('\\{hello\\}');
-		expect(result.resultBar).toEqual('"');
+		expect(result.resultA).toEqual('\\{hello\\}');
+		expect(result.resultB).toEqual('"');
+	});
+
+	it('allows "return" in aggregated data', () => {
+		const data = {
+			foo: 'return 10',
+		};
+
+		const aggregates = {
+			result: '{$.foo}',
+		};
+
+		const result = applyAggregates(data, aggregates);
+
+		expect(result.result).toEqual('return 10');
 	});
 });
