@@ -4,7 +4,6 @@ This repository houses several frontend packages (using yarn workspaces) used to
 
 ## Todo
 
-- [ ] Replace `existing-image-popover` with `image-picker-menu-popover`
 - [ ] Add tool that scans for `@campaign-buddy/` references and makes sure that A) the package exists in the projects package.json and B) the package exists in the tsconfig references
 	- [ ] Add a postinstall script that updates tsconfig?
 	- [ ] Add a tool that scans to make sure cross package references don't use relative imports
@@ -57,8 +56,9 @@ This repository houses several frontend packages (using yarn workspaces) used to
 
 <details>
 	<summary>Full Completed TODOs</summary>
+	<br/>
 Partially completed TODOs are still left in the main list but may be re-prioritized. Below is TODO items that have been fully resolved but are kept for posterity.
-
+<br/><br/>
 - [X] Escape curly braces when serializing sub-query results
 	- [X] Investigate query injection possibility with sub-queries
 - [X] Audit form widget handling of aggregates
@@ -68,6 +68,7 @@ Partially completed TODOs are still left in the main list but may be re-prioriti
 	- [X] Update form generator docs
 - [X] Investigate why image url aggregation is an empty array when the aggregation has no value
 	- [X] Fix the problem. Hypothesis: json-path-ex is returning an empty array when querying for a match because the data doesn't exist
+- [X] Replace `existing-image-popover` with `image-picker-menu-popover`
 </details>
 
 ## Design Philosophy
