@@ -13,6 +13,7 @@
 	{ "path": "../form-generator/tsconfig.json" },
 	{ "path": "../frontend-types/tsconfig.json" },
 	{ "path": "../rich-text/tsconfig.json" },
-	{ "path": "../existing-image-popover/tsconfig.json"}
+	{ "path": "../existing-image-popover/tsconfig.json"},
+	{ "path": "../image-picker-menu/tsconfig.json" }
   ]
 }

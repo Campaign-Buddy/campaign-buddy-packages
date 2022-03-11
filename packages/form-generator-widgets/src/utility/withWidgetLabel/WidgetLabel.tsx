@@ -95,8 +95,11 @@ export const WidgetLabel: React.FC<WidgetLabelProps> = ({
 
 	if (hasAggregations && shouldShowAggregationIndicator) {
 		labelElements.push(
-			<Tooltip text="Some or all of this field may be calculated">
-				<Icon key="aggregation-indicator" icon="predictive-analysis" />
+			<Tooltip
+				key="aggregation-indicator"
+				text="Some or all of this field may be calculated"
+			>
+				<Icon icon="predictive-analysis" />
 			</Tooltip>
 		);
 	}

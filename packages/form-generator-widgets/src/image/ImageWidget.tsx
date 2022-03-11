@@ -1,14 +1,11 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback } from 'react';
 import { ImageAggregation } from '@campaign-buddy/json-schema-core';
+import { ImagePickerMenu } from '@campaign-buddy/image-picker-menu';
 import { CBWidgetProps } from '../CBWidgetProps';
 import styled from 'styled-components';
-import { FormGroup, MenuItem, MenuPopover } from '@campaign-buddy/core-ui';
-import { openFilePicker } from './openFilePicker';
+import { FormGroup } from '@campaign-buddy/core-ui';
 import { useMediaApi } from '../FormWidgetProvider';
-import { Media } from '@campaign-buddy/frontend-types';
-import { ExistingImagePopover } from '@campaign-buddy/existing-image-popover';
 import { useQueryClient } from 'react-query';
-import { ExternalUrlPopover } from './ExternalUrlPopover';
 import { useBooleanState } from '@campaign-buddy/common-hooks';
 
 const ImageContainer = styled.div`
@@ -65,73 +62,21 @@ export const ImageWidget: ImageWidgetType = ({
 }) => {
 	const mediaApi = useMediaApi();
 	const queryClient = useQueryClient();
-	const [isRootMenuOpen, openRootMenu, closeRootMenu] = useBooleanState();
-	const [openPopover, setOpenPopover] = useState<
-		'none' | 'existing-image' | 'url'
-	>('none');
+
+	const [isImagePickerOpen, openImagePicker, closeImagePicker] =
+		useBooleanState();
+
 	const isEditable = !aggregationSupport.url;
 	const url = aggregationSupport.url ? aggregatedValue?.url : value?.url;
 
-	const closeAllMenus = useCallback(() => {
-		closeRootMenu();
-		setOpenPopover('none');
-	}, [closeRootMenu]);
-
-	const openExistingImageMenu = useCallback(() => {
-		setOpenPopover('existing-image');
-	}, []);
-
-	const openUrlMenu = useCallback(() => {
-		setOpenPopover('url');
-	}, []);
-
-	const uploadImage = useCallback(() => {
-		closeAllMenus();
-		openFilePicker(async (file) => {
-			const result = await mediaApi.uploadMedia(file);
-			onChange({
-				url: result.url,
-			});
-		});
-	}, [mediaApi, onChange, closeAllMenus]);
-
-	const onConfirmExistingImage = useCallback(
-		(media: Media) => {
-			closeAllMenus();
-			onChange({
-				url: media.url,
-			});
-		},
-		[closeAllMenus, onChange]
-	);
-
-	const onConfirmExternalUrl = useCallback(
+	const handleChange = useCallback(
 		(url: string) => {
-			closeAllMenus();
-			onChange({ url });
+			closeImagePicker();
+			onChange({
+				url,
+			});
 		},
-		[closeAllMenus, onChange]
-	);
-
-	const menuItems = useMemo<MenuItem[]>(
-		() => [
-			{
-				displayText: 'Upload image',
-				icon: 'upload',
-				onClick: uploadImage,
-			},
-			{
-				displayText: 'Use existing image',
-				icon: 'cloud-download',
-				onClick: openExistingImageMenu,
-			},
-			{
-				displayText: 'Use external url',
-				icon: 'link',
-				onClick: openUrlMenu,
-			},
-		],
-		[openExistingImageMenu, openUrlMenu, uploadImage]
+		[onChange, closeImagePicker]
 	);
 
 	let ImageComponent;
@@ -150,34 +95,22 @@ export const ImageWidget: ImageWidgetType = ({
 			<ImageContainer>
 				{ImageComponent}
 				{isEditable && (
-					<MenuPopover
-						onClose={closeRootMenu}
-						isOpen={isRootMenuOpen}
-						items={menuItems}
+					<ImagePickerMenu
+						isOpen={isImagePickerOpen}
+						onClose={closeImagePicker}
+						onConfirm={handleChange}
+						mediaApi={mediaApi}
+						queryClient={queryClient}
 					>
-						<ExistingImagePopover
-							isOpen={!isRootMenuOpen && openPopover === 'existing-image'}
-							onClose={closeAllMenus}
-							onConfirm={onConfirmExistingImage}
-							mediaApi={mediaApi}
-							queryClient={queryClient}
+						<ImageUploadButton
+							shouldStayVisible={isImagePickerOpen}
+							role="button"
+							onClick={openImagePicker}
+							tabIndex={0}
 						>
-							<ExternalUrlPopover
-								onConfirm={onConfirmExternalUrl}
-								isOpen={!isRootMenuOpen && openPopover === 'url'}
-								onClose={closeAllMenus}
-							>
-								<ImageUploadButton
-									shouldStayVisible={openPopover !== 'none' || isRootMenuOpen}
-									role="button"
-									onClick={openRootMenu}
-									tabIndex={0}
-								>
-									<p>Upload Image</p>
-								</ImageUploadButton>
-							</ExternalUrlPopover>
-						</ExistingImagePopover>
-					</MenuPopover>
+							<p>Upload Image</p>
+						</ImageUploadButton>
+					</ImagePickerMenu>
 				)}
 			</ImageContainer>
 		</FormGroup>
