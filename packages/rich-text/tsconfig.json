@@ -13,5 +13,6 @@
 		{ "path": "../frontend-types/tsconfig.json" },
 		{ "path": "../image-grid/tsconfig.json" },
 		{ "path": "../existing-image-popover/tsconfig.json" },
+		{ "path": "../image-picker-menu/tsconfig.json" }
 	]
 }

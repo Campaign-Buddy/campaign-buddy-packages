@@ -9,6 +9,7 @@
 		"@campaign-buddy/existing-image-popover": "0.1.0",
 		"@campaign-buddy/frontend-types": "0.1.0",
 		"@campaign-buddy/image-grid": "^0.1.0",
+		"@campaign-buddy/image-picker-menu": "0.1.0",
 		"cuid": "^2.1.8",
 		"is-hotkey": "^0.2.0",
 		"react-query": "^3.34.12",

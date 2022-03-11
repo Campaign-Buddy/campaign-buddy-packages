@@ -1,8 +1,11 @@
-import { ToggleButton, MenuPopover, MenuItem } from '@campaign-buddy/core-ui';
+import { ToggleButton } from '@campaign-buddy/core-ui';
 import { Media } from '@campaign-buddy/frontend-types';
-import { ExistingImagePopover } from '@campaign-buddy/existing-image-popover';
+import {
+	ImagePickerMenu,
+	OpenPopoverState,
+} from '@campaign-buddy/image-picker-menu';
 import { useQueryClient } from 'react-query';
-import React, { useCallback, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import { BaseRange, Transforms } from 'slate';
 import { useSlateStatic } from 'slate-react';
 import {
@@ -10,10 +13,8 @@ import {
 	useSelectionSnapshot,
 	wrapOrInsertNode,
 } from '../../editor-util';
-import { openFilePicker } from '../../openFilePicker';
 import { ImageNode } from '../../types';
 import { useMediaApi } from '../../useMediaApi';
-import { ExternalUrlPopover } from './ExternalUrlPopover';
 
 export const AddImageButton: React.FC = () => {
 	const editor = useSlateStatic();
@@ -25,33 +26,22 @@ export const AddImageButton: React.FC = () => {
 	const mediaApi = useMediaApi();
 	const queryClient = useQueryClient();
 
-	const [openPopover, setOpenPopover] = useState<'none' | 'existing' | 'url'>(
-		'none'
-	);
-	const [isMenuOpen, setIsMenuOpen] = useState(false);
+	const [isImagePickerOpen, setIsImagePickerOpen] = useState(false);
 
-	const closeMenu = useCallback(() => {
-		setIsMenuOpen(false);
+	const closeImagePicker = useCallback(() => {
+		setIsImagePickerOpen(false);
 		popSelectionSnapshot();
-	}, [popSelectionSnapshot]);
+	}, [popSelectionSnapshot, setIsImagePickerOpen]);
 
-	const closeAllPopovers = useCallback(() => {
-		setIsMenuOpen(false);
-		setOpenPopover('none');
-		popSelectionSnapshot();
-	}, [popSelectionSnapshot]);
-
-	const openMenu = useCallback(() => {
+	const openImagePicker = useCallback(() => {
 		if (snapshotStack.current?.length === 0) {
 			pushSelectionSnapshot();
 		}
-
-		setOpenPopover('none');
-		setIsMenuOpen(true);
+		setIsImagePickerOpen(true);
 	}, [pushSelectionSnapshot, snapshotStack]);
 
 	const insertImage = useCallback(
-		(url: string, alt?: string) => {
+		(url: string, media?: Media) => {
 			if (endLocationRef.current) {
 				Transforms.select(editor, endLocationRef.current);
 			}
@@ -60,88 +50,42 @@ export const AddImageButton: React.FC = () => {
 				kind: 'image',
 				children: [{ text: '', kind: 'text' }],
 				src: url,
-				alt: alt ?? url,
+				alt: media?.alt ?? url,
 			});
 
 			selectEndOfElement(editor, id);
 			Transforms.move(editor, { unit: 'offset' });
 			endLocationRef.current = null;
 
-			closeAllPopovers();
+			closeImagePicker();
 		},
-		[closeAllPopovers, editor]
+		[closeImagePicker, editor]
 	);
 
-	const insertMedia = useCallback(
-		(media: Media) => {
-			insertImage(media.url, media.alt);
+	const handleImagePickerStateChange = useCallback(
+		(oldState: OpenPopoverState, newState: OpenPopoverState) => {
+			if (oldState === 'main-menu' && newState !== 'none') {
+				endLocationRef.current = popSelectionSnapshot();
+			}
 		},
-		[insertImage]
-	);
-
-	const uploadImage = useCallback(() => {
-		endLocationRef.current = popSelectionSnapshot();
-		openFilePicker(async (file) => {
-			const result = await mediaApi.uploadMedia(file);
-			insertImage(result.url, file.name);
-		});
-	}, [insertImage, mediaApi, popSelectionSnapshot]);
-
-	const openExistingMediaPopover = useCallback(() => {
-		endLocationRef.current = popSelectionSnapshot();
-		setIsMenuOpen(false);
-		setOpenPopover('existing');
-	}, [popSelectionSnapshot]);
-
-	const openExternalUrlPopover = useCallback(() => {
-		endLocationRef.current = popSelectionSnapshot();
-		setIsMenuOpen(false);
-		setOpenPopover('url');
-	}, [popSelectionSnapshot]);
-
-	const menuItems = useMemo<MenuItem[]>(
-		() => [
-			{
-				displayText: 'Upload image',
-				icon: 'upload',
-				onClick: uploadImage,
-			},
-			{
-				displayText: 'Use existing image',
-				icon: 'cloud-download',
-				onClick: openExistingMediaPopover,
-			},
-			{
-				displayText: 'Use external url',
-				icon: 'link',
-				onClick: openExternalUrlPopover,
-			},
-		],
-		[uploadImage, openExternalUrlPopover, openExistingMediaPopover]
+		[popSelectionSnapshot]
 	);
 
 	return (
-		<MenuPopover items={menuItems} isOpen={isMenuOpen} onClose={closeMenu}>
-			<ExternalUrlPopover
-				isOpen={openPopover === 'url' && !isMenuOpen}
-				onClose={closeAllPopovers}
-				onConfirm={insertImage}
-			>
-				<ExistingImagePopover
-					isOpen={openPopover === 'existing' && !isMenuOpen}
-					onClose={closeAllPopovers}
-					onConfirm={insertMedia}
-					queryClient={queryClient}
-					mediaApi={mediaApi}
-				>
-					<ToggleButton
-						icon="media"
-						onChange={openMenu}
-						size="small"
-						value={false}
-					/>
-				</ExistingImagePopover>
-			</ExternalUrlPopover>
-		</MenuPopover>
+		<ImagePickerMenu
+			isOpen={isImagePickerOpen}
+			onClose={close}
+			onConfirm={insertImage}
+			onStateTransition={handleImagePickerStateChange}
+			mediaApi={mediaApi}
+			queryClient={queryClient}
+		>
+			<ToggleButton
+				icon="media"
+				onChange={openImagePicker}
+				size="small"
+				value={false}
+			/>
+		</ImagePickerMenu>
 	);
 };
