@@ -14,7 +14,9 @@ interface Todo {
 	completed: boolean;
 }
 
-async function fetchOptions(query: string): Promise<IOption<Todo>[]> {
+async function fetchOptions(
+	query: string | undefined
+): Promise<IOption<Todo>[]> {
 	const response = (await fetch(
 		'https://jsonplaceholder.typicode.com/todos'
 	).then((r) => r.json())) as Todo[];
@@ -25,7 +27,7 @@ async function fetchOptions(query: string): Promise<IOption<Todo>[]> {
 			id: t.id,
 			kind: 'todo',
 		}))
-		.filter((x) => x.displayValue.includes(query))
+		.filter((x) => !query || x.displayValue.includes(query))
 		.slice(0, 10);
 }
 

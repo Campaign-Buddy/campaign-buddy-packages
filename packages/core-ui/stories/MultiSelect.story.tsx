@@ -43,7 +43,7 @@ const Template: Story = () => {
 			label="Who is the coolest?"
 			options={options}
 			value={value}
-			onChange={setValue}
+			onChange={setValue as any}
 			placeholder="E.g. Todoroki"
 		/>
 	);

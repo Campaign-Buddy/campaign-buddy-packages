@@ -11,6 +11,6 @@
 		{ "path": "../core-ui/tsconfig.json" },
 		{ "path": "../frontend-types/tsconfig.json" },
 		{ "path": "../common-hooks/tsconfig.json" },
-		{ "path": "../image-grid/tsconfig.json" },
+		{ "path": "../image-grid/tsconfig.json" }
 	]
 }
