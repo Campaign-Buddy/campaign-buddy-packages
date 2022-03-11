@@ -58,7 +58,8 @@ This repository houses several frontend packages (using yarn workspaces) used to
 	<summary>Full Completed TODOs</summary>
 	<br/>
 Partially completed TODOs are still left in the main list but may be re-prioritized. Below is TODO items that have been fully resolved but are kept for posterity.
-<br/><br/>
+<br /><br />
+
 - [X] Escape curly braces when serializing sub-query results
 	- [X] Investigate query injection possibility with sub-queries
 - [X] Audit form widget handling of aggregates
