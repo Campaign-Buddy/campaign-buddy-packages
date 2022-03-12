@@ -58,7 +58,6 @@ function validateAllCrossPackageDeps(packageName: string) {
 					);
 				}
 			} else if (moduleDep.resolved.startsWith('packages')) {
-				console.log(moduleDep.module, moduleDep.resolved);
 				if (moduleDep.resolved.startsWith(`packages/${packageName}`)) {
 					continue;
 				} else {
