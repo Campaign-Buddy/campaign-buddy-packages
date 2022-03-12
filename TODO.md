@@ -1,7 +1,5 @@
 # Todo
 
-- [ ] Update handling of widgets to handle undefined aggregatedValue
-- [ ] Always show edit button in aggregated text when display text is whitespace
 - [ ] Add json-schema validation to form generator to guarantee that form data conforms to the provided schema
 	- Encapsulate validator in new package to be used in backend as well?
 - [ ] Design map maker v2 (tech and visual) using [fabricjs](http://fabricjs.com/)
@@ -51,6 +49,8 @@
 Partially completed TODOs are still left in the main list but may be re-prioritized. Below is TODO items that have been fully resolved but are kept for posterity.
 <br /><br />
 
+- [X] Always show edit button in aggregated text when display text is whitespace
+- [X] Update handling of widgets to handle undefined aggregatedValue
 - [X] Investigate performance of form generator
 	- [X] Brainstorm ways to prevent re-rendering entire form when only one piece of the data changes
 	- Idea: Every rendered form component "subscribes" to changes at a particular path and when the data prop changes (and when aggregated values change), a diff is a applied ([using some diffing library](https://github.com/AsyncBanana/microdiff)) and any changed paths are published to any subscribers that care, the whole form should never change.

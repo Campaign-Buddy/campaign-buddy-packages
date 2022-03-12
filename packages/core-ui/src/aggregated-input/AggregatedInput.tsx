@@ -84,7 +84,8 @@ export const AggregatedInput = <
 	const [isHovering, onMouseEnter, onMouseLeave] = useBooleanState();
 
 	const editButtonState =
-		(isEditButtonFocused || isHovering) && !isPopoverOpen
+		((isEditButtonFocused || isHovering) && !isPopoverOpen) ||
+		aggregatedDisplayValue?.trim() === ''
 			? 'visible'
 			: 'hidden';
 
