@@ -5,11 +5,12 @@ export function mapQueryResults<T, R>(
 	map: (value: T) => R
 ): R[] {
 	return values
-		.map((x) => (Array.isArray(x) ? x.map(map) : map(x)))
-		.reduce<R[]>(
+		.reduce<T[]>(
 			(all, cur) => [...all, ...(Array.isArray(cur) ? cur : [cur])],
 			[]
-		);
+		)
+		.filter((x) => x !== undefined)
+		.map(map);
 }
 
 export function toBooleans(values: QueryResults<any>): boolean[] {

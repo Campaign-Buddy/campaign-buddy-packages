@@ -15,7 +15,7 @@ const uiLayout: UiLayout = [['agg']];
 addWidgetType(
 	'string',
 	types.string,
-	(withBase) => `${withBase ? '(<base> || "") + " " + ' : ''}{$.agg}`
+	(withBase) => `${withBase ? '(<base> || "") + " " + ' : ''}({$.agg} || '')`
 );
 
 addWidgetType(
@@ -53,7 +53,7 @@ addWidgetType(
 	types.choice,
 	(withBase) => ({
 		options: 'TO_OPTIONS_FROM_STRINGS([{$.agg}])',
-		selectedOption: `TO_OPTIONS_FROM_STRINGS([{$.agg}${
+		selectedOption: `TO_OPTIONS_FROM_STRINGS([({$.agg} || '')${
 			withBase ? ' + (<base> ? (" " + <base>.displayValue) : "")' : ''
 		}])[0]`,
 	}),
