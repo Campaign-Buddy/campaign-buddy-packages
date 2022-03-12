@@ -1,7 +1,5 @@
 # Todo
 
-- [ ] Add json-schema validation to form generator to guarantee that form data conforms to the provided schema
-	- Encapsulate validator in new package to be used in backend as well?
 - [ ] Design map maker v2 (tech and visual) using [fabricjs](http://fabricjs.com/)
 - [ ] Investigate [yjs](https://github.com/yjs/yjs) for collaborative data editing
 	- [ ] What kind of network architecture to use? P2P? If so, how are edits made on the server?
@@ -16,6 +14,9 @@
 	- [ ] Entity mentions
 	- [ ] Embeds
 	- [ ] Tables
+- [ ] Add json-schema validation to form generator to guarantee that form data conforms to the provided schema
+	- Encapsulate validator in new package to be used in backend as well?
+- [ ] Replace schema traversal logic with [json-schema-traverse](https://www.npmjs.com/package/json-schema-traverse)
 - [ ] Add read-only variants of form-generator
 - [ ] Think through more elegant way to describe UI layouts accounting for...
 	- [X] Blank space
