@@ -4,7 +4,6 @@ This repository houses several frontend packages (using yarn workspaces) used to
 
 ## Todo
 
-- [ ] Add script for adding intra-package dependencies
 - [ ] Update handling of widgets to handle undefined aggregatedValue
 - [ ] Always show edit button in aggregated text when display text is whitespace
 - [ ] Add json-schema validation to form generator to guarantee that form data conforms to the provided schema
@@ -58,6 +57,7 @@ This repository houses several frontend packages (using yarn workspaces) used to
 Partially completed TODOs are still left in the main list but may be re-prioritized. Below is TODO items that have been fully resolved but are kept for posterity.
 <br /><br />
 
+- [X] Add script for adding intra-package dependencies
 - [X] Add tool that scans for `@campaign-buddy/` references and makes sure that A) the package exists in the projects package.json and B) the package exists in the tsconfig references
 	- [X] Add a tool that scans to make sure cross package references don't use relative imports
 - [X] Escape curly braces when serializing sub-query results
