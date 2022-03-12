@@ -40,7 +40,7 @@ async function createTsconfig(packageName) {
 }
 
 async function createSampleIndex(packageName) {
-	const sampleContent = `export const greeting = 'Hello world!;'\n`;
+	const sampleContent = `export const greeting = 'Hello world!';\n`;
 	await fs.writeFile(
 		path.join(packagesPath, packageName, 'src', 'index.ts'),
 		sampleContent,
