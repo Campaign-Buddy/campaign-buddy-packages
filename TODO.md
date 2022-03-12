@@ -4,10 +4,6 @@
 - [ ] Always show edit button in aggregated text when display text is whitespace
 - [ ] Add json-schema validation to form generator to guarantee that form data conforms to the provided schema
 	- Encapsulate validator in new package to be used in backend as well?
-- [ ] Investigate performance of form generator
-	- [ ] Brainstorm ways to prevent re-rendering entire form when only one piece of the data changes
-	- Idea: Every rendered form component "subscribes" to changes at a particular path and when the data prop changes (and when aggregated values change), a diff is a applied ([using some diffing library](https://github.com/AsyncBanana/microdiff)) and any changed paths are published to any subscribers that care, the whole form should never change.
-	- When should the whole form re-render? When the UI layout changes or the schema changes, then it is acceptable to re-render the whole form.
 - [ ] Design map maker v2 (tech and visual) using [fabricjs](http://fabricjs.com/)
 - [ ] Investigate [yjs](https://github.com/yjs/yjs) for collaborative data editing
 	- [ ] What kind of network architecture to use? P2P? If so, how are edits made on the server?
@@ -55,6 +51,10 @@
 Partially completed TODOs are still left in the main list but may be re-prioritized. Below is TODO items that have been fully resolved but are kept for posterity.
 <br /><br />
 
+- [X] Investigate performance of form generator
+	- [X] Brainstorm ways to prevent re-rendering entire form when only one piece of the data changes
+	- Idea: Every rendered form component "subscribes" to changes at a particular path and when the data prop changes (and when aggregated values change), a diff is a applied ([using some diffing library](https://github.com/AsyncBanana/microdiff)) and any changed paths are published to any subscribers that care, the whole form should never change.
+	- When should the whole form re-render? When the UI layout changes or the schema changes, then it is acceptable to re-render the whole form.
 - [X] Add script for adding intra-package dependencies
 - [X] Add tool that scans for `@campaign-buddy/` references and makes sure that A) the package exists in the projects package.json and B) the package exists in the tsconfig references
 	- [X] Add a tool that scans to make sure cross package references don't use relative imports
