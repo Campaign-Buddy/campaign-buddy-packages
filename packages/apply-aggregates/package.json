@@ -1,22 +1,24 @@
 {
-  "name": "@campaign-buddy/apply-aggregates",
-  "version": "0.1.0",
-  "author": "Joseph Stewart",
-  "license": "MIT",
-  "devDependencies": {
-    "@campaign-buddy/json-schema-core": "0.1.0",
-    "typescript": "^4.2.4"
-  },
-  "scripts": {
-    "build": "tsc -b"
-  },
-  "main": "dist/src/index",
-  "types": "dist/src/index",
-  "files": [
-    "dist"
-  ],
-  "dependencies": {
-    "@campaign-buddy/json-path-ex": "0.1.0",
-    "lodash.clonedeep": "^4.5.0"
-  }
+	"name": "@campaign-buddy/apply-aggregates",
+	"version": "0.1.0",
+	"author": "Joseph Stewart",
+	"license": "MIT",
+	"devDependencies": {
+		"@campaign-buddy/json-schema-core": "0.1.0",
+		"typescript": "^4.2.4"
+	},
+	"scripts": {
+		"build": "tsc -b",
+		"add-local": "node ../../tools/addLocal",
+		"remove-local": "node ../../tools/removeLocal"
+	},
+	"main": "dist/src/index",
+	"types": "dist/src/index",
+	"files": [
+		"dist"
+	],
+	"dependencies": {
+		"@campaign-buddy/json-path-ex": "0.1.0",
+		"lodash.clonedeep": "^4.5.0"
+	}
 }

@@ -1,38 +1,40 @@
 {
-  "name": "@campaign-buddy/form-generator-widgets",
-  "version": "0.1.0",
-  "author": "Joseph Stewart",
-  "license": "MIT",
-  "dependencies": {
-    "@campaign-buddy/common-hooks": "0.1.0",
-    "@campaign-buddy/core-ui": "0.1.0",
-    "@campaign-buddy/frontend-types": "0.1.0",
-    "@campaign-buddy/image-picker-menu": "0.1.0",
-    "@campaign-buddy/rich-text": "0.1.0",
-    "lodash.clonedeep": "^4.5.0",
-    "react-query": "^3.34.12",
-    "semver": "^7.3.5",
-    "styled-components": "^5.2.3"
-  },
-  "devDependencies": {
-    "@campaign-buddy/form-generator": "0.1.0",
-    "@campaign-buddy/json-schema-core": "0.1.0",
-    "@types/json-schema": "^7.0.9",
-    "@types/lodash.clonedeep": "^4.5.6",
-    "@types/semver": "^7.3.9",
-    "fuse.js": "^6.4.6",
-    "react": "^17.0.2",
-    "typescript": "^4.2.4"
-  },
-  "main": "dist/src/index",
-  "files": [
-    "dist/"
-  ],
-  "scripts": {
-    "build": "tsc -b",
-    "test": "jest"
-  },
-  "peerDependencies": {
-    "react": "^17.0.2"
-  }
+	"name": "@campaign-buddy/form-generator-widgets",
+	"version": "0.1.0",
+	"author": "Joseph Stewart",
+	"license": "MIT",
+	"dependencies": {
+		"@campaign-buddy/common-hooks": "0.1.0",
+		"@campaign-buddy/core-ui": "0.1.0",
+		"@campaign-buddy/frontend-types": "0.1.0",
+		"@campaign-buddy/image-picker-menu": "0.1.0",
+		"@campaign-buddy/rich-text": "0.1.0",
+		"lodash.clonedeep": "^4.5.0",
+		"react-query": "^3.34.12",
+		"semver": "^7.3.5",
+		"styled-components": "^5.2.3"
+	},
+	"devDependencies": {
+		"@campaign-buddy/form-generator": "0.1.0",
+		"@campaign-buddy/json-schema-core": "0.1.0",
+		"@types/json-schema": "^7.0.9",
+		"@types/lodash.clonedeep": "^4.5.6",
+		"@types/semver": "^7.3.9",
+		"fuse.js": "^6.4.6",
+		"react": "^17.0.2",
+		"typescript": "^4.2.4"
+	},
+	"main": "dist/src/index",
+	"files": [
+		"dist/"
+	],
+	"scripts": {
+		"build": "tsc -b",
+		"test": "jest",
+		"add-local": "node ../../tools/addLocal",
+		"remove-local": "node ../../tools/removeLocal"
+	},
+	"peerDependencies": {
+		"react": "^17.0.2"
+	}
 }

@@ -21,7 +21,9 @@
 		"typescript": "^4.2.4"
 	},
 	"scripts": {
-		"build": "tsc -b"
+		"build": "tsc -b",
+		"add-local": "node ../../tools/addLocal",
+		"remove-local": "node ../../tools/removeLocal"
 	},
 	"main": "dist/src/index",
 	"files": [

@@ -1,17 +1,19 @@
 {
-  "name": "@campaign-buddy/json-path-ex",
-  "version": "0.1.0",
-  "author": "Joseph Stewart",
-  "license": "MIT",
-  "devDependencies": {
-    "typescript": "^4.2.4"
-  },
-  "main": "dist/src/index",
-  "files": [
-    "dist/"
-  ],
-  "scripts": {
-    "build": "tsc -b",
-    "test": "jest"
-  }
+	"name": "@campaign-buddy/json-path-ex",
+	"version": "0.1.0",
+	"author": "Joseph Stewart",
+	"license": "MIT",
+	"devDependencies": {
+		"typescript": "^4.2.4"
+	},
+	"main": "dist/src/index",
+	"files": [
+		"dist/"
+	],
+	"scripts": {
+		"build": "tsc -b",
+		"test": "jest",
+		"add-local": "node ../../tools/addLocal",
+		"remove-local": "node ../../tools/removeLocal"
+	}
 }
