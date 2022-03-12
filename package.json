@@ -44,6 +44,6 @@
     "test": "jest",
     "lint": "eslint . --quiet",
     "new-package": "node ./tools/newPackage/newPackage.js -p",
-	"audit-deps": "ts-node --transpile-only tools/auditCrossDependencies/auditCrossDependencies.ts"
+	"audit-deps": "ts-node --transpile-only tools/auditCrossDependencies.ts"
   }
 }
