@@ -109,12 +109,12 @@ export const WidgetLabel: React.FC<WidgetLabelProps> = ({
 			<SettingsButtonContainer
 				onClick={eatClicks}
 				isMenuOpen={isSettingsMenuOpen}
+				key="settings-menu"
 			>
 				<MenuPopover
 					items={menuItems}
 					onClose={closeSettingsMenu}
 					isOpen={isSettingsMenuOpen}
-					key="settings-menu"
 				>
 					<Button
 						key="settings-button"
