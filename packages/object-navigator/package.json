@@ -1,0 +1,20 @@
+{
+	"name": "@campaign-buddy/object-navigator",
+	"version": "0.1.0",
+	"author": "Joseph Stewart",
+	"license": "MIT",
+	"dependencies": {},
+	"devDependencies": {
+		"typescript": "^4.2.4"
+	},
+	"scripts": {
+		"build": "tsc -b",
+		"add-local": "node ../../tools/addLocal",
+		"remove-local": "node ../../tools/removeLocal",
+		"test": "jest"
+	},
+	"main": "dist/src/index",
+	"files": [
+		"dist/"
+	]
+}
