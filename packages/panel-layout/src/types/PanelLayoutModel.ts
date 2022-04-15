@@ -11,7 +11,7 @@ export interface PanelRow {
 	 */
 	height: number;
 
-	children: (PanelModel | SubPanelLayoutModel)[]
+	children: (PanelModel | SubPanelLayoutModel)[];
 }
 
 export interface SubPanelLayoutModel extends PanelLayoutModel {
@@ -31,7 +31,7 @@ export interface SubPanelLayoutModel extends PanelLayoutModel {
 }
 
 export interface PanelModel {
-	panes: PaneModel[];
+	children: PaneModel[];
 
 	/**
 	 * Uniquely identifies an instance
@@ -56,4 +56,30 @@ export interface PaneModel {
 	 * pane in a panel layout
 	 */
 	paneId: string;
+}
+
+export type ChildType = PanelRow | SubPanelLayoutModel | PaneModel | PanelModel;
+
+interface HasChildren {
+	children: ChildType[];
+}
+
+export function isPanel(obj: any): obj is PanelModel {
+	return Array.isArray(obj.children) && typeof obj.panelId === 'string';
+}
+
+export function isSubLayout(obj: any): obj is SubPanelLayoutModel {
+	return Array.isArray(obj.children) && typeof obj.panelId === 'string';
+}
+
+export function isPane(obj: any): obj is PaneModel {
+	return typeof obj.uri === 'string' && typeof obj.paneId === 'string';
+}
+
+export function isPanelRow(obj: any): obj is PanelRow {
+	return Array.isArray(obj.children) && typeof obj.height === 'number';
+}
+
+export function hasChildren(obj: any): obj is HasChildren {
+	return Array.isArray(obj.children);
 }

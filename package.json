@@ -26,6 +26,7 @@
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-react": "^7.25.1",
     "eslint-plugin-react-hooks": "^4.2.0",
+    "eslint-prettier": "^0.0.0-empty",
     "fs": "^0.0.1-security",
     "googleapis": "^73.0.0",
     "jest": "^26.6.3",
@@ -44,6 +45,6 @@
     "test": "jest",
     "lint": "eslint . --quiet",
     "new-package": "node ./tools/newPackage/newPackage.js -p",
-	"audit-deps": "ts-node --transpile-only tools/auditCrossDependencies.ts"
+    "audit-deps": "ts-node --transpile-only tools/auditCrossDependencies.ts"
   }
 }

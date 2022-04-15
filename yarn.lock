@@ -5541,6 +5541,11 @@ eslint-plugin-react@^7.25.1:
     resolve "^2.0.0-next.3"
     string.prototype.matchall "^4.0.5"
 
+eslint-prettier@^0.0.0-empty:
+  version "0.0.0-empty"
+  resolved "https://registry.yarnpkg.com/eslint-prettier/-/eslint-prettier-0.0.0-empty.tgz#47e8d7b6c3a83f5ba364078d8ad67e17ad933f3b"
+  integrity sha512-SXB1qOJbk8eptXC0ZNyHIAPNNEKGsmlPFKvoRJBmY6t0UWmNnRdbWa7LIRDC+1ksQoHgL0iub7BGqKgGLMxcUw==
+
 eslint-scope@^4.0.3:
   version "4.0.3"
   resolved "https://registry.yarnpkg.com/eslint-scope/-/eslint-scope-4.0.3.tgz#ca03833310f6889a3264781aa82e63eb9cfe7848"
