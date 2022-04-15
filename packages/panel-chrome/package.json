@@ -1,0 +1,26 @@
+{
+	"name": "@campaign-buddy/panel-chrome",
+	"version": "0.1.0",
+	"author": "Joseph Stewart",
+	"license": "MIT",
+	"dependencies": {
+		"react-split": "^2.0.14"
+	},
+	"devDependencies": {
+		"react": "^18.0.0",
+		"typescript": "^4.2.4"
+	},
+	"peerDependencies": {
+		"react": "^18.0.0"
+	},
+	"scripts": {
+		"build": "tsc -b",
+		"add-local": "node ../../tools/addLocal",
+		"remove-local": "node ../../tools/removeLocal",
+		"test": "jest"
+	},
+	"main": "dist/src/index",
+	"files": [
+		"dist/"
+	]
+}
