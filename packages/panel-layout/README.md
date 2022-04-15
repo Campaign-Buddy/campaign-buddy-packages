@@ -10,6 +10,7 @@ This package is responsible for the panel layout in campaign buddy. It renders c
 - Rendering a tabbed layout in each grid cell with default tab rendering that can be extended by consumers for more complex tab use cases (e.g. tabs with app specific hover behaviors)
 - Providing an API for pane components to update the text of the tab
 - Providing width/height to pane components
+- Providing a standard pattern/API for serializing pane state in saved layouts via URIs
 - Resizing and drag and drop logic
 
 ## Out of scope for this component
@@ -22,3 +23,7 @@ This package is responsible for the panel layout in campaign buddy. It renders c
 - **Panel layout**: A grid of resizable panels
 - **Panel**: A cell within the panel layout grid which can be resized horizontally or vertically. It renders a tab bar at the top and the active pane (the component for which is defined by the consumer)
 - **Pane**: A consumer supplied component that can be rendered into the grid when it is active in a panel. Panes can be dragged into other panels by dragging they're associated tab.
+
+## Pane uris
+
+- Panes are identified via URIs that take the following 
