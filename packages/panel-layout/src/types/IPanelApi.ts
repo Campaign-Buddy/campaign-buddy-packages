@@ -1,4 +1,4 @@
-import { PanelLayoutModel, PaneModel } from './PanelLayoutModel';
+import { PaneModel } from './PanelLayoutModel';
 
 interface PaneLocation {
 	toRightOfPanelId?: string;
@@ -12,26 +12,23 @@ interface PaneLocation {
 
 export interface IPanelApi {
 	addNewPane: (
-		layout: PanelLayoutModel,
 		uri: string,
 		location?: PaneLocation
 	) => PaneModel;
 
 	movePane: (
-		layout: PanelLayoutModel,
 		paneId: string,
 		location: PaneLocation
 	) => PaneModel;
 
-	removePane: (layout: PanelLayoutModel, id: string) => PaneModel;
+	removePane: (paneId: string) => PaneModel;
 
 	navigateToLocationInPane: (
-		layout: PanelLayoutModel,
 		paneId: string,
 		uri: string
 	) => PaneModel;
 
-	closeAllPanesInPanel: (layout: PanelLayoutModel, panelId: string) => void;
+	closeAllPanesInPanel: (panelId: string) => void;
 
-	closeAllPanesToRightOfPane: (layout: PanelLayoutModel, paneId: string) => void;
+	closeAllPanesToRightOfPane: (paneId: string) => void;
 }
