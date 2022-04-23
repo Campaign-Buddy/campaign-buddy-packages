@@ -122,6 +122,8 @@ export class PaneModel extends PanelBase<PanelModel> {
 		this.fireOnChange();
 	};
 
+	public getLocation = () => this.location;
+
 	public toJson = (): PaneDto => ({
 		location: this.location,
 		kind: 'pane',

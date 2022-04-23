@@ -1,8 +1,8 @@
 import cuid from 'cuid';
 import { removeSize, addSize } from './sizeUtility';
 
-type Observer = () => void;
-type Dispose = () => void;
+export type Observer = () => void;
+export type Dispose = () => void;
 
 export abstract class PanelBase<TParent extends ParentBase<any, any>> {
 	private id: string;
