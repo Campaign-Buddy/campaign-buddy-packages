@@ -95,6 +95,15 @@ export abstract class ParentBase<
 		return this.children;
 	};
 
+	public setSizes = (sizes: number[]) => {
+		if (sizes.length !== this._children.length) {
+			throw new Error('sizes length must equal children length');
+		}
+
+		this._sizes = sizes;
+		this.fireOnChange();
+	};
+
 	protected initChildren(children: TChild[]) {
 		this._children = [...children];
 	}
