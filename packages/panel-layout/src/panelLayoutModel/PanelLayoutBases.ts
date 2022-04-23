@@ -73,7 +73,6 @@ export abstract class ParentBase<
 > extends PanelBase<TParent> {
 	private _children: TChild[];
 	private _sizes: number[];
-	private _childDisposes: Dispose[];
 	private shouldTrackSizes?: boolean;
 
 	constructor(parent: TParent | undefined, shouldTrackSizes = true) {
@@ -82,7 +81,6 @@ export abstract class ParentBase<
 		this._children = [];
 		this._sizes = [];
 		this.shouldTrackSizes = shouldTrackSizes;
-		this._childDisposes = [];
 	}
 
 	public get children(): ReadonlyArray<TChild> {
@@ -98,11 +96,7 @@ export abstract class ParentBase<
 	};
 
 	protected initChildren(children: TChild[]) {
-		this.disposeChildrenObservers();
 		this._children = [...children];
-		this._childDisposes = this._children.map((x) =>
-			x.observe(this.fireOnChange)
-		);
 	}
 
 	protected initSizes(sizes: number[]) {
@@ -140,11 +134,5 @@ export abstract class ParentBase<
 		}
 
 		this.fireOnChange();
-	};
-
-	private disposeChildrenObservers = () => {
-		for (const dispose of this._childDisposes) {
-			dispose();
-		}
 	};
 }
