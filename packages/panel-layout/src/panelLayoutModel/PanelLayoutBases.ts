@@ -1,7 +1,7 @@
 import cuid from 'cuid';
 import { removeSize, addSize } from './sizeUtility';
 
-export abstract class PanelBase<TParent> {
+export abstract class PanelBase<TParent extends ParentBase<any, any>> {
 	private id: string;
 	private parent: TParent | undefined;
 
@@ -12,8 +12,27 @@ export abstract class PanelBase<TParent> {
 
 	public getParent = () => this.parent;
 
-	public setParent(parent: TParent | undefined) {
+	public setParent = (parent: TParent | undefined) => {
 		this.parent = parent;
+	}
+
+	protected getSibling = (direction: 'before' | 'after' = 'after'): PanelBase<TParent> | undefined => {
+		if (!this.parent) {
+			return undefined;
+		}
+
+		const siblings = this.parent.getChildren();
+		const selfIndex = siblings.indexOf(this);
+
+		if (selfIndex === -1) {
+			return undefined;
+		}
+
+		if (direction === 'after') {
+			return siblings[selfIndex + 1];
+		} else {
+			return siblings[selfIndex - 1];
+		}
 	}
 
 	public getId = () => this.id;
@@ -25,18 +44,38 @@ export abstract class PanelBase<TParent> {
 
 export abstract class ParentBase<
 	TChild extends PanelBase<any>,
-	TParent
+	TParent extends ParentBase<any, any>
 > extends PanelBase<TParent> {
-	protected children: TChild[];
-	protected sizes: number[];
+	protected _children: TChild[];
+	protected _sizes: number[];
 	private shouldTrackSizes?: boolean;
 
 	constructor(parent: TParent | undefined, shouldTrackSizes = true) {
 		super(parent);
 
-		this.children = [];
-		this.sizes = [];
+		this._children = [];
+		this._sizes = [];
 		this.shouldTrackSizes = shouldTrackSizes;
+	}
+
+	protected initChildren(children: TChild[]) {
+		this._children = [...children];
+	}
+
+	protected initSizes(sizes: number[]) {
+		this._sizes = [...sizes];
+	}
+
+	public get children(): ReadonlyArray<TChild> {
+		return this._children;
+	}
+
+	public get sizes(): ReadonlyArray<number> {
+		return this._sizes;
+	}
+
+	public getChildren = (): ReadonlyArray<TChild> => {
+		return this.children;
 	}
 
 	protected removeChild = (id: string) => {
@@ -46,10 +85,10 @@ export abstract class ParentBase<
 			const child = this.children[index];
 			child.setParent(undefined);
 
-			this.children.splice(index, 1);
+			this._children.splice(index, 1);
 
 			if (this.shouldTrackSizes) {
-				this.sizes = removeSize(this.sizes, index);
+				this._sizes = removeSize(this._sizes, index);
 			}
 		}
 	};
@@ -61,10 +100,10 @@ export abstract class ParentBase<
 			index = this.children.length;
 		}
 
-		this.children.splice(index, 0, child);
+		this._children.splice(index, 0, child);
 
 		if (this.shouldTrackSizes) {
-			this.sizes = addSize(this.sizes, index);
+			this._sizes = addSize(this._sizes, index);
 		}
 	};
 }

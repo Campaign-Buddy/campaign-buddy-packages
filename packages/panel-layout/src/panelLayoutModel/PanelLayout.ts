@@ -17,8 +17,8 @@ export class PanelLayout extends ParentBase<PanelRow, PanelRow> {
 			throw new Error('First constructor argument must be layout');
 		}
 
-		this.children = layout?.children.map((x) => new PanelRow(x, this)) ?? [];
-		this.sizes = layout?.sizes ?? [];
+		this.initChildren(layout?.children.map((x) => new PanelRow(x, this)) ?? []);
+		this.initSizes(layout?.sizes ?? []);
 	}
 
 	public removeRow = (id: string): void => {
@@ -31,7 +31,7 @@ export class PanelLayout extends ParentBase<PanelRow, PanelRow> {
 
 	public toJson = (): PanelLayoutDto => ({
 		children: this.children.map((x) => x.toJson()),
-		sizes: this.sizes,
+		sizes: [...this.sizes],
 		kind: 'panelLayout',
 	});
 }
@@ -44,7 +44,7 @@ export class PanelRow extends ParentBase<Panel | PanelLayout, PanelLayout> {
 			throw new Error('First constructor argument must be row');
 		}
 
-		this.children =
+		this.initChildren(
 			row?.children.map((x) => {
 				if (isPanelModel(x)) {
 					return new Panel(x, this);
@@ -53,9 +53,10 @@ export class PanelRow extends ParentBase<Panel | PanelLayout, PanelLayout> {
 				} else {
 					throw new Error('Unexpected child of row');
 				}
-			}) ?? [];
+			}) ?? []
+		);
 
-		this.sizes = row?.sizes ?? [];
+		this.initSizes(row?.sizes ?? []);
 	}
 
 	public removePanel = (id: string) => {
@@ -68,7 +69,7 @@ export class PanelRow extends ParentBase<Panel | PanelLayout, PanelLayout> {
 
 	public toJson = (): PanelRowDto => ({
 		children: this.children.map((x) => x.toJson()),
-		sizes: this.sizes,
+		sizes: [...this.sizes],
 		kind: 'panelRow',
 	});
 }
@@ -76,12 +77,12 @@ export class PanelRow extends ParentBase<Panel | PanelLayout, PanelLayout> {
 export class Panel extends ParentBase<Pane, PanelRow> {
 	constructor(panel?: PanelDto, parent?: PanelRow) {
 		super(parent, true);
-
+		
 		if (panel && !isPanelModel(panel)) {
 			throw new Error('First constructor argument must be panel');
 		}
 
-		this.children = panel?.children.map((x) => new Pane(x, this)) ?? [];
+		this.initChildren(panel?.children.map((x) => new Pane(x, this)) ?? []);
 	}
 
 	public removePane = (id: string) => {
