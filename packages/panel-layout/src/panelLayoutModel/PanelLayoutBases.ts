@@ -1,22 +1,47 @@
 import cuid from 'cuid';
 import { removeSize, addSize } from './sizeUtility';
 
+type Observer = () => void;
+type Dispose = () => void;
+
 export abstract class PanelBase<TParent extends ParentBase<any, any>> {
 	private id: string;
 	private parent: TParent | undefined;
+	private observers: Observer[];
 
 	constructor(parent?: TParent) {
 		this.parent = parent;
 		this.id = cuid();
+		this.observers = [];
 	}
+
+	public observe = (observer: Observer): Dispose => {
+		this.observers.push(observer);
+
+		return () => {
+			const index = this.observers.indexOf(observer);
+
+			if (index !== -1) {
+				this.observers.splice(index, 1);
+			}
+		};
+	};
+
+	protected fireOnChange = () => {
+		for (const observer of this.observers) {
+			observer();
+		}
+	};
 
 	public getParent = () => this.parent;
 
 	public setParent = (parent: TParent | undefined) => {
 		this.parent = parent;
-	}
+	};
 
-	protected getSibling = (direction: 'before' | 'after' = 'after'): PanelBase<TParent> | undefined => {
+	protected getSibling = (
+		direction: 'before' | 'after' = 'after'
+	): PanelBase<TParent> | undefined => {
 		if (!this.parent) {
 			return undefined;
 		}
@@ -33,7 +58,7 @@ export abstract class PanelBase<TParent extends ParentBase<any, any>> {
 		} else {
 			return siblings[selfIndex - 1];
 		}
-	}
+	};
 
 	public getId = () => this.id;
 
@@ -46,8 +71,9 @@ export abstract class ParentBase<
 	TChild extends PanelBase<any>,
 	TParent extends ParentBase<any, any>
 > extends PanelBase<TParent> {
-	protected _children: TChild[];
-	protected _sizes: number[];
+	private _children: TChild[];
+	private _sizes: number[];
+	private _childDisposes: Dispose[];
 	private shouldTrackSizes?: boolean;
 
 	constructor(parent: TParent | undefined, shouldTrackSizes = true) {
@@ -56,14 +82,7 @@ export abstract class ParentBase<
 		this._children = [];
 		this._sizes = [];
 		this.shouldTrackSizes = shouldTrackSizes;
-	}
-
-	protected initChildren(children: TChild[]) {
-		this._children = [...children];
-	}
-
-	protected initSizes(sizes: number[]) {
-		this._sizes = [...sizes];
+		this._childDisposes = [];
 	}
 
 	public get children(): ReadonlyArray<TChild> {
@@ -76,6 +95,18 @@ export abstract class ParentBase<
 
 	public getChildren = (): ReadonlyArray<TChild> => {
 		return this.children;
+	};
+
+	protected initChildren(children: TChild[]) {
+		this.disposeChildrenObservers();
+		this._children = [...children];
+		this._childDisposes = this._children.map((x) =>
+			x.observe(this.fireOnChange)
+		);
+	}
+
+	protected initSizes(sizes: number[]) {
+		this._sizes = [...sizes];
 	}
 
 	protected removeChild = (id: string) => {
@@ -91,6 +122,8 @@ export abstract class ParentBase<
 				this._sizes = removeSize(this._sizes, index);
 			}
 		}
+
+		this.fireOnChange();
 	};
 
 	protected addChild = (child: TChild, beforeTargetId?: string) => {
@@ -104,6 +137,14 @@ export abstract class ParentBase<
 
 		if (this.shouldTrackSizes) {
 			this._sizes = addSize(this._sizes, index);
+		}
+
+		this.fireOnChange();
+	};
+
+	private disposeChildrenObservers = () => {
+		for (const dispose of this._childDisposes) {
+			dispose();
 		}
 	};
 }

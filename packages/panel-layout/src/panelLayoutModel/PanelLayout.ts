@@ -77,7 +77,7 @@ export class PanelRow extends ParentBase<Panel | PanelLayout, PanelLayout> {
 export class Panel extends ParentBase<Pane, PanelRow> {
 	constructor(panel?: PanelDto, parent?: PanelRow) {
 		super(parent, true);
-		
+
 		if (panel && !isPanelModel(panel)) {
 			throw new Error('First constructor argument must be panel');
 		}
@@ -111,6 +111,11 @@ export class Pane extends PanelBase<Panel> {
 
 		this.location = pane.location;
 	}
+
+	public setLocation = (location: string) => {
+		this.location = location;
+		this.fireOnChange();
+	};
 
 	public toJson = (): PaneDto => ({
 		location: this.location,
