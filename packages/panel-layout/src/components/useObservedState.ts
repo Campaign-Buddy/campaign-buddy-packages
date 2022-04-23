@@ -19,5 +19,5 @@ export function useObserverState<T>(model: PanelBase<any>, getState: () => T) {
 export function useChildren<TChildren extends PanelBase<any>>(
 	model: ParentBase<TChildren, any>
 ) {
-	return useObserverState(model, () => model.getChildren());
+	return useObserverState(model, () => [...model.getChildren()]);
 }

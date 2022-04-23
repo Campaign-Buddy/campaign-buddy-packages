@@ -43,5 +43,5 @@ export function isPanelModel(obj: any): obj is PanelDto {
 }
 
 export function isPaneModel(obj: any): obj is PaneDto {
-	return obj.kind === 'pane' && typeof location === 'string';
+	return obj.kind === 'pane' && typeof obj.location === 'string';
 }
