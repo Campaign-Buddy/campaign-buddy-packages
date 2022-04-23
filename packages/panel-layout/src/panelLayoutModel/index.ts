@@ -1,2 +1,2 @@
-export * from './PanelLayout';
+export * from './PanelLayoutModel';
 export * from './PanelDtoTypes';

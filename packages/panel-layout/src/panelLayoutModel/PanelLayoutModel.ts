@@ -10,14 +10,16 @@ import {
 } from './PanelDtoTypes';
 import { PanelBase, ParentBase } from './PanelLayoutBases';
 
-export class PanelLayout extends ParentBase<PanelRow, PanelRow> {
-	constructor(layout?: PanelLayoutDto, parent?: PanelRow) {
+export class PanelLayoutModel extends ParentBase<PanelRowModel, PanelRowModel> {
+	constructor(layout?: PanelLayoutDto, parent?: PanelRowModel) {
 		super(parent);
 		if (layout && !isPanelLayoutModel(layout)) {
 			throw new Error('First constructor argument must be layout');
 		}
 
-		this.initChildren(layout?.children.map((x) => new PanelRow(x, this)) ?? []);
+		this.initChildren(
+			layout?.children.map((x) => new PanelRowModel(x, this)) ?? []
+		);
 		this.initSizes(layout?.sizes ?? []);
 	}
 
@@ -26,7 +28,7 @@ export class PanelLayout extends ParentBase<PanelRow, PanelRow> {
 	};
 
 	public addRow = (row: PanelRowDto, beforeTargetRowId?: string) => {
-		this.addChild(new PanelRow(row), beforeTargetRowId);
+		this.addChild(new PanelRowModel(row), beforeTargetRowId);
 	};
 
 	public toJson = (): PanelLayoutDto => ({
@@ -36,8 +38,11 @@ export class PanelLayout extends ParentBase<PanelRow, PanelRow> {
 	});
 }
 
-export class PanelRow extends ParentBase<Panel | PanelLayout, PanelLayout> {
-	constructor(row?: PanelRowDto, parent?: PanelLayout) {
+export class PanelRowModel extends ParentBase<
+	PanelModel | PanelLayoutModel,
+	PanelLayoutModel
+> {
+	constructor(row?: PanelRowDto, parent?: PanelLayoutModel) {
 		super(parent);
 
 		if (row && !isPanelRowModel(row)) {
@@ -47,9 +52,9 @@ export class PanelRow extends ParentBase<Panel | PanelLayout, PanelLayout> {
 		this.initChildren(
 			row?.children.map((x) => {
 				if (isPanelModel(x)) {
-					return new Panel(x, this);
+					return new PanelModel(x, this);
 				} else if (isPanelLayoutModel(x)) {
-					return new PanelLayout(x, this);
+					return new PanelLayoutModel(x, this);
 				} else {
 					throw new Error('Unexpected child of row');
 				}
@@ -64,7 +69,7 @@ export class PanelRow extends ParentBase<Panel | PanelLayout, PanelLayout> {
 	};
 
 	public addPanel = (dto: PanelDto, beforePanelId?: string) => {
-		this.addChild(new Panel(dto, this), beforePanelId);
+		this.addChild(new PanelModel(dto, this), beforePanelId);
 	};
 
 	public toJson = (): PanelRowDto => ({
@@ -74,15 +79,15 @@ export class PanelRow extends ParentBase<Panel | PanelLayout, PanelLayout> {
 	});
 }
 
-export class Panel extends ParentBase<Pane, PanelRow> {
-	constructor(panel?: PanelDto, parent?: PanelRow) {
+export class PanelModel extends ParentBase<PaneModel, PanelRowModel> {
+	constructor(panel?: PanelDto, parent?: PanelRowModel) {
 		super(parent, true);
 
 		if (panel && !isPanelModel(panel)) {
 			throw new Error('First constructor argument must be panel');
 		}
 
-		this.initChildren(panel?.children.map((x) => new Pane(x, this)) ?? []);
+		this.initChildren(panel?.children.map((x) => new PaneModel(x, this)) ?? []);
 	}
 
 	public removePane = (id: string) => {
@@ -90,7 +95,7 @@ export class Panel extends ParentBase<Pane, PanelRow> {
 	};
 
 	public addPane = (dto: PaneDto, beforePaneId?: string) => {
-		this.addChild(new Pane(dto, this), beforePaneId);
+		this.addChild(new PaneModel(dto, this), beforePaneId);
 	};
 
 	public toJson = (): PanelDto => ({
@@ -99,10 +104,10 @@ export class Panel extends ParentBase<Pane, PanelRow> {
 	});
 }
 
-export class Pane extends PanelBase<Panel> {
+export class PaneModel extends PanelBase<PanelModel> {
 	private location: string;
 
-	constructor(pane: PaneDto, parent?: Panel) {
+	constructor(pane: PaneDto, parent?: PanelModel) {
 		super(parent);
 
 		if (pane && !isPaneModel(pane)) {
