@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { PanelModel } from '../../panelLayoutModel';
 import { Pane } from '../Pane';
 import { useChildren } from '../useObservedState';
+import { TabBar } from './TabBar';
 
 export interface IPanelProps {
 	panel: PanelModel;
@@ -13,16 +14,11 @@ export const Panel: React.FC<IPanelProps> = ({ panel }) => {
 
 	return (
 		<div>
-			<select
-				value={activePaneId}
-				onChange={(e) => setActivePaneId(e.target.value)}
-			>
-				{children.map((x) => (
-					<option key={x.getId()} value={x.getId()}>
-						{x.getId()}
-					</option>
-				))}
-			</select>
+			<TabBar
+				panes={children}
+				onActivePaneIdChange={setActivePaneId}
+				activePaneId={activePaneId}
+			/>
 			{children.map((x) => (
 				<div
 					key={x.getId()}

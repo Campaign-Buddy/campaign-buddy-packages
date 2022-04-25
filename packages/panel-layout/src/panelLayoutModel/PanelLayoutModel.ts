@@ -106,6 +106,7 @@ export class PanelModel extends ParentBase<PaneModel, PanelRowModel> {
 
 export class PaneModel extends PanelBase<PanelModel> {
 	private location: string;
+	private tabTitle: string;
 
 	constructor(pane: PaneDto, parent?: PanelModel) {
 		super(parent);
@@ -115,12 +116,20 @@ export class PaneModel extends PanelBase<PanelModel> {
 		}
 
 		this.location = pane.location;
+		this.tabTitle = 'Campaign Buddy';
 	}
 
 	public setLocation = (location: string) => {
 		this.location = location;
 		this.fireOnChange();
 	};
+
+	public setTabTitle = (title: string) => {
+		this.tabTitle = title;
+		this.fireOnChange();
+	};
+
+	public getTabTitle = () => this.tabTitle;
 
 	public getLocation = () => this.location;
 
