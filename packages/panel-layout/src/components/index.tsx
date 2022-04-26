@@ -1,1 +1,1 @@
-export * from '../panel-layout';
+export * from './panel-layout';

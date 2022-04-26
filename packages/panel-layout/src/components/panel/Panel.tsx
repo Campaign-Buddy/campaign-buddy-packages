@@ -11,7 +11,9 @@ export interface IPanelProps {
 
 export const Panel: React.FC<IPanelProps> = ({ panel }) => {
 	const children = useChildren(panel);
-	const [activePaneId, setActivePaneId] = useState(panel.children[0].getId());
+	const [activePaneId, setActivePaneId] = useState(
+		panel.getChildren()[0].getId()
+	);
 
 	return (
 		<PanelContainer>

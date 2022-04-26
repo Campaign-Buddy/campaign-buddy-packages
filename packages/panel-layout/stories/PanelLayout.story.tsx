@@ -1,5 +1,6 @@
 import cuid from 'cuid';
 import React from 'react';
+import styled, { createGlobalStyle } from 'styled-components';
 import {
 	PanelLayout,
 	PanelLayoutDto,
@@ -10,6 +11,19 @@ import {
 export default {
 	title: 'panel-layout/PanelLayout',
 };
+
+const GlobalStyle = createGlobalStyle`
+	html, body, #root {
+		width: 100%;
+		height: 100%;
+		padding: 0;
+	}
+`;
+
+const StoryRoot = styled.div`
+	height: 100%;
+	padding: 8px;
+`;
 
 const layoutDto: PanelLayoutDto = {
 	kind: 'panelLayout',
@@ -38,8 +52,23 @@ const layoutDto: PanelLayoutDto = {
 			],
 			sizes: [50, 50],
 		},
+		{
+			kind: 'panelRow',
+			children: [
+				{
+					kind: 'panel',
+					children: [
+						{
+							kind: 'pane',
+							location: 'characterSheet',
+						},
+					],
+				},
+			],
+			sizes: [100],
+		},
 	],
-	sizes: [100],
+	sizes: [75, 25],
 };
 
 const layout = new PanelLayoutModel(layoutDto);
@@ -58,11 +87,12 @@ function serialize() {
 
 export const Primary = () => {
 	return (
-		<div>
+		<StoryRoot>
+			<GlobalStyle />
 			<button onClick={addNewPane}>Add pane</button>
 			<button onClick={serialize}>Serialize</button>
 			<PanelLayout panelLayout={layout} />
-		</div>
+		</StoryRoot>
 	);
 };
 Primary.parameters = {
