@@ -1,5 +1,5 @@
 import React from 'react';
-import { PanelLayoutModel } from '../panelLayoutModel';
+import { PanelLayoutModel } from '../../panelLayoutModel';
 import { PanelRow } from './panel-row';
 import { useChildren } from './useObservedState';
 
