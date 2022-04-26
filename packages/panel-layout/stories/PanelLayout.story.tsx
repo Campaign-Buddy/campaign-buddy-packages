@@ -8,7 +8,7 @@ import {
 } from '../src';
 
 export default {
-	title: 'AAABCD',
+	title: 'panel-layout/PanelLayout',
 };
 
 const layoutDto: PanelLayoutDto = {
@@ -26,8 +26,17 @@ const layoutDto: PanelLayoutDto = {
 						},
 					],
 				},
+				{
+					kind: 'panel',
+					children: [
+						{
+							kind: 'pane',
+							location: 'notesTool:noteId=12345',
+						},
+					],
+				},
 			],
-			sizes: [100],
+			sizes: [50, 50],
 		},
 	],
 	sizes: [100],
@@ -56,7 +65,6 @@ export const Primary = () => {
 		</div>
 	);
 };
-
-export function Secondary() {
-	return <p>HI there</p>;
-}
+Primary.parameters = {
+	backgrounds: { default: 'campaign-buddy-app' },
+};

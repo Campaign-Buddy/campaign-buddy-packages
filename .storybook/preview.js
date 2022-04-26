@@ -7,12 +7,16 @@ export const parameters = {
 		},
 	},
 	backgrounds: {
-		default: "campaign-buddy",
+		default: "campaign-buddy-panel",
 		values: [
 			{
-				name: "campaign-buddy",
+				name: "campaign-buddy-panel",
 				value: "#EFE1C6",
 			},
+			{
+				name: "campaign-buddy-app",
+				value: 'white'
+			}
 		],
 	},
 	options: {

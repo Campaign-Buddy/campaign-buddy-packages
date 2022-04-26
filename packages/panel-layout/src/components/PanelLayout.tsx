@@ -1,6 +1,6 @@
 import React from 'react';
 import { PanelLayoutModel } from '../panelLayoutModel';
-import { PanelRow } from './PanelRow';
+import { PanelRow } from './panel-row';
 import { useChildren } from './useObservedState';
 
 export interface IPanelLayoutProps {

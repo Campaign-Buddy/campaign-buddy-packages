@@ -83,17 +83,11 @@ export abstract class ParentBase<
 		this.shouldTrackSizes = shouldTrackSizes;
 	}
 
-	public get children(): ReadonlyArray<TChild> {
-		return this._children;
-	}
-
-	public get sizes(): ReadonlyArray<number> {
-		return this._sizes;
-	}
-
 	public getChildren = (): ReadonlyArray<TChild> => {
 		return this.children;
 	};
+
+	public getSizes = () => this._sizes;
 
 	public setSizes = (sizes: number[]) => {
 		if (sizes.length !== this._children.length) {
@@ -110,6 +104,14 @@ export abstract class ParentBase<
 
 	protected initSizes(sizes: number[]) {
 		this._sizes = [...sizes];
+	}
+
+	protected get children(): ReadonlyArray<TChild> {
+		return this._children;
+	}
+
+	protected get sizes(): ReadonlyArray<number> {
+		return this._sizes;
 	}
 
 	protected removeChild = (id: string) => {

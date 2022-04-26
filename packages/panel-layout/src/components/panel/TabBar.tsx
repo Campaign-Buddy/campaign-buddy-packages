@@ -1,6 +1,7 @@
 import React from 'react';
 import { PaneModel } from '../../panelLayoutModel';
 import { useObserverState } from '../useObservedState';
+import { TabBarContainer } from './Panel.styled';
 
 export interface ITabBarProps {
 	panes: PaneModel[];
@@ -14,14 +15,16 @@ export const TabBar: React.FC<ITabBarProps> = ({
 	activePaneId,
 }) => {
 	return (
-		<select
-			value={activePaneId}
-			onChange={(e) => onActivePaneIdChange(e.target.value)}
-		>
-			{panes.map((x) => (
-				<PaneTab key={x.getId()} pane={x} />
-			))}
-		</select>
+		<TabBarContainer>
+			<select
+				value={activePaneId}
+				onChange={(e) => onActivePaneIdChange(e.target.value)}
+			>
+				{panes.map((x) => (
+					<PaneTab key={x.getId()} pane={x} />
+				))}
+			</select>
+		</TabBarContainer>
 	);
 };
 
