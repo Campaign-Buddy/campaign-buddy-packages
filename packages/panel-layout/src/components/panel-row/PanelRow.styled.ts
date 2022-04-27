@@ -4,10 +4,12 @@ export const PanelRowContainer = styled.div`
 	display: flex;
 	width: 100%;
 	height: 100%;
+	max-width: 100%;
 
 	.campaign-buddy-panel-row-split {
 		display: flex;
 		flex-direction: row;
 		flex: 1;
+		max-width: 100%;
 	}
 `;

@@ -64,11 +64,62 @@ const layoutDto: PanelLayoutDto = {
 						},
 					],
 				},
+				{
+					kind: 'panelLayout',
+					children: [
+						{
+							kind: 'panelRow',
+							children: [
+								{
+									kind: 'panel',
+									children: [
+										{
+											kind: 'pane',
+											location: 'somelocation',
+										},
+									],
+								},
+							],
+							sizes: [100],
+						},
+						{
+							kind: 'panelRow',
+							children: [
+								{
+									kind: 'panel',
+									children: [
+										{
+											kind: 'pane',
+											location: 'someotherlocation',
+										},
+									],
+								},
+							],
+							sizes: [100],
+						},
+						{
+							kind: 'panelRow',
+							children: [
+								{
+									kind: 'panel',
+									children: [
+										{
+											kind: 'pane',
+											location: 'someotherlocation',
+										},
+									],
+								},
+							],
+							sizes: [100],
+						},
+					],
+					sizes: [25, 25, 50],
+				},
 			],
-			sizes: [100],
+			sizes: [50, 50],
 		},
 	],
-	sizes: [75, 25],
+	sizes: [35, 65],
 };
 
 const layout = new PanelLayoutModel(layoutDto);

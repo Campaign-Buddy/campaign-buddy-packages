@@ -1,7 +1,7 @@
 import React from 'react';
 import Split from 'react-split';
 import { PanelLayoutModel } from '../../panelLayoutModel';
-import { PanelRow } from '../panel-row';
+import { PanelRow } from '../panel-row/PanelRow';
 import { useChildren, useSizes } from '../useObservedState';
 import { PanelLayoutContainer } from './PanelLayout.styled';
 
@@ -13,6 +13,14 @@ export const PanelLayout: React.FC<IPanelLayoutProps> = ({ panelLayout }) => {
 	const children = useChildren(panelLayout);
 	const [sizes, setSizes] = useSizes(panelLayout);
 
+	const mappedChildren = children.map((x) => (
+		<PanelRow key={x.getId()} row={x} />
+	));
+
+	if (children.length === 1) {
+		return <PanelLayoutContainer>{mappedChildren}</PanelLayoutContainer>;
+	}
+
 	return (
 		<PanelLayoutContainer>
 			<Split
@@ -20,12 +28,12 @@ export const PanelLayout: React.FC<IPanelLayoutProps> = ({ panelLayout }) => {
 				sizes={sizes}
 				onDragEnd={setSizes}
 				direction="vertical"
-				gutterSize={4}
+				gutterSize={8}
+				snapOffset={0}
+				minSize={0}
 			>
-				{children.map((x) => (
-					<div key={x.getId()}>
-						<PanelRow row={x} />
-					</div>
+				{mappedChildren.map((child) => (
+					<div key={child.key}>{child}</div>
 				))}
 			</Split>
 		</PanelLayoutContainer>
