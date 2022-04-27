@@ -132,6 +132,15 @@ function addNewPane() {
 	}
 }
 
+function addNewPanel() {
+	const firstRow = layout.getChildren()[0];
+
+	firstRow.addPanel({
+		kind: 'panel',
+		children: [{ kind: 'pane', location: cuid() }],
+	});
+}
+
 function serialize() {
 	console.log(layout.toJson());
 }
@@ -141,6 +150,7 @@ export const Primary = () => {
 		<StoryRoot>
 			<GlobalStyle />
 			<button onClick={addNewPane}>Add pane</button>
+			<button onClick={addNewPanel}>Add panel</button>
 			<button onClick={serialize}>Serialize</button>
 			<PanelLayout panelLayout={layout} />
 		</StoryRoot>

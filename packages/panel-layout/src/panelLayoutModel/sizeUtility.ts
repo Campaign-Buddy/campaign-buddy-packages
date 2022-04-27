@@ -24,7 +24,7 @@ export function addSize(
 	sizes: number[],
 	insertAtIndex: number,
 	desiredSize?: number,
-	minPreferredSize?: number,
+	minPreferredSize = 10,
 	targetIndex?: number
 ): number[] {
 	const copy = [...sizes];
