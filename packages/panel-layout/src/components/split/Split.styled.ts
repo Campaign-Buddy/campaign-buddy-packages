@@ -12,8 +12,6 @@ export interface DirectionAwareProps {
 export const SplitChild = styled.div`
 	overflow: hidden;
 	position: relative;
-	min-width: ${minSize}px;
-	min-height: ${minSize}px;
 	flex-grow: 0;
 	flex-shrink: 0;
 `;

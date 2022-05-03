@@ -30,7 +30,7 @@ export const Split: React.FC<SplitProps> = ({
 	const childRefsByIndex = useRef<HTMLDivElement[]>([]);
 
 	const syncedSizesRef = useRef(sizes);
-	const nextSizesRef = useRef(sizes);
+	const nextSizesRef = useRef([...sizes]);
 	const onSizesChangeRef = useRef(onSizesChange);
 
 	useEffect(() => {
