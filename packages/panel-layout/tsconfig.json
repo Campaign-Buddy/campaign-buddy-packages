@@ -8,5 +8,8 @@
 		"src/**/*"
 	],
 	"references": [
+		{
+			"path": "../common-hooks/tsconfig.json"
+		}
 	]
 }

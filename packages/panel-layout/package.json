@@ -4,13 +4,16 @@
 	"author": "Joseph Stewart",
 	"license": "MIT",
 	"dependencies": {
+		"@campaign-buddy/common-hooks": "0.1.0",
 		"cuid": "^2.1.8",
 		"lodash.clonedeep": "^4.5.0",
+		"lodash.isequal": "^4.5.0",
 		"react-split": "^2.0.14",
 		"styled-components": "^5.2.3"
 	},
 	"devDependencies": {
 		"@types/lodash.clonedeep": "^4.5.6",
+		"@types/lodash.isequal": "^4.5.6",
 		"react": "^17.0.2",
 		"type-fest": "^2.12.2",
 		"typescript": "^4.2.4"
