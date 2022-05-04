@@ -24,10 +24,13 @@ export function adjustChildrenForDrag(
 		return;
 	}
 
-	const prevChildNewPercentSize = sizes[index - 1] + desiredMove;
-	const currentChildNewPercentSize = sizes[index] - desiredMove;
+	let prevChildNewPercentSize = sizes[index - 1] + desiredMove;
+	let currentChildNewPercentSize = sizes[index] - desiredMove;
 
+	const prevChildOldSize = (sizes[index - 1] / 100) * containerSize;
 	const prevChildNewSize = (prevChildNewPercentSize / 100) * containerSize;
+
+	const currentChildOldSize = (sizes[index] / 100) * containerSize;
 	const currentChildNewSize =
 		(currentChildNewPercentSize / 100) * containerSize;
 
@@ -35,12 +38,32 @@ export function adjustChildrenForDrag(
 	const isCurrentChildMiddle = index !== children.length - 1;
 
 	const isCurrentChildTooSmall =
-		currentChildNewSize < minSize + gutterSize / (isCurrentChildMiddle ? 1 : 2);
+		currentChildNewSize <
+			minSize + gutterSize / (isCurrentChildMiddle ? 1 : 2) &&
+		currentChildNewSize <= currentChildOldSize;
 	const isPrevChildTooSmall =
-		prevChildNewSize < minSize + gutterSize / (isPrevChildMiddle ? 1 : 2);
+		prevChildNewSize < minSize + gutterSize / (isPrevChildMiddle ? 1 : 2) &&
+		prevChildNewSize <= prevChildOldSize;
 
-	if (isCurrentChildTooSmall || isPrevChildTooSmall) {
+	if (isCurrentChildTooSmall && isPrevChildTooSmall) {
 		return;
+	}
+
+	// let x = right old size
+	// let y = left old size
+	// let a = 50
+	// let b = left new size
+	// a + b = x + y
+	// b = (x + y) - a
+	const oldSum = sizes[index] + sizes[index - 1];
+	const minSizeAsPercent = (minSize / containerSize) * 100;
+	const remainder = oldSum - minSizeAsPercent;
+	if (isCurrentChildTooSmall) {
+		currentChildNewPercentSize = minSizeAsPercent;
+		prevChildNewPercentSize = remainder;
+	} else if (isPrevChildTooSmall) {
+		prevChildNewPercentSize = minSizeAsPercent;
+		currentChildNewPercentSize = remainder;
 	}
 
 	currentChildEl.style.flexBasis = getFlexBasis(
