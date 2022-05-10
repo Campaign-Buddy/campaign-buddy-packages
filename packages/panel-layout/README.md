@@ -2,6 +2,15 @@
 
 This package is responsible for the panel layout in campaign buddy. It renders components in a resizable grid layout where each cell in the grid is a tabbed panel that contains one or more panes and renders the active pane.
 
+## TODO
+
+- [ ] Drop zones
+- [ ] Tab overflow logic
+- [ ] Actual pane rendering (and URI format)
+- [ ] Blank tab logic
+- [ ] Closing tabs
+- [ ] Fixing default sizing logic for new panels
+
 ## In scope for this component
 
 - Rendering a grid layout
