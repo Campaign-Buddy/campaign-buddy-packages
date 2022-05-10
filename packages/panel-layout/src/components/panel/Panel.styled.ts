@@ -16,5 +16,3 @@ export const PanelContainer = styled.div`
 	width: 100%;
 	height: 100%;
 `;
-
-export const TabBarContainer = styled.div``;
