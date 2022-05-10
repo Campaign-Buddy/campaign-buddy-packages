@@ -1,5 +1,8 @@
 import React, { useCallback } from 'react';
+import { useDrag } from 'react-dnd';
+import { getEmptyImage } from 'react-dnd-html5-backend';
 import { PaneModel } from '../../panelLayoutModel';
+import { getPaneDragItem, PaneDragItemKind } from '../drag-and-drop';
 import { useObserverState } from '../useObservedState';
 import { StyledTab, TabBarContainer } from './TabBar.styled';
 
@@ -46,11 +49,21 @@ const PaneTab: React.FC<IPaneTabProps> = ({
 		onActivePaneIdChange(paneId);
 	}, [onActivePaneIdChange, paneId]);
 
+	const [{ isDragging }, dragRef] = useDrag(() => ({
+		type: PaneDragItemKind,
+		item: getPaneDragItem(pane),
+		collect: (monitor) => ({
+			isDragging: monitor.isDragging(),
+		}),
+	}));
+
 	return (
 		<StyledTab
 			className={isActive ? 'campaign-buddy-active-tab' : undefined}
 			isActive={isActive}
 			onClick={handleClick}
+			isDragging={isDragging}
+			ref={dragRef}
 		>
 			{title}
 		</StyledTab>

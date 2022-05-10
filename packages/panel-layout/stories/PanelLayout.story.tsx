@@ -1,6 +1,8 @@
 import cuid from 'cuid';
 import React from 'react';
 import styled, { createGlobalStyle } from 'styled-components';
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
 import {
 	PanelLayout,
 	PanelLayoutDto,
@@ -148,11 +150,13 @@ function serialize() {
 export const Primary = () => {
 	return (
 		<StoryRoot>
-			<GlobalStyle />
-			<button onClick={addNewPane}>Add pane</button>
-			<button onClick={addNewPanel}>Add panel</button>
-			<button onClick={serialize}>Serialize</button>
-			<PanelLayout panelLayout={layout} />
+			<DndProvider backend={HTML5Backend}>
+				<GlobalStyle />
+				<button onClick={addNewPane}>Add pane</button>
+				<button onClick={addNewPanel}>Add panel</button>
+				<button onClick={serialize}>Serialize</button>
+				<PanelLayout panelLayout={layout} />
+			</DndProvider>
 		</StoryRoot>
 	);
 };

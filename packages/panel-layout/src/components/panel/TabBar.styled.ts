@@ -4,7 +4,7 @@ export const TabBarContainer = styled.div`
 	display: flex;
 `;
 
-export const StyledTab = styled.div<{ isActive: boolean }>`
+export const StyledTab = styled.div<{ isActive: boolean; isDragging: boolean }>`
 	padding: 4px 8px;
 	white-space: nowrap;
 	background-color: ${({ isActive }) => (isActive ? '#efe1c6' : 'transparent')};
@@ -12,6 +12,7 @@ export const StyledTab = styled.div<{ isActive: boolean }>`
 	position: relative;
 	cursor: default;
 	user-select: none;
+	${({ isDragging }) => isDragging ? 'opacity: 50%;' : ''};
 
 	:not(.campaign-buddy-active-tab):not(:hover)
 		+ &:not(:first-child):not(.campaign-buddy-active-tab):not(:hover):before {
