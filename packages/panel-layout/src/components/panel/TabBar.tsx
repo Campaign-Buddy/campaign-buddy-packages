@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { useDrag } from 'react-dnd';
 import { getEmptyImage } from 'react-dnd-html5-backend';
 import { PaneModel } from '../../panelLayoutModel';
@@ -49,13 +49,18 @@ const PaneTab: React.FC<IPaneTabProps> = ({
 		onActivePaneIdChange(paneId);
 	}, [onActivePaneIdChange, paneId]);
 
-	const [{ isDragging }, dragRef] = useDrag(() => ({
+	const [{ isDragging }, dragRef, preview] = useDrag(() => ({
 		type: PaneDragItemKind,
 		item: getPaneDragItem(pane),
 		collect: (monitor) => ({
 			isDragging: monitor.isDragging(),
 		}),
 	}));
+
+	useEffect(() => {
+		preview(getEmptyImage(), { captureDraggingState: true });
+		// eslint-disable-next-line
+	}, []);
 
 	return (
 		<StyledTab

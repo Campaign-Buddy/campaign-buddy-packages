@@ -1,18 +1,24 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 export const TabBarContainer = styled.div`
 	display: flex;
 `;
 
-export const StyledTab = styled.div<{ isActive: boolean; isDragging: boolean }>`
+export const defaultTabStyles = css`
 	padding: 4px 8px;
 	white-space: nowrap;
-	background-color: ${({ isActive }) => (isActive ? '#efe1c6' : 'transparent')};
-	border-radius: 4px 4px 0 0;
+	background-color: #efe1c6;
+	border-radius: 4px;
 	position: relative;
 	cursor: default;
 	user-select: none;
-	${({ isDragging }) => isDragging ? 'opacity: 50%;' : ''};
+`;
+
+export const StyledTab = styled.div<{ isActive: boolean; isDragging: boolean }>`
+	${defaultTabStyles}
+	${({ isDragging }) => (isDragging ? 'opacity: 50%;' : '')};
+	${({ isActive }) => (!isActive ? 'background-color: transparent;' : '')};
+	border-radius: 4px 4px 0 0;
 
 	:not(.campaign-buddy-active-tab):not(:hover)
 		+ &:not(:first-child):not(.campaign-buddy-active-tab):not(:hover):before {

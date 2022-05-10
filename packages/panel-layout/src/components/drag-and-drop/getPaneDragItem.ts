@@ -4,7 +4,8 @@ import { PaneDragItem } from './PaneDragItem';
 export function getPaneDragItem(pane: PaneModel): PaneDragItem {
 	return {
 		kind: 'paneDragItem',
-		paneId: pane.getId(),
+		location: pane.getLocation(),
 		tabName: pane.getTabTitle(),
-	}
+		paneId: pane.getId(),
+	};
 }

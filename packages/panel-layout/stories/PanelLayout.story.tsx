@@ -9,6 +9,7 @@ import {
 	PanelLayoutModel,
 	PanelModel,
 } from '../src';
+import { CustomDragLayer } from './CustomDragLayer';
 
 export default {
 	title: 'panel-layout/PanelLayout',
@@ -25,6 +26,7 @@ const GlobalStyle = createGlobalStyle`
 const StoryRoot = styled.div`
 	height: 100%;
 	padding: 8px;
+	position: relative;
 `;
 
 const layoutDto: PanelLayoutDto = {
@@ -156,6 +158,7 @@ export const Primary = () => {
 				<button onClick={addNewPanel}>Add panel</button>
 				<button onClick={serialize}>Serialize</button>
 				<PanelLayout panelLayout={layout} />
+				<CustomDragLayer />
 			</DndProvider>
 		</StoryRoot>
 	);
