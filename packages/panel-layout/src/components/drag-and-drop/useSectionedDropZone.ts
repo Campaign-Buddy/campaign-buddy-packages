@@ -2,12 +2,12 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { useDrop, XYCoord } from 'react-dnd';
 import isEqual from 'lodash.isequal';
 
-interface RelativeCoordinates {
+export interface RelativeCoordinates {
 	x: number;
 	y: number;
 }
 
-interface UsePaneDropZoneHook<T> {
+export interface UsePaneDropZoneHook<T> {
 	hoveringLocation: T | undefined;
 	dropRef: (ref: HTMLElement, options?: any) => void;
 }

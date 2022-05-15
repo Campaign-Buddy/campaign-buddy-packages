@@ -3,6 +3,7 @@ import { useDrag } from 'react-dnd';
 import { getEmptyImage } from 'react-dnd-html5-backend';
 import { PaneModel } from '../../panelLayoutModel';
 import {
+	coordinateTransformers,
 	getPaneDragItem,
 	PaneDragItemKind,
 	useSectionedDropZone,
@@ -61,11 +62,9 @@ const PaneTab: React.FC<IPaneTabProps> = ({
 		}),
 	}));
 
-	const { dropRef, hoveringLocation } = useSectionedDropZone<'left' | 'right'>(
+	const { dropRef, hoveringLocation } = useSectionedDropZone(
 		PaneDragItemKind,
-		(location) => {
-			return location.x < 50 ? 'left' : 'right';
-		},
+		coordinateTransformers.splitVertically,
 		useCallback(
 			(location: unknown) => {
 				console.log('dropped', pane.getId(), location);
