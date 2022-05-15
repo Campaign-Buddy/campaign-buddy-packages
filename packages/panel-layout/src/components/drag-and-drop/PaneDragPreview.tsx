@@ -15,5 +15,6 @@ export const PaneDragPreview: React.FC<PaneDragPreviewProps> = ({
 
 const TabPreview = styled.div`
 	${defaultTabStyles}
+	opacity: 75%;
 	width: fit-content;
 `;
