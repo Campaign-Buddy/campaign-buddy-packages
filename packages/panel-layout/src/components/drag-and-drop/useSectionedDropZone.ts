@@ -1,5 +1,6 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import { useDrop, XYCoord } from 'react-dnd';
+import { useSyncedRef } from '@campaign-buddy/common-hooks';
 import isEqual from 'lodash.isequal';
 
 export interface RelativeCoordinates {
@@ -17,11 +18,8 @@ export function useSectionedDropZone<T>(
 	transformCoordinates: (coordinates: RelativeCoordinates) => T,
 	onDrop: (location: T, item: any) => void
 ): UsePaneDropZoneHook<T> {
-	const transformCoordinatesRef = useRef(transformCoordinates);
-
-	useEffect(() => {
-		transformCoordinatesRef.current = transformCoordinates;
-	}, [transformCoordinates]);
+	const transformCoordinatesRef = useSyncedRef(transformCoordinates);
+	const onDropRef = useSyncedRef(onDrop);
 
 	const resolvedLocationRef = useRef<T | undefined>();
 	const [resolvedLocation, setResolvedLocationCore] = useState<T | undefined>();
@@ -37,24 +35,27 @@ export function useSectionedDropZone<T>(
 
 	const dropRef = useRef<HTMLElement | null>(null);
 
-	const transformAbsoluteCoordinates = useCallback((absCoords: XYCoord) => {
-		const dropZoneRect = dropRef.current?.getBoundingClientRect();
-		const relativeX = absCoords.x - Math.floor(dropZoneRect?.left ?? 0);
-		const relativeY = absCoords.y - Math.floor(dropZoneRect?.top ?? 0);
+	const transformAbsoluteCoordinates = useCallback(
+		(absCoords: XYCoord) => {
+			const dropZoneRect = dropRef.current?.getBoundingClientRect();
+			const relativeX = absCoords.x - Math.floor(dropZoneRect?.left ?? 0);
+			const relativeY = absCoords.y - Math.floor(dropZoneRect?.top ?? 0);
 
-		const xScale = Math.floor(dropZoneRect?.width ?? 0) / 100;
-		const yScale = Math.floor(dropZoneRect?.height ?? 0) / 100;
+			const xScale = Math.floor(dropZoneRect?.width ?? 0) / 100;
+			const yScale = Math.floor(dropZoneRect?.height ?? 0) / 100;
 
-		const percentageX = relativeX / xScale;
-		const percentageY = relativeY / yScale;
+			const percentageX = relativeX / xScale;
+			const percentageY = relativeY / yScale;
 
-		const result = transformCoordinatesRef.current({
-			x: percentageX,
-			y: percentageY,
-		});
+			const result = transformCoordinatesRef.current({
+				x: percentageX,
+				y: percentageY,
+			});
 
-		return result;
-	}, []);
+			return result;
+		},
+		[transformCoordinatesRef]
+	);
 
 	const [{ isOver, canDrop }, connectDropTarget] = useDrop(
 		() => ({
@@ -82,11 +83,11 @@ export function useSectionedDropZone<T>(
 					return;
 				}
 
-				onDrop(resolvedLocation, item);
+				onDropRef.current(resolvedLocation, item);
 				setResolvedLocation(undefined);
 			},
 		}),
-		[onDrop, transformAbsoluteCoordinates, resolvedLocation]
+		[onDropRef, transformAbsoluteCoordinates, resolvedLocation]
 	);
 
 	const combineRefs = useCallback(

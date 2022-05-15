@@ -4,3 +4,4 @@ export * from './useDebouncedCallback';
 export * from './useDebouncedEffect';
 export * from './useIsMounted';
 export * from './useStableValue';
+export * from './useSyncedRef';

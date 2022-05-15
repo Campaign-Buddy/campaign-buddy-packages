@@ -65,12 +65,9 @@ const PaneTab: React.FC<IPaneTabProps> = ({
 	const { dropRef, hoveringLocation } = useSectionedDropZone(
 		PaneDragItemKind,
 		coordinateTransformers.splitVertically,
-		useCallback(
-			(location: unknown) => {
-				console.log('dropped', pane.getId(), location);
-			},
-			[pane]
-		)
+		(location: unknown) => {
+			console.log('dropped', pane.getId(), location);
+		}
 	);
 
 	useEffect(() => {
