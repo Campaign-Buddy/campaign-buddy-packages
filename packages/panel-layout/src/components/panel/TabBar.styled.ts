@@ -1,7 +1,8 @@
 import styled, { css } from 'styled-components';
 
-export const TabBarContainer = styled.div`
+export const TabBarContainer = styled.div<{ isOver?: boolean }>`
 	display: flex;
+	${({ isOver }) => (isOver ? 'background-color: green' : '')}
 `;
 
 export const defaultTabStyles = css`

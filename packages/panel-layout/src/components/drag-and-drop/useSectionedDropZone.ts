@@ -10,7 +10,7 @@ export interface RelativeCoordinates {
 
 export interface UsePaneDropZoneHook<T> {
 	hoveringLocation: T | undefined;
-	dropRef: (ref: HTMLElement, options?: any) => void;
+	dropRef: (ref: HTMLElement | null, options?: any) => void;
 }
 
 export function useSectionedDropZone<T>(
@@ -78,8 +78,14 @@ export function useSectionedDropZone<T>(
 					setResolvedLocation(transformAbsoluteCoordinates(hoverCoordinates));
 				}
 			},
-			drop: (item) => {
+			drop: (item, monitor) => {
 				if (!resolvedLocation) {
+					return;
+				}
+
+				const isOver = monitor.isOver({ shallow: true });
+
+				if (!isOver) {
 					return;
 				}
 
@@ -91,7 +97,7 @@ export function useSectionedDropZone<T>(
 	);
 
 	const combineRefs = useCallback(
-		(element: HTMLElement, options?: any) => {
+		(element: HTMLElement | null, options?: any) => {
 			connectDropTarget(element, options);
 			dropRef.current = element;
 		},

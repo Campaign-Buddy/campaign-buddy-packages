@@ -22,8 +22,16 @@ export const TabBar: React.FC<ITabBarProps> = ({
 	onActivePaneIdChange,
 	activePaneId,
 }) => {
+	const { dropRef, hoveringLocation } = useSectionedDropZone(
+		PaneDragItemKind,
+		coordinateTransformers.isOver,
+		() => {
+			console.log('dropped in tab bar with active pane id', activePaneId);
+		}
+	);
+
 	return (
-		<TabBarContainer>
+		<TabBarContainer ref={dropRef} isOver={hoveringLocation}>
 			{panes.map((x) => (
 				<PaneTab
 					isActive={activePaneId === x.getId()}
