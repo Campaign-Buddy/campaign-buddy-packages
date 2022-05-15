@@ -14,11 +14,29 @@ export const defaultTabStyles = css`
 	user-select: none;
 `;
 
-export const StyledTab = styled.div<{ isActive: boolean; isDragging: boolean }>`
+const hoverStyle = css<{ hoveringSide?: 'left' | 'right' }>`
+	:after {
+		content: '';
+		position: absolute;
+		${({ hoveringSide }) =>
+			hoveringSide === 'left' ? 'left: 0px;' : 'right: 0px;'}
+		height: 100%;
+		z-index: 100;
+		top: 0;
+		border-left: solid 2px red;
+	}
+`;
+
+export const StyledTab = styled.div<{
+	isActive: boolean;
+	isDragging: boolean;
+	hoveringSide?: 'left' | 'right';
+}>`
 	${defaultTabStyles}
 	${({ isDragging }) => (isDragging ? 'opacity: 50%;' : '')};
 	${({ isActive }) => (!isActive ? 'background-color: transparent;' : '')};
 	border-radius: 4px 4px 0 0;
+	position: relative;
 
 	:not(.campaign-buddy-active-tab):not(:hover)
 		+ &:not(:first-child):not(.campaign-buddy-active-tab):not(:hover):before {
@@ -34,4 +52,6 @@ export const StyledTab = styled.div<{ isActive: boolean; isDragging: boolean }>`
 	&:not(.campaign-buddy-active-tab):hover {
 		background-color: rgba(239, 225, 198, 0.5);
 	}
+
+	${({ hoveringSide }) => hoveringSide && hoverStyle}
 `;

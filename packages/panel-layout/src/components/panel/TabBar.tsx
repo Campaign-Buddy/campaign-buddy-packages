@@ -2,7 +2,11 @@ import React, { useCallback, useEffect } from 'react';
 import { useDrag } from 'react-dnd';
 import { getEmptyImage } from 'react-dnd-html5-backend';
 import { PaneModel } from '../../panelLayoutModel';
-import { getPaneDragItem, PaneDragItemKind } from '../drag-and-drop';
+import {
+	getPaneDragItem,
+	PaneDragItemKind,
+	useSectionedDropZone,
+} from '../drag-and-drop';
 import { useObserverState } from '../useObservedState';
 import { StyledTab, TabBarContainer } from './TabBar.styled';
 
@@ -57,10 +61,31 @@ const PaneTab: React.FC<IPaneTabProps> = ({
 		}),
 	}));
 
+	const { dropRef, hoveringLocation } = useSectionedDropZone<'left' | 'right'>(
+		PaneDragItemKind,
+		(location) => {
+			return location.x < 50 ? 'left' : 'right';
+		},
+		useCallback(
+			(location: unknown) => {
+				console.log('dropped', pane.getId(), location);
+			},
+			[pane]
+		)
+	);
+
 	useEffect(() => {
 		preview(getEmptyImage(), { captureDraggingState: true });
 		// eslint-disable-next-line
 	}, []);
+
+	const combineRefs = useCallback(
+		(ref: HTMLDivElement, options?: any) => {
+			dropRef(ref, options);
+			dragRef(ref, options);
+		},
+		[dropRef, dragRef]
+	);
 
 	return (
 		<StyledTab
@@ -68,7 +93,8 @@ const PaneTab: React.FC<IPaneTabProps> = ({
 			isActive={isActive}
 			onClick={handleClick}
 			isDragging={isDragging}
-			ref={dragRef}
+			ref={combineRefs}
+			hoveringSide={hoveringLocation}
 		>
 			{title}
 		</StyledTab>

@@ -14,7 +14,12 @@ export const CustomDragLayer = () => {
 		})
 	);
 
-	if (!isDragging || itemType !== PaneDragItemKind || !isPaneDragItem(item)) {
+	if (
+		!isDragging ||
+		itemType !== PaneDragItemKind ||
+		!isPaneDragItem(item) ||
+		!currentOffset
+	) {
 		return null;
 	}
 
@@ -22,16 +27,12 @@ export const CustomDragLayer = () => {
 
 	return (
 		<DragLayer>
-			<PreviewContainer transform={transform}>
+			<div style={{ transform }}>
 				<PaneDragPreview dragItem={item} />
-			</PreviewContainer>
+			</div>
 		</DragLayer>
 	);
 };
-
-const PreviewContainer = styled.div<{ transform: string }>`
-	transform: ${({ transform }) => transform};
-`;
 
 const DragLayer = styled.div`
 	position: fixed;
