@@ -1,6 +1,6 @@
 import { useCallback, useRef, useState } from 'react';
 import { useDrop, XYCoord } from 'react-dnd';
-import { useSyncedRef } from '@campaign-buddy/common-hooks';
+import { useUpdatingRef } from '@campaign-buddy/common-hooks';
 import isEqual from 'lodash.isequal';
 
 export interface RelativeCoordinates {
@@ -18,8 +18,8 @@ export function useSectionedDropZone<T>(
 	transformCoordinates: (coordinates: RelativeCoordinates) => T,
 	onDrop: (location: T, item: any) => void
 ): UsePaneDropZoneHook<T> {
-	const transformCoordinatesRef = useSyncedRef(transformCoordinates);
-	const onDropRef = useSyncedRef(onDrop);
+	const transformCoordinatesRef = useUpdatingRef(transformCoordinates);
+	const onDropRef = useUpdatingRef(onDrop);
 
 	const resolvedLocationRef = useRef<T | undefined>();
 	const [resolvedLocation, setResolvedLocationCore] = useState<T | undefined>();
