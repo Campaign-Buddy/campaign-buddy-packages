@@ -1,8 +1,36 @@
 import styled, { css } from 'styled-components';
 
+const isOverStyle = css`
+	background-color: green;
+
+	:before {
+		content: '';
+		position: absolute;
+		bottom: -4px;
+		left: 0;
+		width: 4px;
+		height: 4px;
+		z-index: -10;
+		background-color: green;
+	}
+
+	:after {
+		content: '';
+		position: absolute;
+		bottom: -4px;
+		right: 0;
+		width: 4px;
+		height: 4px;
+		z-index: -10;
+		background-color: green;
+	}
+`;
+
 export const TabBarContainer = styled.div<{ isOver?: boolean }>`
 	display: flex;
-	${({ isOver }) => (isOver ? 'background-color: green' : '')}
+	border-radius: 4px 4px 0 0;
+	position: relative;
+	${({ isOver }) => isOver && isOverStyle}
 `;
 
 export const defaultTabStyles = css`
@@ -18,6 +46,7 @@ export const defaultTabStyles = css`
 const hoverStyle = css<{ hoveringSide?: 'left' | 'right' }>`
 	:after {
 		content: '';
+		pointer-events: none;
 		position: absolute;
 		${({ hoveringSide }) =>
 			hoveringSide === 'left' ? 'left: 0px;' : 'right: 0px;'}
