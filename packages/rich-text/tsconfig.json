@@ -5,14 +5,23 @@
 		"composite": true
 	},
 	"include": [
-		"src/**/*",
-		"../../theme.d.ts"
+		"src/**/*"
 	],
 	"references": [
-		{ "path": "../core-ui/tsconfig.json" },
-		{ "path": "../common-hooks/tsconfig.json" },
-		{ "path": "../frontend-types/tsconfig.json" },
-		{ "path": "../image-grid/tsconfig.json" },
-		{ "path": "../image-picker-menu/tsconfig.json" }
+		{
+			"path": "../core-ui/tsconfig.json"
+		},
+		{
+			"path": "../common-hooks/tsconfig.json"
+		},
+		{
+			"path": "../frontend-types/tsconfig.json"
+		},
+		{
+			"path": "../image-grid/tsconfig.json"
+		},
+		{
+			"path": "../image-picker-menu/tsconfig.json"
+		}
 	]
 }

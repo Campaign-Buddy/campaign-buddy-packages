@@ -5,9 +5,7 @@
 		"composite": true
 	},
 	"include": [
-		"src/**/*",
-		"../../theme.d.ts"
+		"src/**/*"
 	],
-	"references": [
-	]
+	"references": []
 }

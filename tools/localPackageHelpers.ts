@@ -64,7 +64,6 @@ export function modifyConfigurations(
 			),
 			modifyObj
 		);
-		break;
 	}
 }
 

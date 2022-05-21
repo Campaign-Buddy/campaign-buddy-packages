@@ -1,19 +1,34 @@
 {
 	"extends": "../../tsconfig.build.json",
-
 	"compilerOptions": {
 		"outDir": "./dist",
 		"composite": true,
 		"skipDefaultLibCheck": true
 	},
-	"include": ["src/**/*", "../../theme.d.ts"],
+	"include": [
+		"src/**/*"
+	],
 	"references": [
-		{ "path": "../json-schema-core/tsconfig.json" },
-		{ "path": "../core-ui/tsconfig.json" },
-		{ "path": "../form-generator/tsconfig.json" },
-		{ "path": "../frontend-types/tsconfig.json" },
-		{ "path": "../rich-text/tsconfig.json" },
-		{ "path": "../image-picker-menu/tsconfig.json" },
-		{ "path": "../common-hooks/tsconfig.json" }
+		{
+			"path": "../json-schema-core/tsconfig.json"
+		},
+		{
+			"path": "../core-ui/tsconfig.json"
+		},
+		{
+			"path": "../form-generator/tsconfig.json"
+		},
+		{
+			"path": "../frontend-types/tsconfig.json"
+		},
+		{
+			"path": "../rich-text/tsconfig.json"
+		},
+		{
+			"path": "../image-picker-menu/tsconfig.json"
+		},
+		{
+			"path": "../common-hooks/tsconfig.json"
+		}
 	]
 }

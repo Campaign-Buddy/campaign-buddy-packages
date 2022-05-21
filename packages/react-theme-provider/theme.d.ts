@@ -1,6 +1,6 @@
 // import original module declarations
 import 'styled-components';
-import { ITheme } from './packages/themes/src';
+import { ITheme } from '@campaign-buddy/themes';
 
 // and extend them!
 declare module 'styled-components' {
