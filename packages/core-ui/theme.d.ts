@@ -1,17 +1,9 @@
 // import original module declarations
 import 'styled-components';
+import { ITheme } from '@campaign-buddy/themes';
 
 // and extend them!
 declare module 'styled-components' {
-	export interface DefaultTheme {
-		colors: {
-			inputBackground: string;
-			text: string;
-			textDisabled: string;
-			primary: string;
-			primaryHover: string;
-			primaryActive: string;
-			background: string;
-		};
-	}
+	// eslint-disable-next-line @typescript-eslint/no-empty-interface
+	export interface DefaultTheme extends ITheme {}
 }

@@ -5,7 +5,7 @@ import React, { useCallback } from 'react';
 
 const StyledFormGroup = styled(FormGroupCore)`
 	label.bp3-label {
-		color: ${({ theme }) => theme.colors.text};
+		color: ${({ theme }) => theme.legacyCoreUi.colors.text};
 		font-weight: 500;
 	}
 

@@ -1,13 +1,3 @@
-import { DefaultTheme } from 'styled-components';
+import { themes, ITheme } from '@campaign-buddy/themes';
 
-export const defaultTheme: DefaultTheme = {
-	colors: {
-		inputBackground: '#F7EFDE',
-		text: '#613819',
-		textDisabled: '#c5bdb6',
-		primary: '#A22815',
-		primaryHover: '#902413',
-		primaryActive: '#7E1F10',
-		background: '#EFE1C6',
-	},
-};
+export const defaultTheme: ITheme = themes.parchment;

@@ -5,7 +5,7 @@ import { defaultTheme } from '../theme';
 import { BaseInputProps } from '../BaseInputProps';
 
 const StyledSwitch = styled(SwitchCore)`
-	color: ${({ theme }) => theme.colors.text};
+	color: ${({ theme }) => theme.legacyCoreUi.colors.text};
 	margin-bottom: 0;
 	overflow: hidden;
 	text-overflow: ellipsis;
@@ -13,11 +13,13 @@ const StyledSwitch = styled(SwitchCore)`
 	padding: 2px 2px 2px 40px !important;
 
 	&.bp3-control.bp3-switch input:checked ~ .bp3-control-indicator {
-		background-color: ${({ theme }) => theme.colors.primary} !important;
+		background-color: ${({ theme }) =>
+			theme.legacyCoreUi.colors.primary} !important;
 	}
 
 	&.bp3-control.bp3-switch:hover input:checked ~ .bp3-control-indicator {
-		background-color: ${({ theme }) => theme.colors.primaryHover} !important;
+		background-color: ${({ theme }) =>
+			theme.legacyCoreUi.colors.primaryHover} !important;
 	}
 `;
 

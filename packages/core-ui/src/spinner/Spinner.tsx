@@ -5,7 +5,7 @@ import { defaultTheme } from '../theme';
 
 const StyledSpinnerCore = styled(SpinnerCore)`
 	.bp3-spinner-head {
-		stroke: ${({ theme }) => theme.colors.primary} !important;
+		stroke: ${({ theme }) => theme.legacyCoreUi.colors.primary} !important;
 	}
 `;
 StyledSpinnerCore.defaultProps = {

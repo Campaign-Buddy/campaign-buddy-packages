@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { defaultTheme } from '../theme';
 
 const StyledTagCore = styled(TagCore)`
-	background-color: ${({ theme }) => theme.colors.primary};
+	background-color: ${({ theme }) => theme.legacyCoreUi.colors.primary};
 `;
 StyledTagCore.defaultProps = {
 	theme: defaultTheme,

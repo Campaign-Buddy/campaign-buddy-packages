@@ -6,16 +6,16 @@ export interface LinkProps {
 }
 
 export const Link = styled.a<LinkProps>`
-	color: ${({ theme }) => theme.colors.primary};
+	color: ${({ theme }) => theme.legacyCoreUi.colors.primary};
 	font-size: ${({ fontSize }) => fontSize ?? 14}px;
 	text-decoration: underline;
 
 	&:hover {
-		color: ${({ theme }) => theme.colors.primaryHover};
+		color: ${({ theme }) => theme.legacyCoreUi.colors.primaryHover};
 	}
 
 	&:active {
-		color: ${({ theme }) => theme.colors.primaryActive};
+		color: ${({ theme }) => theme.legacyCoreUi.colors.primaryActive};
 	}
 `;
 Link.defaultProps = {

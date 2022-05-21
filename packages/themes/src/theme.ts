@@ -1,7 +1,8 @@
-import { IPanelLayout } from './components';
+import { IPanelLayout, LegacyCoreUiTheme } from './components';
 import { ThemeColor } from './types';
 
 export interface ITheme {
-	textColor: ThemeColor;
+	legacyCoreUi: LegacyCoreUiTheme;
 	panelLayout: IPanelLayout;
+	textColor: ThemeColor;
 }

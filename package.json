@@ -35,7 +35,7 @@
     "jest": "^26.6.3",
     "json5": "^2.2.1",
     "path": "^0.12.7",
-    "prettier": "2.3.2",
+    "prettier": "^2.6.2",
     "prettier-eslint": "^14.0.1",
     "react": "^18.0.9",
     "react-dom": "^18.0.9",
@@ -53,6 +53,7 @@
     "new-package": "node ./tools/newPackage/newPackage.js -p",
     "new-react-package": "node ./tools/newPackage/newPackage.js -r -p",
     "audit-deps": "ts-node --transpile-only tools/auditCrossDependencies.ts",
-    "modify-tsconfigs": "ts-node --transpile-only tools/modifyTsConfigs.ts"
+    "modify-tsconfigs": "ts-node --transpile-only tools/modifyTsConfigs.ts",
+    "prettier": "prettier --write"
   }
 }

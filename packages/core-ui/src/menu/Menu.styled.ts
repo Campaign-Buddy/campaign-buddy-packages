@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { defaultTheme } from '../theme';
 
 export const StyledMenu = styled(MenuCore)`
-	background-color: ${({ theme }) => theme.colors.background};
+	background-color: ${({ theme }) => theme.legacyCoreUi.colors.background};
 	max-width: 95vw;
 `;
 StyledMenu.defaultProps = {
@@ -11,18 +11,19 @@ StyledMenu.defaultProps = {
 };
 
 export const StyledMenuItem = styled(MenuItemCore)`
-	color: ${({ theme }) => theme.colors.text} !important;
+	color: ${({ theme }) => theme.legacyCoreUi.colors.text} !important;
 
 	.bp3-icon {
-		color: ${({ theme }) => theme.colors.text} !important;
+		color: ${({ theme }) => theme.legacyCoreUi.colors.text} !important;
 	}
 
 	&.bp3-active {
-		background-color: ${({ theme }) => theme.colors.primary} !important;
-		color: ${({ theme }) => theme.colors.background} !important;
+		background-color: ${({ theme }) =>
+			theme.legacyCoreUi.colors.primary} !important;
+		color: ${({ theme }) => theme.legacyCoreUi.colors.background} !important;
 
 		.bp3-icon {
-			color: ${({ theme }) => theme.colors.background} !important;
+			color: ${({ theme }) => theme.legacyCoreUi.colors.background} !important;
 		}
 	}
 `;

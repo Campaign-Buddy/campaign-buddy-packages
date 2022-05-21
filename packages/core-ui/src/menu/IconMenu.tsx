@@ -7,7 +7,8 @@ import { defaultTheme } from '../theme';
 
 const GlobalStyle = createGlobalStyle`
 	.bp-overrides-icon-popover .bp3-menu {
-		background-color: ${({ theme }) => theme.colors.background} !important;
+		background-color: ${({ theme }) =>
+			theme.legacyCoreUi.colors.background} !important;
 	}
 
 	.bp-overrides-icon-popover .bp3-menu {

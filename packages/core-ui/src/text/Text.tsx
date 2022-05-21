@@ -7,7 +7,7 @@ interface TextProps {
 
 export const Text = styled.p<TextProps>`
 	margin: 0;
-	color: ${({ theme }) => theme.colors.text};
+	color: ${({ theme }) => theme.legacyCoreUi.colors.text};
 	font-size: ${({ fontSize }) => fontSize ?? 14}px;
 `;
 Text.defaultProps = {

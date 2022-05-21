@@ -4,20 +4,18 @@
 		"outDir": "./dist",
 		"composite": true,
 		"skipDefaultLibCheck": true,
-		"typeRoots": [
-			"theme.d.ts"
-		]
+		"typeRoots": ["theme.d.ts"]
 	},
-	"include": [
-		"src/**/*",
-		"theme.d.ts"
-	],
+	"include": ["src/**/*", "theme.d.ts"],
 	"references": [
 		{
 			"path": "../json-path-ex/tsconfig.json"
 		},
 		{
 			"path": "../common-hooks/tsconfig.json"
+		},
+		{
+			"path": "../themes/tsconfig.json"
 		}
 	]
 }

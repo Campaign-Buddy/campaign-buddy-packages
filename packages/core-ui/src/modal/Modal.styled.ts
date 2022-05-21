@@ -22,7 +22,7 @@ export const OverlayBackground = styled.div<{ scrollStyle: ScrollStyle }>`
 `;
 
 export const ModalRoot = styled.div<{ scrollStyle: ScrollStyle }>`
-	background-color: ${({ theme }) => theme.colors.background};
+	background-color: ${({ theme }) => theme.legacyCoreUi.colors.background};
 	border-radius: 3px;
 	min-width: min(400px, 100%);
 	max-width: min(400px, 100%);
@@ -59,7 +59,7 @@ export const ModalTitle = styled.div`
 	padding: 12px;
 
 	& > h1 {
-		color: ${({ theme }) => theme.colors.text};
+		color: ${({ theme }) => theme.legacyCoreUi.colors.text};
 		margin: 0;
 	}
 `;

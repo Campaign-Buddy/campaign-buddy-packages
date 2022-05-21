@@ -5,7 +5,7 @@ export const ToolbarContainer = styled.div`
 	display: flex;
 	gap: 16px;
 	padding: 4px;
-	border-bottom: 1px ${({ theme }) => theme.colors.textDisabled} solid;
+	border-bottom: 1px ${({ theme }) => theme.legacyCoreUi.colors.textDisabled} solid;
 	cursor: default;
 `;
 ToolbarContainer.defaultProps = {

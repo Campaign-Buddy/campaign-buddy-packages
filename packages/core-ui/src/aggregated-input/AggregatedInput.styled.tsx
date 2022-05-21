@@ -9,7 +9,7 @@ export const StyledPopover = styled(Popover)`
 `;
 
 const AggregatedDisplayTextInner = styled.p<{ fontSize?: number }>`
-	color: ${({ theme }) => theme.colors.text};
+	color: ${({ theme }) => theme.legacyCoreUi.colors.text};
 	margin: 0;
 	font-size: ${({ fontSize }) => fontSize ?? 14}px;
 	outline: none !important;
@@ -58,7 +58,7 @@ PopoverContentRoot.defaultProps = {
 };
 
 export const AggregationPreviewText = styled.p`
-	color: ${({ theme }) => theme.colors.text};
+	color: ${({ theme }) => theme.legacyCoreUi.colors.text};
 	text-overflow: ellipsis;
 	overflow: hidden;
 

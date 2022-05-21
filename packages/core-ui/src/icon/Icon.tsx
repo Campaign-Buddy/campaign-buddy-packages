@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { defaultTheme } from '../theme';
 
 const StyledIconCore = styled(IconCore)`
-	color: ${({ theme }) => theme.colors.text};
+	color: ${({ theme }) => theme.legacyCoreUi.colors.text};
 `;
 StyledIconCore.defaultProps = {
 	theme: defaultTheme,

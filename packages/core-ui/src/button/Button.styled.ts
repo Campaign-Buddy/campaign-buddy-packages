@@ -5,16 +5,19 @@ import { defaultTheme } from '../theme';
 export type ButtonStyle = 'primary' | 'minimal';
 
 const primaryStyles = css`
-	background-color: ${({ theme }) => theme.colors.primary} !important;
-	color: ${({ theme }) => theme.colors.background} !important;
+	background-color: ${({ theme }) =>
+		theme.legacyCoreUi.colors.primary} !important;
+	color: ${({ theme }) => theme.legacyCoreUi.colors.background} !important;
 	background-image: none !important;
 
 	&:hover {
-		background-color: ${({ theme }) => theme.colors.primaryHover} !important;
+		background-color: ${({ theme }) =>
+			theme.legacyCoreUi.colors.primaryHover} !important;
 	}
 
 	&:active {
-		background-color: ${({ theme }) => theme.colors.primaryActive} !important;
+		background-color: ${({ theme }) =>
+			theme.legacyCoreUi.colors.primaryActive} !important;
 	}
 `;
 
@@ -24,11 +27,11 @@ export const StyledButton = styled(ButtonCore)<{ _style?: ButtonStyle }>`
 	outline: none;
 
 	& .bp3-icon {
-		color: ${({ theme }) => theme.colors.text} !important;
+		color: ${({ theme }) => theme.legacyCoreUi.colors.text} !important;
 	}
 
 	&.bp3-minimal {
-		color: ${({ theme }) => theme.colors.text} !important;
+		color: ${({ theme }) => theme.legacyCoreUi.colors.text} !important;
 	}
 
 	&.bp3-disabled {
@@ -55,10 +58,14 @@ StyledButton.defaultProps = {
 
 export const StyledToggleButton = styled(StyledButton)<{ isActive: boolean }>`
 	color: ${({ isActive, theme }) =>
-		isActive ? theme.colors.text : theme.colors.textDisabled} !important;
+		isActive
+			? theme.legacyCoreUi.colors.text
+			: theme.legacyCoreUi.colors.textDisabled} !important;
 
 	& .bp3-icon {
 		color: ${({ isActive, theme }) =>
-			isActive ? theme.colors.text : theme.colors.textDisabled} !important;
+			isActive
+				? theme.legacyCoreUi.colors.text
+				: theme.legacyCoreUi.colors.textDisabled} !important;
 	}
 `;

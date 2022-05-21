@@ -21,7 +21,7 @@ export const StyledMultiSelectCore = styled(MultiSelectCore)`
 	}
 
 	.bp3-tag {
-		background-color: ${({ theme }) => theme.colors.primary};
+		background-color: ${({ theme }) => theme.legacyCoreUi.colors.primary};
 	}
 `;
 StyledMultiSelectCore.defaultProps = {
