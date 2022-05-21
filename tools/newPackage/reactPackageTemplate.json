@@ -8,12 +8,12 @@
 		"@campaign-buddy/themes": "0.1.0",
 		"@campaign-buddy/react-theme-provider": "0.1.0",
 		"typescript": "^4.2.4",
-		"react": "^17.0.2",
+		"react": "^18.0.9",
 		"styled-components": "^5.3.3"
 	},
 	"peerDependencies": {
 		"@campaign-buddy/react-theme-provider": "0.1.0",
-		"react": "^17.0.2",
+		"react": "^18.0.9",
 		"styled-components": "^5.3.3"
 	},
 	"scripts": {

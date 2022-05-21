@@ -1,3 +1,6 @@
+import { ThemeProvider } from '../packages/react-theme-provider';
+import { themes } from '../packages/themes';
+
 export const parameters = {
 	actions: { argTypesRegex: "^on[A-Z].*" },
 	controls: {
@@ -23,3 +26,11 @@ export const parameters = {
 		showPanel: false,
 	}
 };
+
+export const decorators = [
+	(Story) => (
+		<ThemeProvider theme={themes.parchment}>
+			<Story />
+		</ThemeProvider>
+	),
+];

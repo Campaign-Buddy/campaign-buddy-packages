@@ -24,7 +24,7 @@
 		"dist/"
 	],
 	"peerDependencies": {
-		"react": "^17.0.2",
+		"react": "^18.0.9",
 		"styled-components": "^5.3.3"
 	}
 }

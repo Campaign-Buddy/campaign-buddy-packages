@@ -16,7 +16,7 @@
 		"@types/lodash.isequal": "^4.5.6",
 		"@types/react-dnd": "^3.0.2",
 		"@types/react-dnd-html5-backend": "^3.0.2",
-		"react": "^17.0.2",
+		"react": "^18.0.9",
 		"react-dnd": "^16.0.1",
 		"react-dnd-html5-backend": "^16.0.1",
 		"type-fest": "^2.12.2",
@@ -25,7 +25,7 @@
 	},
 	"peerDependencies": {
 		"@campaign-buddy/react-theme-provider": "0.1.0",
-		"react": "^17.0.2",
+		"react": "^18.0.9",
 		"react-dnd": "^16.0.1",
 		"react-dnd-html5-backend": "^16.0.1",
 		"styled-components": "^5.3.3"
