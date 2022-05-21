@@ -50,6 +50,7 @@
     "test": "jest",
     "lint": "eslint . --quiet",
     "new-package": "node ./tools/newPackage/newPackage.js -p",
+	"new-react-package": "node ./tools/newPackage/newPackage.js -r -p",
     "audit-deps": "ts-node --transpile-only tools/auditCrossDependencies.ts",
     "modify-tsconfigs": "ts-node --transpile-only tools/modifyTsConfigs.ts"
   }

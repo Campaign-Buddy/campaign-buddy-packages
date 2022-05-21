@@ -13,13 +13,13 @@ async function ensurePackageFolders(packageName) {
 	await fs.mkdir(path.join(packageRootPath, 'src'));
 }
 
-async function createPackageJson(packageName) {
-	const rawTemplate = await fs.readFile(
-		path.join(__dirname, 'packageTemplate.json'),
-		{
-			encoding: 'utf-8',
-		}
-	);
+async function createPackageJson(packageName, isReact) {
+	const templateName = isReact
+		? 'reactPackageTemplate.json'
+		: 'packageTemplate.json';
+	const rawTemplate = await fs.readFile(path.join(__dirname, templateName), {
+		encoding: 'utf-8',
+	});
 
 	const template = JSON.parse(rawTemplate);
 
@@ -32,10 +32,21 @@ async function createPackageJson(packageName) {
 	);
 }
 
-async function createTsconfig(packageName) {
+async function createTsconfig(packageName, isReact) {
+	const templateName = isReact
+		? 'reactTsconfigTemplate.json'
+		: 'tsconfigTemplate.json';
+
 	await fs.copyFile(
-		path.join(__dirname, 'tsconfigTemplate.json'),
+		path.join(__dirname, templateName),
 		path.join(packagesPath, packageName, 'tsconfig.json')
+	);
+}
+
+async function addThemeDeclaration(packageName) {
+	await fs.copyFile(
+		path.join(__dirname, 'themeTemplate.d.ts'),
+		path.join(packagesPath, packageName, 'theme.d.ts')
 	);
 }
 
@@ -48,20 +59,30 @@ async function createSampleIndex(packageName) {
 	);
 }
 
-async function createPackage(packageName) {
+async function createPackage(packageName, isReact) {
 	await ensurePackageFolders(packageName);
-	await createPackageJson(packageName);
-	await createTsconfig(packageName);
+
+	if (isReact) {
+		await addThemeDeclaration(packageName);
+	}
+
+	await createPackageJson(packageName, isReact);
+	await createTsconfig(packageName, isReact);
 	await createSampleIndex(packageName);
 }
 
 const program = new Command();
 
-program.requiredOption(
-	'-p, --package-name <name>',
-	'The name of the package to create'
-);
+program
+	.requiredOption(
+		'-p, --package-name <name>',
+		'The name of the package to create'
+	)
+	.option('-r, -R, --react', 'Create this package as a react package');
 
 program.parse();
 
-createPackage(program.opts().packageName);
+const options = program.opts();
+const packageName = options.packageName || options.p;
+const isReact = Boolean(options.r || options.R || options.react);
+createPackage(packageName, isReact);
