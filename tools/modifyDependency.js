@@ -9,7 +9,12 @@ const operationKinds = {
 	remove: 'remove',
 };
 
-function modifyDependency(packageName, isDev, operation = 'add') {
+function modifyDependency(
+	packageName,
+	isDev,
+	operation = 'add',
+	isPeer = false
+) {
 	const dir = process.cwd();
 	const tsConfigPath = path.join(dir, '/tsconfig.json');
 	const tsConfigRaw = fs.readFileSync(tsConfigPath, {
@@ -27,25 +32,29 @@ function modifyDependency(packageName, isDev, operation = 'add') {
 	});
 	const packageJson = JSON.parse(packageJsonRaw);
 
-	const depList =
-		(isDev ? packageJson.devDependencies : packageJson.dependencies) ?? {};
+	const depLists = [
+		(isDev ? packageJson.devDependencies : packageJson.dependencies) ?? {},
+		isPeer ? packageJson.peerDependencies ?? {} : null,
+	].filter(Boolean);
 
-	if (operation === operationKinds.add) {
-		if (!depList[fullPackageName] || depList[fullPackageName] !== version) {
-			depList[fullPackageName] = version;
+	for (const depList of depLists) {
+		if (operation === operationKinds.add) {
+			if (!depList[fullPackageName] || depList[fullPackageName] !== version) {
+				depList[fullPackageName] = version;
+			} else {
+				console.log('package is already installed');
+				continue;
+			}
+		} else if (operation === operationKinds.remove) {
+			if (!depList[fullPackageName]) {
+				console.log('package already is uninstalled');
+				continue;
+			} else {
+				depList[fullPackageName] = undefined;
+			}
 		} else {
-			console.log('package is already installed');
-			return;
+			throw new Error(`unknown operation: ${operation}`);
 		}
-	} else if (operation === operationKinds.remove) {
-		if (!depList[fullPackageName]) {
-			console.log('package already is uninstalled');
-			return;
-		} else {
-			depList[fullPackageName] = undefined;
-		}
-	} else {
-		throw new Error(`unknown operation: ${operation}`);
 	}
 
 	console.log(packageJson);

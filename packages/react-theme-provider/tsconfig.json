@@ -9,10 +9,7 @@
 	],
 	"references": [
 		{
-			"path": "../common-hooks/tsconfig.json"
-		},
-		{
-			"path": "../react-theme-provider/tsconfig.json"
+			"path": "../themes/tsconfig.json"
 		}
 	]
 }

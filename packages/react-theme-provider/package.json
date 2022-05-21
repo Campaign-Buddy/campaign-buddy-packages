@@ -1,11 +1,13 @@
 {
-	"name": "@campaign-buddy/themes",
+	"name": "@campaign-buddy/react-theme-provider",
 	"version": "0.1.0",
 	"author": "Joseph Stewart",
 	"license": "MIT",
-	"dependencies": {},
+	"peerDependencies": {
+		"@campaign-buddy/themes": "0.1.0"
+	},
 	"devDependencies": {
-		"react": "^18.1.0",
+		"@campaign-buddy/themes": "0.1.0",
 		"typescript": "^4.2.4"
 	},
 	"scripts": {
