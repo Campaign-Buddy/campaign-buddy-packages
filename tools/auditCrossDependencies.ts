@@ -1,6 +1,10 @@
 import { cruise } from 'dependency-cruiser';
 import path from 'path';
-import fs from 'fs';
+import {
+	getAllLocalPackages,
+	readPackageJson,
+	readTsConfig,
+} from './localPackageHelpers';
 
 const allPackageFolderNames = getAllLocalPackages();
 const allPackageNames = allPackageFolderNames.map(
@@ -67,51 +71,5 @@ function validateAllCrossPackageDeps(packageName: string) {
 				}
 			}
 		}
-	}
-}
-
-function getAllLocalPackages() {
-	const packageFolders = fs.readdirSync(path.join('./packages/'));
-
-	const allPackageNames: string[] = [];
-
-	for (const packageFolder of packageFolders) {
-		const packageJson = readPackageJson(packageFolder);
-
-		if (packageJson.name !== `@campaign-buddy/${packageFolder}`) {
-			throw new Error(
-				`Package.json name must match folder name. Expected @campaign-buddy/${packageFolder} but got ${packageJson.name}`
-			);
-		}
-
-		allPackageNames.push(packageFolder);
-	}
-
-	return allPackageNames;
-}
-
-function readPackageJson(packageName: string): any {
-	const packageJsonRaw = fs.readFileSync(
-		path.join('./packages/', packageName, '/package.json'),
-		{ encoding: 'utf-8' }
-	);
-
-	try {
-		return JSON.parse(packageJsonRaw);
-	} catch {
-		throw new Error(`could not parse package.json in packages/${packageName}`);
-	}
-}
-
-function readTsConfig(packageName: string): any {
-	const tsConfigRaw = fs.readFileSync(
-		path.join('./packages/', packageName, '/tsconfig.json'),
-		{ encoding: 'utf-8' }
-	);
-
-	try {
-		return JSON.parse(tsConfigRaw);
-	} catch {
-		throw new Error(`could not parse tsconfig in packages/${packageName}`);
 	}
 }

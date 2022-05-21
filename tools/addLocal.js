@@ -6,7 +6,7 @@ const { modifyDependency, operationKinds } = require('./modifyDependency');
 const program = new Command();
 
 program
-	.arguments(
+	.argument(
 		'<packageName>',
 		'The package to install, optionally prefixed with @campaign-buddy/'
 	)
