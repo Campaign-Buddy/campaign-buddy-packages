@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import { defaultTabStyles } from '../panel/TabBar.styled';
 import { PaneDragItem } from './PaneDragItem';
 
 interface PaneDragPreviewProps {
@@ -14,7 +13,12 @@ export const PaneDragPreview: React.FC<
 };
 
 const TabPreview = styled.div`
-	${defaultTabStyles}
-	opacity: 75%;
+	color: ${({ theme }) => theme.textColor};
 	width: fit-content;
+	background-color: ${({ theme }) =>
+		theme.panelLayout.tab.preview.backgroundColor};
+	border-radius: ${({ theme }) =>
+		theme.panelLayout.tab.preview.borderRadius.toCss()};
+	opacity: ${({ theme }) => theme.panelLayout.tab.preview.opacity};
+	padding: ${({ theme }) => theme.panelLayout.tab.preview.padding.toCss()};
 `;

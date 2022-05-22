@@ -24,9 +24,9 @@ export class BorderRadius {
 	}
 
 	public toCss(): string {
-		return `${this.radius?.topLeft ?? 0} ${this.radius?.topRight ?? 0} ${
+		return `${this.radius?.topLeft ?? 0}px ${this.radius?.topRight ?? 0}px ${
 			this.radius?.bottomRight ?? 0
-		} ${this.radius?.bottomLeft ?? 0}`;
+		}px ${this.radius?.bottomLeft ?? 0}px`;
 	}
 }
 
@@ -56,7 +56,7 @@ export class Thickness {
 	}
 
 	public toCss(): string {
-		return `${this.thickness.top} ${this.thickness.right} ${this.thickness.bottom} ${this.thickness.left}`;
+		return `${this.thickness.top}px ${this.thickness.right}px ${this.thickness.bottom}px ${this.thickness.left}px`;
 	}
 
 	private parseThickness(value: string): IThickness {
@@ -66,7 +66,9 @@ export class Thickness {
 		const bottomRaw = splitValue[2] ?? topRaw;
 		const leftRaw = splitValue[3] ?? rightRaw;
 
-		const parsed = [topRaw, rightRaw, bottomRaw, leftRaw].map(parseInt);
+		const parsed = [topRaw, rightRaw, bottomRaw, leftRaw].map((x) =>
+			parseInt(x)
+		);
 		if (parsed.some(isNaN)) {
 			return { top: 0, bottom: 0, left: 0, right: 0 };
 		}
