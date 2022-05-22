@@ -81,43 +81,42 @@ const NumberWidget: React.FC<React.PropsWithChildren<WidgetProps<number>>> = ({
 	);
 };
 
-const BooleanWidget: React.FC<React.PropsWithChildren<WidgetProps<boolean>>> =
-	({
-		value,
-		onChange,
-		label,
-		aggregatedValue,
-		aggregation,
-		aggregationSupport,
-		updateFieldSettings,
-		currentUserRole,
-		fieldSettings,
-	}) => {
-		const [isFocused, setIsFocused] = useState(false);
-		const onBlur = useCallback(() => setIsFocused(false), []);
-		const onFocus = useCallback(() => setIsFocused(true), []);
+const BooleanWidget: React.FC<
+	React.PropsWithChildren<WidgetProps<boolean>>
+> = ({
+	value,
+	onChange,
+	label,
+	aggregatedValue,
+	aggregation,
+	aggregationSupport,
+	updateFieldSettings,
+	currentUserRole,
+	fieldSettings,
+}) => {
+	const [isFocused, setIsFocused] = useState(false);
+	const onBlur = useCallback(() => setIsFocused(false), []);
+	const onFocus = useCallback(() => setIsFocused(true), []);
 
-		return (
-			<WithFieldSettings
-				aggregationSupport={aggregationSupport}
-				updateFieldSettings={updateFieldSettings}
-				currentUserRole={currentUserRole}
-				fieldSettings={fieldSettings}
-			>
-				<Switch
-					value={
-						!isFocused && aggregation
-							? aggregatedValue ?? false
-							: value ?? false
-					}
-					onChange={onChange}
-					label={label}
-					onFocus={onFocus}
-					onBlur={onBlur}
-				/>
-			</WithFieldSettings>
-		);
-	};
+	return (
+		<WithFieldSettings
+			aggregationSupport={aggregationSupport}
+			updateFieldSettings={updateFieldSettings}
+			currentUserRole={currentUserRole}
+			fieldSettings={fieldSettings}
+		>
+			<Switch
+				value={
+					!isFocused && aggregation ? aggregatedValue ?? false : value ?? false
+				}
+				onChange={onChange}
+				label={label}
+				onFocus={onFocus}
+				onBlur={onBlur}
+			/>
+		</WithFieldSettings>
+	);
+};
 
 const AraryWidget: React.FC<React.PropsWithChildren<WidgetProps<any>>> = () => (
 	<p>Derp</p>

@@ -63,23 +63,24 @@ interface MenuPopoverProps extends MenuProps {
 	onClose: () => void;
 }
 
-export const MenuPopover: React.FC<React.PropsWithChildren<MenuPopoverProps>> =
-	({ items, children, isOpen, onClose }) => {
-		return (
-			<>
-				<GlobalStyle />
-				<Popover
-					content={<Menu items={items} />}
-					isOpen={isOpen}
-					onClose={onClose}
-					placement="bottom-start"
-					minimal
-					openOnTargetFocus={false}
-					autoFocus
-					popoverClassName="bp-overrides-menu-popover"
-				>
-					{children}
-				</Popover>
-			</>
-		);
-	};
+export const MenuPopover: React.FC<
+	React.PropsWithChildren<MenuPopoverProps>
+> = ({ items, children, isOpen, onClose }) => {
+	return (
+		<>
+			<GlobalStyle />
+			<Popover
+				content={<Menu items={items} />}
+				isOpen={isOpen}
+				onClose={onClose}
+				placement="bottom-start"
+				minimal
+				openOnTargetFocus={false}
+				autoFocus
+				popoverClassName="bp-overrides-menu-popover"
+			>
+				{children}
+			</Popover>
+		</>
+	);
+};

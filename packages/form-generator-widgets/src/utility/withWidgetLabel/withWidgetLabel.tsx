@@ -5,13 +5,14 @@ import { ConfigurableAggregation } from './useAggregationSettingOptions';
 import { WidgetLabel } from './WidgetLabel';
 
 export function withWidgetLabel<TValue, TAggregates>(
-	Component: React.FC<React.PropsWithChildren<CBWidgetProps<TValue, TAggregates>>>,
+	Component: React.FC<
+		React.PropsWithChildren<CBWidgetProps<TValue, TAggregates>>
+	>,
 	configurableAggregations?: ConfigurableAggregation[]
 ): React.FC<React.PropsWithChildren<WidgetProps<TValue>>> {
-	const WithWidgetLabel: React.FC<React.PropsWithChildren<WidgetProps<TValue>>> = ({
-		label: rawLabel,
-		...props
-	}) => {
+	const WithWidgetLabel: React.FC<
+		React.PropsWithChildren<WidgetProps<TValue>>
+	> = ({ label: rawLabel, ...props }) => {
 		const label = (
 			<WidgetLabel
 				label={rawLabel}

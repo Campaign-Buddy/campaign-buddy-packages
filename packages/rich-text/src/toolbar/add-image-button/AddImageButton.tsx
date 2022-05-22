@@ -16,77 +16,78 @@ import {
 import { ImageNode } from '../../types';
 import { useMediaApi } from '../../useMediaApi';
 
-export const AddImageButton: React.FC<React.PropsWithChildren<unknown>> =
-	() => {
-		const editor = useSlateStatic();
-		const endLocationRef = useRef<BaseRange | null>(null);
+export const AddImageButton: React.FC<
+	React.PropsWithChildren<unknown>
+> = () => {
+	const editor = useSlateStatic();
+	const endLocationRef = useRef<BaseRange | null>(null);
 
-		const { pushSelectionSnapshot, popSelectionSnapshot, snapshotStack } =
-			useSelectionSnapshot();
+	const { pushSelectionSnapshot, popSelectionSnapshot, snapshotStack } =
+		useSelectionSnapshot();
 
-		const mediaApi = useMediaApi();
-		const queryClient = useQueryClient();
+	const mediaApi = useMediaApi();
+	const queryClient = useQueryClient();
 
-		const [isImagePickerOpen, setIsImagePickerOpen] = useState(false);
+	const [isImagePickerOpen, setIsImagePickerOpen] = useState(false);
 
-		const closeImagePicker = useCallback(() => {
-			setIsImagePickerOpen(false);
-			popSelectionSnapshot();
-		}, [popSelectionSnapshot, setIsImagePickerOpen]);
+	const closeImagePicker = useCallback(() => {
+		setIsImagePickerOpen(false);
+		popSelectionSnapshot();
+	}, [popSelectionSnapshot, setIsImagePickerOpen]);
 
-		const openImagePicker = useCallback(() => {
-			if (snapshotStack.current?.length === 0) {
-				pushSelectionSnapshot();
+	const openImagePicker = useCallback(() => {
+		if (snapshotStack.current?.length === 0) {
+			pushSelectionSnapshot();
+		}
+		setIsImagePickerOpen(true);
+	}, [pushSelectionSnapshot, snapshotStack]);
+
+	const insertImage = useCallback(
+		(url: string, media?: Media) => {
+			if (endLocationRef.current) {
+				Transforms.select(editor, endLocationRef.current);
 			}
-			setIsImagePickerOpen(true);
-		}, [pushSelectionSnapshot, snapshotStack]);
 
-		const insertImage = useCallback(
-			(url: string, media?: Media) => {
-				if (endLocationRef.current) {
-					Transforms.select(editor, endLocationRef.current);
-				}
+			const { id } = wrapOrInsertNode<ImageNode>(editor, {
+				kind: 'image',
+				children: [{ text: '', kind: 'text' }],
+				src: url,
+				alt: media?.alt ?? url,
+			});
 
-				const { id } = wrapOrInsertNode<ImageNode>(editor, {
-					kind: 'image',
-					children: [{ text: '', kind: 'text' }],
-					src: url,
-					alt: media?.alt ?? url,
-				});
+			selectEndOfElement(editor, id);
+			Transforms.move(editor, { unit: 'offset' });
+			endLocationRef.current = null;
 
-				selectEndOfElement(editor, id);
-				Transforms.move(editor, { unit: 'offset' });
-				endLocationRef.current = null;
+			closeImagePicker();
+		},
+		[closeImagePicker, editor]
+	);
 
-				closeImagePicker();
-			},
-			[closeImagePicker, editor]
-		);
+	const handleImagePickerStateChange = useCallback(
+		(oldState: OpenPopoverState, newState: OpenPopoverState) => {
+			if (oldState === 'main-menu' && newState !== 'none') {
+				endLocationRef.current = popSelectionSnapshot();
+			}
+		},
+		[popSelectionSnapshot]
+	);
 
-		const handleImagePickerStateChange = useCallback(
-			(oldState: OpenPopoverState, newState: OpenPopoverState) => {
-				if (oldState === 'main-menu' && newState !== 'none') {
-					endLocationRef.current = popSelectionSnapshot();
-				}
-			},
-			[popSelectionSnapshot]
-		);
-
-		return (
-			<ImagePickerMenu
-				isOpen={isImagePickerOpen}
-				onClose={close}
-				onConfirm={insertImage}
-				onStateTransition={handleImagePickerStateChange}
-				mediaApi={mediaApi}
-				queryClient={queryClient}
-			>
-				<ToggleButton
-					icon="media"
-					onChange={openImagePicker}
-					size="small"
-					value={false}
-				/>
-			</ImagePickerMenu>
-		);
-	};
+	return (
+		<ImagePickerMenu
+			isOpen={isImagePickerOpen}
+			onClose={close}
+			onConfirm={insertImage}
+			onStateTransition={handleImagePickerStateChange}
+			mediaApi={mediaApi}
+			queryClient={queryClient}
+		>
+			<ToggleButton
+				icon="media"
+				onChange={openImagePicker}
+				size="small"
+				value={false}
+			/>
+		</ImagePickerMenu>
+	);
+};
