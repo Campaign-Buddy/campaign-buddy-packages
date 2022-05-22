@@ -7,20 +7,21 @@ import { IOption } from './IOption';
 const MultiSelectCore = GenericMultiSelectCore.ofType<IOption>();
 
 export const StyledMultiSelectCore = styled(MultiSelectCore)`
-	div.bp3-input {
+	div.bp4-input {
 		${baseInputStyles}
 		align-items: center;
 
-		& > .bp3-icon {
+		& > .bp4-icon {
 			padding-right: 8px;
+			color: ${({ theme }) => theme.legacyCoreUi.colors.text};
 		}
 	}
 
-	span.bp3-popover-target {
+	span.bp4-popover-target {
 		width: 100%;
 	}
 
-	.bp3-tag {
+	.bp4-tag {
 		background-color: ${({ theme }) => theme.legacyCoreUi.colors.primary};
 	}
 `;

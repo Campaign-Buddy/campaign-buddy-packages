@@ -6,7 +6,7 @@ import { StyledMenu, StyledMenuItem } from './Menu.styled';
 import { defaultTheme } from '../theme';
 
 const GlobalStyle = createGlobalStyle`
-	.bp-overrides-context-menu-popover .bp3-menu {
+	.bp-overrides-context-menu-popover .bp4-menu {
 		background-color: ${({ theme }) =>
 			theme.legacyCoreUi.colors.background} !important;
 	}

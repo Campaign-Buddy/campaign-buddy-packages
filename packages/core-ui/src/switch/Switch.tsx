@@ -12,12 +12,12 @@ const StyledSwitch = styled(SwitchCore)`
 	white-space: nowrap;
 	padding: 2px 2px 2px 40px !important;
 
-	&.bp3-control.bp3-switch input:checked ~ .bp3-control-indicator {
+	&.bp4-control.bp4-switch input:checked ~ .bp4-control-indicator {
 		background-color: ${({ theme }) =>
 			theme.legacyCoreUi.colors.primary} !important;
 	}
 
-	&.bp3-control.bp3-switch:hover input:checked ~ .bp3-control-indicator {
+	&.bp4-control.bp4-switch:hover input:checked ~ .bp4-control-indicator {
 		background-color: ${({ theme }) =>
 			theme.legacyCoreUi.colors.primaryHover} !important;
 	}

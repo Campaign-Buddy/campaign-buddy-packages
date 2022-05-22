@@ -6,15 +6,15 @@ import { StyledMenu, StyledMenuItem } from './Menu.styled';
 import { defaultTheme } from '../theme';
 
 const GlobalStyle = createGlobalStyle`
-	.bp-overrides-icon-popover .bp3-menu {
+	.bp-overrides-icon-popover .bp4-menu {
 		background-color: ${({ theme }) =>
 			theme.legacyCoreUi.colors.background} !important;
 	}
 
-	.bp-overrides-icon-popover .bp3-menu {
+	.bp-overrides-icon-popover .bp4-menu {
 		min-width: unset !important;
 
-		.bp3-menu-item .bp3-icon {
+		.bp4-menu-item .bp4-icon {
 			margin: 0 !important;
 		}
 	}

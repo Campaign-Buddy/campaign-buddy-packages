@@ -4,7 +4,7 @@ import { defaultTheme } from '../theme';
 import React, { useCallback } from 'react';
 
 const StyledFormGroup = styled(FormGroupCore)`
-	label.bp3-label {
+	label.bp4-label {
 		color: ${({ theme }) => theme.legacyCoreUi.colors.text};
 		font-weight: 500;
 	}

@@ -12,12 +12,12 @@ import styled from 'styled-components';
 import { useShouldShowAggregationIndicator } from '../../FormWidgetProvider';
 
 const SettingsButtonContainer = styled.span<{ isMenuOpen: boolean }>`
-	& .bp3-popover2-target {
+	& .bp4-popover2-target {
 		opacity: ${({ isMenuOpen }) => (isMenuOpen ? 1 : 0)};
 		transition: opacity 0.2s;
 	}
 
-	.bp3-label:hover & .bp3-popover2-target {
+	.bp4-label:hover & .bp4-popover2-target {
 		opacity: 1;
 	}
 `;
@@ -28,7 +28,7 @@ const LabelContainer = styled.span`
 	gap: 8px;
 	max-width: 100%;
 
-	& .bp3-popover2-target {
+	& .bp4-popover2-target {
 		margin: 0 !important;
 	}
 `;

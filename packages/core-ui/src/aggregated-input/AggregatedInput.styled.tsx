@@ -60,7 +60,7 @@ export const AggregationPreviewText = styled.p`
 	text-overflow: ellipsis;
 	overflow: hidden;
 
-	.bp3-icon {
+	.bp4-icon {
 		vertical-align: super;
 	}
 `;

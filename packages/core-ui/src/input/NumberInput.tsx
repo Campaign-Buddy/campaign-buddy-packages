@@ -14,7 +14,7 @@ const StyledInput = styled(InputGroup)`
 		${baseInputStyles}
 	}
 
-	& .bp3-button {
+	& .bp4-button {
 		margin: 1px !important;
 
 		&:first-child {

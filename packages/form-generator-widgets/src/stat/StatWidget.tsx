@@ -17,7 +17,7 @@ const StatContainer = styled.div`
 `;
 
 const StyledFormGroup = styled(FormGroup)`
-	label.bp3-label {
+	label.bp4-label {
 		text-align: center;
 	}
 `;

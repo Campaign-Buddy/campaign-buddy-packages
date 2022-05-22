@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { defaultTheme } from '../theme';
 
 const StyledSpinnerCore = styled(SpinnerCore)`
-	.bp3-spinner-head {
+	.bp4-spinner-head {
 		stroke: ${({ theme }) => theme.legacyCoreUi.colors.primary} !important;
 	}
 `;

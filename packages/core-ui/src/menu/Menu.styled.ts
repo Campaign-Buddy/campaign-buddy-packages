@@ -13,16 +13,16 @@ StyledMenu.defaultProps = {
 export const StyledMenuItem = styled(MenuItemCore)`
 	color: ${({ theme }) => theme.legacyCoreUi.colors.text} !important;
 
-	.bp3-icon {
+	.bp4-icon {
 		color: ${({ theme }) => theme.legacyCoreUi.colors.text} !important;
 	}
 
-	&.bp3-active {
+	&.bp4-active {
 		background-color: ${({ theme }) =>
 			theme.legacyCoreUi.colors.primary} !important;
 		color: ${({ theme }) => theme.legacyCoreUi.colors.background} !important;
 
-		.bp3-icon {
+		.bp4-icon {
 			color: ${({ theme }) => theme.legacyCoreUi.colors.background} !important;
 		}
 	}

@@ -3,28 +3,28 @@ import styled, { createGlobalStyle } from 'styled-components';
 import { defaultTheme } from '../theme';
 
 export const GlobalStyle = createGlobalStyle`
-	.campaign-buddy-select .bp3-transition-container {
+	.campaign-buddy-select .bp4-transition-container {
 		max-width: calc(100% - 10px);
 	}
 
-	.campaign-buddy-select .bp3-select-popover {
+	.campaign-buddy-select .bp4-select-popover {
 		padding: 4px;
 		background-color: ${({ theme }) =>
 			theme.legacyCoreUi.colors.background} !important;
 		max-width: 100%;
 	}
 
-	.campaign-buddy-select .bp3-select-popover .bp3-popover-content {
+	.campaign-buddy-select .bp4-select-popover .bp4-popover-content {
 		background-color: ${({ theme }) =>
 			theme.legacyCoreUi.colors.background} !important;
 	}
 
-	.campaign-buddy-select .bp3-select-popover .bp3-input-group input {
+	.campaign-buddy-select .bp4-select-popover .bp4-input-group input {
 		background-color: ${({ theme }) => theme.legacyCoreUi.colors.inputBackground};
 		color: ${({ theme }) => theme.legacyCoreUi.colors.text};
 	}
 
-	.campaign-buddy-select .bp3-select-popover .bp3-input-group .bp3-icon {
+	.campaign-buddy-select .bp4-select-popover .bp4-input-group .bp4-icon {
 		color: ${({ theme }) => theme.legacyCoreUi.colors.text};
 	}
 `;
@@ -38,7 +38,7 @@ export const SelectButton = styled(ButtonCore)`
 	box-shadow: inset 0 0 0 1px rgb(16 22 26 / 20%),
 		inset 0 -1px 0 rgb(16 22 26 / 10%) !important;
 
-	& .bp3-button-text {
+	& .bp4-button-text {
 		width: 100%;
 		overflow: hidden;
 		text-overflow: ellipsis;

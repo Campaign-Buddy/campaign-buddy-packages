@@ -26,15 +26,15 @@ export const StyledButton = styled(ButtonCore)<{ _style?: ButtonStyle }>`
 
 	outline: none;
 
-	& .bp3-icon {
+	& .bp4-icon {
 		color: ${({ theme }) => theme.legacyCoreUi.colors.text} !important;
 	}
 
-	&.bp3-minimal {
+	&.bp4-minimal {
 		color: ${({ theme }) => theme.legacyCoreUi.colors.text} !important;
 	}
 
-	&.bp3-disabled {
+	&.bp4-disabled {
 		opacity: 0.5;
 	}
 
@@ -43,11 +43,11 @@ export const StyledButton = styled(ButtonCore)<{ _style?: ButtonStyle }>`
 			inset 0 1px 1px rgb(16 22 26 / 20%) !important;
 	}
 
-	&.bp3-minimal:hover {
+	&.bp4-minimal:hover {
 		background-color: rgba(228, 222, 210, 0.7) !important;
 	}
 
-	&.bp3-minimal:active {
+	&.bp4-minimal:active {
 		background-color: rgba(228, 222, 210, 0.9) !important;
 	}
 `;
@@ -62,7 +62,7 @@ export const StyledToggleButton = styled(StyledButton)<{ isActive: boolean }>`
 			? theme.legacyCoreUi.colors.text
 			: theme.legacyCoreUi.colors.textDisabled} !important;
 
-	& .bp3-icon {
+	& .bp4-icon {
 		color: ${({ isActive, theme }) =>
 			isActive
 				? theme.legacyCoreUi.colors.text

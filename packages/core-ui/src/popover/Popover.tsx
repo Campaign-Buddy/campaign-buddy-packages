@@ -8,7 +8,7 @@ const StyledPopoverCore = styled(PopoverCore)`
 `;
 
 const GlobalStyle = createGlobalStyle`
-	.bp-overrides-popover .bp3-popover2-content {
+	.bp-overrides-popover .bp4-popover2-content {
 		padding: 8px;
 		background-color: ${({ theme }) =>
 			theme.legacyCoreUi.colors.background} !important;
