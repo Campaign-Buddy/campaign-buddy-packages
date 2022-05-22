@@ -6,41 +6,34 @@ const isOverStyle = css`
 	:before {
 		content: '';
 		position: absolute;
-		bottom: -4px;
+		bottom: ${({ theme }) =>
+			theme.panelLayout.pane.borderRadius.topLeft * -1}px;
 		left: 0;
-		width: 4px;
-		height: 4px;
+		width: ${({ theme }) => theme.panelLayout.pane.borderRadius.topLeft}px;
+		height: ${({ theme }) => theme.panelLayout.pane.borderRadius.topLeft}px;
 		z-index: -10;
-		background-color: green;
+		background-color: ${({ theme }) => theme.panelLayout.dropZones.tabBar};
 	}
 
 	:after {
 		content: '';
 		position: absolute;
-		bottom: -4px;
+		bottom: ${({ theme }) =>
+			theme.panelLayout.pane.borderRadius.topRight * -1}px;
 		right: 0;
-		width: 4px;
-		height: 4px;
+		width: ${({ theme }) => theme.panelLayout.pane.borderRadius.topRight}px;
+		height: ${({ theme }) => theme.panelLayout.pane.borderRadius.topRight}px;
 		z-index: -10;
-		background-color: green;
+		background-color: ${({ theme }) => theme.panelLayout.dropZones.tabBar};
 	}
 `;
 
 export const TabBarContainer = styled.div<{ isOver?: boolean }>`
 	display: flex;
-	border-radius: 4px 4px 0 0;
+	border-radius: ${({ theme }) => theme.panelLayout.tab.borderRadius.topLeft}px
+		${({ theme }) => theme.panelLayout.tab.borderRadius.topRight}px 0 0;
 	position: relative;
 	${({ isOver }) => isOver && isOverStyle}
-`;
-
-export const defaultTabStyles = css`
-	padding: 4px 8px;
-	white-space: nowrap;
-	background-color: #efe1c6;
-	border-radius: 4px;
-	position: relative;
-	cursor: default;
-	user-select: none;
 `;
 
 const hoverStyle = css<{ hoveringSide?: 'left' | 'right' }>`
@@ -53,7 +46,8 @@ const hoverStyle = css<{ hoveringSide?: 'left' | 'right' }>`
 		height: 100%;
 		z-index: 100;
 		top: 0;
-		border-left: solid 2px red;
+		border-left: solid 2px
+			${({ theme }) => theme.panelLayout.dropZones.tabSeparator};
 	}
 `;
 
@@ -62,10 +56,23 @@ export const StyledTab = styled.div<{
 	isDragging: boolean;
 	hoveringSide?: 'left' | 'right';
 }>`
-	${defaultTabStyles}
-	${({ isDragging }) => (isDragging ? 'opacity: 50%;' : '')};
-	${({ isActive }) => (!isActive ? 'background-color: transparent;' : '')};
-	border-radius: 4px 4px 0 0;
+	padding: ${({ theme }) => theme.panelLayout.tab.padding.toCss()};
+	white-space: nowrap;
+	background-color: ${({ theme, isActive, isDragging }) =>
+		isDragging
+			? theme.panelLayout.tab.draggingBackgroundColor
+			: isActive
+			? theme.panelLayout.tab.activeBackgroundColor
+			: theme.panelLayout.tab.backgroundColor};
+	position: relative;
+	cursor: default;
+	user-select: none;
+
+	${({ isDragging, theme }) =>
+		isDragging
+			? `opacity: ${theme.panelLayout.tab.draggingOpacity * 100}%;`
+			: ''};
+	border-radius: ${({ theme }) => theme.panelLayout.tab.borderRadius.toCss()};
 	position: relative;
 
 	:not(.campaign-buddy-active-tab):not(:hover)
@@ -76,11 +83,13 @@ export const StyledTab = styled.div<{
 		left: 0px;
 		height: 60%;
 		top: 20%;
-		border-left: solid 1px gray;
+		border-left: solid 1px
+			${({ theme }) => theme.panelLayout.tab.separatorColor};
 	}
 
 	&:not(.campaign-buddy-active-tab):hover {
-		background-color: rgba(239, 225, 198, 0.5);
+		background-color: ${({ theme }) =>
+			theme.panelLayout.tab.hoverBackgroundColor};
 	}
 
 	${({ hoveringSide }) => hoveringSide && hoverStyle}

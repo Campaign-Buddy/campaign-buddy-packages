@@ -23,6 +23,22 @@ export class BorderRadius {
 		}
 	}
 
+	public get topLeft() {
+		return this.radius.topLeft ?? 0;
+	}
+
+	public get topRight() {
+		return this.radius.topRight ?? 0;
+	}
+
+	public get bottomRight() {
+		return this.radius.bottomRight ?? 0;
+	}
+
+	public get bottomLeft() {
+		return this.radius.bottomLeft ?? 0;
+	}
+
 	public toCss(): string {
 		return `${this.radius?.topLeft ?? 0}px ${this.radius?.topRight ?? 0}px ${
 			this.radius?.bottomRight ?? 0
