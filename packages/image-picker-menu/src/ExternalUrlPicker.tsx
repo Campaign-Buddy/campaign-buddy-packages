@@ -7,12 +7,9 @@ export interface ExternalUrlPickerProps {
 	isOpen: boolean;
 }
 
-export const ExternalUrlPicker: React.FC<ExternalUrlPickerProps> = ({
-	onConfirm,
-	onClose,
-	isOpen,
-	children,
-}) => {
+export const ExternalUrlPicker: React.FC<
+	React.PropsWithChildren<ExternalUrlPickerProps>
+> = ({ onConfirm, onClose, isOpen, children }) => {
 	const [value, setValue] = useState('');
 
 	useEffect(() => {

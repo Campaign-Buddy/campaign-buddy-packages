@@ -7,12 +7,9 @@ export interface ExternalUrlPopoverProps {
 	isOpen: boolean;
 }
 
-export const ExternalUrlPopover: React.FC<ExternalUrlPopoverProps> = ({
-	onConfirm,
-	onClose,
-	isOpen,
-	children,
-}) => {
+export const ExternalUrlPopover: React.FC<
+	React.PropsWithChildren<ExternalUrlPopoverProps>
+> = ({ onConfirm, onClose, isOpen, children }) => {
 	const [value, setValue] = useState('');
 
 	useEffect(() => {

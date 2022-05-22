@@ -35,4 +35,4 @@ This package is responsible for the panel layout in campaign buddy. It renders c
 
 ## Pane uris
 
-- Panes are identified via URIs that take the following 
+- Panes are identified via URIs that take the following

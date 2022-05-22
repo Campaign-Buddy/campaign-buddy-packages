@@ -5,7 +5,9 @@ import { useSelectedElement } from '../editor-util';
 import { useSlateStatic } from 'slate-react';
 import { BasePoint, Editor, Transforms } from 'slate';
 
-export const InsertLineBreakButtons: React.FC = () => {
+export const InsertLineBreakButtons: React.FC<
+	React.PropsWithChildren<unknown>
+> = () => {
 	const editor = useSlateStatic();
 	const selectedElement = useSelectedElement();
 

@@ -6,12 +6,12 @@ import { InsertLineBreakButtons } from './InsertLineBreakButtons';
 import { MarkToggle } from './MarkToggle';
 import { ToolbarContainer } from './Toolbar.styled';
 
-export const Toolbar: React.FC = () => {
+export const Toolbar: React.FC<React.PropsWithChildren<unknown>> = () => {
 	const editor = useSlate();
 	const toolbarRef = useRef<HTMLDivElement>(null);
 
 	const focusEditor = useCallback(
-		(e) => {
+		(e: any) => {
 			if (toolbarRef.current?.contains(e.target)) {
 				e.preventDefault();
 			}

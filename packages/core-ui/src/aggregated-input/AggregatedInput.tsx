@@ -32,7 +32,9 @@ interface AggregatedInputPropsCore<
 	T,
 	TInputType extends keyof JSX.IntrinsicElements
 > {
-	InputComponent: React.FC<BaseInputProps<T, TInputType>>;
+	InputComponent: React.FC<
+		React.PropsWithChildren<BaseInputProps<T, TInputType>>
+	>;
 
 	baseValueLabel?: string;
 

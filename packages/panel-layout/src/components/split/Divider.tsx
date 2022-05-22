@@ -17,7 +17,7 @@ export interface DividerProps {
 	onDragEnd?: (totalDiff: PositionDiff) => void;
 }
 
-export const Divider: React.FC<DividerProps> = ({
+export const Divider: React.FC<React.PropsWithChildren<DividerProps>> = ({
 	direction,
 	onDrag,
 	onDragEnd,

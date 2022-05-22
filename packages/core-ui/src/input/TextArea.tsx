@@ -19,7 +19,7 @@ StyledTextArea.defaultProps = {
 
 type TextAreaProps = BaseInputProps<string, 'textarea'>;
 
-export const TextArea: React.FC<TextAreaProps> = ({
+export const TextArea: React.FC<React.PropsWithChildren<TextAreaProps>> = ({
 	value,
 	onChange,
 	label,
@@ -27,7 +27,7 @@ export const TextArea: React.FC<TextAreaProps> = ({
 	...rest
 }) => {
 	const handleOnChange = useCallback(
-		(event) => onChange(event.target.value),
+		(event: any) => onChange(event.target.value),
 		[onChange]
 	);
 	const generatedId = useHtmlId();

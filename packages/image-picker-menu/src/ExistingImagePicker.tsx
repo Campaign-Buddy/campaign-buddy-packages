@@ -22,7 +22,7 @@ export interface ExistingImagePickerProps {
 const pageSize = 10;
 
 export const ExistingImagePicker: React.FC<
-	Omit<ExistingImagePickerProps, 'queryClient'>
+	React.PropsWithChildren<Omit<ExistingImagePickerProps, 'queryClient'>>
 > = ({ onClose, onConfirm, isOpen, children, mediaApi }) => {
 	const isMounted = useIsMounted();
 

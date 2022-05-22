@@ -16,12 +16,12 @@ export interface UiSectionProps {
 }
 
 export interface WidgetLookup {
-	string: React.FC<WidgetProps<string>>;
-	number: React.FC<WidgetProps<number>>;
-	boolean: React.FC<WidgetProps<boolean>>;
-	array: React.FC<WidgetProps<any[]>>;
+	string: React.FC<React.PropsWithChildren<WidgetProps<string>>>;
+	number: React.FC<React.PropsWithChildren<WidgetProps<number>>>;
+	boolean: React.FC<React.PropsWithChildren<WidgetProps<boolean>>>;
+	array: React.FC<React.PropsWithChildren<WidgetProps<any[]>>>;
 
-	[key: string]: React.FC<WidgetProps<any>>;
+	[key: string]: React.FC<React.PropsWithChildren<WidgetProps<any>>>;
 }
 
 export interface WidgetProps<TValue, TAggregates = any> {
@@ -104,7 +104,7 @@ export interface FormGeneratorProps {
 	onChange: (data: any) => void;
 	widgets: WidgetLookup;
 	uiLayout?: UiLayout;
-	UiSection?: React.FC<UiSectionProps>;
+	UiSection?: React.FC<React.PropsWithChildren<UiSectionProps>>;
 	aggregates?: Aggregates;
 
 	/**

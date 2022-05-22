@@ -14,10 +14,9 @@ const Content = styled.div`
 	width: 100%;
 `;
 
-export const ExampleUiSection: React.FC<UiSectionProps> = ({
-	title,
-	children,
-}) => {
+export const ExampleUiSection: React.FC<
+	React.PropsWithChildren<UiSectionProps>
+> = ({ title, children }) => {
 	if (React.Children.count(children) === 0) {
 		return null;
 	}

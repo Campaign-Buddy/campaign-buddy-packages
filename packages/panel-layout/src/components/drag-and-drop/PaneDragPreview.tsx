@@ -7,9 +7,9 @@ interface PaneDragPreviewProps {
 	dragItem: PaneDragItem;
 }
 
-export const PaneDragPreview: React.FC<PaneDragPreviewProps> = ({
-	dragItem,
-}) => {
+export const PaneDragPreview: React.FC<
+	React.PropsWithChildren<PaneDragPreviewProps>
+> = ({ dragItem }) => {
 	return <TabPreview>{dragItem.tabName}</TabPreview>;
 };
 

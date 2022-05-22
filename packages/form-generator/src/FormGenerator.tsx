@@ -21,7 +21,9 @@ import { useStableValue } from '@campaign-buddy/common-hooks';
 const defaultData = {};
 const defaultFieldSettings = {};
 
-export const FormGenerator: React.FC<FormGeneratorProps> = ({
+export const FormGenerator: React.FC<
+	React.PropsWithChildren<FormGeneratorProps>
+> = ({
 	schema,
 	data = defaultData,
 	onChange,

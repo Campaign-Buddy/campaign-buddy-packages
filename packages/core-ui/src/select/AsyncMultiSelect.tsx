@@ -73,7 +73,7 @@ export function AsyncMultiSelect<TData>({
 	);
 
 	const onItemRemove = useCallback(
-		(item, index) => {
+		(item: any, index: any) => {
 			const copy = [...(value ?? [])];
 			copy.splice(index, 1);
 			onChange(copy, [], [item], value ?? []);
@@ -98,7 +98,7 @@ export function AsyncMultiSelect<TData>({
 		[htmlId, isLoading, isLoadingOptions, disabled]
 	);
 
-	const tagRenderer = useCallback((option) => option.displayValue, []);
+	const tagRenderer = useCallback((option: any) => option.displayValue, []);
 
 	return (
 		<FormGroup label={label} labelFor={htmlId}>

@@ -47,7 +47,7 @@ export const Primary = () => {
 	const [role, setRole] = useState<IOption<string>>(roleOptions[0]);
 	const [fieldSettings, setFieldSettings] = useState<EntityFieldSettings>({});
 
-	const handleUpdate = useCallback((update) => {
+	const handleUpdate = useCallback((update: any) => {
 		console.log(update);
 		setData(update);
 	}, []);

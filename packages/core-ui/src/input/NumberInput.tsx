@@ -33,125 +33,126 @@ StyledInput.defaultProps = {
 
 type NumberInputProps = BaseInputProps<number>;
 
-export const NumberInput: React.FC<NumberInputProps> = ({
-	value,
-	label,
-	onChange,
-	onBlur: onBlurProps,
-	onKeyDown: onKeyDownProps,
-	id: idProp,
-	...rest
-}) => {
-	const [internalValue, setInternalValue] = useState(`${value ?? 0}`);
-	const generatedId = useHtmlId();
-	const id = idProp ?? generatedId;
+export const NumberInput: React.FC<React.PropsWithChildren<NumberInputProps>> =
+	({
+		value,
+		label,
+		onChange,
+		onBlur: onBlurProps,
+		onKeyDown: onKeyDownProps,
+		id: idProp,
+		...rest
+	}) => {
+		const [internalValue, setInternalValue] = useState(`${value ?? 0}`);
+		const generatedId = useHtmlId();
+		const id = idProp ?? generatedId;
 
-	// When the value is changed from the outside, then
-	// we want to update our internal input
-	useEffect(() => {
-		setInternalValue(`${value ?? 0}`);
-	}, [value]);
+		// When the value is changed from the outside, then
+		// we want to update our internal input
+		useEffect(() => {
+			setInternalValue(`${value ?? 0}`);
+		}, [value]);
 
-	const onConfirm = useCallback(() => {
-		try {
-			const cleaned = internalValue.replace(
-				/(\d+)?d(\d+)/g,
-				(match, quantityRaw, diceRaw) => {
-					const quantity = parseInt(quantityRaw ?? '1');
-					const dice = parseInt(diceRaw);
+		const onConfirm = useCallback(() => {
+			try {
+				const cleaned = internalValue.replace(
+					/(\d+)?d(\d+)/g,
+					(match, quantityRaw, diceRaw) => {
+						const quantity = parseInt(quantityRaw ?? '1');
+						const dice = parseInt(diceRaw);
 
-					let sum = 0;
-					for (let i = 0; i < quantity; i++) {
-						sum += Math.floor(Math.random() * dice) + 1;
+						let sum = 0;
+						for (let i = 0; i < quantity; i++) {
+							sum += Math.floor(Math.random() * dice) + 1;
+						}
+
+						return `${sum}`;
 					}
+				);
 
-					return `${sum}`;
+				const val = parseFloat(mexpr.eval(cleaned));
+
+				if (isNaN(val)) {
+					return val;
 				}
-			);
 
-			const val = parseFloat(mexpr.eval(cleaned));
-
-			if (isNaN(val)) {
-				return val;
+				onChange(val);
+			} catch {
+				/* :shrug: */
 			}
+		}, [internalValue, onChange]);
 
-			onChange(val);
-		} catch {
-			/* :shrug: */
-		}
-	}, [internalValue, onChange]);
+		const step = useCallback(
+			(value: number) => {
+				const internalNumValue = parseFloat(internalValue);
+				if (isNaN(internalNumValue)) {
+					setInternalValue(`${value}`);
+					onChange(value);
+				} else {
+					setInternalValue(`${internalNumValue + value}`);
+					onChange(internalNumValue + value);
+				}
+			},
+			[onChange, internalValue]
+		);
 
-	const step = useCallback(
-		(value: number) => {
-			const internalNumValue = parseFloat(internalValue);
-			if (isNaN(internalNumValue)) {
-				setInternalValue(`${value}`);
-				onChange(value);
-			} else {
-				setInternalValue(`${internalNumValue + value}`);
-				onChange(internalNumValue + value);
-			}
-		},
-		[onChange, internalValue]
-	);
+		const stepUp = useCallback(() => step(1), [step]);
+		const stepDown = useCallback(() => step(-1), [step]);
 
-	const stepUp = useCallback(() => step(1), [step]);
-	const stepDown = useCallback(() => step(-1), [step]);
+		const onKeyDown = useCallback(
+			(event: any) => {
+				if (event.keyCode === Keys.ENTER) {
+					onConfirm();
+				} else if (event.keyCode === Keys.ARROW_DOWN) {
+					stepDown();
+				} else if (event.keyCode === Keys.ARROW_UP) {
+					stepUp();
+				}
 
-	const onKeyDown = useCallback(
-		(event) => {
-			if (event.keyCode === Keys.ENTER) {
+				onKeyDownProps?.(event);
+			},
+			[onConfirm, onKeyDownProps, stepDown, stepUp]
+		);
+
+		const onBlur = useCallback(
+			(event: any) => {
 				onConfirm();
-			} else if (event.keyCode === Keys.ARROW_DOWN) {
-				stepDown();
-			} else if (event.keyCode === Keys.ARROW_UP) {
-				stepUp();
-			}
+				onBlurProps?.(event);
+			},
+			[onConfirm, onBlurProps]
+		);
 
-			onKeyDownProps?.(event);
-		},
-		[onConfirm, onKeyDownProps, stepDown, stepUp]
-	);
+		const handleChange = useCallback(
+			(event: any) => {
+				setInternalValue(event.target.value);
 
-	const onBlur = useCallback(
-		(event) => {
-			onConfirm();
-			onBlurProps?.(event);
-		},
-		[onConfirm, onBlurProps]
-	);
+				const numValue = parseFloat(event.target.value);
 
-	const handleChange = useCallback(
-		(event) => {
-			setInternalValue(event.target.value);
-
-			const numValue = parseFloat(event.target.value);
-
-			if (!isNaN(numValue)) {
-				onChange(numValue);
-			}
-		},
-		[onChange]
-	);
-
-	return (
-		<FormGroup label={label} labelFor={id}>
-			<StyledInput
-				value={internalValue}
-				onChange={handleChange}
-				onKeyDown={onKeyDown}
-				onBlur={onBlur}
-				fill
-				id={id}
-				className={Classes.NUMERIC_INPUT}
-				rightElement={
-					<ButtonGroup vertical>
-						<Button style="minimal" onClick={stepUp} icon="chevron-up" />
-						<Button style="minimal" onClick={stepDown} icon="chevron-down" />
-					</ButtonGroup>
+				if (!isNaN(numValue)) {
+					onChange(numValue);
 				}
-				{...rest}
-			/>
-		</FormGroup>
-	);
-};
+			},
+			[onChange]
+		);
+
+		return (
+			<FormGroup label={label} labelFor={id}>
+				<StyledInput
+					value={internalValue}
+					onChange={handleChange}
+					onKeyDown={onKeyDown}
+					onBlur={onBlur}
+					fill
+					id={id}
+					className={Classes.NUMERIC_INPUT}
+					rightElement={
+						<ButtonGroup vertical>
+							<Button style="minimal" onClick={stepUp} icon="chevron-up" />
+							<Button style="minimal" onClick={stepDown} icon="chevron-down" />
+						</ButtonGroup>
+					}
+					{...rest}
+				/>
+			</FormGroup>
+		);
+	};

@@ -29,7 +29,9 @@ export interface FormWidgetProviderProps {
 	showAggregationIndicator?: boolean;
 }
 
-export const FormWidgetProvider: React.FC<FormWidgetProviderProps> = ({
+export const FormWidgetProvider: React.FC<
+	React.PropsWithChildren<FormWidgetProviderProps>
+> = ({
 	queryClient,
 	children,
 	mediaApi,

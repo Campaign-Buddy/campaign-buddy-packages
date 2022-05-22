@@ -9,10 +9,9 @@ export interface ThemeProviderProps {
 	children?: React.ReactNode;
 }
 
-export const ThemeProvider: React.FC<ThemeProviderProps> = ({
-	theme,
-	children,
-}) => {
+export const ThemeProvider: React.FC<
+	React.PropsWithChildren<ThemeProviderProps>
+> = ({ theme, children }) => {
 	return (
 		<ThemeContext.Provider value={theme}>
 			<StyledThemeProvider theme={theme}>{children}</StyledThemeProvider>

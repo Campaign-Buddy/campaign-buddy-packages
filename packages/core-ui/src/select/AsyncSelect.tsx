@@ -56,7 +56,7 @@ export function AsyncSelect<TData>({
 	const cancelableFetchOptions = useCancelableCallback(fetchOptions);
 
 	const refreshOptions = useCallback(
-		async (q) => {
+		async (q: any) => {
 			const newOptions = await cancelableFetchOptions(q);
 			setOptions(newOptions);
 			setIsLoading(false);
@@ -80,7 +80,7 @@ export function AsyncSelect<TData>({
 	}, [cancelableFetchOptions]);
 
 	const handleQueryChange = useCallback(
-		async (newQuery) => {
+		async (newQuery: any) => {
 			fetchInitialOptionsPromise.current?.cancel();
 			setIsLoading(true);
 			setQuery(newQuery);

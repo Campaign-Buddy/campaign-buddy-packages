@@ -14,7 +14,7 @@ The widget for a particular field is determined by either the `$uiWidget` proper
 
 ### Aggregates
 
-Fields in a schema may define *aggregates*, which is a hybrid javascript/json-path-ex expression denoting that a particular field has a derived value. The value may be derived from a base input value (collected from the user via a Widget) or from other values in the form data or from a combination of the both. Widgets will receive both the base value and the aggregated value for a field. The base value is the user inputted value for the field and the aggregated value is the "display" value for a field.
+Fields in a schema may define _aggregates_, which is a hybrid javascript/json-path-ex expression denoting that a particular field has a derived value. The value may be derived from a base input value (collected from the user via a Widget) or from other values in the form data or from a combination of the both. Widgets will receive both the base value and the aggregated value for a field. The base value is the user inputted value for the field and the aggregated value is the "display" value for a field.
 
 > Note: Other places in campaign buddy that deal with aggregated fields will treat the aggregated value as the "true" value.
 
@@ -32,4 +32,4 @@ In the case of array fields, the aggregated value can be merged with the base va
 
 The first way is to just ignore any aggregates. This option should be avoided when possible but sometimes it doesn't make sense for a particular field to be aggregated (such as the rich text field).
 
-> Warning: This approach may cause inconsistency in how data is displayed in other places in campaign buddy if the field *does* have an aggregate that is ignored by a widget. If a widget ignores aggregations, then [the relevant type in `@campaign-buddy/json-schema-core`](../json-schema-core/src/jsonSchemaTypes.ts) should be updated to disallow aggregates in the schema.
+> Warning: This approach may cause inconsistency in how data is displayed in other places in campaign buddy if the field _does_ have an aggregate that is ignored by a widget. If a widget ignores aggregations, then [the relevant type in `@campaign-buddy/json-schema-core`](../json-schema-core/src/jsonSchemaTypes.ts) should be updated to disallow aggregates in the schema.

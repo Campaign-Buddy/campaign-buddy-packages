@@ -16,7 +16,7 @@ export interface SplitProps {
 	onSizesChange: (sizes: number[]) => void;
 }
 
-export const Split: React.FC<SplitProps> = ({
+export const Split: React.FC<React.PropsWithChildren<SplitProps>> = ({
 	direction,
 	children,
 	sizes,

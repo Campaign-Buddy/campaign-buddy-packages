@@ -15,6 +15,7 @@ interface IconProps {
 	icon: IconName;
 }
 
-export const Icon: React.FC<IconProps> = ({ size, icon }) => (
-	<StyledIconCore iconSize={size ?? 16} icon={icon} />
-);
+export const Icon: React.FC<React.PropsWithChildren<IconProps>> = ({
+	size,
+	icon,
+}) => <StyledIconCore iconSize={size ?? 16} icon={icon} />;

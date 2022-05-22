@@ -31,7 +31,7 @@ export function useAsyncOptions(
 	const cancelableFetchOptions = useCancelableCallback(fetchOptions);
 
 	const refreshOptions = useCallback(
-		async (q) => {
+		async (q: any) => {
 			const newOptions = await cancelableFetchOptions(q);
 			setOptions(newOptions);
 			setIsLoading(false);
@@ -58,7 +58,7 @@ export function useAsyncOptions(
 	}, [cancelableFetchOptions]);
 
 	const handleQueryChange = useCallback(
-		async (newQuery) => {
+		async (newQuery: any) => {
 			if (!newQuery && initialOptions) {
 				return setOptions(initialOptions);
 			}

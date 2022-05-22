@@ -26,9 +26,12 @@ export function useSizes(
 	model: ParentBase<any, any>
 ): [number[], (sizes: number[]) => void] {
 	const sizes = useObserverState(model, () => [...model.getSizes()]);
-	const setSizes = useCallback((sizes: number[]) => {
-		model.setSizes(sizes);
-	}, [model]);
+	const setSizes = useCallback(
+		(sizes: number[]) => {
+			model.setSizes(sizes);
+		},
+		[model]
+	);
 
 	return [sizes, setSizes];
 }

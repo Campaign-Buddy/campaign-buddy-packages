@@ -45,7 +45,7 @@ const popoverModifiers = {
 	},
 };
 
-export const Popover: React.FC<PopoverProps> = ({
+export const Popover: React.FC<React.PropsWithChildren<PopoverProps>> = ({
 	children,
 	content,
 	isOpen,

@@ -19,7 +19,7 @@ import {
 import { useBooleanState } from '@campaign-buddy/common-hooks';
 import { LinkNode } from '../types';
 
-export const AddLinkButton: React.FC = () => {
+export const AddLinkButton: React.FC<React.PropsWithChildren<unknown>> = () => {
 	const editor = useSlate();
 
 	const [url, setUrl] = useState<string>('');
@@ -54,7 +54,7 @@ export const AddLinkButton: React.FC = () => {
 	}, [editor, isLinkActive, openPopover, pushSelectionSnapshot]);
 
 	const handleEnter = useCallback(
-		(e) => {
+		(e: any) => {
 			if (isHotKey('enter', e)) {
 				e.preventDefault();
 				addLink();

@@ -66,12 +66,9 @@ interface IconMenuPopoverProps extends IconMenuProps {
 	onClose: () => void;
 }
 
-export const IconMenuPopover: React.FC<IconMenuPopoverProps> = ({
-	items,
-	children,
-	isOpen,
-	onClose,
-}) => {
+export const IconMenuPopover: React.FC<
+	React.PropsWithChildren<IconMenuPopoverProps>
+> = ({ items, children, isOpen, onClose }) => {
 	return (
 		<>
 			<GlobalStyle />

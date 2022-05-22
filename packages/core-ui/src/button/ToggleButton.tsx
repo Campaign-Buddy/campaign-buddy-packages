@@ -11,19 +11,15 @@ interface ToggleButtonProps {
 	preventFocus?: boolean;
 }
 
-export const ToggleButton: React.FC<ToggleButtonProps> = ({
-	value,
-	onChange,
-	icon,
-	size,
-	preventFocus,
-}) => {
+export const ToggleButton: React.FC<
+	React.PropsWithChildren<ToggleButtonProps>
+> = ({ value, onChange, icon, size, preventFocus }) => {
 	const handleToggle = useCallback(() => {
 		onChange(!value);
 	}, [onChange, value]);
 
 	const preventFocusHandleToggle = useCallback(
-		(e) => {
+		(e: any) => {
 			e.preventDefault();
 			onChange(!value);
 		},

@@ -74,7 +74,7 @@ export function resolveSubQueries(
 
 				return JSON.stringify(result);
 			});
-		} catch (err) {
+		} catch (err: any) {
 			if (err.message === errorMessage) {
 				return undefined;
 			}

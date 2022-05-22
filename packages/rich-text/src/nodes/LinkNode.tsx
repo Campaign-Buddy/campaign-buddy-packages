@@ -14,11 +14,9 @@ import { ElementNodeProps, LinkNode as LinkNodeType } from '../types';
 import { InlineChromiumBugfix } from './InlineChromeBugfix';
 import { useSelectionSnapshot } from '../editor-util';
 
-export const LinkNode: React.FC<ElementNodeProps<LinkNodeType>> = ({
-	attributes,
-	children,
-	element,
-}) => {
+export const LinkNode: React.FC<
+	React.PropsWithChildren<ElementNodeProps<LinkNodeType>>
+> = ({ attributes, children, element }) => {
 	const editor = useSlate();
 	const [isPopoverOpen, openPopover, closePopover] = useBooleanState();
 	const { pushSelectionSnapshot, popSelectionSnapshot } =
@@ -50,7 +48,7 @@ export const LinkNode: React.FC<ElementNodeProps<LinkNodeType>> = ({
 	}, []);
 
 	const handleEnter = useCallback(
-		(e) => {
+		(e: any) => {
 			if (isHotKey('enter', e)) {
 				e.preventDefault();
 				handleClosePopover();

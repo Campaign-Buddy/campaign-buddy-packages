@@ -11,7 +11,10 @@ export interface MarkToggleProps {
 	format: keyof Formatting;
 }
 
-export const MarkToggle: React.FC<MarkToggleProps> = ({ icon, format }) => {
+export const MarkToggle: React.FC<React.PropsWithChildren<MarkToggleProps>> = ({
+	icon,
+	format,
+}) => {
 	const editor = useSlate();
 
 	const isActive = Boolean(Editor.marks(editor)?.[format]);

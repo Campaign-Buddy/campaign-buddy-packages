@@ -50,7 +50,9 @@ interface ImageData {
 	url: string;
 }
 
-type ImageWidgetType = React.FC<CBWidgetProps<ImageData, ImageAggregation>>;
+type ImageWidgetType = React.FC<
+	React.PropsWithChildren<CBWidgetProps<ImageData, ImageAggregation>>
+>;
 
 export const ImageWidget: ImageWidgetType = ({
 	value,

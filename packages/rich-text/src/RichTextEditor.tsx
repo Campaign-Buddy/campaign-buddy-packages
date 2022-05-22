@@ -49,7 +49,9 @@ const defaultValue: RichTextDocument = [
 	},
 ];
 
-export const RichTextEditor: React.FC<RichTextEditorProps> = ({
+export const RichTextEditor: React.FC<
+	React.PropsWithChildren<RichTextEditorProps>
+> = ({
 	htmlId,
 	style,
 	maxHeight,

@@ -84,7 +84,7 @@ export function useHydratedEntities(
 					[]
 				);
 				setHydratedEntities(flatResults);
-			} catch (e) {
+			} catch (e: any) {
 				if (!e?.isCanceled) {
 					throw e;
 				}

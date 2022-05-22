@@ -12,15 +12,15 @@
 
 ```json
 {
-  "foo": {
-    "baz": 1
-  },
-  "bar": {
-    "baz": 2
-  },
-  "other": {
-    "baz": 3
-  }
+	"foo": {
+		"baz": 1
+	},
+	"bar": {
+		"baz": 2
+	},
+	"other": {
+		"baz": 3
+	}
 }
 ```
 
@@ -48,8 +48,8 @@ Sub-query allow you to dynamically reference JSON properties within your query b
 
 ```json
 {
-  "levels": [{ "acBoost": 1 }, { "acBoost": 2 }],
-  "currentLevel": 1
+	"levels": [{ "acBoost": 1 }, { "acBoost": 2 }],
+	"currentLevel": 1
 }
 ```
 

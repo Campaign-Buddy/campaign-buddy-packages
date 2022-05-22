@@ -5,8 +5,6 @@
 		"composite": true,
 		"skipDefaultLibCheck": true
 	},
-	"include": [
-		"src/**/*"
-	],
+	"include": ["src/**/*"],
 	"references": []
 }

@@ -27,14 +27,9 @@ interface Stat {
 	bonus?: number;
 }
 
-export const StatWidget: React.FC<CBWidgetProps<Stat, StatAggregation>> = ({
-	value,
-	onChange,
-	label,
-	rawLabel,
-	aggregatedValue,
-	aggregation,
-}) => {
+export const StatWidget: React.FC<
+	React.PropsWithChildren<CBWidgetProps<Stat, StatAggregation>>
+> = ({ value, onChange, label, rawLabel, aggregatedValue, aggregation }) => {
 	const isBaseEditable = useAggregationContainsBase(aggregation?.base);
 	const isBonusEditable = useAggregationContainsBase(aggregation?.bonus);
 

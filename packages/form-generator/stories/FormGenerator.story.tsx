@@ -27,7 +27,7 @@ const Template: Story = () => {
 		},
 	});
 
-	const handleUpdate = useCallback((update) => {
+	const handleUpdate = useCallback((update: any) => {
 		console.log(update);
 		setData(update);
 	}, []);

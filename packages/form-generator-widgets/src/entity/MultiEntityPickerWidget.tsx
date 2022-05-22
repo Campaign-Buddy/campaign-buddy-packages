@@ -21,7 +21,9 @@ interface MultiEntityPickerData {
 }
 
 export const MultiEntityPickerWidget: React.FC<
-	CBWidgetProps<MultiEntityPickerData, MultiEntityAggregation>
+	React.PropsWithChildren<
+		CBWidgetProps<MultiEntityPickerData, MultiEntityAggregation>
+	>
 > = ({
 	value,
 	aggregatedValue,

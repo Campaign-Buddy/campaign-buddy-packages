@@ -17,7 +17,7 @@ export interface ITabBarProps {
 	activePaneId: string;
 }
 
-export const TabBar: React.FC<ITabBarProps> = ({
+export const TabBar: React.FC<React.PropsWithChildren<ITabBarProps>> = ({
 	panes,
 	onActivePaneIdChange,
 	activePaneId,
@@ -50,7 +50,7 @@ interface IPaneTabProps {
 	onActivePaneIdChange: (paneId: string) => void;
 }
 
-const PaneTab: React.FC<IPaneTabProps> = ({
+const PaneTab: React.FC<React.PropsWithChildren<IPaneTabProps>> = ({
 	pane,
 	isActive,
 	onActivePaneIdChange,

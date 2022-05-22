@@ -5,12 +5,12 @@ interface LinkButtonProps {
 	onClick: () => void;
 }
 
-export const LinkButton: React.FC<LinkButtonProps> = ({
+export const LinkButton: React.FC<React.PropsWithChildren<LinkButtonProps>> = ({
 	onClick,
 	children,
 }) => {
 	const handleClick = useCallback(
-		(e) => {
+		(e: any) => {
 			e.preventDefault();
 			onClick();
 		},

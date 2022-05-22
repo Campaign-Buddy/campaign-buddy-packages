@@ -8,15 +8,15 @@ type DerivedAggregatedInputProps<
 > = Omit<AggregatedInputProps<T, TInputType>, 'InputComponent'>;
 
 export const AggregatedNumberInput: React.FC<
-	DerivedAggregatedInputProps<number, 'input'>
+	React.PropsWithChildren<DerivedAggregatedInputProps<number, 'input'>>
 > = (props) => <AggregatedInput {...props} InputComponent={NumberInput} />;
 
 export const AggregatedTextInput: React.FC<
-	DerivedAggregatedInputProps<string, 'input'>
+	React.PropsWithChildren<DerivedAggregatedInputProps<string, 'input'>>
 > = (props) => <AggregatedInput {...props} InputComponent={Input} />;
 
 export const AggregatedTextArea: React.FC<
-	DerivedAggregatedInputProps<string, 'textarea'>
+	React.PropsWithChildren<DerivedAggregatedInputProps<string, 'textarea'>>
 > = (props) => <AggregatedInput {...props} InputComponent={TextArea} />;
 
 export { AggregatedDisplayText } from './AggregatedInput.styled';

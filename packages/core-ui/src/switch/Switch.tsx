@@ -31,14 +31,14 @@ interface SwitchProps extends Omit<BaseInputProps<boolean>, 'label'> {
 	label?: string;
 }
 
-export const Switch: React.FC<SwitchProps> = ({
+export const Switch: React.FC<React.PropsWithChildren<SwitchProps>> = ({
 	value,
 	onChange,
 	label,
 	...rest
 }) => {
 	const handleChange = useCallback(
-		(event) => onChange(event.target.checked),
+		(event: any) => onChange(event.target.checked),
 		[onChange]
 	);
 

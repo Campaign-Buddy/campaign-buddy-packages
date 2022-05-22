@@ -41,22 +41,20 @@ interface ContextMenuProps {
 	menuItems: MenuItemType[];
 }
 
-export const ContextMenu: React.FC<ContextMenuProps> = ({
-	menuItems,
-	children,
-}) => (
-	<>
-		<GlobalStyle />
-		<ContextMenuCore
-			content={
-				<StyledMenu>
-					{menuItems.map((x, i) => (
-						<MenuItem item={x} key={x.displayText ?? i} />
-					))}
-				</StyledMenu>
-			}
-		>
-			{children}
-		</ContextMenuCore>
-	</>
-);
+export const ContextMenu: React.FC<React.PropsWithChildren<ContextMenuProps>> =
+	({ menuItems, children }) => (
+		<>
+			<GlobalStyle />
+			<ContextMenuCore
+				content={
+					<StyledMenu>
+						{menuItems.map((x, i) => (
+							<MenuItem item={x} key={x.displayText ?? i} />
+						))}
+					</StyledMenu>
+				}
+			>
+				{children}
+			</ContextMenuCore>
+		</>
+	);

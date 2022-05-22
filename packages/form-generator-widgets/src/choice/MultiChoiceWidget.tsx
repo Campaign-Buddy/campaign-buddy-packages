@@ -12,7 +12,7 @@ interface MultiChoice {
 }
 
 export const MultiChoiceWidget: React.FC<
-	CBWidgetProps<MultiChoice, MultiChoiceAggregation>
+	React.PropsWithChildren<CBWidgetProps<MultiChoice, MultiChoiceAggregation>>
 > = ({ value, onChange, aggregatedValue, schema, label, aggregation }) => {
 	const isEditable = useAggregationContainsBase(aggregation?.selectedOptions);
 

@@ -3,11 +3,9 @@ import { useSelected, useFocused } from 'slate-react';
 import styled from 'styled-components';
 import { ElementNodeProps, ImageNode as ImageNodeType } from '../types';
 
-export const ImageNode: React.FC<ElementNodeProps<ImageNodeType>> = ({
-	element,
-	attributes,
-	children,
-}) => {
+export const ImageNode: React.FC<
+	React.PropsWithChildren<ElementNodeProps<ImageNodeType>>
+> = ({ element, attributes, children }) => {
 	const selected = useSelected();
 	const focused = useFocused();
 

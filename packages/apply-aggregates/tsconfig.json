@@ -5,9 +5,7 @@
 		"composite": true,
 		"skipDefaultLibCheck": true
 	},
-	"include": [
-		"src/**/*"
-	],
+	"include": ["src/**/*"],
 	"references": [
 		{
 			"path": "../json-schema-core/tsconfig.json"

@@ -46,7 +46,10 @@ export function MultiSelect<TData>({
 		[options]
 	);
 
-	const handleQueryChange = useCallback((newQuery) => setQuery(newQuery), []);
+	const handleQueryChange = useCallback(
+		(newQuery: any) => setQuery(newQuery),
+		[]
+	);
 
 	const onItemSelect = useCallback(
 		(item: IOption<TData>) => {
@@ -74,7 +77,7 @@ export function MultiSelect<TData>({
 	);
 
 	const onItemRemove = useCallback(
-		(item, index) => {
+		(item: any, index: any) => {
 			const copy = [...(value ?? [])];
 			copy.splice(index, 1);
 			onChange(copy, [], [item], value ?? []);
@@ -112,7 +115,7 @@ export function MultiSelect<TData>({
 		[htmlId]
 	);
 
-	const tagRenderer = useCallback((option) => option.displayValue, []);
+	const tagRenderer = useCallback((option: any) => option.displayValue, []);
 
 	return (
 		<FormGroup label={label} labelFor={htmlId}>

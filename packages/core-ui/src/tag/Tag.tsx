@@ -10,6 +10,6 @@ StyledTagCore.defaultProps = {
 	theme: defaultTheme,
 };
 
-export const Tag: React.FC = ({ children }) => (
-	<StyledTagCore>{children}</StyledTagCore>
-);
+export const Tag: React.FC<React.PropsWithChildren<unknown>> = ({
+	children,
+}) => <StyledTagCore>{children}</StyledTagCore>;

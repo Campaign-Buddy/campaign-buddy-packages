@@ -4,11 +4,11 @@ import { CBWidgetProps } from '../../CBWidgetProps';
 import { ConfigurableAggregation } from './useAggregationSettingOptions';
 import { WidgetLabel } from './WidgetLabel';
 
-export function withWidgetLabel<T>(
-	Component: React.FC<CBWidgetProps<T, any>>,
+export function withWidgetLabel<TValue, TAggregates>(
+	Component: React.FC<React.PropsWithChildren<CBWidgetProps<TValue, TAggregates>>>,
 	configurableAggregations?: ConfigurableAggregation[]
-): React.FC<WidgetProps<T>> {
-	const WithWidgetLabel: React.FC<WidgetProps<T>> = ({
+): React.FC<React.PropsWithChildren<WidgetProps<TValue>>> {
+	const WithWidgetLabel: React.FC<React.PropsWithChildren<WidgetProps<TValue>>> = ({
 		label: rawLabel,
 		...props
 	}) => {
@@ -22,7 +22,8 @@ export function withWidgetLabel<T>(
 			/>
 		);
 
-		return <Component {...props} label={label} rawLabel={rawLabel} />;
+		const TypeFixComponent = Component as any;
+		return <TypeFixComponent {...props} label={label} rawLabel={rawLabel} />;
 	};
 
 	return WithWidgetLabel;

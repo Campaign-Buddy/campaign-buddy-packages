@@ -29,11 +29,9 @@ export const AggregatedDisplayTextOuter = styled.div<{ fontSize?: number }>`
 type AggregatedDisplayTextProps = React.HTMLAttributes<HTMLParagraphElement> & {
 	fontSize?: number;
 };
-export const AggregatedDisplayText: React.FC<AggregatedDisplayTextProps> = ({
-	className,
-	children,
-	...props
-}) => (
+export const AggregatedDisplayText: React.FC<
+	React.PropsWithChildren<AggregatedDisplayTextProps>
+> = ({ className, children, ...props }) => (
 	<AggregatedDisplayTextOuter className={className}>
 		<AggregatedDisplayTextInner {...props}>
 			{children}

@@ -26,7 +26,7 @@ interface FormWidgetProps {
 	shouldShowFieldSettingControls: boolean;
 }
 
-export const FormWidget: React.FC<FormWidgetProps> = ({
+export const FormWidget: React.FC<React.PropsWithChildren<FormWidgetProps>> = ({
 	schema,
 	widgetLookup,
 	path,
@@ -37,7 +37,7 @@ export const FormWidget: React.FC<FormWidgetProps> = ({
 	currentUserRole,
 	shouldShowFieldSettingControls,
 }) => {
-	let Widget: React.FC<WidgetProps<any>> = () => null;
+	let Widget: React.FC<React.PropsWithChildren<WidgetProps<any>>> = () => null;
 
 	if (schema['$uiWidget'] && widgetLookup[schema['$uiWidget']]) {
 		Widget = widgetLookup[schema['$uiWidget']];
@@ -89,7 +89,7 @@ interface DebouncedWidgetProps<T>
 	path: string;
 	updateValue: (path: string, data: T) => void;
 	aggregation: Aggregates | string | undefined;
-	Widget: React.FC<WidgetProps<T>>;
+	Widget: React.FC<React.PropsWithChildren<WidgetProps<T>>>;
 	schema: CampaignBuddySchema;
 	entityApi: EntityApi | undefined;
 	updateFieldSettings:
@@ -98,7 +98,9 @@ interface DebouncedWidgetProps<T>
 	shouldShowFieldSettingControls: boolean;
 }
 
-export const DebouncedWidget: React.FC<DebouncedWidgetProps<any>> = ({
+export const DebouncedWidget: React.FC<
+	React.PropsWithChildren<DebouncedWidgetProps<any>>
+> = ({
 	path,
 	updateValue: propsUpdateValue,
 	Widget,

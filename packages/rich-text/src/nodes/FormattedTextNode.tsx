@@ -29,11 +29,9 @@ const FormattedText = styled.span<Formatting>`
 	${conditionalFormatting('isUnderline', 'text-decoration: underline;')}
 `;
 
-export const FormattedTextNode: React.FC<LeafNodeProps<FormattedTextType>> = ({
-	leaf,
-	attributes,
-	children,
-}) => {
+export const FormattedTextNode: React.FC<
+	React.PropsWithChildren<LeafNodeProps<FormattedTextType>>
+> = ({ leaf, attributes, children }) => {
 	return (
 		<FormattedText {...(leaf ?? {})} {...attributes}>
 			{children}

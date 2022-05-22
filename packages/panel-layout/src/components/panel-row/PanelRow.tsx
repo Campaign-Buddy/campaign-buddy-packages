@@ -9,7 +9,9 @@ interface IPanelRowProps {
 	row: PanelRowModel;
 }
 
-export const PanelRow: React.FC<IPanelRowProps> = ({ row }) => {
+export const PanelRow: React.FC<React.PropsWithChildren<IPanelRowProps>> = ({
+	row,
+}) => {
 	const children = useChildren(row);
 	const [sizes, setSizes] = useSizes(row);
 

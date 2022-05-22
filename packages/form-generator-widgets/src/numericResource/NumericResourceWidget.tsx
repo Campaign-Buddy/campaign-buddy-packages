@@ -22,7 +22,9 @@ interface NumericResource {
 }
 
 export const NumericResourceWidget: React.FC<
-	CBWidgetProps<NumericResource, NumericResourceAggregate>
+	React.PropsWithChildren<
+		CBWidgetProps<NumericResource, NumericResourceAggregate>
+	>
 > = ({ value, aggregatedValue, aggregation, onChange, label, rawLabel }) => {
 	const isMaxEditable = useAggregationContainsBase(aggregation?.max);
 	const isCurrentEditable = useAggregationContainsBase(aggregation?.current);

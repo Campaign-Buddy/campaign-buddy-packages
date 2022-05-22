@@ -36,7 +36,9 @@ export interface ImagePickerMenuProps {
 	) => void;
 }
 
-export const ImagePickerMenu: React.FC<ImagePickerMenuProps> = ({
+export const ImagePickerMenu: React.FC<
+	React.PropsWithChildren<ImagePickerMenuProps>
+> = ({
 	isOpen,
 	onConfirm,
 	onClose,

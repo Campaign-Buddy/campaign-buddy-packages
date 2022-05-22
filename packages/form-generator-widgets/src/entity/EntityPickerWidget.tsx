@@ -20,7 +20,7 @@ interface EntityPickerData {
 }
 
 export const EntityPickerWidget: React.FC<
-	CBWidgetProps<EntityPickerData, EntityAggregation>
+	React.PropsWithChildren<CBWidgetProps<EntityPickerData, EntityAggregation>>
 > = ({
 	value,
 	aggregatedValue,

@@ -6,7 +6,9 @@ interface IPaneProps {
 	pane: PaneModel;
 }
 
-export const Pane: React.FC<IPaneProps> = ({ pane }) => {
+export const Pane: React.FC<React.PropsWithChildren<IPaneProps>> = ({
+	pane,
+}) => {
 	const location = useObserverState(pane, () => pane.getLocation());
 
 	return <p>I am a pane at {location}</p>;

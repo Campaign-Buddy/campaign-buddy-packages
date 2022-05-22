@@ -16,6 +16,6 @@ export interface SpinnerProps {
 	size: number;
 }
 
-export const Spinner: React.FC<SpinnerProps> = ({ size }) => (
-	<StyledSpinnerCore size={size} />
-);
+export const Spinner: React.FC<React.PropsWithChildren<SpinnerProps>> = ({
+	size,
+}) => <StyledSpinnerCore size={size} />;

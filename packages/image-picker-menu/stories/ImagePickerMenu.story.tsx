@@ -24,7 +24,7 @@ export const Primary = () => {
 		[close]
 	);
 
-	const observeStateChange = useCallback((oldState, currentState) => {
+	const observeStateChange = useCallback((oldState: any, currentState: any) => {
 		console.log(`State change: ${oldState} -> ${currentState}`);
 	}, []);
 

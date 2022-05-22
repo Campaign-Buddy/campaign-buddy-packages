@@ -5,6 +5,7 @@ export interface TooltipProps {
 	text: string;
 }
 
-export const Tooltip: React.FC<TooltipProps> = ({ text, children }) => (
-	<TooltipCore content={text}>{children}</TooltipCore>
-);
+export const Tooltip: React.FC<React.PropsWithChildren<TooltipProps>> = ({
+	text,
+	children,
+}) => <TooltipCore content={text}>{children}</TooltipCore>;

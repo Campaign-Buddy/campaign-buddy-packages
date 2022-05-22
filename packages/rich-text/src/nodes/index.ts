@@ -11,14 +11,14 @@ import { ImageNode } from './ImageNode';
 
 export const leafNodes: Record<
 	LeafNodeKind,
-	React.ComponentType<LeafNodeProps<any>>
+	React.ComponentType<React.PropsWithChildren<LeafNodeProps<any>>>
 > = {
 	text: FormattedTextNode,
 };
 
 export const elementNodes: Record<
 	ElementNodeKind,
-	React.ComponentType<ElementNodeProps<any>>
+	React.ComponentType<React.PropsWithChildren<ElementNodeProps<any>>>
 > = {
 	link: LinkNode,
 	paragraph: ParagraphNode,

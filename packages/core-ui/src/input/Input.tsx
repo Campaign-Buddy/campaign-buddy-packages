@@ -22,7 +22,7 @@ interface InputProps extends BaseInputProps<string> {
 	rightElement?: JSX.Element;
 }
 
-export const Input: React.FC<InputProps> = ({
+export const Input: React.FC<React.PropsWithChildren<InputProps>> = ({
 	value,
 	onChange,
 	label,
@@ -31,7 +31,7 @@ export const Input: React.FC<InputProps> = ({
 	...rest
 }) => {
 	const handleOnChange = useCallback(
-		(event) => {
+		(event: any) => {
 			onChange(event.target.value);
 		},
 		[onChange]

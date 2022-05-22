@@ -25,7 +25,7 @@ export interface ImageGridProps extends ImageGridCoreProps {
 	queryClient: QueryClient;
 }
 
-const ImageGridCore: React.FC<ImageGridCoreProps> = ({
+const ImageGridCore: React.FC<React.PropsWithChildren<ImageGridCoreProps>> = ({
 	images,
 	rowHeight = 240,
 	onImageClicked,
@@ -58,11 +58,13 @@ const ImageGridCore: React.FC<ImageGridCoreProps> = ({
 	);
 };
 
-const ResponsiveImage: React.FC<{
-	image: ImageWithDimensions;
-	isSmallViewport: boolean;
-	onClick?: () => void;
-}> = ({ image, isSmallViewport, onClick }) => {
+const ResponsiveImage: React.FC<
+	React.PropsWithChildren<{
+		image: ImageWithDimensions;
+		isSmallViewport: boolean;
+		onClick?: () => void;
+	}>
+> = ({ image, isSmallViewport, onClick }) => {
 	const Cell = getImageComponent(image);
 	return (
 		<Cell isSmallViewport={isSmallViewport}>
@@ -90,7 +92,7 @@ function getImageComponent(
 	return TallCell;
 }
 
-export const ImageGrid: React.FC<ImageGridProps> = ({
+export const ImageGrid: React.FC<React.PropsWithChildren<ImageGridProps>> = ({
 	queryClient,
 	...props
 }) => {

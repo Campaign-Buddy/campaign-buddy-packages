@@ -5,10 +5,7 @@
 		"composite": true,
 		"skipDefaultLibCheck": true
 	},
-	"include": [
-		"src/**/*",
-		"theme.d.ts"
-	],
+	"include": ["src/**/*", "theme.d.ts"],
 	"references": [
 		{
 			"path": "../json-path-ex/tsconfig.json"

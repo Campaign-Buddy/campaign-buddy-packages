@@ -16,7 +16,10 @@ import { RichTextWidget } from './richText';
 import { withWidgetLabel } from './utility';
 import { ImageWidget } from './image';
 
-type ExtensionWidgets = Record<Widgets, React.FC<WidgetProps<any>>>;
+type ExtensionWidgets = Record<
+	Widgets,
+	React.FC<React.PropsWithChildren<WidgetProps<any>>>
+>;
 
 export const widgets: WidgetLookup & ExtensionWidgets = {
 	// Primitives

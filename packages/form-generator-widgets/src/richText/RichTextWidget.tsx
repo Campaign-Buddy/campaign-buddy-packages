@@ -18,11 +18,9 @@ interface RichTextData {
 const defaultDocument: RichTextDocument = [];
 let id = 0;
 
-export const RichTextWidget: React.FC<WidgetProps<RichTextData>> = ({
-	value,
-	onChange,
-	label,
-}) => {
+export const RichTextWidget: React.FC<
+	React.PropsWithChildren<WidgetProps<RichTextData>>
+> = ({ value, onChange, label }) => {
 	const queryClient = useQueryClient();
 	const mediaApi = useMediaApi();
 	const htmlId = useMemo(() => `cb-rich-text-editor-${id++}`, []);

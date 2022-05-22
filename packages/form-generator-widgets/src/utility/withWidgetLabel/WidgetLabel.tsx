@@ -53,80 +53,81 @@ interface WidgetLabelProps {
 		| undefined;
 }
 
-export const WidgetLabel: React.FC<WidgetLabelProps> = ({
-	aggregationSupport,
-	fieldSettings,
-	updateFieldSettings,
-	configurableAggregations,
-	label,
-}) => {
-	const shouldShowAggregationIndicator = useShouldShowAggregationIndicator();
-	const [isSettingsMenuOpen, openSettingsMenu, closeSettingsMenu] =
-		useBooleanState();
+export const WidgetLabel: React.FC<React.PropsWithChildren<WidgetLabelProps>> =
+	({
+		aggregationSupport,
+		fieldSettings,
+		updateFieldSettings,
+		configurableAggregations,
+		label,
+	}) => {
+		const shouldShowAggregationIndicator = useShouldShowAggregationIndicator();
+		const [isSettingsMenuOpen, openSettingsMenu, closeSettingsMenu] =
+			useBooleanState();
 
-	const { items: aggregationSettingOptions, hasAggregations } =
-		useAggregationSettingOptions(
-			configurableAggregations,
+		const { items: aggregationSettingOptions, hasAggregations } =
+			useAggregationSettingOptions(
+				configurableAggregations,
+				fieldSettings,
+				aggregationSupport,
+				updateFieldSettings
+			);
+
+		const visibilitySettingOptions = useVisibilitySettingOptions(
 			fieldSettings,
-			aggregationSupport,
 			updateFieldSettings
 		);
 
-	const visibilitySettingOptions = useVisibilitySettingOptions(
-		fieldSettings,
-		updateFieldSettings
-	);
-
-	const menuItems = useMemo(
-		() => [...aggregationSettingOptions, ...visibilitySettingOptions],
-		[aggregationSettingOptions, visibilitySettingOptions]
-	);
-
-	const eatClicks = useCallback((e: React.MouseEvent) => {
-		e.preventDefault();
-		e.stopPropagation();
-	}, []);
-
-	const handleOpenSettingsMenu = useCallback(() => {
-		openSettingsMenu();
-	}, [openSettingsMenu]);
-
-	const labelElements = [<LabelText key="label-text">{label}</LabelText>];
-
-	if (hasAggregations && shouldShowAggregationIndicator) {
-		labelElements.push(
-			<Tooltip
-				key="aggregation-indicator"
-				text="Some or all of this field may be calculated"
-			>
-				<Icon icon="predictive-analysis" />
-			</Tooltip>
+		const menuItems = useMemo(
+			() => [...aggregationSettingOptions, ...visibilitySettingOptions],
+			[aggregationSettingOptions, visibilitySettingOptions]
 		);
-	}
 
-	if (menuItems.length > 0) {
-		labelElements.push(
-			<SettingsButtonContainer
-				onClick={eatClicks}
-				isMenuOpen={isSettingsMenuOpen}
-				key="settings-menu"
-			>
-				<MenuPopover
-					items={menuItems}
-					onClose={closeSettingsMenu}
-					isOpen={isSettingsMenuOpen}
+		const eatClicks = useCallback((e: React.MouseEvent) => {
+			e.preventDefault();
+			e.stopPropagation();
+		}, []);
+
+		const handleOpenSettingsMenu = useCallback(() => {
+			openSettingsMenu();
+		}, [openSettingsMenu]);
+
+		const labelElements = [<LabelText key="label-text">{label}</LabelText>];
+
+		if (hasAggregations && shouldShowAggregationIndicator) {
+			labelElements.push(
+				<Tooltip
+					key="aggregation-indicator"
+					text="Some or all of this field may be calculated"
 				>
-					<Button
-						key="settings-button"
-						onClick={handleOpenSettingsMenu}
-						icon="settings"
-						style="minimal"
-						size="small"
-					/>
-				</MenuPopover>
-			</SettingsButtonContainer>
-		);
-	}
+					<Icon icon="predictive-analysis" />
+				</Tooltip>
+			);
+		}
 
-	return <LabelContainer>{labelElements}</LabelContainer>;
-};
+		if (menuItems.length > 0) {
+			labelElements.push(
+				<SettingsButtonContainer
+					onClick={eatClicks}
+					isMenuOpen={isSettingsMenuOpen}
+					key="settings-menu"
+				>
+					<MenuPopover
+						items={menuItems}
+						onClose={closeSettingsMenu}
+						isOpen={isSettingsMenuOpen}
+					>
+						<Button
+							key="settings-button"
+							onClick={handleOpenSettingsMenu}
+							icon="settings"
+							style="minimal"
+							size="small"
+						/>
+					</MenuPopover>
+				</SettingsButtonContainer>
+			);
+		}
+
+		return <LabelContainer>{labelElements}</LabelContainer>;
+	};

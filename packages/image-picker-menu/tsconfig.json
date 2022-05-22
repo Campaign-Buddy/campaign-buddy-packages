@@ -4,10 +4,7 @@
 		"outDir": "./dist",
 		"composite": true
 	},
-	"include": [
-		"src/**/*",
-		"theme.d.ts"
-	],
+	"include": ["src/**/*", "theme.d.ts"],
 	"references": [
 		{
 			"path": "../core-ui/tsconfig.json"

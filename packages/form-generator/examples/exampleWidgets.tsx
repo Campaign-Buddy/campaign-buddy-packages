@@ -13,7 +13,9 @@ import { FieldSettings } from '@campaign-buddy/frontend-types';
 const adminRole = 'gm';
 const nonAdminRole = 'player';
 
-const StringWidget: React.FC<WidgetProps<string, string>> = ({
+const StringWidget: React.FC<
+	React.PropsWithChildren<WidgetProps<string, string>>
+> = ({
 	value,
 	onChange,
 	label,
@@ -46,7 +48,7 @@ const StringWidget: React.FC<WidgetProps<string, string>> = ({
 	);
 };
 
-const NumberWidget: React.FC<WidgetProps<number>> = ({
+const NumberWidget: React.FC<React.PropsWithChildren<WidgetProps<number>>> = ({
 	value,
 	onChange,
 	label,
@@ -79,42 +81,47 @@ const NumberWidget: React.FC<WidgetProps<number>> = ({
 	);
 };
 
-const BooleanWidget: React.FC<WidgetProps<boolean>> = ({
-	value,
-	onChange,
-	label,
-	aggregatedValue,
-	aggregation,
-	aggregationSupport,
-	updateFieldSettings,
-	currentUserRole,
-	fieldSettings,
-}) => {
-	const [isFocused, setIsFocused] = useState(false);
-	const onBlur = useCallback(() => setIsFocused(false), []);
-	const onFocus = useCallback(() => setIsFocused(true), []);
+const BooleanWidget: React.FC<React.PropsWithChildren<WidgetProps<boolean>>> =
+	({
+		value,
+		onChange,
+		label,
+		aggregatedValue,
+		aggregation,
+		aggregationSupport,
+		updateFieldSettings,
+		currentUserRole,
+		fieldSettings,
+	}) => {
+		const [isFocused, setIsFocused] = useState(false);
+		const onBlur = useCallback(() => setIsFocused(false), []);
+		const onFocus = useCallback(() => setIsFocused(true), []);
 
-	return (
-		<WithFieldSettings
-			aggregationSupport={aggregationSupport}
-			updateFieldSettings={updateFieldSettings}
-			currentUserRole={currentUserRole}
-			fieldSettings={fieldSettings}
-		>
-			<Switch
-				value={
-					!isFocused && aggregation ? aggregatedValue ?? false : value ?? false
-				}
-				onChange={onChange}
-				label={label}
-				onFocus={onFocus}
-				onBlur={onBlur}
-			/>
-		</WithFieldSettings>
-	);
-};
+		return (
+			<WithFieldSettings
+				aggregationSupport={aggregationSupport}
+				updateFieldSettings={updateFieldSettings}
+				currentUserRole={currentUserRole}
+				fieldSettings={fieldSettings}
+			>
+				<Switch
+					value={
+						!isFocused && aggregation
+							? aggregatedValue ?? false
+							: value ?? false
+					}
+					onChange={onChange}
+					label={label}
+					onFocus={onFocus}
+					onBlur={onBlur}
+				/>
+			</WithFieldSettings>
+		);
+	};
 
-const AraryWidget: React.FC<WidgetProps<any>> = () => <p>Derp</p>;
+const AraryWidget: React.FC<React.PropsWithChildren<WidgetProps<any>>> = () => (
+	<p>Derp</p>
+);
 
 export const exampleWidgets: WidgetLookup = {
 	string: StringWidget,
@@ -133,7 +140,9 @@ interface WithFieldSettingsProps<TAggregation> {
 		| undefined;
 }
 
-const WithFieldSettings: React.FC<WithFieldSettingsProps<any>> = ({
+const WithFieldSettings: React.FC<
+	React.PropsWithChildren<WithFieldSettingsProps<any>>
+> = ({
 	aggregationSupport,
 	fieldSettings,
 	currentUserRole,

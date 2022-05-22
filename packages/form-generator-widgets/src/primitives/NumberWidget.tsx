@@ -8,13 +8,9 @@ import {
 import { useAggregationContainsBase } from '../utility';
 import { CBWidgetProps } from '../CBWidgetProps';
 
-export const NumberWidget: React.FC<CBWidgetProps<number, string>> = ({
-	value,
-	aggregatedValue,
-	aggregation,
-	onChange,
-	label,
-}) => {
+export const NumberWidget: React.FC<
+	React.PropsWithChildren<CBWidgetProps<number, string>>
+> = ({ value, aggregatedValue, aggregation, onChange, label }) => {
 	const isEditable = useAggregationContainsBase(aggregation);
 
 	if (aggregation && !isEditable) {

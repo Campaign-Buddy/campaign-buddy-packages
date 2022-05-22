@@ -39,7 +39,10 @@ export function Select<TData>({
 		[options]
 	);
 
-	const handleQueryChange = useCallback((newQuery) => setQuery(newQuery), []);
+	const handleQueryChange = useCallback(
+		(newQuery: any) => setQuery(newQuery),
+		[]
+	);
 
 	const filteredOptions = useMemo(() => {
 		if (!query) {

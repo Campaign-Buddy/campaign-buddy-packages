@@ -25,7 +25,7 @@ interface FormGroupProps {
 	onClick?: () => void;
 }
 
-export const FormGroup: React.FC<FormGroupProps> = ({
+export const FormGroup: React.FC<React.PropsWithChildren<FormGroupProps>> = ({
 	label,
 	labelFor,
 	children,
