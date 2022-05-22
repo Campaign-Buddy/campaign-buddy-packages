@@ -42,7 +42,6 @@
     "styled-components": "^5.3.3",
     "ts-jest": "^26.5.5",
     "ts-node": "^9.1.1",
-    "types-react-codemod": "^1.2.0",
     "typescript": "^4.2.4"
   },
   "scripts": {
@@ -55,7 +54,6 @@
     "new-react-package": "node ./tools/newPackage/newPackage.js -r -p",
     "audit-deps": "ts-node --transpile-only tools/auditCrossDependencies.ts",
     "modify-tsconfigs": "ts-node --transpile-only tools/modifyTsConfigs.ts",
-    "prettier": "prettier --write ./packages",
-	"react-codemod": "types-react-codemod preset-18 ./packages"
+    "prettier": "prettier --write ./packages"
   }
 }
