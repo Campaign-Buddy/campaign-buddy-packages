@@ -32,8 +32,8 @@ export class PanelLayoutModel extends ParentBase<PanelRowModel, PanelRowModel> {
 	};
 
 	public toJson = (): PanelLayoutDto => ({
-		children: this.children.map((x) => x.toJson()),
-		sizes: [...this.sizes],
+		children: this.getChildren().map((x) => x.toJson()),
+		sizes: [...this.getSizes()],
 		kind: 'panelLayout',
 	});
 }
@@ -73,8 +73,8 @@ export class PanelRowModel extends ParentBase<
 	};
 
 	public toJson = (): PanelRowDto => ({
-		children: this.children.map((x) => x.toJson()),
-		sizes: [...this.sizes],
+		children: this.getChildren().map((x) => x.toJson()),
+		sizes: [...this.getSizes()],
 		kind: 'panelRow',
 	});
 }
@@ -99,7 +99,7 @@ export class PanelModel extends ParentBase<PaneModel, PanelRowModel> {
 	};
 
 	public toJson = (): PanelDto => ({
-		children: this.children.map((x) => x.toJson()),
+		children: this.getChildren().map((x) => x.toJson()),
 		kind: 'panel',
 	});
 }

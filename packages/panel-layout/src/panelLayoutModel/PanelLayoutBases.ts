@@ -1,5 +1,6 @@
 import cuid from 'cuid';
 import { removeSize, addSize } from './sizeUtility';
+import { TransactionLevel } from './TransactionManager';
 
 export type Observer = () => void;
 export type Dispose = () => void;
@@ -27,17 +28,21 @@ export abstract class PanelBase<TParent extends ParentBase<any, any>> {
 		};
 	};
 
-	protected fireOnChange = () => {
-		for (const observer of this.observers) {
-			observer();
-		}
-	};
-
 	public getParent = () => this.parent;
 
 	public setParent = (parent: TParent | undefined) => {
 		this.parent = parent;
 	};
+
+	protected fireOnChange() {
+		this.fireOnChangeCore();
+	}
+
+	protected fireOnChangeCore() {
+		for (const observer of this.observers) {
+			observer();
+		}
+	}
 
 	protected getSibling = (
 		direction: 'before' | 'after' = 'after'
@@ -71,47 +76,57 @@ export abstract class ParentBase<
 	TChild extends PanelBase<any>,
 	TParent extends ParentBase<any, any>
 > extends PanelBase<TParent> {
-	private _children: TChild[];
-	private _sizes: number[];
+	private committedChildren: TChild[];
+	private committedSizes: number[];
+	private children: TChild[];
+	private sizes: number[];
 	private shouldTrackSizes?: boolean;
 
 	constructor(parent: TParent | undefined, shouldTrackSizes = true) {
 		super(parent);
 
-		this._children = [];
-		this._sizes = [];
+		this.children = [];
+		this.committedChildren = [];
+		this.sizes = [];
+		this.committedSizes = [];
 		this.shouldTrackSizes = shouldTrackSizes;
 	}
 
-	public getChildren = (): ReadonlyArray<TChild> => {
-		return this.children;
+	public getChildren = (
+		visibility = TransactionLevel.Committed
+	): ReadonlyArray<TChild> => {
+		if (visibility === TransactionLevel.All) {
+			return this.children;
+		}
+
+		return this.committedChildren;
 	};
 
-	public getSizes = () => this._sizes;
+	public getSizes = (visibility = TransactionLevel.Committed) => {
+		if (visibility === TransactionLevel.All) {
+			return this.sizes;
+		}
+
+		return this.committedSizes;
+	};
 
 	public setSizes = (sizes: number[]) => {
-		if (sizes.length !== this._children.length) {
+		if (sizes.length !== this.children.length) {
 			throw new Error('sizes length must equal children length');
 		}
 
-		this._sizes = sizes;
+		this.sizes = sizes;
 		this.fireOnChange();
 	};
 
 	protected initChildren(children: TChild[]) {
-		this._children = [...children];
+		this.children = [...children];
+		this.committedChildren = [...this.children];
 	}
 
 	protected initSizes(sizes: number[]) {
-		this._sizes = [...sizes];
-	}
-
-	protected get children(): ReadonlyArray<TChild> {
-		return this._children;
-	}
-
-	protected get sizes(): ReadonlyArray<number> {
-		return this._sizes;
+		this.sizes = [...sizes];
+		this.committedSizes = [...this.sizes];
 	}
 
 	protected removeChild = (id: string) => {
@@ -121,10 +136,10 @@ export abstract class ParentBase<
 			const child = this.children[index];
 			child.setParent(undefined);
 
-			this._children.splice(index, 1);
+			this.children.splice(index, 1);
 
 			if (this.shouldTrackSizes) {
-				this._sizes = removeSize(this._sizes, index);
+				this.sizes = removeSize(this.sizes, index);
 			}
 		}
 
@@ -138,12 +153,19 @@ export abstract class ParentBase<
 			index = this.children.length;
 		}
 
-		this._children.splice(index, 0, child);
+		this.children.splice(index, 0, child);
 
 		if (this.shouldTrackSizes) {
-			this._sizes = addSize(this._sizes, index);
+			this.sizes = addSize(this.sizes, index);
 		}
 
 		this.fireOnChange();
 	};
+
+	protected override fireOnChangeCore(): void {
+		this.committedChildren = [...this.children];
+		this.committedSizes = [...this.sizes];
+
+		super.fireOnChangeCore();
+	}
 }
