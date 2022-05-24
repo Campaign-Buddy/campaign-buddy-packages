@@ -1,6 +1,6 @@
 import cuid from 'cuid';
 import { removeSize, addSize } from './sizeUtility';
-import { TransactionLevel } from './TransactionManager';
+import { TransactionLevel, TransactionManager } from './TransactionManager';
 
 export type Observer = () => void;
 export type Dispose = () => void;
@@ -14,7 +14,18 @@ export abstract class PanelBase<TParent extends ParentBase<any, any>> {
 		this.parent = parent;
 		this.id = cuid();
 		this.observers = [];
+		this.transactionManager =
+			parent?.transactionManager ?? new TransactionManager();
 	}
+
+	public transact = (callback: () => void) => {
+		this.transactionManager.startTransaction();
+		try {
+			callback();
+		} finally {
+			this.transactionManager.commit();
+		}
+	};
 
 	public observe = (observer: Observer): Dispose => {
 		this.observers.push(observer);
@@ -32,10 +43,14 @@ export abstract class PanelBase<TParent extends ParentBase<any, any>> {
 
 	public setParent = (parent: TParent | undefined) => {
 		this.parent = parent;
+		this.transactionManager =
+			parent?.transactionManager ?? new TransactionManager();
 	};
 
+	public transactionManager: TransactionManager;
+
 	protected fireOnChange() {
-		this.fireOnChangeCore();
+		this.transactionManager.addOnCommit(() => this.fireOnChangeCore());
 	}
 
 	protected fireOnChangeCore() {
