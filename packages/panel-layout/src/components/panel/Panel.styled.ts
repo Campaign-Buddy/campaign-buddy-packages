@@ -2,9 +2,12 @@ import styled from 'styled-components';
 
 // TODO: Replace with theme values
 export const PanelContentContainer = styled.div<{ isFirstTabActive: boolean }>`
-	border-radius: ${({ isFirstTabActive }) => (isFirstTabActive ? '0' : '4px')}
-		4px 4px;
-	background-color: #efe1c6;
+	border-radius: ${({ theme }) => theme.panelLayout.pane.borderRadius.toCss()};
+	border-top-left-radius: ${({ isFirstTabActive, theme }) =>
+		isFirstTabActive
+			? '0'
+			: `${theme.panelLayout.pane.borderRadius.topLeft}px`};
+	background-color: ${({ theme }) => theme.panelLayout.pane.backgroundColor};
 	height: 100%;
 `;
 
@@ -55,9 +58,9 @@ export const DropPreview = styled.div<{
 }>`
 	position: absolute;
 	opacity: 50%;
-	background-color: blue;
+	background-color: ${({ theme }) => theme.panelLayout.dropZones.panel};
 	pointer-events: none;
-	border-radius: 4px;
+	border-radius: ${({ theme }) => theme.panelLayout.pane.borderRadius.toCss()};
 	top: ${({ hoveringLocation }) => topValues[hoveringLocation]};
 	left: ${({ hoveringLocation }) => leftValues[hoveringLocation]};
 	width: ${({ hoveringLocation }) => widthValues[hoveringLocation]};
