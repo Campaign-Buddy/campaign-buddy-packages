@@ -19,8 +19,10 @@ export const StyledDivider = styled.div<DirectionAwareProps>`
 	flex-basis: ${({ theme }) => theme.panelLayout.gap.size}px;
 	flex-shrink: 0;
 	flex-grow: 0;
-	cursor: ${({ direction }) =>
-		direction === 'horizontal' ? 'ew' : 'ns'}-resize;
+	cursor: ${({ direction, theme }) =>
+		direction === 'horizontal'
+			? theme.panelLayout.gap.horizontalCursor
+			: theme.panelLayout.gap.verticalCursor};
 `;
 
 export const SplitContainer = styled.div<DirectionAwareProps>`
