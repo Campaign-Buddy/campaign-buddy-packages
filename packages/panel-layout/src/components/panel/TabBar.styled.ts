@@ -69,9 +69,7 @@ export const StyledTab = styled.div<{
 	user-select: none;
 
 	${({ isDragging, theme }) =>
-		isDragging
-			? `opacity: ${theme.panelLayout.tab.draggingOpacity * 100}%;`
-			: ''};
+		isDragging ? `opacity: ${theme.panelLayout.tab.draggingOpacity};` : ''};
 	border-radius: ${({ theme }) => theme.panelLayout.tab.borderRadius.toCss()};
 	position: relative;
 

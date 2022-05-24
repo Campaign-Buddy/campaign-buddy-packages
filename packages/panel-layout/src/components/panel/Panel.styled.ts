@@ -57,7 +57,7 @@ export const DropPreview = styled.div<{
 	hoveringLocation: 'top' | 'right' | 'left' | 'bottom' | 'center';
 }>`
 	position: absolute;
-	opacity: ${({ theme }) => theme.panelLayout.dropZones.opacity * 100}%;
+	opacity: ${({ theme }) => theme.panelLayout.dropZones.opacity};
 	background-color: ${({ theme }) => theme.panelLayout.dropZones.panel};
 	pointer-events: none;
 	border-radius: ${({ theme }) => theme.panelLayout.pane.borderRadius.toCss()};
