@@ -165,7 +165,7 @@ describe('applyAggregates', () => {
 					2
 				)}`
 			);
-		} catch (err) {
+		} catch (err: any) {
 			expect(err.message).toEqual(
 				'circular reference detected when trying to resolve $.baz'
 			);
