@@ -19,6 +19,6 @@ const TabPreview = styled.div`
 		theme.panelLayout.tab.preview.backgroundColor};
 	border-radius: ${({ theme }) =>
 		theme.panelLayout.tab.preview.borderRadius.toCss()};
-	opacity: ${({ theme }) => theme.panelLayout.tab.preview.opacity};
+	opacity: ${({ theme }) => theme.panelLayout.tab.preview.opacity * 100}%;
 	padding: ${({ theme }) => theme.panelLayout.tab.preview.padding.toCss()};
 `;

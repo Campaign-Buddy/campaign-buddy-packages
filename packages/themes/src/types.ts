@@ -39,11 +39,11 @@ export class BorderRadius {
 		return this.radius.bottomLeft ?? 0;
 	}
 
-	public toCss(): string {
+	public toCss = () => {
 		return `${this.radius?.topLeft ?? 0}px ${this.radius?.topRight ?? 0}px ${
 			this.radius?.bottomRight ?? 0
 		}px ${this.radius?.bottomLeft ?? 0}px`;
-	}
+	};
 }
 
 interface IThickness {
