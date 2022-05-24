@@ -90,6 +90,19 @@ export const StyledTab = styled.div<{
 	&:not(.campaign-buddy-active-tab):hover {
 		background-color: ${({ theme }) =>
 			theme.panelLayout.tab.hoverBackgroundColor};
+
+		&:first-child:before {
+			position: absolute;
+			content: '';
+			bottom: ${({ theme }) =>
+				theme.panelLayout.pane.borderRadius.topLeft * -1}px;
+			left: 0;
+			z-index: -10;
+			width: ${({ theme }) => theme.panelLayout.pane.borderRadius.topLeft}px;
+			height: ${({ theme }) => theme.panelLayout.pane.borderRadius.topLeft}px;
+			background-color: ${({ theme }) =>
+				theme.panelLayout.tab.hoverBackgroundColor};
+		}
 	}
 
 	${({ hoveringSide }) => hoveringSide && hoverStyle}
