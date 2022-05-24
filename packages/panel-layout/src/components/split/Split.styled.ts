@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 
 export const minSize = 50;
-export const gutterSize = 8;
 
 export type SplitDirection = 'vertical' | 'horizontal';
 
@@ -17,7 +16,7 @@ export const SplitChild = styled.div`
 `;
 
 export const StyledDivider = styled.div<DirectionAwareProps>`
-	flex-basis: ${gutterSize}px;
+	flex-basis: ${({ theme }) => theme.panelLayout.gap.size}px;
 	flex-shrink: 0;
 	flex-grow: 0;
 	cursor: ${({ direction }) =>

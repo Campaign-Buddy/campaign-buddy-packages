@@ -1,5 +1,5 @@
 import { PositionDiff } from './Divider';
-import { gutterSize, minSize, SplitDirection } from './Split.styled';
+import { minSize, SplitDirection } from './Split.styled';
 
 export function adjustChildrenForDrag(
 	diff: PositionDiff,
@@ -8,7 +8,8 @@ export function adjustChildrenForDrag(
 	container: HTMLDivElement | null,
 	children: HTMLDivElement[],
 	sizes: number[],
-	newSizes: number[]
+	newSizes: number[],
+	gutterSize: number
 ): void {
 	const sizeProperty = direction === 'horizontal' ? 'width' : 'height';
 	const containerSize = container?.getBoundingClientRect()[sizeProperty] ?? 0;
@@ -68,17 +69,23 @@ export function adjustChildrenForDrag(
 
 	currentChildEl.style.flexBasis = getFlexBasis(
 		currentChildNewPercentSize,
-		isCurrentChildMiddle
+		isCurrentChildMiddle,
+		gutterSize
 	);
 	prevChildEl.style.flexBasis = getFlexBasis(
 		prevChildNewPercentSize,
-		isPrevChildMiddle
+		isPrevChildMiddle,
+		gutterSize
 	);
 
 	newSizes[index - 1] = prevChildNewPercentSize;
 	newSizes[index] = currentChildNewPercentSize;
 }
 
-export function getFlexBasis(percentage: number, isMiddle: boolean) {
+export function getFlexBasis(
+	percentage: number,
+	isMiddle: boolean,
+	gutterSize: number
+) {
 	return `calc(${percentage}% - ${gutterSize / (isMiddle ? 1 : 2)}px)`;
 }

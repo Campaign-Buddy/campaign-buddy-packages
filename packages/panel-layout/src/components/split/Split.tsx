@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useRef } from 'react';
 import isEqual from 'lodash.isequal';
+import { useTheme } from '@campaign-buddy/react-theme-provider';
 import {
 	minSize,
 	SplitChild,
@@ -32,6 +33,8 @@ export const Split: React.FC<React.PropsWithChildren<SplitProps>> = ({
 	const syncedSizesRef = useRef(sizes);
 	const nextSizesRef = useRef([...sizes]);
 	const onSizesChangeRef = useRef(onSizesChange);
+	const theme = useTheme();
+	const gutterSize = theme.panelLayout.gap.size;
 
 	useEffect(() => {
 		onSizesChangeRef.current = onSizesChange;
@@ -57,10 +60,11 @@ export const Split: React.FC<React.PropsWithChildren<SplitProps>> = ({
 
 			child.style.flexBasis = getFlexBasis(
 				size,
-				i !== 0 && i !== childRefsByIndex.current.length - 1
+				i !== 0 && i !== childRefsByIndex.current.length - 1,
+				gutterSize
 			);
 		}
-	}, [sizes]);
+	}, [sizes, gutterSize]);
 
 	const mappedChildren = useMemo(() => {
 		const childCount = React.Children.count(children);
@@ -78,7 +82,8 @@ export const Split: React.FC<React.PropsWithChildren<SplitProps>> = ({
 								containerRef.current,
 								childRefsByIndex.current,
 								syncedSizesRef.current,
-								nextSizesRef.current
+								nextSizesRef.current,
+								gutterSize
 							);
 						}}
 						onDragEnd={() => {
@@ -112,7 +117,8 @@ export const Split: React.FC<React.PropsWithChildren<SplitProps>> = ({
 							childRefs.current.set(child, { element: ref, index });
 							ref.style.flexBasis = getFlexBasis(
 								syncedSizesRef.current[index],
-								index !== 0 && index !== childCount - 1
+								index !== 0 && index !== childCount - 1,
+								gutterSize
 							);
 						}
 					}}
@@ -121,7 +127,7 @@ export const Split: React.FC<React.PropsWithChildren<SplitProps>> = ({
 				</SplitChild>
 			</>
 		));
-	}, [children, direction]);
+	}, [children, direction, gutterSize]);
 
 	if (childCount === 1) {
 		return (
