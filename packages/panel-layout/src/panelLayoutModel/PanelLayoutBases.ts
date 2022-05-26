@@ -16,6 +16,8 @@ export abstract class PanelBase<TParent extends ParentBase<any, any>> {
 		this.observers = [];
 		this.transactionManager =
 			parent?.transactionManager ?? new TransactionManager();
+		this.modelLookup = parent?.modelLookup ?? {};
+		this.modelLookup[this.id] = this;
 	}
 
 	public transact = (callback: () => void) => {
@@ -45,9 +47,11 @@ export abstract class PanelBase<TParent extends ParentBase<any, any>> {
 		this.parent = parent;
 		this.transactionManager =
 			parent?.transactionManager ?? new TransactionManager();
+		this.modelLookup = parent?.modelLookup ?? {};
 	};
 
 	public transactionManager: TransactionManager;
+	public modelLookup: Record<string, PanelBase<any>>;
 
 	protected fireOnChange() {
 		this.transactionManager.addOnCommit(() => this.fireOnChangeCore());
@@ -158,6 +162,10 @@ export abstract class ParentBase<
 			}
 		}
 
+		if (this.children.length === 0) {
+			this.getParent()?.removeChild(this.getId());
+		}
+
 		this.fireOnChange();
 	};
 
@@ -169,6 +177,7 @@ export abstract class ParentBase<
 		}
 
 		this.children.splice(index, 0, child);
+		child.setParent(this);
 
 		if (this.shouldTrackSizes) {
 			this.sizes = addSize(this.sizes, index);

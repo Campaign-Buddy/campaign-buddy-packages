@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { PanelModel } from '../../panelLayoutModel';
 import {
 	coordinateTransformers,
+	isPaneDragItem,
 	PaneDragItemKind,
 	useSectionedDropZone,
 } from '../drag-and-drop';
@@ -29,7 +30,13 @@ export const Panel: React.FC<React.PropsWithChildren<IPanelProps>> = ({
 	const { dropRef, hoveringLocation } = useSectionedDropZone(
 		PaneDragItemKind,
 		coordinateTransformers.xBox,
-		(location) => {
+		(location, dropData) => {
+			if (
+				(location === 'left' || location === 'right') &&
+				isPaneDragItem(dropData)
+			) {
+				panel.addHorizontalFromDrop(dropData, location);
+			}
 			console.log('panel drop', panel.getId(), location);
 		}
 	);

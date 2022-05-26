@@ -1,3 +1,4 @@
+import { PaneDragItem } from '../components';
 import {
 	isPanelLayoutModel,
 	isPanelModel,
@@ -72,6 +73,10 @@ export class PanelRowModel extends ParentBase<
 		this.addChild(new PanelModel(dto, this), beforePanelId);
 	};
 
+	public addPanelFromModel = (model: PanelModel, beforePanelId?: string) => {
+		this.addChild(model, beforePanelId);
+	};
+
 	public toJson = (): PanelRowDto => ({
 		children: this.getChildren().map((x) => x.toJson()),
 		sizes: [...this.getSizes()],
@@ -89,6 +94,43 @@ export class PanelModel extends ParentBase<PaneModel, PanelRowModel> {
 
 		this.initChildren(panel?.children.map((x) => new PaneModel(x, this)) ?? []);
 	}
+
+	public addHorizontalFromDrop = (
+		dropData: PaneDragItem,
+		direction: 'left' | 'right'
+	) => {
+		this.transact(() => {
+			const existingItem = dropData.paneId && this.modelLookup[dropData.paneId];
+			const parent = this.getParent();
+
+			if (!parent) {
+				return;
+			}
+
+			let newPane: PaneModel;
+			if (existingItem instanceof PaneModel) {
+				console.log(existingItem, existingItem.getParent());
+				existingItem.getParent()?.removePane(existingItem.getId());
+				newPane = existingItem;
+			} else {
+				newPane = new PaneModel(
+					{
+						location: dropData.location,
+						kind: 'pane',
+					},
+					this
+				);
+			}
+
+			const newPanel = new PanelModel(undefined, parent);
+			newPanel.addChild(newPane);
+
+			const relativePanel =
+				direction === 'left' ? this : this.getSibling('after');
+
+			parent.addPanelFromModel(newPanel, relativePanel?.getId());
+		});
+	};
 
 	public removePane = (id: string) => {
 		this.removeChild(id);
