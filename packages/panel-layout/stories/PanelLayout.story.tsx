@@ -146,7 +146,8 @@ function addNewPanel() {
 }
 
 function serialize() {
-	console.log(layout.toJson());
+	console.log('serializing');
+	console.log(layout, layout.toJson());
 }
 
 export const Primary = () => {

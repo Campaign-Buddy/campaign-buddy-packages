@@ -24,22 +24,31 @@ export const Panel: React.FC<React.PropsWithChildren<IPanelProps>> = ({
 }) => {
 	const children = useChildren(panel);
 	const [activePaneId, setActivePaneId] = useState(
-		panel.getChildren()[0].getId()
+		panel.getChildren()[0]?.getId()
 	);
 
 	const { dropRef, hoveringLocation } = useSectionedDropZone(
 		PaneDragItemKind,
 		coordinateTransformers.xBox,
 		(location, dropData) => {
-			if (
-				(location === 'left' || location === 'right') &&
-				isPaneDragItem(dropData)
-			) {
+			if (!isPaneDragItem(dropData)) {
+				return;
+			}
+
+			if (location === 'left' || location === 'right') {
 				panel.addHorizontalFromDrop(dropData, location);
+			}
+
+			if (location === 'top' || location === 'bottom') {
+				panel.addVerticalFromDrop(dropData, location);
 			}
 			console.log('panel drop', panel.getId(), location);
 		}
 	);
+
+	if (!children[0]) {
+		return null;
+	}
 
 	return (
 		<PanelContainer>

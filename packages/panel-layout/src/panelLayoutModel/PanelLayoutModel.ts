@@ -32,6 +32,13 @@ export class PanelLayoutModel extends ParentBase<PanelRowModel, PanelRowModel> {
 		this.addChild(new PanelRowModel(row), beforeTargetRowId);
 	};
 
+	public addRowFromModel = (
+		model: PanelRowModel,
+		beforeTargetRowId?: string
+	) => {
+		this.addChild(model, beforeTargetRowId);
+	};
+
 	public toJson = (): PanelLayoutDto => ({
 		children: this.getChildren().map((x) => x.toJson()),
 		sizes: [...this.getSizes()],
@@ -77,6 +84,10 @@ export class PanelRowModel extends ParentBase<
 		this.addChild(model, beforePanelId);
 	};
 
+	public addLayoutFromModel = (model: PanelLayoutModel, beforeId?: string) => {
+		this.addChild(model, beforeId);
+	};
+
 	public toJson = (): PanelRowDto => ({
 		children: this.getChildren().map((x) => x.toJson()),
 		sizes: [...this.getSizes()],
@@ -100,35 +111,60 @@ export class PanelModel extends ParentBase<PaneModel, PanelRowModel> {
 		direction: 'left' | 'right'
 	) => {
 		this.transact(() => {
-			const existingItem = dropData.paneId && this.modelLookup[dropData.paneId];
 			const parent = this.getParent();
 
 			if (!parent) {
 				return;
 			}
 
-			let newPane: PaneModel;
-			if (existingItem instanceof PaneModel) {
-				console.log(existingItem, existingItem.getParent());
-				existingItem.getParent()?.removePane(existingItem.getId());
-				newPane = existingItem;
-			} else {
-				newPane = new PaneModel(
-					{
-						location: dropData.location,
-						kind: 'pane',
-					},
-					this
-				);
-			}
+			const pane = this.popOrCreatePane(dropData);
 
 			const newPanel = new PanelModel(undefined, parent);
-			newPanel.addChild(newPane);
+			newPanel.addChild(pane);
 
 			const relativePanel =
 				direction === 'left' ? this : this.getSibling('after');
 
 			parent.addPanelFromModel(newPanel, relativePanel?.getId());
+		});
+	};
+
+	public addVerticalFromDrop = (
+		dropData: PaneDragItem,
+		direction: 'top' | 'bottom'
+	) => {
+		this.transact(() => {
+			const parent = this.getParent();
+			const beforeSibling = this.getSibling('before');
+			const afterSibling = this.getSibling('after');
+			const beforeRowId = beforeSibling?.getId() ?? afterSibling?.getId();
+
+			if (!parent) {
+				return;
+			}
+
+			const pane = this.popOrCreatePane(dropData);
+			const newPanel = new PanelModel();
+			newPanel.addChild(pane);
+
+			parent.removePanel(this.getId());
+
+			const newLayout = new PanelLayoutModel();
+			const topRow = new PanelRowModel();
+			const bottomRow = new PanelRowModel();
+
+			if (direction === 'top') {
+				topRow.addPanelFromModel(newPanel);
+				bottomRow.addPanelFromModel(this);
+			} else {
+				bottomRow.addPanelFromModel(newPanel);
+				topRow.addPanelFromModel(this);
+			}
+
+			newLayout.addRowFromModel(topRow);
+			newLayout.addRowFromModel(bottomRow);
+
+			parent.addLayoutFromModel(newLayout, beforeRowId);
 		});
 	};
 
@@ -144,6 +180,22 @@ export class PanelModel extends ParentBase<PaneModel, PanelRowModel> {
 		children: this.getChildren().map((x) => x.toJson()),
 		kind: 'panel',
 	});
+
+	private popOrCreatePane = (dropData: PaneDragItem) => {
+		const existingItem = dropData.paneId && this.modelLookup[dropData.paneId];
+		if (existingItem instanceof PaneModel) {
+			existingItem.getParent()?.removePane(existingItem.getId());
+			return existingItem;
+		} else {
+			return new PaneModel(
+				{
+					location: dropData.location,
+					kind: 'pane',
+				},
+				this
+			);
+		}
+	};
 }
 
 export class PaneModel extends PanelBase<PanelModel> {

@@ -19,7 +19,6 @@ export class TransactionManager {
 		if (this.currentTransaction) {
 			return;
 		}
-
 		this.currentTransaction = {
 			commitEventIds: new Set(),
 			onCommitEvents: [],
@@ -45,7 +44,6 @@ export class TransactionManager {
 		if (!this.currentTransaction) {
 			return;
 		}
-
 		for (const onCommit of this.currentTransaction.onCommitEvents) {
 			onCommit();
 		}

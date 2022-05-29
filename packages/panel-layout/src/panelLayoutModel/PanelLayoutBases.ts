@@ -21,12 +21,10 @@ export abstract class PanelBase<TParent extends ParentBase<any, any>> {
 	}
 
 	public transact = (callback: () => void) => {
-		this.transactionManager.startTransaction();
-		try {
-			callback();
-		} finally {
-			this.transactionManager.commit();
-		}
+		const transactionManager = this.transactionManager;
+		transactionManager.startTransaction();
+		callback();
+		transactionManager.commit();
 	};
 
 	public observe = (observer: Observer): Dispose => {
@@ -53,9 +51,9 @@ export abstract class PanelBase<TParent extends ParentBase<any, any>> {
 	public transactionManager: TransactionManager;
 	public modelLookup: Record<string, PanelBase<any>>;
 
-	protected fireOnChange() {
+	protected fireOnChange = () => {
 		this.transactionManager.addOnCommit(() => this.fireOnChangeCore());
-	}
+	};
 
 	protected fireOnChangeCore() {
 		for (const observer of this.observers) {
@@ -138,15 +136,15 @@ export abstract class ParentBase<
 		this.fireOnChange();
 	};
 
-	protected initChildren(children: TChild[]) {
+	protected initChildren = (children: TChild[]) => {
 		this.children = [...children];
 		this.committedChildren = [...this.children];
-	}
+	};
 
-	protected initSizes(sizes: number[]) {
+	protected initSizes = (sizes: number[]) => {
 		this.sizes = [...sizes];
 		this.committedSizes = [...this.sizes];
-	}
+	};
 
 	protected removeChild = (id: string) => {
 		const index = this.children.findIndex((x) => x.getId() === id);
@@ -186,7 +184,7 @@ export abstract class ParentBase<
 		this.fireOnChange();
 	};
 
-	protected override fireOnChangeCore(): void {
+	protected override fireOnChangeCore() {
 		this.committedChildren = [...this.children];
 		this.committedSizes = [...this.sizes];
 
