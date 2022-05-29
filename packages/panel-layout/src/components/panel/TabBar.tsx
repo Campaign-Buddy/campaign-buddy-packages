@@ -5,6 +5,7 @@ import { PaneModel } from '../../panelLayoutModel';
 import {
 	coordinateTransformers,
 	getPaneDragItem,
+	isPaneDragItem,
 	PaneDragItemKind,
 	useSectionedDropZone,
 } from '../drag-and-drop';
@@ -25,7 +26,17 @@ export const TabBar: React.FC<React.PropsWithChildren<ITabBarProps>> = ({
 	const { dropRef, hoveringLocation } = useSectionedDropZone(
 		PaneDragItemKind,
 		coordinateTransformers.isOver,
-		() => {
+		(_, dropData) => {
+			if (!isPaneDragItem(dropData)) {
+				return;
+			}
+
+			const parent = panes[0]?.getParent();
+			if (!parent) {
+				return;
+			}
+
+			parent.addToTabBarFromDrop(dropData);
 			console.log('dropped in tab bar with active pane id', activePaneId);
 		}
 	);

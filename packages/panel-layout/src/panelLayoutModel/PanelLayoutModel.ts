@@ -168,6 +168,16 @@ export class PanelModel extends ParentBase<PaneModel, PanelRowModel> {
 		});
 	};
 
+	public addToTabBarFromDrop = (
+		dropData: PaneDragItem,
+		beforePaneId?: string
+	) => {
+		this.transact(() => {
+			const pane = this.popOrCreatePane(dropData);
+			this.addChild(pane, beforePaneId);
+		});
+	};
+
 	public removePane = (id: string) => {
 		this.removeChild(id);
 	};
@@ -183,8 +193,10 @@ export class PanelModel extends ParentBase<PaneModel, PanelRowModel> {
 
 	private popOrCreatePane = (dropData: PaneDragItem) => {
 		const existingItem = dropData.paneId && this.modelLookup[dropData.paneId];
+		console.log('existing item', existingItem);
 		if (existingItem instanceof PaneModel) {
 			existingItem.getParent()?.removePane(existingItem.getId());
+			console.log('existing item parent', existingItem.getParent()?.getId());
 			return existingItem;
 		} else {
 			return new PaneModel(

@@ -37,12 +37,20 @@ export const Panel: React.FC<React.PropsWithChildren<IPanelProps>> = ({
 
 			if (location === 'left' || location === 'right') {
 				panel.addHorizontalFromDrop(dropData, location);
+				return;
 			}
 
 			if (location === 'top' || location === 'bottom') {
 				panel.addVerticalFromDrop(dropData, location);
+				return;
 			}
-			console.log('panel drop', panel.getId(), location);
+
+			if (location === 'center') {
+				panel.addToTabBarFromDrop(dropData);
+				return;
+			}
+
+			throw new Error(`unknown panel drop location ${location}`);
 		}
 	);
 
