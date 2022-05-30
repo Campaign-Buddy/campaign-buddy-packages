@@ -9,19 +9,23 @@ import {
 	PanelRowDto,
 	PaneDto,
 } from './PanelDtoTypes';
-import { PanelBase, ParentBase } from './PanelLayoutBases';
+import { ChildPanelModelBase, ParentPanelModelBase } from './PanelLayoutBases';
+import { TransactableProperty } from './TransactionManager';
 
-export class PanelLayoutModel extends ParentBase<PanelRowModel, PanelRowModel> {
+export class PanelLayoutModel extends ParentPanelModelBase<
+	PanelRowModel,
+	PanelRowModel
+> {
 	constructor(layout?: PanelLayoutDto, parent?: PanelRowModel) {
 		super(parent);
 		if (layout && !isPanelLayoutModel(layout)) {
 			throw new Error('First constructor argument must be layout');
 		}
 
-		this.initChildren(
-			layout?.children.map((x) => new PanelRowModel(x, this)) ?? []
+		this.init(
+			layout?.children.map((x) => new PanelRowModel(x, this)) ?? [],
+			layout?.sizes ?? []
 		);
-		this.initSizes(layout?.sizes ?? []);
 	}
 
 	public removeRow = (id: string): void => {
@@ -46,7 +50,7 @@ export class PanelLayoutModel extends ParentBase<PanelRowModel, PanelRowModel> {
 	});
 }
 
-export class PanelRowModel extends ParentBase<
+export class PanelRowModel extends ParentPanelModelBase<
 	PanelModel | PanelLayoutModel,
 	PanelLayoutModel
 > {
@@ -57,7 +61,7 @@ export class PanelRowModel extends ParentBase<
 			throw new Error('First constructor argument must be row');
 		}
 
-		this.initChildren(
+		this.init(
 			row?.children.map((x) => {
 				if (isPanelModel(x)) {
 					return new PanelModel(x, this);
@@ -66,10 +70,9 @@ export class PanelRowModel extends ParentBase<
 				} else {
 					throw new Error('Unexpected child of row');
 				}
-			}) ?? []
+			}) ?? [],
+			row?.sizes ?? []
 		);
-
-		this.initSizes(row?.sizes ?? []);
 	}
 
 	public removePanel = (id: string) => {
@@ -95,15 +98,15 @@ export class PanelRowModel extends ParentBase<
 	});
 }
 
-export class PanelModel extends ParentBase<PaneModel, PanelRowModel> {
+export class PanelModel extends ParentPanelModelBase<PaneModel, PanelRowModel> {
 	constructor(panel?: PanelDto, parent?: PanelRowModel) {
-		super(parent, true);
+		super(parent);
 
 		if (panel && !isPanelModel(panel)) {
 			throw new Error('First constructor argument must be panel');
 		}
 
-		this.initChildren(panel?.children.map((x) => new PaneModel(x, this)) ?? []);
+		this.init(panel?.children.map((x) => new PaneModel(x, this)) ?? [], []);
 	}
 
 	public addHorizontalFromDrop = (
@@ -134,37 +137,42 @@ export class PanelModel extends ParentBase<PaneModel, PanelRowModel> {
 		direction: 'top' | 'bottom'
 	) => {
 		this.transact(() => {
+			// Panels are children of rows
 			const parent = this.getParent();
-			const beforeSibling = this.getSibling('before');
-			const afterSibling = this.getSibling('after');
-			const beforeRowId = beforeSibling?.getId() ?? afterSibling?.getId();
 
 			if (!parent) {
 				return;
 			}
 
-			const pane = this.popOrCreatePane(dropData);
-			const newPanel = new PanelModel();
-			newPanel.addChild(pane);
-
-			parent.removePanel(this.getId());
-
 			const newLayout = new PanelLayoutModel();
 			const topRow = new PanelRowModel();
 			const bottomRow = new PanelRowModel();
+
+			newLayout.addRowFromModel(topRow);
+			newLayout.addRowFromModel(bottomRow);
+
+			const newPanel = new PanelModel();
+			const pane = this.popOrCreatePane(dropData);
+			newPanel.addChild(pane);
 
 			if (direction === 'top') {
 				topRow.addPanelFromModel(newPanel);
 				bottomRow.addPanelFromModel(this);
 			} else {
-				bottomRow.addPanelFromModel(newPanel);
 				topRow.addPanelFromModel(this);
+				bottomRow.addPanelFromModel(newPanel);
 			}
 
-			newLayout.addRowFromModel(topRow);
-			newLayout.addRowFromModel(bottomRow);
-
-			parent.addLayoutFromModel(newLayout, beforeRowId);
+			console.log(
+				'siblings?',
+				this.getParent()
+					?.getChildren()
+					.map((x) => x.getId())
+			);
+			const formerBeforeSibling = this.getSibling('after');
+			parent.removePanel(this.getId());
+			console.log(formerBeforeSibling, formerBeforeSibling?.getId());
+			parent.addLayoutFromModel(newLayout, formerBeforeSibling?.getId());
 		});
 	};
 
@@ -192,8 +200,13 @@ export class PanelModel extends ParentBase<PaneModel, PanelRowModel> {
 	});
 
 	private popOrCreatePane = (dropData: PaneDragItem) => {
-		const existingItem = dropData.paneId && this.modelLookup[dropData.paneId];
-		console.log('existing item', existingItem);
+		const existingItem = dropData.paneId && this.modelRegistry[dropData.paneId];
+		console.log(
+			'existing item',
+			existingItem,
+			this.modelRegistry,
+			dropData.paneId
+		);
 		if (existingItem instanceof PaneModel) {
 			existingItem.getParent()?.removePane(existingItem.getId());
 			console.log('existing item parent', existingItem.getParent()?.getId());
@@ -210,9 +223,9 @@ export class PanelModel extends ParentBase<PaneModel, PanelRowModel> {
 	};
 }
 
-export class PaneModel extends PanelBase<PanelModel> {
-	private location: string;
-	private tabTitle: string;
+export class PaneModel extends ChildPanelModelBase<PanelModel> {
+	private location: TransactableProperty<string>;
+	private tabTitle: TransactableProperty<string>;
 
 	constructor(pane: PaneDto, parent?: PanelModel) {
 		super(parent);
@@ -221,26 +234,32 @@ export class PaneModel extends PanelBase<PanelModel> {
 			throw new Error('First constructor argument must be pane');
 		}
 
-		this.location = pane.location;
-		this.tabTitle = 'Campaign Buddy';
+		this.location = new TransactableProperty(
+			pane.location,
+			this.transactionManager
+		);
+		this.tabTitle = new TransactableProperty(
+			'Campaign Buddy',
+			this.transactionManager
+		);
+
+		this.watchProperties(this.location, this.tabTitle);
 	}
 
 	public setLocation = (location: string) => {
-		this.location = location;
-		this.fireOnChange();
+		this.location.setValue(location);
 	};
 
 	public setTabTitle = (title: string) => {
-		this.tabTitle = title;
-		this.fireOnChange();
+		this.tabTitle.setValue(title);
 	};
 
-	public getTabTitle = () => this.tabTitle;
+	public getTabTitle = () => this.tabTitle.getValue();
 
-	public getLocation = () => this.location;
+	public getLocation = () => this.location.getValue();
 
 	public toJson = (): PaneDto => ({
-		location: this.location,
+		location: this.location.getValue(),
 		kind: 'pane',
 	});
 }

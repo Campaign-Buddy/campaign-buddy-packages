@@ -1,7 +1,10 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { PanelBase, ParentBase } from '../panelLayoutModel';
+import { ChildPanelModelBase, ParentPanelModelBase } from '../panelLayoutModel';
 
-export function useObserverState<T>(model: PanelBase<any>, getState: () => T) {
+export function useObserverState<T>(
+	model: ChildPanelModelBase<any>,
+	getState: () => T
+) {
 	const [state, setState] = useState(getState());
 	const getStateRef = useRef(getState);
 
@@ -16,14 +19,14 @@ export function useObserverState<T>(model: PanelBase<any>, getState: () => T) {
 	return state;
 }
 
-export function useChildren<TChildren extends PanelBase<any>>(
-	model: ParentBase<TChildren, any>
+export function useChildren<TChildren extends ChildPanelModelBase<any>>(
+	model: ParentPanelModelBase<TChildren, any>
 ) {
 	return useObserverState(model, () => [...model.getChildren()]);
 }
 
 export function useSizes(
-	model: ParentBase<any, any>
+	model: ParentPanelModelBase<any, any>
 ): [number[], (sizes: number[]) => void] {
 	const sizes = useObserverState(model, () => [...model.getSizes()]);
 	const setSizes = useCallback(

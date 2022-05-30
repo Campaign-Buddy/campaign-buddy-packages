@@ -1,193 +1,123 @@
 import cuid from 'cuid';
-import { removeSize, addSize } from './sizeUtility';
-import { TransactionLevel, TransactionManager } from './TransactionManager';
+import { addSize, removeSize } from './sizeUtility';
+import {
+	Observable,
+	TransactableList,
+	TransactableProperty,
+	TransactionManager,
+} from './TransactionManager';
 
 export type Observer = () => void;
-export type Dispose = () => void;
+export type Unobserve = () => void;
 
-export abstract class PanelBase<TParent extends ParentBase<any, any>> {
+export class ChildPanelModelBase<
+	TParent extends ParentPanelModelBase<any, any>
+> extends Observable {
 	private id: string;
-	private parent: TParent | undefined;
-	private observers: Observer[];
+	private parent: TransactableProperty<TParent | undefined>;
+	protected transactionManager: TransactionManager;
+	protected modelRegistry: Record<string, ChildPanelModelBase<any>>;
 
 	constructor(parent?: TParent) {
-		this.parent = parent;
+		super();
+
 		this.id = cuid();
-		this.observers = [];
 		this.transactionManager =
 			parent?.transactionManager ?? new TransactionManager();
-		this.modelLookup = parent?.modelLookup ?? {};
-		this.modelLookup[this.id] = this;
+		this.modelRegistry = parent?.modelRegistry ?? {};
+		this.parent = new TransactableProperty(parent, this.transactionManager);
+
+		this.watchProperties(this.parent);
 	}
 
-	public transact = (callback: () => void) => {
-		const transactionManager = this.transactionManager;
-		transactionManager.startTransaction();
-		callback();
-		transactionManager.commit();
-	};
+	public transact = (transaction: () => void | undefined | boolean) => {
+		this.transactionManager.startTransaction();
+		try {
+			const result = transaction();
 
-	public observe = (observer: Observer): Dispose => {
-		this.observers.push(observer);
-
-		return () => {
-			const index = this.observers.indexOf(observer);
-
-			if (index !== -1) {
-				this.observers.splice(index, 1);
+			if (result === false) {
+				this.transactionManager.rollback();
+			} else {
+				this.transactionManager.commit();
 			}
-		};
-	};
-
-	public getParent = () => this.parent;
-
-	public setParent = (parent: TParent | undefined) => {
-		this.parent = parent;
-		this.transactionManager =
-			parent?.transactionManager ?? new TransactionManager();
-		this.modelLookup = parent?.modelLookup ?? {};
-	};
-
-	public transactionManager: TransactionManager;
-	public modelLookup: Record<string, PanelBase<any>>;
-
-	protected fireOnChange = () => {
-		this.transactionManager.addOnCommit(() => this.fireOnChangeCore());
-	};
-
-	protected fireOnChangeCore() {
-		for (const observer of this.observers) {
-			observer();
-		}
-	}
-
-	protected getSibling = (
-		direction: 'before' | 'after' = 'after'
-	): PanelBase<TParent> | undefined => {
-		if (!this.parent) {
-			return undefined;
-		}
-
-		const siblings = this.parent.getChildren();
-		const selfIndex = siblings.indexOf(this);
-
-		if (selfIndex === -1) {
-			return undefined;
-		}
-
-		if (direction === 'after') {
-			return siblings[selfIndex + 1];
-		} else {
-			return siblings[selfIndex - 1];
+		} catch {
+			this.transactionManager.rollback();
 		}
 	};
 
 	public getId = () => this.id;
+	public getParent = () => this.parent.getValue();
 
-	protected get isOrphan() {
-		return this.parent === undefined;
-	}
+	public getSibling = (
+		direction: 'before' | 'after' = 'after'
+	): ChildPanelModelBase<TParent> | undefined => {
+		const parent = this.getParent();
+		if (!parent) {
+			return;
+		}
+
+		const siblings = parent.getChildren();
+		const selfIndex = siblings.indexOf(this);
+
+		if (direction === 'before') {
+			return siblings[selfIndex - 1];
+		} else {
+			return siblings[selfIndex + 1];
+		}
+	};
+
+	protected setParent = (parent?: TParent) => {
+		this.parent.setValue(parent);
+	};
 }
 
-export abstract class ParentBase<
-	TChild extends PanelBase<any>,
-	TParent extends ParentBase<any, any>
-> extends PanelBase<TParent> {
-	private committedChildren: TChild[];
-	private committedSizes: number[];
-	private children: TChild[];
-	private sizes: number[];
-	private shouldTrackSizes?: boolean;
+export class ParentPanelModelBase<
+	TChild extends ChildPanelModelBase<any>,
+	TParent extends ParentPanelModelBase<any, any>
+> extends ChildPanelModelBase<TParent> {
+	private children: TransactableList<TChild>;
+	private sizes: TransactableList<number>;
 
-	constructor(parent: TParent | undefined, shouldTrackSizes = true) {
+	constructor(parent?: TParent) {
 		super(parent);
 
-		this.children = [];
-		this.committedChildren = [];
-		this.sizes = [];
-		this.committedSizes = [];
-		this.shouldTrackSizes = shouldTrackSizes;
+		this.children = new TransactableList<TChild>([], this.transactionManager);
+		this.sizes = new TransactableList<number>([], this.transactionManager);
+
+		this.watchProperties(this.children, this.sizes);
 	}
 
-	public getChildren = (
-		visibility = TransactionLevel.Committed
-	): ReadonlyArray<TChild> => {
-		if (visibility === TransactionLevel.All) {
-			return this.children;
-		}
-
-		return this.committedChildren;
-	};
-
-	public getSizes = (visibility = TransactionLevel.Committed) => {
-		if (visibility === TransactionLevel.All) {
-			return this.sizes;
-		}
-
-		return this.committedSizes;
-	};
+	public getChildren = () => this.children.getValue();
+	public getSizes = () => this.sizes.getValue();
 
 	public setSizes = (sizes: number[]) => {
-		if (sizes.length !== this.children.length) {
-			throw new Error('sizes length must equal children length');
+		this.sizes.setValue(sizes);
+	};
+
+	public removeChild = (id: string) => {
+		const index = this.children.getValue().findIndex((x) => x.getId() === id);
+		if (index === -1) {
+			return;
 		}
-
-		this.sizes = sizes;
-		this.fireOnChange();
+		this.children.remove(index);
+		this.sizes.setValue(removeSize(this.sizes.getValue(), index));
 	};
 
-	protected initChildren = (children: TChild[]) => {
-		this.children = [...children];
-		this.committedChildren = [...this.children];
-	};
-
-	protected initSizes = (sizes: number[]) => {
-		this.sizes = [...sizes];
-		this.committedSizes = [...this.sizes];
-	};
-
-	protected removeChild = (id: string) => {
-		const index = this.children.findIndex((x) => x.getId() === id);
-
-		if (index !== -1) {
-			const child = this.children[index];
-			child.setParent(undefined);
-
-			this.children.splice(index, 1);
-
-			if (this.shouldTrackSizes) {
-				this.sizes = removeSize(this.sizes, index);
-			}
-		}
-
-		if (this.children.length === 0) {
-			this.getParent()?.removeChild(this.getId());
-		}
-
-		this.fireOnChange();
-	};
-
-	protected addChild = (child: TChild, beforeTargetId?: string) => {
-		let index = this.children.findIndex((x) => x.getId() === beforeTargetId);
+	public addChild = (child: TChild, beforeTargetId?: string) => {
+		let index = this.children
+			.getValue()
+			.findIndex((x) => x.getId() === beforeTargetId);
 
 		if (index === -1) {
-			index = this.children.length;
+			index = 0;
 		}
 
-		this.children.splice(index, 0, child);
-		child.setParent(this);
-
-		if (this.shouldTrackSizes) {
-			this.sizes = addSize(this.sizes, index);
-		}
-
-		this.fireOnChange();
+		this.children.insert(child, index);
+		this.sizes.setValue(addSize(this.sizes.getValue(), index));
 	};
 
-	protected override fireOnChangeCore() {
-		this.committedChildren = [...this.children];
-		this.committedSizes = [...this.sizes];
-
-		super.fireOnChangeCore();
-	}
+	protected init = (children: TChild[], sizes: number[]) => {
+		this.children.setValue(children);
+		this.sizes.setValue(sizes);
+	};
 }
