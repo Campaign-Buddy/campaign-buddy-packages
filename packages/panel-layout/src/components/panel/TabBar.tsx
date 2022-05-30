@@ -37,7 +37,6 @@ export const TabBar: React.FC<React.PropsWithChildren<ITabBarProps>> = ({
 			}
 
 			parent.addToTabBarFromDrop(dropData);
-			console.log('dropped in tab bar with active pane id', activePaneId);
 		}
 	);
 

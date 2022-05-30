@@ -100,7 +100,7 @@ export class PanelRowModel extends ParentPanelModelBase<
 
 export class PanelModel extends ParentPanelModelBase<PaneModel, PanelRowModel> {
 	constructor(panel?: PanelDto, parent?: PanelRowModel) {
-		super(parent);
+		super(parent, false);
 
 		if (panel && !isPanelModel(panel)) {
 			throw new Error('First constructor argument must be panel');
@@ -163,15 +163,8 @@ export class PanelModel extends ParentPanelModelBase<PaneModel, PanelRowModel> {
 				bottomRow.addPanelFromModel(newPanel);
 			}
 
-			console.log(
-				'siblings?',
-				this.getParent()
-					?.getChildren()
-					.map((x) => x.getId())
-			);
 			const formerBeforeSibling = this.getSibling('after');
 			parent.removePanel(this.getId());
-			console.log(formerBeforeSibling, formerBeforeSibling?.getId());
 			parent.addLayoutFromModel(newLayout, formerBeforeSibling?.getId());
 		});
 	};
@@ -201,15 +194,8 @@ export class PanelModel extends ParentPanelModelBase<PaneModel, PanelRowModel> {
 
 	private popOrCreatePane = (dropData: PaneDragItem) => {
 		const existingItem = dropData.paneId && this.modelRegistry[dropData.paneId];
-		console.log(
-			'existing item',
-			existingItem,
-			this.modelRegistry,
-			dropData.paneId
-		);
 		if (existingItem instanceof PaneModel) {
 			existingItem.getParent()?.removePane(existingItem.getId());
-			console.log('existing item parent', existingItem.getParent()?.getId());
 			return existingItem;
 		} else {
 			return new PaneModel(

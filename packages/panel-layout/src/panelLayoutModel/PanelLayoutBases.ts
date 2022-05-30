@@ -27,6 +27,8 @@ export class ChildPanelModelBase<
 		this.modelRegistry = parent?.modelRegistry ?? {};
 		this.parent = new TransactableProperty(parent, this.transactionManager);
 
+		this.modelRegistry[this.id] = this;
+
 		this.watchProperties(this.parent);
 	}
 
@@ -68,6 +70,12 @@ export class ChildPanelModelBase<
 
 	protected setParent = (parent?: TParent) => {
 		this.parent.setValue(parent);
+
+		this.transactionManager.addCommitEvent(() => {
+			if (!this.parent.getValue()) {
+				delete this.modelRegistry[this.id];
+			}
+		});
 	};
 }
 
@@ -77,13 +85,15 @@ export class ParentPanelModelBase<
 > extends ChildPanelModelBase<TParent> {
 	private children: TransactableList<TChild>;
 	private sizes: TransactableList<number>;
+	private trackSizes: boolean;
 
-	constructor(parent?: TParent) {
+	constructor(parent?: TParent, trackSizes = true) {
 		super(parent);
 
 		this.children = new TransactableList<TChild>([], this.transactionManager);
 		this.sizes = new TransactableList<number>([], this.transactionManager);
 
+		this.trackSizes = trackSizes;
 		this.watchProperties(this.children, this.sizes);
 	}
 
@@ -91,6 +101,10 @@ export class ParentPanelModelBase<
 	public getSizes = () => this.sizes.getValue();
 
 	public setSizes = (sizes: number[]) => {
+		if (!this.trackSizes) {
+			return;
+		}
+
 		this.sizes.setValue(sizes);
 	};
 
@@ -100,7 +114,14 @@ export class ParentPanelModelBase<
 			return;
 		}
 		this.children.remove(index);
-		this.sizes.setValue(removeSize(this.sizes.getValue(), index));
+
+		if (this.trackSizes) {
+			this.sizes.setValue(removeSize(this.sizes.getValue(), index));
+		}
+
+		if (this.children.getValue().length === 0) {
+			this.getParent()?.removeChild(this.getId());
+		}
 	};
 
 	public addChild = (child: TChild, beforeTargetId?: string) => {
@@ -109,11 +130,14 @@ export class ParentPanelModelBase<
 			.findIndex((x) => x.getId() === beforeTargetId);
 
 		if (index === -1) {
-			index = 0;
+			index = this.children.getValue().length - 1;
 		}
 
 		this.children.insert(child, index);
-		this.sizes.setValue(addSize(this.sizes.getValue(), index));
+
+		if (this.trackSizes) {
+			this.sizes.setValue(addSize(this.sizes.getValue(), index));
+		}
 	};
 
 	protected init = (children: TChild[], sizes: number[]) => {
