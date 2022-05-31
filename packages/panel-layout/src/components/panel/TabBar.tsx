@@ -32,6 +32,7 @@ export const TabBar: React.FC<React.PropsWithChildren<ITabBarProps>> = ({
 			}
 
 			const parent = panes[0]?.getParent();
+			console.log('DROPPED INTO TAB BAR', parent);
 			if (!parent) {
 				return;
 			}

@@ -164,8 +164,8 @@ export class PanelModel extends ParentPanelModelBase<PaneModel, PanelRowModel> {
 			}
 
 			const formerBeforeSibling = this.getSibling('after');
-			parent.removePanel(this.getId());
 			parent.addLayoutFromModel(newLayout, formerBeforeSibling?.getId());
+			parent.removePanel(this.getId());
 		});
 	};
 

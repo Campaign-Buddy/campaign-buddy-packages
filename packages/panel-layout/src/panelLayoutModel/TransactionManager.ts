@@ -3,6 +3,7 @@ import cuid from 'cuid';
 export enum TransactionLevel {
 	Committed = 'committed',
 	Uncommitted = 'uncommitted',
+	Auto = 'auto',
 }
 
 interface Transaction {
@@ -101,8 +102,12 @@ export class TransactableProperty<T> {
 		this.observers = [];
 	}
 
-	public getValue = () => {
-		if (this.transactionManager.isInTransaction()) {
+	public getValue = (visibility = TransactionLevel.Auto) => {
+		if (
+			(visibility === TransactionLevel.Auto &&
+				this.transactionManager.isInTransaction()) ||
+			visibility === TransactionLevel.Uncommitted
+		) {
 			return this.uncommittedValue;
 		}
 
@@ -115,11 +120,11 @@ export class TransactableProperty<T> {
 		if (!this.transactionManager.hasPendingEvents(this.pendingMutationId)) {
 			this.pendingMutationId = this.transactionManager.addDataMutation(
 				() => {
-					this.committedValue = this.uncommittedValue;
+					this.committedValue = cloneShallow(this.uncommittedValue);
 					this.pendingMutationId = undefined;
 				},
 				() => {
-					this.uncommittedValue = this.committedValue;
+					this.uncommittedValue = cloneShallow(this.committedValue);
 					this.pendingMutationId = undefined;
 				}
 			);
@@ -203,4 +208,22 @@ export class Observable {
 			}
 		};
 	};
+}
+
+function cloneShallow<T>(value: T): T {
+	if (Array.isArray(value)) {
+		return [...value] as unknown as T;
+	}
+
+	if (value === null) {
+		return value;
+	}
+
+	if (typeof value === 'object') {
+		return {
+			...(value as any),
+		};
+	}
+
+	return value;
 }

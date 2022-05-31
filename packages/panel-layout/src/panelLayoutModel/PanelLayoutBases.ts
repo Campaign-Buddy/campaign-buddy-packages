@@ -4,6 +4,7 @@ import {
 	Observable,
 	TransactableList,
 	TransactableProperty,
+	TransactionLevel,
 	TransactionManager,
 } from './TransactionManager';
 
@@ -14,7 +15,7 @@ export class ChildPanelModelBase<
 	TParent extends ParentPanelModelBase<any, any>
 > extends Observable {
 	private id: string;
-	private parent: TransactableProperty<TParent | undefined>;
+	protected parent: TransactableProperty<TParent | undefined>;
 	protected transactionManager: TransactionManager;
 	protected modelRegistry: Record<string, ChildPanelModelBase<any>>;
 
@@ -113,6 +114,8 @@ export class ParentPanelModelBase<
 		if (index === -1) {
 			return;
 		}
+		const child = this.children.getValue()[index];
+		(child as any).setParent(undefined);
 		this.children.remove(index);
 
 		if (this.trackSizes) {
@@ -120,7 +123,9 @@ export class ParentPanelModelBase<
 		}
 
 		if (this.children.getValue().length === 0) {
-			this.getParent()?.removeChild(this.getId());
+			this.parent
+				.getValue(TransactionLevel.Uncommitted)
+				?.removeChild(this.getId());
 		}
 	};
 
@@ -130,10 +135,11 @@ export class ParentPanelModelBase<
 			.findIndex((x) => x.getId() === beforeTargetId);
 
 		if (index === -1) {
-			index = this.children.getValue().length - 1;
+			index = this.children.getValue().length;
 		}
 
 		this.children.insert(child, index);
+		(child as any).setParent(this);
 
 		if (this.trackSizes) {
 			this.sizes.setValue(addSize(this.sizes.getValue(), index));
