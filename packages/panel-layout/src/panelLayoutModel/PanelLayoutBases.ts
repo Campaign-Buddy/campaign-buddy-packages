@@ -4,9 +4,10 @@ import {
 	Observable,
 	TransactableList,
 	TransactableProperty,
-	TransactionLevel,
 	TransactionManager,
 } from './TransactionManager';
+
+const modelRegistry = {};
 
 export type Observer = () => void;
 export type Unobserve = () => void;
@@ -25,7 +26,7 @@ export class ChildPanelModelBase<
 		this.id = cuid();
 		this.transactionManager =
 			parent?.transactionManager ?? new TransactionManager();
-		this.modelRegistry = parent?.modelRegistry ?? {};
+		this.modelRegistry = modelRegistry;
 		this.parent = new TransactableProperty(parent, this.transactionManager);
 
 		this.modelRegistry[this.id] = this;
@@ -75,6 +76,8 @@ export class ChildPanelModelBase<
 		this.transactionManager.addCommitEvent(() => {
 			if (!this.parent.getValue()) {
 				delete this.modelRegistry[this.id];
+			} else {
+				this.modelRegistry[this.id] = this;
 			}
 		});
 	};
@@ -93,6 +96,12 @@ export class ParentPanelModelBase<
 
 		this.children = new TransactableList<TChild>([], this.transactionManager);
 		this.sizes = new TransactableList<number>([], this.transactionManager);
+
+		this.children.addNormalization(() => {
+			if (this.children.getValue().length === 0) {
+				this.parent.getValue()?.removeChild(this.getId());
+			}
+		});
 
 		this.trackSizes = trackSizes;
 		this.watchProperties(this.children, this.sizes);
@@ -120,12 +129,6 @@ export class ParentPanelModelBase<
 
 		if (this.trackSizes) {
 			this.sizes.setValue(removeSize(this.sizes.getValue(), index));
-		}
-
-		if (this.children.getValue().length === 0) {
-			this.parent
-				.getValue(TransactionLevel.Uncommitted)
-				?.removeChild(this.getId());
 		}
 	};
 

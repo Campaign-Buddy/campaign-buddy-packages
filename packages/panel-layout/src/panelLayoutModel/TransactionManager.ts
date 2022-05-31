@@ -10,6 +10,7 @@ interface Transaction {
 	eventIds: Set<string>;
 	dataMutations: (() => void)[];
 	commitEvents: (() => void)[];
+	dataCleanups: (() => void)[];
 	dataMutationRollbacks: (() => void)[];
 }
 
@@ -26,6 +27,7 @@ export class TransactionManager {
 			eventIds: new Set(),
 			commitEvents: [],
 			dataMutations: [],
+			dataCleanups: [],
 			dataMutationRollbacks: [],
 		};
 	};
@@ -55,6 +57,18 @@ export class TransactionManager {
 		return id;
 	};
 
+	public addDataCleanup = (cleanup: () => void) => {
+		if (!this.currentTransaction) {
+			cleanup();
+			return;
+		}
+
+		const id = cuid();
+		this.currentTransaction.eventIds.add(id);
+		this.currentTransaction.dataCleanups.push(cleanup);
+		return id;
+	};
+
 	public hasPendingEvents = (id?: string) =>
 		Boolean(id && this.currentTransaction?.eventIds.has(id));
 
@@ -63,15 +77,36 @@ export class TransactionManager {
 			return;
 		}
 
+		// Apply all pending mutations
 		for (const mutate of this.currentTransaction.dataMutations) {
 			mutate();
 		}
 
-		for (const onCommit of this.currentTransaction.commitEvents) {
-			onCommit();
+		while (this.currentTransaction.dataCleanups.length > 0) {
+			this.currentTransaction.eventIds = new Set();
+			this.currentTransaction.dataMutations = [];
+
+			// Cleanup events can trigger more mutations
+			for (const cleanup of this.currentTransaction.dataCleanups) {
+				cleanup();
+			}
+
+			this.currentTransaction.dataCleanups = [];
+
+			// Which can trigger more cleanups
+			for (const mutate of this.currentTransaction.dataMutations) {
+				mutate();
+			}
 		}
 
+		const { commitEvents } = this.currentTransaction;
 		this.currentTransaction = undefined;
+
+		// Fire any events that want to read the now that the transaction
+		// is fully committed
+		for (const onCommit of commitEvents) {
+			onCommit();
+		}
 	};
 
 	public rollback = () => {
@@ -90,6 +125,8 @@ export class TransactionManager {
 export class TransactableProperty<T> {
 	private uncommittedValue: T;
 	private committedValue: T;
+	private normalizations: (() => void)[];
+	private pendingNormalizationId: string | undefined;
 	private pendingMutationId: string | undefined;
 	private pendingCommitEventId: string | undefined;
 	private transactionManager: TransactionManager;
@@ -100,7 +137,12 @@ export class TransactableProperty<T> {
 		this.committedValue = initialValue;
 		this.transactionManager = transactionManager;
 		this.observers = [];
+		this.normalizations = [];
 	}
+
+	public addNormalization = (normalize: () => void) => {
+		this.normalizations.push(normalize);
+	};
 
 	public getValue = (visibility = TransactionLevel.Auto) => {
 		if (
@@ -126,6 +168,19 @@ export class TransactableProperty<T> {
 				() => {
 					this.uncommittedValue = cloneShallow(this.committedValue);
 					this.pendingMutationId = undefined;
+				}
+			);
+		}
+
+		if (
+			!this.transactionManager.hasPendingEvents(this.pendingNormalizationId)
+		) {
+			this.pendingNormalizationId = this.transactionManager.addDataCleanup(
+				() => {
+					this.pendingNormalizationId = undefined;
+					for (const normalize of this.normalizations) {
+						normalize();
+					}
 				}
 			);
 		}
