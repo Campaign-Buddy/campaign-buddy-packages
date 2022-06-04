@@ -15,7 +15,7 @@ import { StyledTab, TabBarContainer } from './TabBar.styled';
 export interface ITabBarProps {
 	panes: PaneModel[];
 	onActivePaneIdChange: (activePaneId: string) => void;
-	activePaneId: string;
+	activePaneId?: string;
 }
 
 export const TabBar: React.FC<React.PropsWithChildren<ITabBarProps>> = ({

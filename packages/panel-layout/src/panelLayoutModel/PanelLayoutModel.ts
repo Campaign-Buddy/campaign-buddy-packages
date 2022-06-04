@@ -145,6 +145,8 @@ export class PanelRowModel extends ParentPanelModelBase<
 }
 
 export class PanelModel extends ParentPanelModelBase<PaneModel, PanelRowModel> {
+	private activeTabId: TransactableProperty<string | undefined>;
+
 	constructor(
 		transactionManager: TransactionManager,
 		panel?: PanelDto,
@@ -162,7 +164,30 @@ export class PanelModel extends ParentPanelModelBase<PaneModel, PanelRowModel> {
 			) ?? [],
 			[]
 		);
+
+		this.activeTabId = new TransactableProperty<string | undefined>(
+			this.getChildren()[0]?.getId(),
+			this.transactionManager
+		);
+
+		this.children.addNormalization(() => {
+			const children = this.getChildren();
+			const activeTabId = this.activeTabId.getValue();
+			if (children.length === 0) {
+				return;
+			}
+
+			const activePane = children.find((x) => x.getId() === activeTabId);
+			if (!activePane) {
+				this.setActiveTabId(children[0].getId());
+			}
+		});
+
+		this.watchProperties(this.activeTabId);
 	}
+
+	public getActiveTabId = () => this.activeTabId.getValue();
+	public setActiveTabId = (tabId: string) => this.activeTabId.setValue(tabId);
 
 	public addHorizontalFromDrop = (
 		dropData: PaneDragItem,

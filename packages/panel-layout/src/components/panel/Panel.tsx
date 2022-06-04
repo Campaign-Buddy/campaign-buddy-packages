@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback } from 'react';
 import { PanelModel } from '../../panelLayoutModel';
 import {
 	coordinateTransformers,
@@ -7,7 +7,7 @@ import {
 	useSectionedDropZone,
 } from '../drag-and-drop';
 import { Pane } from '../Pane';
-import { useChildren } from '../useObservedState';
+import { useChildren, useObserverState } from '../useObservedState';
 import {
 	DropPreview,
 	PanelContainer,
@@ -23,8 +23,10 @@ export const Panel: React.FC<React.PropsWithChildren<IPanelProps>> = ({
 	panel,
 }) => {
 	const children = useChildren(panel);
-	const [activePaneId, setActivePaneId] = useState(
-		panel.getChildren()[0]?.getId()
+	const activePaneId = useObserverState(panel, () => panel.getActiveTabId());
+	const setActivePaneId = useCallback(
+		(tabId: string) => panel.setActiveTabId(tabId),
+		[panel]
 	);
 
 	const { dropRef, hoveringLocation } = useSectionedDropZone(
