@@ -209,6 +209,7 @@ export class PanelModel extends ParentPanelModelBase<PaneModel, PanelRowModel> {
 				direction === 'left' ? this : this.getSibling('after');
 
 			parent.addPanelFromModel(newPanel, relativePanel?.getId());
+			pane.focus();
 		});
 	};
 
@@ -247,6 +248,8 @@ export class PanelModel extends ParentPanelModelBase<PaneModel, PanelRowModel> {
 				topRow.addPanelFromModel(this);
 				bottomRow.addPanelFromModel(newPanel);
 			}
+
+			pane.focus();
 		});
 	};
 
@@ -261,6 +264,7 @@ export class PanelModel extends ParentPanelModelBase<PaneModel, PanelRowModel> {
 		this.transact(() => {
 			const pane = this.popOrCreatePane(dropData);
 			this.addChild(pane, beforePaneId);
+			pane.focus();
 		});
 	};
 
@@ -332,6 +336,15 @@ export class PaneModel extends ChildPanelModelBase<PanelModel> {
 
 		this.watchProperties(this.location, this.tabTitle);
 	}
+
+	public focus = () => {
+		const parent = this.getParent();
+		if (!parent) {
+			return;
+		}
+
+		parent.setActiveTabId(this.getId());
+	};
 
 	public setLocation = (location: string) => {
 		this.location.setValue(location);
