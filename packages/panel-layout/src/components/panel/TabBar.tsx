@@ -32,7 +32,6 @@ export const TabBar: React.FC<React.PropsWithChildren<ITabBarProps>> = ({
 			}
 
 			const parent = panes[0]?.getParent();
-			console.log('DROPPED INTO TAB BAR', parent);
 			if (!parent) {
 				return;
 			}
@@ -84,8 +83,14 @@ const PaneTab: React.FC<React.PropsWithChildren<IPaneTabProps>> = ({
 	const { dropRef, hoveringLocation } = useSectionedDropZone(
 		PaneDragItemKind,
 		coordinateTransformers.splitVertically,
-		(location: unknown) => {
-			console.log('dropped', pane.getId(), location);
+		(location, dropData) => {
+			if (!isPaneDragItem(dropData)) {
+				return;
+			}
+
+			const beforeTab = location === 'left' ? pane : pane.getSibling('after');
+			console.log(pane.getParent(), dropData, beforeTab);
+			pane.getParent()?.addToTabBarFromDrop(dropData, beforeTab?.getId());
 		}
 	);
 

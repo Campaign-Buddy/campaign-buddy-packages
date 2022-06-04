@@ -257,10 +257,6 @@ export class PanelModel extends ParentPanelModelBase<PaneModel, PanelRowModel> {
 		dropData: PaneDragItem,
 		beforePaneId?: string
 	) => {
-		if (this.getExistingPane(dropData)?.getParent()?.getId() === this.getId()) {
-			return;
-		}
-
 		this.transact(() => {
 			const pane = this.popOrCreatePane(dropData);
 			this.addChild(pane, beforePaneId);
