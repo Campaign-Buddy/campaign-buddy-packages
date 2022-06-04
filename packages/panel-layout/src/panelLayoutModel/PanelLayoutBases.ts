@@ -16,20 +16,35 @@ export class ChildPanelModelBase<
 	TParent extends ParentPanelModelBase<any, any>
 > extends Observable {
 	private id: string;
+	private hasEverHadParent: boolean;
 	protected parent: TransactableProperty<TParent | undefined>;
-	protected transactionManager: TransactionManager;
 	protected modelRegistry: Record<string, ChildPanelModelBase<any>>;
 
-	constructor(parent?: TParent) {
-		super();
+	protected constructor(
+		transactionManager: TransactionManager,
+		parent?: TParent
+	) {
+		super(transactionManager);
 
 		this.id = cuid();
-		this.transactionManager =
-			parent?.transactionManager ?? new TransactionManager();
+		this.transactionManager = transactionManager;
 		this.modelRegistry = modelRegistry;
 		this.parent = new TransactableProperty(parent, this.transactionManager);
+		this.hasEverHadParent = Boolean(parent);
 
 		this.modelRegistry[this.id] = this;
+
+		this.parent.addNormalization(() => {
+			if (this.parent.getValue()) {
+				this.hasEverHadParent = true;
+			}
+
+			// If we have ever had a parent, and we
+			// lose that parent
+			if (!this.parent.getValue() && this.hasEverHadParent) {
+				delete this.modelRegistry[this.id];
+			}
+		});
 
 		this.watchProperties(this.parent);
 	}
@@ -72,14 +87,6 @@ export class ChildPanelModelBase<
 
 	protected setParent = (parent?: TParent) => {
 		this.parent.setValue(parent);
-
-		this.transactionManager.addCommitEvent(() => {
-			if (!this.parent.getValue()) {
-				delete this.modelRegistry[this.id];
-			} else {
-				this.modelRegistry[this.id] = this;
-			}
-		});
 	};
 }
 
@@ -87,12 +94,16 @@ export class ParentPanelModelBase<
 	TChild extends ChildPanelModelBase<any>,
 	TParent extends ParentPanelModelBase<any, any>
 > extends ChildPanelModelBase<TParent> {
-	private children: TransactableList<TChild>;
+	protected children: TransactableList<TChild>;
 	private sizes: TransactableList<number>;
 	private trackSizes: boolean;
 
-	constructor(parent?: TParent, trackSizes = true) {
-		super(parent);
+	protected constructor(
+		transactionManager: TransactionManager,
+		parent?: TParent,
+		trackSizes = true
+	) {
+		super(transactionManager, parent);
 
 		this.children = new TransactableList<TChild>([], this.transactionManager);
 		this.sizes = new TransactableList<number>([], this.transactionManager);
@@ -100,6 +111,14 @@ export class ParentPanelModelBase<
 		this.children.addNormalization(() => {
 			if (this.children.getValue().length === 0) {
 				this.parent.getValue()?.removeChild(this.getId());
+			}
+
+			for (const child of this.getChildren()) {
+				const childParent = child.getParent();
+				if (!childParent || childParent === this) {
+					continue;
+				}
+				(child as any).setParent(this);
 			}
 		});
 

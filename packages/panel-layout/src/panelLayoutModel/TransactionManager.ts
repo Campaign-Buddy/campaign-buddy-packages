@@ -16,6 +16,11 @@ interface Transaction {
 
 export class TransactionManager {
 	private currentTransaction: Transaction | undefined;
+	private normalizers: (() => void)[];
+
+	constructor() {
+		this.normalizers = [];
+	}
 
 	public isInTransaction = () => Boolean(this.currentTransaction);
 
@@ -67,6 +72,18 @@ export class TransactionManager {
 		this.currentTransaction.eventIds.add(id);
 		this.currentTransaction.dataCleanups.push(cleanup);
 		return id;
+	};
+
+	public addNormalizer = (normalize: () => void) => {
+		this.normalizers.push(normalize);
+	};
+
+	public removeNormalizer = (normalize: () => void) => {
+		const index = this.normalizers.indexOf(normalize);
+		if (index === -1) {
+			return;
+		}
+		this.normalizers.splice(index, 1);
 	};
 
 	public hasPendingEvents = (id?: string) =>
@@ -157,6 +174,11 @@ export class TransactableProperty<T> {
 	};
 
 	public setValue = (value: T) => {
+		const shouldStartTransaction = !this.transactionManager.isInTransaction();
+
+		if (shouldStartTransaction) {
+			this.transactionManager.startTransaction();
+		}
 		this.uncommittedValue = value;
 
 		if (!this.transactionManager.hasPendingEvents(this.pendingMutationId)) {
@@ -192,6 +214,10 @@ export class TransactableProperty<T> {
 					observer(this.committedValue);
 				}
 			});
+		}
+
+		if (shouldStartTransaction) {
+			this.transactionManager.commit();
 		}
 	};
 
@@ -240,10 +266,12 @@ export class TransactableList<T> extends TransactableProperty<T[]> {
 }
 
 export class Observable {
+	protected transactionManager: TransactionManager;
 	private properties: TransactableProperty<any>[];
 
-	constructor() {
+	constructor(transactionManager: TransactionManager) {
 		this.properties = [];
+		this.transactionManager = transactionManager;
 	}
 
 	protected watchProperties = (...properties: TransactableProperty<any>[]) => {

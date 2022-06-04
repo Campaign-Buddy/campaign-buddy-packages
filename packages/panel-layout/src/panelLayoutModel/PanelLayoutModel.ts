@@ -10,20 +10,30 @@ import {
 	PaneDto,
 } from './PanelDtoTypes';
 import { ChildPanelModelBase, ParentPanelModelBase } from './PanelLayoutBases';
-import { TransactableProperty } from './TransactionManager';
+import { TransactableProperty, TransactionManager } from './TransactionManager';
 
 export class PanelLayoutModel extends ParentPanelModelBase<
 	PanelRowModel,
 	PanelRowModel
 > {
-	constructor(layout?: PanelLayoutDto, parent?: PanelRowModel) {
-		super(parent);
+	public static create = (layout?: PanelLayoutDto) => {
+		return new PanelLayoutModel(new TransactionManager(), layout);
+	};
+
+	constructor(
+		transactionManager: TransactionManager,
+		layout?: PanelLayoutDto,
+		parent?: PanelRowModel
+	) {
+		super(transactionManager, parent);
 		if (layout && !isPanelLayoutModel(layout)) {
 			throw new Error('First constructor argument must be layout');
 		}
 
 		this.init(
-			layout?.children.map((x) => new PanelRowModel(x, this)) ?? [],
+			layout?.children.map(
+				(x) => new PanelRowModel(this.transactionManager, x, this)
+			) ?? [],
 			layout?.sizes ?? []
 		);
 	}
@@ -33,7 +43,10 @@ export class PanelLayoutModel extends ParentPanelModelBase<
 	};
 
 	public addRow = (row: PanelRowDto, beforeTargetRowId?: string) => {
-		this.addChild(new PanelRowModel(row), beforeTargetRowId);
+		this.addChild(
+			new PanelRowModel(this.transactionManager, row),
+			beforeTargetRowId
+		);
 	};
 
 	public addRowFromModel = (
@@ -54,19 +67,49 @@ export class PanelRowModel extends ParentPanelModelBase<
 	PanelModel | PanelLayoutModel,
 	PanelLayoutModel
 > {
-	constructor(row?: PanelRowDto, parent?: PanelLayoutModel) {
-		super(parent);
+	constructor(
+		transactionManager: TransactionManager,
+		row?: PanelRowDto,
+		parent?: PanelLayoutModel
+	) {
+		super(transactionManager, parent);
 
 		if (row && !isPanelRowModel(row)) {
 			throw new Error('First constructor argument must be row');
 		}
 
+		this.children.addNormalization(() => {
+			const children = this.getChildren();
+			const parent = this.getParent();
+
+			if (children.length !== 1 || !parent) {
+				return;
+			}
+			const cell = children[0];
+
+			if (!(cell instanceof PanelLayoutModel)) {
+				return;
+			}
+
+			const rows = cell.getChildren();
+			if (rows.length === 0) {
+				return;
+			}
+
+			const nextSibling = this.getSibling('after');
+			parent.removeChild(this.getId());
+
+			for (const row of rows) {
+				parent.addChild(row, nextSibling?.getId());
+			}
+		});
+
 		this.init(
 			row?.children.map((x) => {
 				if (isPanelModel(x)) {
-					return new PanelModel(x, this);
+					return new PanelModel(this.transactionManager, x, this);
 				} else if (isPanelLayoutModel(x)) {
-					return new PanelLayoutModel(x, this);
+					return new PanelLayoutModel(this.transactionManager, x, this);
 				} else {
 					throw new Error('Unexpected child of row');
 				}
@@ -80,7 +123,10 @@ export class PanelRowModel extends ParentPanelModelBase<
 	};
 
 	public addPanel = (dto: PanelDto, beforePanelId?: string) => {
-		this.addChild(new PanelModel(dto, this), beforePanelId);
+		this.addChild(
+			new PanelModel(this.transactionManager, dto, this),
+			beforePanelId
+		);
 	};
 
 	public addPanelFromModel = (model: PanelModel, beforePanelId?: string) => {
@@ -99,14 +145,23 @@ export class PanelRowModel extends ParentPanelModelBase<
 }
 
 export class PanelModel extends ParentPanelModelBase<PaneModel, PanelRowModel> {
-	constructor(panel?: PanelDto, parent?: PanelRowModel) {
-		super(parent, false);
+	constructor(
+		transactionManager: TransactionManager,
+		panel?: PanelDto,
+		parent?: PanelRowModel
+	) {
+		super(transactionManager, parent, false);
 
 		if (panel && !isPanelModel(panel)) {
 			throw new Error('First constructor argument must be panel');
 		}
 
-		this.init(panel?.children.map((x) => new PaneModel(x, this)) ?? [], []);
+		this.init(
+			panel?.children.map(
+				(x) => new PaneModel(this.transactionManager, x, this)
+			) ?? [],
+			[]
+		);
 	}
 
 	public addHorizontalFromDrop = (
@@ -122,7 +177,7 @@ export class PanelModel extends ParentPanelModelBase<PaneModel, PanelRowModel> {
 
 			const pane = this.popOrCreatePane(dropData);
 
-			const newPanel = new PanelModel(undefined, parent);
+			const newPanel = new PanelModel(this.transactionManager);
 			newPanel.addChild(pane);
 
 			const relativePanel =
@@ -144,19 +199,19 @@ export class PanelModel extends ParentPanelModelBase<PaneModel, PanelRowModel> {
 				return;
 			}
 
-			const newLayout = new PanelLayoutModel();
+			const newLayout = new PanelLayoutModel(this.transactionManager);
 
 			const formerBeforeSibling = this.getSibling('after');
 			parent.addLayoutFromModel(newLayout, formerBeforeSibling?.getId());
 			parent.removePanel(this.getId());
 
-			const topRow = new PanelRowModel();
-			const bottomRow = new PanelRowModel();
+			const topRow = new PanelRowModel(this.transactionManager);
+			const bottomRow = new PanelRowModel(this.transactionManager);
 
 			newLayout.addRowFromModel(topRow);
 			newLayout.addRowFromModel(bottomRow);
 
-			const newPanel = new PanelModel();
+			const newPanel = new PanelModel(this.transactionManager);
 			const pane = this.popOrCreatePane(dropData);
 			newPanel.addChild(pane);
 
@@ -189,7 +244,10 @@ export class PanelModel extends ParentPanelModelBase<PaneModel, PanelRowModel> {
 	};
 
 	public addPane = (dto: PaneDto, beforePaneId?: string) => {
-		this.addChild(new PaneModel(dto, this), beforePaneId);
+		this.addChild(
+			new PaneModel(this.transactionManager, dto, this),
+			beforePaneId
+		);
 	};
 
 	public toJson = (): PanelDto => ({
@@ -204,6 +262,7 @@ export class PanelModel extends ParentPanelModelBase<PaneModel, PanelRowModel> {
 			return existingItem;
 		} else {
 			return new PaneModel(
+				this.transactionManager,
 				{
 					location: dropData.location,
 					kind: 'pane',
@@ -226,8 +285,12 @@ export class PaneModel extends ChildPanelModelBase<PanelModel> {
 	private location: TransactableProperty<string>;
 	private tabTitle: TransactableProperty<string>;
 
-	constructor(pane: PaneDto, parent?: PanelModel) {
-		super(parent);
+	constructor(
+		transactionManager: TransactionManager,
+		pane: PaneDto,
+		parent?: PanelModel
+	) {
+		super(transactionManager, parent);
 
 		if (pane && !isPaneModel(pane)) {
 			throw new Error('First constructor argument must be pane');

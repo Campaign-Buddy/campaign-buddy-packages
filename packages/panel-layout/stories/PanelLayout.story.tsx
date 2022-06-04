@@ -40,6 +40,30 @@ const layoutDto: PanelLayoutDto = {
 					children: [
 						{
 							kind: 'pane',
+							location: 'characterSheet:characterId=1234&foo=bar',
+						},
+					],
+				},
+				{
+					kind: 'panel',
+					children: [
+						{
+							kind: 'pane',
+							location: 'notesTool:noteId=12345',
+						},
+					],
+				},
+			],
+			sizes: [50, 50],
+		},
+		{
+			kind: 'panelRow',
+			children: [
+				{
+					kind: 'panel',
+					children: [
+						{
+							kind: 'pane',
 							location: 'characterSheet',
 						},
 					],
@@ -99,10 +123,10 @@ const layoutDto: PanelLayoutDto = {
 			sizes: [50, 50],
 		},
 	],
-	sizes: [100],
+	sizes: [35, 65],
 };
 
-const layout = new PanelLayoutModel(layoutDto);
+const layout = PanelLayoutModel.create(layoutDto);
 
 function addNewPane() {
 	const firstPanel = layout.getChildren()[0].getChildren()[0];
