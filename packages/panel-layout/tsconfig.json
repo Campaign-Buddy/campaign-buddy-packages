@@ -4,13 +4,19 @@
 		"outDir": "./dist",
 		"composite": true
 	},
-	"include": ["src/**/*", "theme.d.ts"],
+	"include": [
+		"src/**/*",
+		"theme.d.ts"
+	],
 	"references": [
 		{
 			"path": "../common-hooks/tsconfig.json"
 		},
 		{
 			"path": "../react-theme-provider/tsconfig.json"
+		},
+		{
+			"path": "../core-ui/tsconfig.json"
 		}
 	]
 }

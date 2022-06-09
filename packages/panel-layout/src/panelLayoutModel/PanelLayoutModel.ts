@@ -296,14 +296,6 @@ export class PanelModel extends ParentPanelModelBase<PaneModel, PanelRowModel> {
 			);
 		}
 	};
-
-	private getExistingPane = (dropData: PaneDragItem) => {
-		const existingItem = dropData.paneId && this.modelRegistry[dropData.paneId];
-		if (existingItem instanceof PaneModel) {
-			return existingItem;
-		}
-		return;
-	};
 }
 
 export class PaneModel extends ChildPanelModelBase<PanelModel> {
@@ -332,6 +324,17 @@ export class PaneModel extends ChildPanelModelBase<PanelModel> {
 
 		this.watchProperties(this.location, this.tabTitle);
 	}
+
+	public close = () => {
+		this.transact(() => {
+			const parent = this.getParent();
+			if (!parent) {
+				return;
+			}
+
+			parent.removeChild(this.getId());
+		});
+	};
 
 	public focus = () => {
 		const parent = this.getParent();

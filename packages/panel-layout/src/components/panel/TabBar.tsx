@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect } from 'react';
 import { useDrag } from 'react-dnd';
+import { Button } from '@campaign-buddy/core-ui';
 import { getEmptyImage } from 'react-dnd-html5-backend';
 import { PaneModel } from '../../panelLayoutModel';
 import {
@@ -116,7 +117,17 @@ const PaneTab: React.FC<React.PropsWithChildren<IPaneTabProps>> = ({
 			ref={combineRefs}
 			hoveringSide={hoveringLocation}
 		>
-			{title}
+			<span>{title}</span>
+			<Button
+				icon="cross"
+				onClick={(event) => {
+					event.preventDefault();
+					event.stopPropagation();
+					pane.close();
+				}}
+				style="minimal"
+				size="small"
+			/>
 		</StyledTab>
 	);
 };

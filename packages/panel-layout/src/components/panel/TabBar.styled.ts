@@ -67,6 +67,9 @@ export const StyledTab = styled.div<{
 	position: relative;
 	cursor: default;
 	user-select: none;
+	display: flex;
+	gap: 4px;
+	align-items: center;
 
 	${({ isDragging, theme }) =>
 		isDragging ? `opacity: ${theme.panelLayout.tab.draggingOpacity};` : ''};
