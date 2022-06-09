@@ -29,6 +29,8 @@ export const parchmentPanelLayout: IPanelLayout = {
 			padding: new Thickness('4 8'),
 			opacity: 0.75,
 		},
+
+		closeButtonMargin: new Thickness('0 0 0 4'),
 	},
 	dropZones: {
 		tabSeparator: 'red',

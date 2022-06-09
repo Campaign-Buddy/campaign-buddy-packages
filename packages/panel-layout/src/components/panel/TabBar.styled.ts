@@ -51,6 +51,10 @@ const hoverStyle = css<{ hoveringSide?: 'left' | 'right' }>`
 	}
 `;
 
+export const ButtonContainer = styled.div`
+	margin: ${({ theme }) => theme.panelLayout.tab.closeButtonMargin.toCss()};
+`;
+
 export const StyledTab = styled.div<{
 	isActive: boolean;
 	isDragging: boolean;
@@ -68,7 +72,7 @@ export const StyledTab = styled.div<{
 	cursor: default;
 	user-select: none;
 	display: flex;
-	gap: 4px;
+	color: ${({ theme }) => theme.textColor};
 	align-items: center;
 
 	${({ isDragging, theme }) =>

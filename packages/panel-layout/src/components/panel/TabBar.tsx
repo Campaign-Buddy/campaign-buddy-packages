@@ -11,7 +11,7 @@ import {
 	useSectionedDropZone,
 } from '../drag-and-drop';
 import { useObserverState } from '../useObservedState';
-import { StyledTab, TabBarContainer } from './TabBar.styled';
+import { ButtonContainer, StyledTab, TabBarContainer } from './TabBar.styled';
 
 export interface ITabBarProps {
 	panes: PaneModel[];
@@ -118,16 +118,18 @@ const PaneTab: React.FC<React.PropsWithChildren<IPaneTabProps>> = ({
 			hoveringSide={hoveringLocation}
 		>
 			<span>{title}</span>
-			<Button
-				icon="cross"
-				onClick={(event) => {
-					event.preventDefault();
-					event.stopPropagation();
-					pane.close();
-				}}
-				style="minimal"
-				size="small"
-			/>
+			<ButtonContainer>
+				<Button
+					icon="cross"
+					onClick={(event) => {
+						event.preventDefault();
+						event.stopPropagation();
+						pane.close();
+					}}
+					style="minimal"
+					size="small"
+				/>
+			</ButtonContainer>
 		</StyledTab>
 	);
 };

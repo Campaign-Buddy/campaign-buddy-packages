@@ -23,6 +23,7 @@ interface IPanelTab {
 	padding: Thickness;
 	preview: IPanelTabDragPreview;
 	separatorColor: ThemeColor;
+	closeButtonMargin: Thickness;
 }
 
 interface IPanelTabDragPreview {
