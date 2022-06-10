@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect } from 'react';
 import { useDrag } from 'react-dnd';
 import { Button } from '@campaign-buddy/core-ui';
+import { useCombinedRefs } from '@campaign-buddy/common-hooks';
 import { getEmptyImage } from 'react-dnd-html5-backend';
 import { PaneModel } from '../../panelLayoutModel';
 import {
@@ -100,13 +101,7 @@ const PaneTab: React.FC<React.PropsWithChildren<IPaneTabProps>> = ({
 		// eslint-disable-next-line
 	}, []);
 
-	const combineRefs = useCallback(
-		(ref: HTMLDivElement, options?: any) => {
-			dropRef(ref, options);
-			dragRef(ref, options);
-		},
-		[dropRef, dragRef]
-	);
+	const ref = useCombinedRefs(dragRef, dropRef);
 
 	return (
 		<StyledTab
@@ -114,7 +109,7 @@ const PaneTab: React.FC<React.PropsWithChildren<IPaneTabProps>> = ({
 			isActive={isActive}
 			onClick={handleClick}
 			isDragging={isDragging}
-			ref={combineRefs}
+			ref={ref}
 			hoveringSide={hoveringLocation}
 		>
 			<span>{title}</span>

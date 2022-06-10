@@ -5,3 +5,5 @@ export * from './useDebouncedEffect';
 export * from './useIsMounted';
 export * from './useStableValue';
 export * from './useUpdatingRef';
+export * from './useResizeObserver';
+export * from './useCombinedRefs';
