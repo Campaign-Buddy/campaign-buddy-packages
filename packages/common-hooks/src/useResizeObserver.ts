@@ -6,11 +6,11 @@ export interface Size {
 	height: number;
 }
 
-export function useResizeObserver(): [
-	React.MutableRefObject<HTMLElement | null>,
+export function useResizeObserver<TRef extends HTMLElement = HTMLElement>(): [
+	React.MutableRefObject<TRef | null>,
 	Size | undefined
 ] {
-	const ref = useRef<HTMLElement | null>(null);
+	const ref = useRef<TRef | null>(null);
 	const [size, setSize] = useState<Size>();
 	const sizeRef = useUpdatingRef(size);
 
@@ -20,6 +20,11 @@ export function useResizeObserver(): [
 			return;
 		}
 
+		const rect = element.getBoundingClientRect();
+		setSize({
+			width: rect.width,
+			height: rect.height,
+		});
 		const observer = new ResizeObserver((targets) => {
 			if (targets.length === 0) {
 				setSize(undefined);
@@ -43,6 +48,7 @@ export function useResizeObserver(): [
 		observer.observe(element);
 		return () => {
 			observer.unobserve(element);
+			observer.disconnect();
 		};
 	}, [sizeRef]);
 
