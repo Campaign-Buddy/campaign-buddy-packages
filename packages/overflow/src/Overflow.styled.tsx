@@ -6,8 +6,8 @@ export const Invisible = styled.div`
 	visibility: hidden;
 `;
 
-export const MeasuringContainer = styled.div`
-	overflow: hidden;
+export const MeasuringContainer = styled.div<{ allowOverflow?: boolean }>`
+	${({ allowOverflow }) => !allowOverflow && 'overflow: hidden'};
 	white-space: nowrap;
 	display: flex;
 	flex-grow: 1;

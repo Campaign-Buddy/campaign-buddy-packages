@@ -28,6 +28,9 @@ export interface Overflow<TItem, TRef extends HTMLElement> {
 	ContainerComponent?: React.ComponentType<OverflowContainerProps>;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-empty-function
+const noop = () => {};
+
 export function Overflow<TItem, TRef extends HTMLElement>({
 	items,
 	getItemId,
@@ -46,32 +49,31 @@ export function Overflow<TItem, TRef extends HTMLElement>({
 			return [];
 		}
 
-		const measuredItems = items.filter((x) => itemSizes[getItemId(x)]);
 		let remainingWidth = containerSize?.width;
 
-		return measuredItems.filter((x) => {
+		return items.filter((x) => {
 			const size = itemSizes[getItemId(x)];
-			if (!size || remainingWidth - size.width < 0) {
+			remainingWidth -= size?.width ?? 0;
+			if (!size || remainingWidth < 0) {
 				return false;
 			}
 
-			remainingWidth -= size.width;
 			return true;
 		});
 	}, [containerSize, getItemId, itemSizes, items]);
-
-	const unmeasuredItems = useMemo(
-		() => items.filter((x) => !itemSizes[getItemId(x)]),
-		[getItemId, itemSizes, items]
-	);
 
 	const hiddenItems = useMemo(() => {
 		const visibleItemIds = new Set(visibleItems.map(getItemId));
 		return items.filter((x) => {
 			const id = getItemId(x);
-			return !visibleItemIds.has(id) && itemSizes[id];
+			return !visibleItemIds.has(id);
 		});
-	}, [getItemId, itemSizes, items, visibleItems]);
+	}, [getItemId, items, visibleItems]);
+
+	const hiddenItemIds = useMemo(
+		() => new Set(hiddenItems.map(getItemId)),
+		[getItemId, hiddenItems]
+	);
 
 	const handleItemSizeChange = useCallback(
 		(item: TItem, size?: Size) => {
@@ -133,6 +135,21 @@ export function Overflow<TItem, TRef extends HTMLElement>({
 		</MeasuringContainer>
 	);
 
+	const renderedHiddenItems = hiddenItems.length ? (
+		<MeasuringContainer allowOverflow>
+			{items.map((item) => (
+				<OverflowItem
+					key={getItemId(item)}
+					item={item}
+					ItemComponent={ItemComponent}
+					registerSize={
+						hiddenItemIds.has(getItemId(item)) ? handleItemSizeChange : noop
+					}
+				/>
+			))}
+		</MeasuringContainer>
+	) : null;
+
 	const renderedOverflow = <OverflowedItemsComponent items={hiddenItems} />;
 
 	return (
@@ -141,16 +158,7 @@ export function Overflow<TItem, TRef extends HTMLElement>({
 				items={renderedItems}
 				overflowedItems={renderedOverflow}
 			/>
-			<Invisible tabIndex={-1}>
-				{unmeasuredItems.map((item) => (
-					<OverflowItem
-						key={getItemId(item)}
-						item={item}
-						ItemComponent={ItemComponent}
-						registerSize={handleItemSizeChange}
-					/>
-				))}
-			</Invisible>
+			<Invisible tabIndex={-1}>{renderedHiddenItems}</Invisible>
 		</>
 	);
 }
