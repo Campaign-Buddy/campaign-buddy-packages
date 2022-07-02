@@ -25,12 +25,6 @@ async function createPackageJson(packageName, isReact) {
 
 	template.name = `@campaign-buddy/${packageName}`;
 
-	if (isReact) {
-		template[
-			'storybook'
-		] = `cross-env STORYBOOK_PACKAGE_SCOPE=${packageName} yarn --cwd ../../ storybook`;
-	}
-
 	await fs.writeFile(
 		path.join(packagesPath, packageName, 'package.json'),
 		JSON.stringify(template, null, '\t'),

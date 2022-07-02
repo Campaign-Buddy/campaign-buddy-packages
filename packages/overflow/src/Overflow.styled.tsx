@@ -16,4 +16,6 @@ export const MeasuringContainer = styled.div<{ allowOverflow?: boolean }>`
 
 export const DefaultContainer = styled.div`
 	display: flex;
+	flex-grow: 1;
+	width: 100%;
 `;

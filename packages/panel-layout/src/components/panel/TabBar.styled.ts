@@ -33,6 +33,8 @@ export const TabBarContainer = styled.div<{ isOver?: boolean }>`
 	border-radius: ${({ theme }) => theme.panelLayout.tab.borderRadius.topLeft}px
 		${({ theme }) => theme.panelLayout.tab.borderRadius.topRight}px 0 0;
 	position: relative;
+	// The tabs may flicker away for a second for measuring to occur
+	min-height: ${({ theme }) => theme.panelLayout.tab.height}px;
 	${({ isOver }) => isOver && isOverStyle}
 `;
 
@@ -60,7 +62,10 @@ export const StyledTab = styled.div<{
 	isDragging: boolean;
 	hoveringSide?: 'left' | 'right';
 }>`
-	padding: ${({ theme }) => theme.panelLayout.tab.padding.toCss()};
+	min-height: ${({ theme }) => theme.panelLayout.tab.height}px;
+	max-height: ${({ theme }) => theme.panelLayout.tab.height}px;
+	height: ${({ theme }) => theme.panelLayout.tab.height}px;
+	padding: 0 ${({ theme }) => theme.panelLayout.tab.horizontalPadding}px;
 	white-space: nowrap;
 	background-color: ${({ theme, isActive, isDragging }) =>
 		isDragging

@@ -20,7 +20,8 @@ interface IPanelTab {
 	draggingBackgroundColor: ThemeColor;
 	draggingOpacity: number;
 	hoverBackgroundColor: ThemeColor;
-	padding: Thickness;
+	height: number;
+	horizontalPadding: number;
 	preview: IPanelTabDragPreview;
 	separatorColor: ThemeColor;
 	closeButtonMargin: Thickness;

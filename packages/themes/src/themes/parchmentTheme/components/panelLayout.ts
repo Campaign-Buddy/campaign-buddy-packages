@@ -21,7 +21,8 @@ export const parchmentPanelLayout: IPanelLayout = {
 		draggingOpacity: 0.5,
 
 		borderRadius: new BorderRadius({ topLeft: 4, topRight: 4 }),
-		padding: new Thickness('4 8'),
+		height: 32,
+		horizontalPadding: 8,
 
 		preview: {
 			backgroundColor: parchment,

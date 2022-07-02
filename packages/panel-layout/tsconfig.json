@@ -17,6 +17,9 @@
 		},
 		{
 			"path": "../core-ui/tsconfig.json"
+		},
+		{
+			"path": "../overflow/tsconfig.json"
 		}
 	]
 }

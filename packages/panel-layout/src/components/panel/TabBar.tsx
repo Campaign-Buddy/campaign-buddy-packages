@@ -1,7 +1,8 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 import { useDrag } from 'react-dnd';
 import { Button } from '@campaign-buddy/core-ui';
 import { useCombinedRefs } from '@campaign-buddy/common-hooks';
+import { Overflow, ItemProps } from '@campaign-buddy/overflow';
 import { getEmptyImage } from 'react-dnd-html5-backend';
 import { PaneModel } from '../../panelLayoutModel';
 import {
@@ -42,30 +43,40 @@ export const TabBar: React.FC<React.PropsWithChildren<ITabBarProps>> = ({
 		}
 	);
 
+	const paneItems: PaneTabItem[] = useMemo(
+		() =>
+			panes.map((x) => ({
+				isActive: activePaneId === x.getId(),
+				key: x.getId(),
+				pane: x,
+				onActivePaneIdChange: onActivePaneIdChange,
+			})),
+		[activePaneId, onActivePaneIdChange, panes]
+	);
+
+	const getPaneId = useCallback((x: PaneTabItem) => x.pane.getId(), []);
+
 	return (
 		<TabBarContainer ref={dropRef} isOver={hoveringLocation}>
-			{panes.map((x) => (
-				<PaneTab
-					isActive={activePaneId === x.getId()}
-					key={x.getId()}
-					pane={x}
-					onActivePaneIdChange={onActivePaneIdChange}
-				/>
-			))}
+			<Overflow
+				items={paneItems}
+				getItemId={getPaneId}
+				ItemComponent={PaneTab}
+				OverflowedItemsComponent={() => null}
+			/>
 		</TabBarContainer>
 	);
 };
 
-interface IPaneTabProps {
+interface PaneTabItem {
 	pane: PaneModel;
 	isActive: boolean;
 	onActivePaneIdChange: (paneId: string) => void;
 }
 
-const PaneTab: React.FC<React.PropsWithChildren<IPaneTabProps>> = ({
-	pane,
-	isActive,
-	onActivePaneIdChange,
+const PaneTab: React.FC<ItemProps<PaneTabItem, HTMLDivElement>> = ({
+	item: { pane, isActive, onActivePaneIdChange },
+	itemRef,
 }) => {
 	const title = useObserverState(pane, () => pane.getTabTitle());
 	const paneId = pane.getId();
@@ -101,7 +112,7 @@ const PaneTab: React.FC<React.PropsWithChildren<IPaneTabProps>> = ({
 		// eslint-disable-next-line
 	}, []);
 
-	const ref = useCombinedRefs(dragRef, dropRef);
+	const ref = useCombinedRefs(dragRef, dropRef, itemRef);
 
 	return (
 		<StyledTab
