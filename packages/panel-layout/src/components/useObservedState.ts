@@ -7,10 +7,7 @@ export function useObserverState<T>(
 ) {
 	const [state, setState] = useState(getState());
 	const getStateRef = useRef(getState);
-
-	useEffect(() => {
-		getStateRef.current = getState;
-	}, [getState]);
+	getStateRef.current = getState;
 
 	useEffect(() => {
 		return model.observe(() => setState(getStateRef.current()));

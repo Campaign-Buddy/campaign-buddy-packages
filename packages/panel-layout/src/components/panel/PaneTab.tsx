@@ -13,7 +13,7 @@ import {
 	isPaneDragItem,
 } from '../drag-and-drop';
 import { useObserverState } from '../useObservedState';
-import { StyledTab, ButtonContainer } from './TabBar.styled';
+import { StyledTab, ButtonContainer } from './PaneTab.styled';
 
 export interface PaneTabItem {
 	pane: PaneModel;
@@ -24,6 +24,7 @@ export interface PaneTabItem {
 export const PaneTab: React.FC<ItemProps<PaneTabItem, HTMLDivElement>> = ({
 	item: { pane, isActive, onActivePaneIdChange },
 	itemRef,
+	index,
 }) => {
 	const title = useObserverState(pane, () => pane.getTabTitle());
 	const paneId = pane.getId();
@@ -59,30 +60,33 @@ export const PaneTab: React.FC<ItemProps<PaneTabItem, HTMLDivElement>> = ({
 		// eslint-disable-next-line
 	}, []);
 
-	const ref = useCombinedRefs(dragRef, dropRef, itemRef);
+	const ref = useCombinedRefs(dragRef, dropRef);
 
 	return (
-		<StyledTab
-			className={isActive ? 'campaign-buddy-active-tab' : undefined}
-			isActive={isActive}
-			onClick={handleClick}
-			isDragging={isDragging}
-			ref={ref}
-			hoveringSide={hoveringLocation}
-		>
-			<span>{title}</span>
-			<ButtonContainer>
-				<Button
-					icon="cross"
-					onClick={(event) => {
-						event.preventDefault();
-						event.stopPropagation();
-						pane.close();
-					}}
-					style="minimal"
-					size="small"
-				/>
-			</ButtonContainer>
-		</StyledTab>
+		<div ref={itemRef}>
+			<StyledTab
+				className={isActive ? 'campaign-buddy-active-tab' : undefined}
+				isActive={isActive}
+				onClick={handleClick}
+				isDragging={isDragging}
+				ref={ref}
+				hoveringSide={hoveringLocation}
+				isFirst={index === 0}
+			>
+				<span>{title}</span>
+				<ButtonContainer>
+					<Button
+						icon="cross"
+						onClick={(event) => {
+							event.preventDefault();
+							event.stopPropagation();
+							pane.close();
+						}}
+						style="minimal"
+						size="small"
+					/>
+				</ButtonContainer>
+			</StyledTab>
+		</div>
 	);
 };

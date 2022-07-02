@@ -9,6 +9,7 @@ import {
 export interface ItemProps<TItem, TRef extends HTMLElement> {
 	item: TItem;
 	itemRef: React.MutableRefObject<TRef | null>;
+	index: number;
 }
 
 export interface OverflowedItemsProps<TItem> {
@@ -124,10 +125,11 @@ export function Overflow<TItem, TRef extends HTMLElement>({
 
 	const renderedItems = (
 		<MeasuringContainer ref={containerRef}>
-			{visibleItems.map((item) => (
+			{visibleItems.map((item, index) => (
 				<OverflowItem
 					key={getItemId(item)}
 					item={item}
+					index={index}
 					ItemComponent={ItemComponent}
 					registerSize={handleItemSizeChange}
 				/>
@@ -137,10 +139,11 @@ export function Overflow<TItem, TRef extends HTMLElement>({
 
 	const renderedHiddenItems = hiddenItems.length ? (
 		<MeasuringContainer allowOverflow>
-			{items.map((item) => (
+			{items.map((item, index) => (
 				<OverflowItem
 					key={getItemId(item)}
 					item={item}
+					index={index}
 					ItemComponent={ItemComponent}
 					registerSize={
 						hiddenItemIds.has(getItemId(item)) ? handleItemSizeChange : noop
@@ -167,20 +170,23 @@ interface OverflowItemProps<TItem, TRef extends HTMLElement> {
 	registerSize: (item: TItem, size?: Size) => void;
 	item: TItem;
 	ItemComponent: React.ComponentType<ItemProps<TItem, TRef>>;
+	index: number;
 }
 
 function OverflowItem<TItem, TRef extends HTMLElement>({
 	registerSize,
 	item,
 	ItemComponent,
+	index,
 }: OverflowItemProps<TItem, TRef>) {
 	const [ref, size] = useResizeObserver<TRef>();
 
 	useEffect(() => {
+		console.log('registering size', item, size);
 		registerSize(item, size);
 	}, [item, size, registerSize]);
 
-	return <ItemComponent item={item} itemRef={ref} />;
+	return <ItemComponent index={index} item={item} itemRef={ref} />;
 }
 
 function DefaultContainerComponent({
