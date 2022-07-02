@@ -177,7 +177,6 @@ function OverflowItem<TItem, TRef extends HTMLElement>({
 	const [ref, size] = useResizeObserver<TRef>();
 
 	useEffect(() => {
-		console.log('registering size', item, size);
 		registerSize(item, size);
 	}, [item, size, registerSize]);
 
