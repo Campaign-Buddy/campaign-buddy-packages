@@ -13,7 +13,7 @@ import {
 	isPaneDragItem,
 } from '../drag-and-drop';
 import { useObserverState } from '../useObservedState';
-import { StyledTab, ButtonContainer } from './PaneTab.styled';
+import { StyledTab, ButtonContainer, TabContainer } from './PaneTab.styled';
 
 export interface PaneTabItem {
 	pane: PaneModel;
@@ -24,7 +24,6 @@ export interface PaneTabItem {
 export const PaneTab: React.FC<ItemProps<PaneTabItem, HTMLDivElement>> = ({
 	item: { pane, isActive, onActivePaneIdChange },
 	itemRef,
-	index,
 }) => {
 	const title = useObserverState(pane, () => pane.getTabTitle());
 	const paneId = pane.getId();
@@ -63,15 +62,16 @@ export const PaneTab: React.FC<ItemProps<PaneTabItem, HTMLDivElement>> = ({
 	const ref = useCombinedRefs(dragRef, dropRef);
 
 	return (
-		<div ref={itemRef}>
+		<TabContainer
+			ref={itemRef}
+			isActive={isActive}
+			isDragging={isDragging}
+			className={isActive ? 'campaign-buddy-active-tab' : undefined}
+		>
 			<StyledTab
-				className={isActive ? 'campaign-buddy-active-tab' : undefined}
-				isActive={isActive}
 				onClick={handleClick}
-				isDragging={isDragging}
 				ref={ref}
 				hoveringSide={hoveringLocation}
-				isFirst={index === 0}
 			>
 				<span>{title}</span>
 				<ButtonContainer>
@@ -87,6 +87,6 @@ export const PaneTab: React.FC<ItemProps<PaneTabItem, HTMLDivElement>> = ({
 					/>
 				</ButtonContainer>
 			</StyledTab>
-		</div>
+		</TabContainer>
 	);
 };
