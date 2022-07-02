@@ -22,9 +22,14 @@ interface IPanelTab {
 	hoverBackgroundColor: ThemeColor;
 	height: number;
 	horizontalPadding: number;
-	preview: IPanelTabDragPreview;
 	separatorColor: ThemeColor;
 	closeButtonMargin: Thickness;
+	preview: IPanelTabDragPreview;
+	overflow: IPanelTabOverflow;
+}
+
+interface IPanelTabOverflow {
+	buttonHorizontalPadding: number;
 }
 
 interface IPanelTabDragPreview {

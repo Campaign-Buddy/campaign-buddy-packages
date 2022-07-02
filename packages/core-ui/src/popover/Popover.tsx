@@ -7,9 +7,9 @@ const StyledPopoverCore = styled(PopoverCore)`
 	max-width: 100%;
 `;
 
-const GlobalStyle = createGlobalStyle`
+const GlobalStyle = createGlobalStyle<{ noPadding?: boolean }>`
 	.bp-overrides-popover .bp4-popover2-content {
-		padding: 8px;
+		padding: ${({ noPadding }) => (noPadding ? '0' : '8px')};
 		background-color: ${({ theme }) =>
 			theme.legacyCoreUi.colors.background} !important;
 	}
@@ -33,6 +33,7 @@ export interface PopoverProps {
 	placement?: Placement;
 	autoFocus?: boolean;
 	noMargin?: boolean;
+	noPadding?: boolean;
 	className?: string;
 }
 
@@ -54,10 +55,11 @@ export const Popover: React.FC<React.PropsWithChildren<PopoverProps>> = ({
 	autoFocus,
 	noMargin,
 	className,
+	noPadding,
 }) => {
 	return (
 		<>
-			<GlobalStyle />
+			<GlobalStyle noPadding={noPadding} />
 			<StyledPopoverCore
 				content={<div>{content}</div>}
 				isOpen={isOpen}
