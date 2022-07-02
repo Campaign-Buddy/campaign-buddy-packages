@@ -10,7 +10,25 @@ StyledMenu.defaultProps = {
 	theme: defaultTheme,
 };
 
-export const StyledMenuItem = styled(MenuItemCore)`
+export const MenuItemContent = styled.div`
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+`;
+
+export const MenuItemText = styled.span`
+	line-height: initial;
+`;
+
+export const StyledMenuItem = styled(MenuItemCore)<{
+	verticalPadding?: number;
+}>`
+	${({ verticalPadding }) =>
+		typeof verticalPadding === 'number' &&
+		`
+		padding-top: ${verticalPadding}px !important;
+		padding-bottom: ${verticalPadding}px !important;
+	`}
 	color: ${({ theme }) => theme.legacyCoreUi.colors.text} !important;
 
 	.bp4-icon {

@@ -2,7 +2,12 @@ import React from 'react';
 import { IconName } from '@blueprintjs/core';
 import { Popover2 as Popover } from '@blueprintjs/popover2';
 import { createGlobalStyle } from 'styled-components';
-import { StyledMenuItem, StyledMenu } from './Menu.styled';
+import {
+	StyledMenuItem,
+	StyledMenu,
+	MenuItemContent,
+	MenuItemText,
+} from './Menu.styled';
 import { defaultTheme } from '../theme';
 
 const GlobalStyle = createGlobalStyle`
@@ -15,27 +20,51 @@ GlobalStyle.defaultProps = {
 	theme: defaultTheme,
 };
 
-export interface MenuItem {
+export interface MenuItem<T = any> {
 	displayText?: string;
 	icon?: IconName;
+	renderRightElement?: () => React.ReactNode;
 	subItems?: MenuItem[];
 	onClick?: () => void;
 	shouldCloseMenuOnClick?: boolean;
+	itemData?: T;
 }
 
-interface MenuProps {
-	items: MenuItem[];
+interface MenuItemProps<T = any> {
+	item: MenuItem<T>;
+	verticalPadding?: number;
+}
+
+export interface MenuItemRenderApi<T = any> {
+	MenuItem: React.ComponentType<MenuItemProps<T>>;
+	item: MenuItem<T>;
+	closeMenu: () => void;
+}
+
+interface MenuProps<T = any> {
+	items: MenuItem<T>[];
+	onClose: () => void;
+	renderMenuItem?: (api: MenuItemRenderApi) => React.ReactNode;
 }
 
 const popoverProps = {
 	popoverClassName: 'bp-overrides-menu-popover',
 };
 
-function MenuItem({ item }: { item: MenuItem }): JSX.Element {
+function MenuItem<T = any>({
+	item,
+	verticalPadding,
+}: MenuItemProps<T>): JSX.Element {
 	return (
 		<StyledMenuItem
+			verticalPadding={verticalPadding}
 			icon={item.icon}
-			text={item.displayText}
+			text={
+				<MenuItemContent>
+					<MenuItemText>{item.displayText}</MenuItemText>
+					{item.renderRightElement && <span>{item.renderRightElement()}</span>}
+				</MenuItemContent>
+			}
 			onClick={item.onClick}
 			popoverProps={popoverProps}
 			tagName="button"
@@ -48,29 +77,48 @@ function MenuItem({ item }: { item: MenuItem }): JSX.Element {
 	);
 }
 
-export function Menu({ items }: MenuProps): JSX.Element {
+export function Menu<T = any>({
+	items,
+	renderMenuItem,
+	onClose,
+}: MenuProps<T>): JSX.Element {
 	return (
 		<StyledMenu>
-			{items.map((item) => (
-				<MenuItem key={item.displayText} item={item} />
-			))}
+			{items.map((item) =>
+				renderMenuItem ? (
+					<div key={item.displayText}>
+						{renderMenuItem({ MenuItem, item, closeMenu: onClose })}
+					</div>
+				) : (
+					<MenuItem key={item.displayText} item={item} />
+				)
+			)}
 		</StyledMenu>
 	);
 }
 
-interface MenuPopoverProps extends MenuProps {
+interface MenuPopoverProps<T = any> extends MenuProps<T> {
 	isOpen: boolean;
-	onClose: () => void;
 }
 
-export const MenuPopover: React.FC<
-	React.PropsWithChildren<MenuPopoverProps>
-> = ({ items, children, isOpen, onClose }) => {
+export function MenuPopover<T = any>({
+	items,
+	children,
+	isOpen,
+	renderMenuItem,
+	onClose,
+}: React.PropsWithChildren<MenuPopoverProps<T>>) {
 	return (
 		<>
 			<GlobalStyle />
 			<Popover
-				content={<Menu items={items} />}
+				content={
+					<Menu
+						onClose={onClose}
+						renderMenuItem={renderMenuItem}
+						items={items}
+					/>
+				}
 				isOpen={isOpen}
 				onClose={onClose}
 				placement="bottom-start"
@@ -83,4 +131,4 @@ export const MenuPopover: React.FC<
 			</Popover>
 		</>
 	);
-};
+}
