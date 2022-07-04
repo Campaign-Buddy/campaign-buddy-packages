@@ -16,7 +16,7 @@ export interface UsePaneDropZoneHook<T> {
 export function useSectionedDropZone<T>(
 	dropKind: string,
 	transformCoordinates: (coordinates: RelativeCoordinates) => T,
-	onDrop: (location: T, item: any) => void
+	onDrop?: (location: T, item: any) => void
 ): UsePaneDropZoneHook<T> {
 	const transformCoordinatesRef = useUpdatingRef(transformCoordinates);
 	const onDropRef = useUpdatingRef(onDrop);
@@ -62,7 +62,7 @@ export function useSectionedDropZone<T>(
 			accept: dropKind,
 			collect: (monitor) => {
 				const isOver = monitor.isOver({ shallow: true });
-				const canDrop = monitor.canDrop();
+				const canDrop = monitor.getItemType() === dropKind;
 
 				return {
 					isOver,
@@ -71,7 +71,7 @@ export function useSectionedDropZone<T>(
 			},
 			hover: (_, monitor) => {
 				const isOver = monitor.isOver({ shallow: true });
-				const canDrop = monitor.canDrop();
+				const canDrop = monitor.getItemType() === dropKind;
 				const hoverCoordinates = monitor.getClientOffset();
 
 				if (isOver && canDrop && hoverCoordinates) {
@@ -79,7 +79,8 @@ export function useSectionedDropZone<T>(
 				}
 			},
 			drop: (item, monitor) => {
-				if (!resolvedLocation) {
+				const canDrop = monitor.getItemType() === dropKind;
+				if (!resolvedLocation || !canDrop) {
 					return;
 				}
 
@@ -89,11 +90,12 @@ export function useSectionedDropZone<T>(
 					return;
 				}
 
-				onDropRef.current(resolvedLocation, item);
+				onDropRef.current?.(resolvedLocation, item);
 				setResolvedLocation(undefined);
 			},
+			canDrop: () => Boolean(onDropRef.current),
 		}),
-		[onDropRef, transformAbsoluteCoordinates, resolvedLocation]
+		[onDropRef, transformAbsoluteCoordinates, resolvedLocation, dropKind]
 	);
 
 	const combineRefs = useCallback(

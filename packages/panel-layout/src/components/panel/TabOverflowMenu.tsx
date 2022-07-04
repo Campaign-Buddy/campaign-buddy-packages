@@ -13,7 +13,11 @@ import {
 	MenuItemContainer,
 } from './TabOverflowMenu.styled';
 import { useObserverState } from '../useObservedState';
-import { useBooleanState, useCombinedRefs } from '@campaign-buddy/common-hooks';
+import {
+	useBooleanState,
+	useCombinedRefs,
+	useDelayedEffect,
+} from '@campaign-buddy/common-hooks';
 import { MenuItemRenderApi } from '@campaign-buddy/core-ui/src/menu/Menu';
 import {
 	coordinateTransformers,
@@ -32,6 +36,20 @@ export function TabOverflowMenu({ items }: OverflowedItemsProps<PaneTabItem>) {
 			closeMenu();
 		}
 	}, [closeMenu, items.length]);
+
+	const { hoveringLocation, dropRef } = useSectionedDropZone(
+		PaneDragItemKind,
+		coordinateTransformers.isOver,
+		undefined
+	);
+
+	useDelayedEffect(
+		() => {
+			openMenu();
+		},
+		Boolean(hoveringLocation),
+		700
+	);
 
 	// Title is filled in by custom menu item render
 	// so no need to add it here
@@ -53,7 +71,7 @@ export function TabOverflowMenu({ items }: OverflowedItemsProps<PaneTabItem>) {
 	}
 
 	return (
-		<DropDownButtonContainer>
+		<DropDownButtonContainer ref={dropRef}>
 			<MenuPopover
 				isOpen={isMenuOpen}
 				onClose={closeMenu}

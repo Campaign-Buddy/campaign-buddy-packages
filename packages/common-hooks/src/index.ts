@@ -7,3 +7,4 @@ export * from './useStableValue';
 export * from './useUpdatingRef';
 export * from './useResizeObserver';
 export * from './useCombinedRefs';
+export * from './useDelayedEffect';
