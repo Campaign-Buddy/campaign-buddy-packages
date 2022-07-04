@@ -4,6 +4,10 @@ function splitVertically(location: RelativeCoordinates) {
 	return location.x < 50 ? 'left' : 'right';
 }
 
+function splitHorizontally(location: RelativeCoordinates) {
+	return location.y < 50 ? 'top' : 'bottom';
+}
+
 function isOver() {
 	return true;
 }
@@ -43,6 +47,7 @@ function xBox(location: RelativeCoordinates) {
 
 export const coordinateTransformers = {
 	splitVertically,
+	splitHorizontally,
 	isOver,
 	xBox,
 };

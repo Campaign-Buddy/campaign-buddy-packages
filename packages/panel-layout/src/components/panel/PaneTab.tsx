@@ -1,16 +1,14 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback } from 'react';
 import { useCombinedRefs } from '@campaign-buddy/common-hooks';
 import { Button } from '@campaign-buddy/core-ui';
 import { ItemProps } from '@campaign-buddy/overflow';
-import { useDrag } from 'react-dnd';
-import { getEmptyImage } from 'react-dnd-html5-backend';
 import { PaneModel } from '../../panelLayoutModel';
 import {
 	PaneDragItemKind,
-	getPaneDragItem,
 	useSectionedDropZone,
 	coordinateTransformers,
 	isPaneDragItem,
+	usePaneDrag,
 } from '../drag-and-drop';
 import { useObserverState } from '../useObservedState';
 import { StyledTab, ButtonContainer, TabContainer } from './PaneTab.styled';
@@ -32,13 +30,7 @@ export const PaneTab: React.FC<ItemProps<PaneTabItem, HTMLDivElement>> = ({
 		onActivePaneIdChange(paneId);
 	}, [onActivePaneIdChange, paneId]);
 
-	const [{ isDragging }, dragRef, preview] = useDrag(() => ({
-		type: PaneDragItemKind,
-		item: getPaneDragItem(pane),
-		collect: (monitor) => ({
-			isDragging: monitor.isDragging(),
-		}),
-	}));
+	const { isDragging, dragRef } = usePaneDrag(pane);
 
 	const { dropRef, hoveringLocation } = useSectionedDropZone(
 		PaneDragItemKind,
@@ -49,15 +41,9 @@ export const PaneTab: React.FC<ItemProps<PaneTabItem, HTMLDivElement>> = ({
 			}
 
 			const beforeTab = location === 'left' ? pane : pane.getSibling('after');
-			console.log(pane.getParent(), dropData, beforeTab);
 			pane.getParent()?.addToTabBarFromDrop(dropData, beforeTab?.getId());
 		}
 	);
-
-	useEffect(() => {
-		preview(getEmptyImage(), { captureDraggingState: true });
-		// eslint-disable-next-line
-	}, []);
 
 	const ref = useCombinedRefs(dragRef, dropRef);
 

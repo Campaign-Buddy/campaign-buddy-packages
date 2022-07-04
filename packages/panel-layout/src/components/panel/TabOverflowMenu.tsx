@@ -10,10 +10,18 @@ import { PaneTabItem } from './PaneTab';
 import {
 	CloseButtonContainer,
 	DropDownButtonContainer,
+	MenuItemContainer,
 } from './TabOverflowMenu.styled';
 import { useObserverState } from '../useObservedState';
-import { useBooleanState } from '@campaign-buddy/common-hooks';
+import { useBooleanState, useCombinedRefs } from '@campaign-buddy/common-hooks';
 import { MenuItemRenderApi } from '@campaign-buddy/core-ui/src/menu/Menu';
+import {
+	coordinateTransformers,
+	isPaneDragItem,
+	PaneDragItemKind,
+	usePaneDrag,
+	useSectionedDropZone,
+} from '../drag-and-drop';
 
 export function TabOverflowMenu({ items }: OverflowedItemsProps<PaneTabItem>) {
 	const hasActivePane = useMemo(() => items.some((x) => x.isActive), [items]);
@@ -64,12 +72,28 @@ export function TabOverflowMenu({ items }: OverflowedItemsProps<PaneTabItem>) {
 }
 
 function OverflowMenuItem({ item, MenuItem }: MenuItemRenderApi<PaneTabItem>) {
-	if (!item.itemData) {
+	const tabItem = item.itemData;
+	if (!tabItem) {
 		throw new Error('itemData is required');
 	}
+	const { pane } = tabItem;
 
-	const tabItem = item.itemData;
+	const { dragRef } = usePaneDrag(pane);
 
+	const { dropRef, hoveringLocation } = useSectionedDropZone(
+		PaneDragItemKind,
+		coordinateTransformers.splitHorizontally,
+		(location, dropData) => {
+			if (!isPaneDragItem(dropData)) {
+				return;
+			}
+
+			const beforeTab = location === 'top' ? pane : pane.getSibling('after');
+			pane.getParent()?.addToTabBarFromDrop(dropData, beforeTab?.getId());
+		}
+	);
+
+	const dndRef = useCombinedRefs(dragRef, dropRef);
 	const title = useObserverState(tabItem.pane, tabItem.pane.getTabTitle);
 
 	const transformedItem = useMemo<MenuItem<PaneTabItem>>(
@@ -94,5 +118,9 @@ function OverflowMenuItem({ item, MenuItem }: MenuItemRenderApi<PaneTabItem>) {
 		[tabItem, title]
 	);
 
-	return <MenuItem verticalPadding={0} item={transformedItem} />;
+	return (
+		<MenuItemContainer hoveringSide={hoveringLocation} ref={dndRef}>
+			<MenuItem verticalPadding={0} item={transformedItem} />
+		</MenuItemContainer>
+	);
 }
