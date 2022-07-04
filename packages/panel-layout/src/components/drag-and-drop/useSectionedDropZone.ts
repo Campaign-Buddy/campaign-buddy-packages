@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useDrop, XYCoord } from 'react-dnd';
 import { useUpdatingRef } from '@campaign-buddy/common-hooks';
 import isEqual from 'lodash.isequal';
@@ -11,6 +11,7 @@ export interface RelativeCoordinates {
 export interface UsePaneDropZoneHook<T> {
 	hoveringLocation: T | undefined;
 	dropRef: (ref: HTMLElement | null, options?: any) => void;
+	isDragging: boolean;
 }
 
 export function useSectionedDropZone<T>(
@@ -57,16 +58,18 @@ export function useSectionedDropZone<T>(
 		[transformCoordinatesRef]
 	);
 
-	const [{ isOver, canDrop }, connectDropTarget] = useDrop(
+	const [{ isOver, canDrop, isDragging }, connectDropTarget] = useDrop(
 		() => ({
 			accept: dropKind,
 			collect: (monitor) => {
 				const isOver = monitor.isOver({ shallow: true });
 				const canDrop = monitor.getItemType() === dropKind;
+				const isDragging = Boolean(monitor.getItem());
 
 				return {
 					isOver,
 					canDrop,
+					isDragging,
 				};
 			},
 			hover: (_, monitor) => {
@@ -98,6 +101,12 @@ export function useSectionedDropZone<T>(
 		[onDropRef, transformAbsoluteCoordinates, resolvedLocation, dropKind]
 	);
 
+	useEffect(() => {
+		if (!isDragging) {
+			setResolvedLocation(undefined);
+		}
+	}, [isDragging, setResolvedLocation]);
+
 	const combineRefs = useCallback(
 		(element: HTMLElement | null, options?: any) => {
 			connectDropTarget(element, options);
@@ -109,5 +118,6 @@ export function useSectionedDropZone<T>(
 	return {
 		hoveringLocation: isOver && canDrop ? resolvedLocation : undefined,
 		dropRef: combineRefs,
+		isDragging,
 	};
 }

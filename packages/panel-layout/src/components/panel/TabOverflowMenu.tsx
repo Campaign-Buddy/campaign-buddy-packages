@@ -30,6 +30,7 @@ import {
 export function TabOverflowMenu({ items }: OverflowedItemsProps<PaneTabItem>) {
 	const hasActivePane = useMemo(() => items.some((x) => x.isActive), [items]);
 	const [isMenuOpen, openMenu, closeMenu] = useBooleanState(false);
+	const [isMouseOverMenu, onMouseEnter, onMouseLeave] = useBooleanState(false);
 
 	useEffect(() => {
 		if (items.length === 0) {
@@ -37,7 +38,7 @@ export function TabOverflowMenu({ items }: OverflowedItemsProps<PaneTabItem>) {
 		}
 	}, [closeMenu, items.length]);
 
-	const { hoveringLocation, dropRef } = useSectionedDropZone(
+	const { hoveringLocation, dropRef, isDragging } = useSectionedDropZone(
 		PaneDragItemKind,
 		coordinateTransformers.isOver,
 		undefined
@@ -48,6 +49,15 @@ export function TabOverflowMenu({ items }: OverflowedItemsProps<PaneTabItem>) {
 			openMenu();
 		},
 		Boolean(hoveringLocation),
+		700
+	);
+
+	useDelayedEffect(
+		() => {
+			console.log('closing menu?');
+			closeMenu();
+		},
+		!isMouseOverMenu && isDragging,
 		700
 	);
 
@@ -71,7 +81,11 @@ export function TabOverflowMenu({ items }: OverflowedItemsProps<PaneTabItem>) {
 	}
 
 	return (
-		<DropDownButtonContainer ref={dropRef}>
+		<DropDownButtonContainer
+			ref={dropRef}
+			onDragOver={onMouseEnter}
+			onDragLeave={onMouseLeave}
+		>
 			<MenuPopover
 				isOpen={isMenuOpen}
 				onClose={closeMenu}
