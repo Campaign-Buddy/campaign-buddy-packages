@@ -76,7 +76,7 @@ function OverflowMenuItem({ item, MenuItem }: MenuItemRenderApi<PaneTabItem>) {
 	if (!tabItem) {
 		throw new Error('itemData is required');
 	}
-	const { pane } = tabItem;
+	const { pane, isActive } = tabItem;
 
 	const { dragRef } = usePaneDrag(pane);
 
@@ -120,7 +120,11 @@ function OverflowMenuItem({ item, MenuItem }: MenuItemRenderApi<PaneTabItem>) {
 
 	return (
 		<MenuItemContainer hoveringSide={hoveringLocation} ref={dndRef}>
-			<MenuItem verticalPadding={0} item={transformedItem} />
+			<MenuItem
+				isActive={isActive}
+				verticalPadding={0}
+				item={transformedItem}
+			/>
 		</MenuItemContainer>
 	);
 }

@@ -33,6 +33,7 @@ export interface MenuItem<T = any> {
 interface MenuItemProps<T = any> {
 	item: MenuItem<T>;
 	verticalPadding?: number;
+	isActive?: boolean;
 }
 
 export interface MenuItemRenderApi<T = any> {
@@ -54,6 +55,7 @@ const popoverProps = {
 function MenuItem<T = any>({
 	item,
 	verticalPadding,
+	isActive,
 }: MenuItemProps<T>): JSX.Element {
 	return (
 		<StyledMenuItem
@@ -69,6 +71,7 @@ function MenuItem<T = any>({
 			popoverProps={popoverProps}
 			tagName="button"
 			shouldDismissPopover={item.shouldCloseMenuOnClick ?? true}
+			selected={isActive}
 		>
 			{item?.subItems?.map((subItem) => (
 				<MenuItem key={subItem.displayText} item={subItem} />

@@ -35,7 +35,8 @@ export const StyledMenuItem = styled(MenuItemCore)<{
 		color: ${({ theme }) => theme.legacyCoreUi.colors.text} !important;
 	}
 
-	&.bp4-active {
+	&.bp4-active,
+	&.bp4-selected {
 		background-color: ${({ theme }) =>
 			theme.legacyCoreUi.colors.primary} !important;
 		color: ${({ theme }) => theme.legacyCoreUi.colors.background} !important;
