@@ -12,6 +12,7 @@ import {
 } from '../drag-and-drop';
 import { useObserverState } from '../useObservedState';
 import { StyledTab, ButtonContainer, TabContainer } from './PaneTab.styled';
+import { TabIcon } from './TabIcon';
 
 export interface PaneTabItem {
 	pane: PaneModel;
@@ -23,7 +24,8 @@ export const PaneTab: React.FC<ItemProps<PaneTabItem, HTMLDivElement>> = ({
 	item: { pane, isActive, onActivePaneIdChange },
 	itemRef,
 }) => {
-	const title = useObserverState(pane, () => pane.getTabTitle());
+	const title = useObserverState(pane, pane.getTabTitle);
+	const icon = useObserverState(pane, pane.getTabIcon);
 	const paneId = pane.getId();
 
 	const handleClick = useCallback(() => {
@@ -59,6 +61,7 @@ export const PaneTab: React.FC<ItemProps<PaneTabItem, HTMLDivElement>> = ({
 				ref={ref}
 				hoveringSide={hoveringLocation}
 			>
+				<TabIcon tabIcon={icon} />
 				<span>{title}</span>
 				<ButtonContainer>
 					<Button

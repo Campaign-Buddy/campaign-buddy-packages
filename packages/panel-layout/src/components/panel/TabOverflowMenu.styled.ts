@@ -19,6 +19,7 @@ export const MenuItemContainer = styled.div<{
 	hoveringSide?: 'top' | 'bottom';
 }>`
 	position: relative;
+	align-items: center;
 	${({ hoveringSide }) => hoveringSide && hoveringStyle}
 `;
 

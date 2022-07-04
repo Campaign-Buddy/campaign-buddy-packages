@@ -35,6 +35,11 @@ export const parchmentPanelLayout: IPanelLayout = {
 			buttonHorizontalPadding: 4,
 		},
 
+		icon: {
+			size: 16,
+			margin: new Thickness('0 8 0 0'),
+		},
+
 		closeButtonMargin: new Thickness('0 0 0 4'),
 	},
 	dropZones: {

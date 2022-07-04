@@ -1,3 +1,4 @@
+import type { IconName } from '@campaign-buddy/core-ui';
 import { PaneDragItem } from '../components';
 import {
 	isPanelLayoutModel,
@@ -298,9 +299,22 @@ export class PanelModel extends ParentPanelModelBase<PaneModel, PanelRowModel> {
 	};
 }
 
+interface TabIconNamed {
+	kind: 'icon';
+	icon: IconName;
+}
+
+interface TabIconImage {
+	kind: 'image';
+	src: string;
+}
+
+export type TabIcon = TabIconNamed | TabIconImage;
+
 export class PaneModel extends ChildPanelModelBase<PanelModel> {
 	private location: TransactableProperty<string>;
 	private tabTitle: TransactableProperty<string>;
+	private tabIcon: TransactableProperty<TabIcon | undefined>;
 
 	constructor(
 		transactionManager: TransactionManager,
@@ -321,8 +335,15 @@ export class PaneModel extends ChildPanelModelBase<PanelModel> {
 			'Campaign Buddy',
 			this.transactionManager
 		);
+		this.tabIcon = new TransactableProperty<TabIcon | undefined>(
+			{
+				kind: 'icon',
+				icon: 'hat',
+			},
+			this.transactionManager
+		);
 
-		this.watchProperties(this.location, this.tabTitle);
+		this.watchProperties(this.location, this.tabTitle, this.tabIcon);
 	}
 
 	public close = () => {
@@ -344,6 +365,12 @@ export class PaneModel extends ChildPanelModelBase<PanelModel> {
 
 		parent.setActiveTabId(this.getId());
 	};
+
+	public setTabIcon = (icon: TabIcon | undefined) => {
+		this.tabIcon.setValue(icon);
+	};
+
+	public getTabIcon = () => this.tabIcon.getValue();
 
 	public setLocation = (location: string) => {
 		this.location.setValue(location);

@@ -17,15 +17,21 @@ interface IPanelTab {
 	activeBackgroundColor: ThemeColor;
 	backgroundColor: ThemeColor;
 	borderRadius: BorderRadius;
+	closeButtonMargin: Thickness;
 	draggingBackgroundColor: ThemeColor;
 	draggingOpacity: number;
-	hoverBackgroundColor: ThemeColor;
 	height: number;
 	horizontalPadding: number;
-	separatorColor: ThemeColor;
-	closeButtonMargin: Thickness;
-	preview: IPanelTabDragPreview;
+	hoverBackgroundColor: ThemeColor;
+	icon: IPanelTabIcon;
 	overflow: IPanelTabOverflow;
+	preview: IPanelTabDragPreview;
+	separatorColor: ThemeColor;
+}
+
+interface IPanelTabIcon {
+	margin: Thickness;
+	size: number;
 }
 
 interface IPanelTabOverflow {

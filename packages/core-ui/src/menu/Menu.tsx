@@ -1,5 +1,5 @@
 import React from 'react';
-import { IconName } from '@blueprintjs/core';
+import { IconName, MaybeElement } from '@blueprintjs/core';
 import { Popover2 as Popover } from '@blueprintjs/popover2';
 import { createGlobalStyle } from 'styled-components';
 import {
@@ -22,7 +22,7 @@ GlobalStyle.defaultProps = {
 
 export interface MenuItem<T = any> {
 	displayText?: string;
-	icon?: IconName;
+	icon?: IconName | MaybeElement;
 	renderRightElement?: () => React.ReactNode;
 	subItems?: MenuItem[];
 	onClick?: () => void;
@@ -33,6 +33,7 @@ export interface MenuItem<T = any> {
 interface MenuItemProps<T = any> {
 	item: MenuItem<T>;
 	verticalPadding?: number;
+	iconMargin?: number;
 	isActive?: boolean;
 }
 
@@ -56,6 +57,7 @@ function MenuItem<T = any>({
 	item,
 	verticalPadding,
 	isActive,
+	iconMargin,
 }: MenuItemProps<T>): JSX.Element {
 	return (
 		<StyledMenuItem
@@ -72,6 +74,7 @@ function MenuItem<T = any>({
 			tagName="button"
 			shouldDismissPopover={item.shouldCloseMenuOnClick ?? true}
 			selected={isActive}
+			iconMargin={iconMargin}
 		>
 			{item?.subItems?.map((subItem) => (
 				<MenuItem key={subItem.displayText} item={subItem} />

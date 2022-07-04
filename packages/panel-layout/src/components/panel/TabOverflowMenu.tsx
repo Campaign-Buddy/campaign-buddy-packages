@@ -26,6 +26,7 @@ import {
 	usePaneDrag,
 	useSectionedDropZone,
 } from '../drag-and-drop';
+import { TabIcon } from './TabIcon';
 
 export function TabOverflowMenu({ items }: OverflowedItemsProps<PaneTabItem>) {
 	const hasActivePane = useMemo(() => items.some((x) => x.isActive), [items]);
@@ -109,6 +110,7 @@ function OverflowMenuItem({ item, MenuItem }: MenuItemRenderApi<PaneTabItem>) {
 		throw new Error('itemData is required');
 	}
 	const { pane, isActive } = tabItem;
+	const icon = useObserverState(pane, pane.getTabIcon);
 
 	const { dragRef } = usePaneDrag(pane);
 
@@ -145,9 +147,10 @@ function OverflowMenuItem({ item, MenuItem }: MenuItemRenderApi<PaneTabItem>) {
 					/>
 				</CloseButtonContainer>
 			),
+			icon: <TabIcon tabIcon={icon} />,
 			onClick: () => tabItem.onActivePaneIdChange(tabItem.pane.getId()),
 		}),
-		[tabItem, title]
+		[tabItem, title, icon]
 	);
 
 	return (
@@ -156,6 +159,7 @@ function OverflowMenuItem({ item, MenuItem }: MenuItemRenderApi<PaneTabItem>) {
 				isActive={isActive}
 				verticalPadding={0}
 				item={transformedItem}
+				iconMargin={0}
 			/>
 		</MenuItemContainer>
 	);

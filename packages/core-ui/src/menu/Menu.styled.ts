@@ -22,6 +22,7 @@ export const MenuItemText = styled.span`
 
 export const StyledMenuItem = styled(MenuItemCore)<{
 	verticalPadding?: number;
+	iconMargin?: number;
 }>`
 	${({ verticalPadding }) =>
 		typeof verticalPadding === 'number' &&
@@ -29,7 +30,13 @@ export const StyledMenuItem = styled(MenuItemCore)<{
 		padding-top: ${verticalPadding}px !important;
 		padding-bottom: ${verticalPadding}px !important;
 	`}
+	align-items: center;
 	color: ${({ theme }) => theme.legacyCoreUi.colors.text} !important;
+
+	.bp4-menu-item-icon {
+		${({ iconMargin }) =>
+			typeof iconMargin === 'number' && `margin: ${iconMargin} !important;`}
+	}
 
 	.bp4-icon {
 		color: ${({ theme }) => theme.legacyCoreUi.colors.text} !important;

@@ -10,7 +10,7 @@ StyledIconCore.defaultProps = {
 	theme: defaultTheme,
 };
 
-interface IconProps {
+export interface IconProps {
 	size?: number;
 	icon: IconName;
 }
@@ -19,3 +19,5 @@ export const Icon: React.FC<React.PropsWithChildren<IconProps>> = ({
 	size,
 	icon,
 }) => <StyledIconCore iconSize={size ?? 16} icon={icon} />;
+
+export { IconName };
