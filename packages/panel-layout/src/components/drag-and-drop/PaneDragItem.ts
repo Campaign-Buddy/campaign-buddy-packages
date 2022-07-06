@@ -1,3 +1,5 @@
+import { TabIcon } from '../../panelLayoutModel';
+
 export const PaneDragItemKind = 'paneDragItem';
 
 export interface PaneDragItem {
@@ -5,6 +7,7 @@ export interface PaneDragItem {
 	location: string;
 	tabName: string;
 	paneId?: string;
+	icon?: TabIcon;
 }
 
 export function isPaneDragItem(item: any): item is PaneDragItem {

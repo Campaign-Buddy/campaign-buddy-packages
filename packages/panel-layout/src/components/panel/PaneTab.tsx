@@ -12,7 +12,7 @@ import {
 } from '../drag-and-drop';
 import { useObserverState } from '../useObservedState';
 import { StyledTab, ButtonContainer, TabContainer } from './PaneTab.styled';
-import { TabIcon } from './TabIcon';
+import { TabIcon } from '../tab-icon';
 
 export interface PaneTabItem {
 	pane: PaneModel;

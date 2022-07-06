@@ -7,5 +7,6 @@ export function getPaneDragItem(pane: PaneModel): PaneDragItem {
 		location: pane.getLocation(),
 		tabName: pane.getTabTitle(),
 		paneId: pane.getId(),
+		icon: pane.getTabIcon(),
 	};
 }

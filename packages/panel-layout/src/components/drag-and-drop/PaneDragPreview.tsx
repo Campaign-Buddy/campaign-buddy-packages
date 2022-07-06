@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { TabIcon } from '../tab-icon';
 import { PaneDragItem } from './PaneDragItem';
 
 interface PaneDragPreviewProps {
@@ -9,10 +10,16 @@ interface PaneDragPreviewProps {
 export const PaneDragPreview: React.FC<
 	React.PropsWithChildren<PaneDragPreviewProps>
 > = ({ dragItem }) => {
-	return <TabPreview>{dragItem.tabName}</TabPreview>;
+	return (
+		<TabPreview>
+			<TabIcon tabIcon={dragItem.icon} />
+			<span>{dragItem.tabName}</span>
+		</TabPreview>
+	);
 };
 
 const TabPreview = styled.div`
+	display: flex;
 	color: ${({ theme }) => theme.textColor};
 	width: fit-content;
 	background-color: ${({ theme }) =>

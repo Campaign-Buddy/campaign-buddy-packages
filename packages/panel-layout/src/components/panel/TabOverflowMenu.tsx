@@ -26,7 +26,7 @@ import {
 	usePaneDrag,
 	useSectionedDropZone,
 } from '../drag-and-drop';
-import { TabIcon } from './TabIcon';
+import { TabIcon } from '../tab-icon';
 
 export function TabOverflowMenu({ items }: OverflowedItemsProps<PaneTabItem>) {
 	const hasActivePane = useMemo(() => items.some((x) => x.isActive), [items]);
