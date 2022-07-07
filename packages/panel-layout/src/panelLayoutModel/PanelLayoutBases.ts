@@ -90,6 +90,11 @@ export class ChildPanelModelBase<
 	};
 }
 
+export interface AddChildOptions {
+	beforeTargetId?: string;
+	takeSizeFromTargetId?: string;
+}
+
 export class ParentPanelModelBase<
 	TChild extends ChildPanelModelBase<any>,
 	TParent extends ParentPanelModelBase<any, any>
@@ -137,8 +142,12 @@ export class ParentPanelModelBase<
 		this.sizes.setValue(sizes);
 	};
 
-	public removeChild = (id: string) => {
-		const index = this.children.getValue().findIndex((x) => x.getId() === id);
+	public removeChild = (id: string, giveSizeToId?: string) => {
+		const children = this.children.getValue();
+		const giveSizeToIndex = children.findIndex(
+			(x) => x.getId() === giveSizeToId
+		);
+		const index = children.findIndex((x) => x.getId() === id);
 		if (index === -1) {
 			return;
 		}
@@ -147,14 +156,21 @@ export class ParentPanelModelBase<
 		this.children.remove(index);
 
 		if (this.trackSizes) {
-			this.sizes.setValue(removeSize(this.sizes.getValue(), index));
+			this.sizes.setValue(
+				removeSize(this.sizes.getValue(), index, giveSizeToIndex)
+			);
 		}
 	};
 
-	public addChild = (child: TChild, beforeTargetId?: string) => {
-		let index = this.children
-			.getValue()
-			.findIndex((x) => x.getId() === beforeTargetId);
+	public addChild = (
+		child: TChild,
+		{ takeSizeFromTargetId, beforeTargetId }: AddChildOptions = {}
+	) => {
+		const children = this.children.getValue();
+		const sizeTargetIndex = children.findIndex(
+			(x) => x.getId() === takeSizeFromTargetId
+		);
+		let index = children.findIndex((x) => x.getId() === beforeTargetId);
 
 		if (index === -1) {
 			index = this.children.getValue().length;
@@ -163,8 +179,11 @@ export class ParentPanelModelBase<
 		this.children.insert(child, index);
 		(child as any).setParent(this);
 
+		console.log('sizeTargetIndex', sizeTargetIndex);
 		if (this.trackSizes) {
-			this.sizes.setValue(addSize(this.sizes.getValue(), index));
+			this.sizes.setValue(
+				addSize(this.sizes.getValue(), index, sizeTargetIndex)
+			);
 		}
 	};
 

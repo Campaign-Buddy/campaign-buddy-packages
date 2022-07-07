@@ -10,7 +10,11 @@ import {
 	PanelRowDto,
 	PaneDto,
 } from './PanelDtoTypes';
-import { ChildPanelModelBase, ParentPanelModelBase } from './PanelLayoutBases';
+import {
+	AddChildOptions,
+	ChildPanelModelBase,
+	ParentPanelModelBase,
+} from './PanelLayoutBases';
 import { TransactableProperty, TransactionManager } from './TransactionManager';
 
 export class PanelLayoutModel extends ParentPanelModelBase<
@@ -39,22 +43,19 @@ export class PanelLayoutModel extends ParentPanelModelBase<
 		);
 	}
 
-	public removeRow = (id: string): void => {
-		this.removeChild(id);
+	public removeRow = (id: string, giveSizeToId: string): void => {
+		this.removeChild(id, giveSizeToId);
 	};
 
-	public addRow = (row: PanelRowDto, beforeTargetRowId?: string) => {
-		this.addChild(
-			new PanelRowModel(this.transactionManager, row),
-			beforeTargetRowId
-		);
+	public addRow = (row: PanelRowDto, options?: AddChildOptions) => {
+		this.addChild(new PanelRowModel(this.transactionManager, row), options);
 	};
 
 	public addRowFromModel = (
 		model: PanelRowModel,
-		beforeTargetRowId?: string
+		options?: AddChildOptions
 	) => {
-		this.addChild(model, beforeTargetRowId);
+		this.addChild(model, options);
 	};
 
 	public toJson = (): PanelLayoutDto => ({
@@ -98,10 +99,10 @@ export class PanelRowModel extends ParentPanelModelBase<
 			}
 
 			const nextSibling = this.getSibling('after');
-			parent.removeChild(this.getId());
+			parent.removeChild(this.getId(), undefined);
 
 			for (const row of rows) {
-				parent.addChild(row, nextSibling?.getId());
+				parent.addChild(row, { beforeTargetId: nextSibling?.getId() });
 			}
 		});
 
@@ -119,23 +120,23 @@ export class PanelRowModel extends ParentPanelModelBase<
 		);
 	}
 
-	public removePanel = (id: string) => {
-		this.removeChild(id);
+	public removePanel = (id: string, giveSizeToId: string) => {
+		this.removeChild(id, giveSizeToId);
 	};
 
-	public addPanel = (dto: PanelDto, beforePanelId?: string) => {
-		this.addChild(
-			new PanelModel(this.transactionManager, dto, this),
-			beforePanelId
-		);
+	public addPanel = (dto: PanelDto, options?: AddChildOptions) => {
+		this.addChild(new PanelModel(this.transactionManager, dto, this), options);
 	};
 
-	public addPanelFromModel = (model: PanelModel, beforePanelId?: string) => {
-		this.addChild(model, beforePanelId);
+	public addPanelFromModel = (model: PanelModel, options?: AddChildOptions) => {
+		this.addChild(model, options);
 	};
 
-	public addLayoutFromModel = (model: PanelLayoutModel, beforeId?: string) => {
-		this.addChild(model, beforeId);
+	public addLayoutFromModel = (
+		model: PanelLayoutModel,
+		options?: AddChildOptions
+	) => {
+		this.addChild(model, options);
 	};
 
 	public toJson = (): PanelRowDto => ({
@@ -209,7 +210,10 @@ export class PanelModel extends ParentPanelModelBase<PaneModel, PanelRowModel> {
 			const relativePanel =
 				direction === 'left' ? this : this.getSibling('after');
 
-			parent.addPanelFromModel(newPanel, relativePanel?.getId());
+			parent.addPanelFromModel(newPanel, {
+				beforeTargetId: relativePanel?.getId(),
+				takeSizeFromTargetId: this.getId(),
+			});
 			pane.focus();
 		});
 	};
@@ -229,8 +233,11 @@ export class PanelModel extends ParentPanelModelBase<PaneModel, PanelRowModel> {
 			const newLayout = new PanelLayoutModel(this.transactionManager);
 
 			const formerBeforeSibling = this.getSibling('after');
-			parent.addLayoutFromModel(newLayout, formerBeforeSibling?.getId());
-			parent.removePanel(this.getId());
+			parent.addLayoutFromModel(newLayout, {
+				beforeTargetId: formerBeforeSibling?.getId(),
+				takeSizeFromTargetId: this.getId(),
+			});
+			parent.removePanel(this.getId(), newLayout.getId());
 
 			const topRow = new PanelRowModel(this.transactionManager);
 			const bottomRow = new PanelRowModel(this.transactionManager);
@@ -260,20 +267,19 @@ export class PanelModel extends ParentPanelModelBase<PaneModel, PanelRowModel> {
 	) => {
 		this.transact(() => {
 			const pane = this.popOrCreatePane(dropData);
-			this.addChild(pane, beforePaneId);
+			this.addChild(pane, { beforeTargetId: beforePaneId });
 			pane.focus();
 		});
 	};
 
 	public removePane = (id: string) => {
-		this.removeChild(id);
+		this.removeChild(id, undefined);
 	};
 
 	public addPane = (dto: PaneDto, beforePaneId?: string) => {
-		this.addChild(
-			new PaneModel(this.transactionManager, dto, this),
-			beforePaneId
-		);
+		this.addChild(new PaneModel(this.transactionManager, dto, this), {
+			beforeTargetId: beforePaneId,
+		});
 	};
 
 	public toJson = (): PanelDto => ({
@@ -353,7 +359,7 @@ export class PaneModel extends ChildPanelModelBase<PanelModel> {
 				return;
 			}
 
-			parent.removeChild(this.getId());
+			parent.removeChild(this.getId(), undefined);
 		});
 	};
 
