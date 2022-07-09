@@ -98,12 +98,7 @@ export class PanelRowModel extends ParentPanelModelBase<
 				return;
 			}
 
-			const nextSibling = this.getSibling('after');
-			parent.removeChild(this.getId(), undefined);
-
-			for (const row of rows) {
-				parent.addChild(row, { beforeTargetId: nextSibling?.getId() });
-			}
+			parent.replaceChildren(this.getId(), rows);
 		});
 
 		this.init(
@@ -232,12 +227,7 @@ export class PanelModel extends ParentPanelModelBase<PaneModel, PanelRowModel> {
 
 			const newLayout = new PanelLayoutModel(this.transactionManager);
 
-			const formerBeforeSibling = this.getSibling('after');
-			parent.addLayoutFromModel(newLayout, {
-				beforeTargetId: formerBeforeSibling?.getId(),
-				takeSizeFromTargetId: this.getId(),
-			});
-			parent.removePanel(this.getId(), newLayout.getId());
+			parent.replaceChildren(this.getId(), [newLayout]);
 
 			const topRow = new PanelRowModel(this.transactionManager);
 			const bottomRow = new PanelRowModel(this.transactionManager);
@@ -273,7 +263,7 @@ export class PanelModel extends ParentPanelModelBase<PaneModel, PanelRowModel> {
 	};
 
 	public removePane = (id: string) => {
-		this.removeChild(id, undefined);
+		this.removeChild(id);
 	};
 
 	public addPane = (dto: PaneDto, beforePaneId?: string) => {
@@ -359,7 +349,7 @@ export class PaneModel extends ChildPanelModelBase<PanelModel> {
 				return;
 			}
 
-			parent.removeChild(this.getId(), undefined);
+			parent.removeChild(this.getId());
 		});
 	};
 

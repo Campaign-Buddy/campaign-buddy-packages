@@ -50,6 +50,11 @@ export class ChildPanelModelBase<
 	}
 
 	public transact = (transaction: () => void | undefined | boolean) => {
+		if (this.transactionManager.isInTransaction()) {
+			transaction();
+			return;
+		}
+
 		this.transactionManager.startTransaction();
 		try {
 			const result = transaction();
@@ -93,6 +98,10 @@ export class ChildPanelModelBase<
 export interface AddChildOptions {
 	beforeTargetId?: string;
 	takeSizeFromTargetId?: string;
+}
+
+export interface ReplaceChildOptions {
+	desiredSizes?: number[];
 }
 
 export class ParentPanelModelBase<
@@ -142,49 +151,87 @@ export class ParentPanelModelBase<
 		this.sizes.setValue(sizes);
 	};
 
-	public removeChild = (id: string, giveSizeToId?: string) => {
-		const children = this.children.getValue();
-		const giveSizeToIndex = children.findIndex(
-			(x) => x.getId() === giveSizeToId
-		);
-		const index = children.findIndex((x) => x.getId() === id);
-		if (index === -1) {
-			return;
-		}
-		const child = this.children.getValue()[index];
-		(child as any).setParent(undefined);
-		this.children.remove(index);
-
-		if (this.trackSizes) {
-			this.sizes.setValue(
-				removeSize(this.sizes.getValue(), index, giveSizeToIndex)
+	public replaceChildren = (
+		childToRemoveId: string,
+		childrenToAdd: TChild[]
+	) => {
+		this.transact(() => {
+			const children = this.children.getValue();
+			const sizes = this.sizes.getValue();
+			const childToRemoveIndex = children.findIndex(
+				(x) => x.getId() === childToRemoveId
 			);
-		}
+
+			if (childToRemoveIndex === -1) {
+				return;
+			}
+
+			const childToRemove = children[childToRemoveIndex];
+			(childToRemove as any).setParent(undefined);
+
+			const sizeOfChildToRemove = sizes[childToRemoveIndex];
+			const sizePerNewChild = sizeOfChildToRemove / childrenToAdd.length;
+			const newSizes = Array.from(Array(childrenToAdd.length)).map(
+				() => sizePerNewChild
+			);
+
+			this.sizes.splice(childToRemoveIndex, 1, ...newSizes);
+			this.children.splice(childToRemoveIndex, 1, ...childrenToAdd);
+
+			for (const child of childrenToAdd) {
+				(child as any).setParent(this);
+			}
+		});
+	};
+
+	public removeChild = (id: string, giveSizeToId?: string) => {
+		this.transact(() => {
+			const children = this.children.getValue();
+			const giveSizeToIndex = children.findIndex(
+				(x) => x.getId() === giveSizeToId
+			);
+			const index = children.findIndex((x) => x.getId() === id);
+			if (index === -1) {
+				console.log('not returning thing');
+				return;
+			}
+			const child = this.children.getValue()[index];
+			(child as any).setParent(undefined);
+			this.children.remove(index);
+
+			if (this.trackSizes) {
+				this.sizes.setValue(
+					removeSize(this.sizes.getValue(), index, giveSizeToIndex)
+				);
+			}
+		});
 	};
 
 	public addChild = (
 		child: TChild,
 		{ takeSizeFromTargetId, beforeTargetId }: AddChildOptions = {}
 	) => {
-		const children = this.children.getValue();
-		const sizeTargetIndex = children.findIndex(
-			(x) => x.getId() === takeSizeFromTargetId
-		);
-		let index = children.findIndex((x) => x.getId() === beforeTargetId);
-
-		if (index === -1) {
-			index = this.children.getValue().length;
-		}
-
-		this.children.insert(child, index);
-		(child as any).setParent(this);
-
-		console.log('sizeTargetIndex', sizeTargetIndex);
-		if (this.trackSizes) {
-			this.sizes.setValue(
-				addSize(this.sizes.getValue(), index, sizeTargetIndex)
+		this.transact(() => {
+			const children = this.children.getValue();
+			const sizeTargetIndex = children.findIndex(
+				(x) => x.getId() === takeSizeFromTargetId
 			);
-		}
+			let index = children.findIndex((x) => x.getId() === beforeTargetId);
+
+			if (index === -1) {
+				index = this.children.getValue().length;
+			}
+
+			this.children.insert(child, index);
+			(child as any).setParent(this);
+
+			console.log('sizeTargetIndex', sizeTargetIndex);
+			if (this.trackSizes) {
+				this.sizes.setValue(
+					addSize(this.sizes.getValue(), index, sizeTargetIndex)
+				);
+			}
+		});
 	};
 
 	protected init = (children: TChild[], sizes: number[]) => {

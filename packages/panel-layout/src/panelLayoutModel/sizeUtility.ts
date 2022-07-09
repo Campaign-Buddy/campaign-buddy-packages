@@ -11,11 +11,19 @@ export function removeSize(
 
 	const sizeOfRemoved = sizes[removeAtIndex];
 
-	copy.splice(removeAtIndex, 1);
-
-	const sizeToGiveToEach = sizeOfRemoved / copy.length;
-	for (let i = 0; i < copy.length; i++) {
-		copy[i] += sizeToGiveToEach;
+	if (
+		typeof targetIndex === 'number' &&
+		targetIndex >= 0 &&
+		targetIndex !== removeAtIndex
+	) {
+		copy[targetIndex] += sizeOfRemoved;
+		copy.splice(removeAtIndex, 1);
+	} else {
+		copy.splice(removeAtIndex, 1);
+		const sizeToGiveToEach = sizeOfRemoved / copy.length;
+		for (let i = 0; i < copy.length; i++) {
+			copy[i] += sizeToGiveToEach;
+		}
 	}
 
 	return copy;

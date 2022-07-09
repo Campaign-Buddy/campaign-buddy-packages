@@ -246,13 +246,13 @@ export class TransactableList<T> extends TransactableProperty<T[]> {
 		}
 	};
 
-	private splice = (index: number, deleteCount: number, item?: T) => {
+	public splice = (index: number, deleteCount: number, ...items: T[]) => {
 		const copy = [...this.getValue()];
 
-		if (item === undefined) {
+		if (items.length === 0) {
 			copy.splice(index, deleteCount);
 		} else {
-			copy.splice(index, deleteCount, item);
+			copy.splice(index, deleteCount, ...items);
 		}
 
 		this.setValue(copy);
