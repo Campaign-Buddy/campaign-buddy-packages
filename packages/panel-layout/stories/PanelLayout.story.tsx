@@ -19,7 +19,8 @@ const GlobalStyle = createGlobalStyle`
 	html, body, #root {
 		width: 100%;
 		height: 100%;
-		padding: 0;
+		padding: 0 !important;
+		margin: 0 !important;
 	}
 `;
 
@@ -27,6 +28,8 @@ const StoryRoot = styled.div`
 	height: 100%;
 	padding: 8px;
 	position: relative;
+	display: flex;
+	flex-direction: column;
 `;
 
 const layoutDto: PanelLayoutDto = {
@@ -155,9 +158,11 @@ export const Primary = () => {
 		<StoryRoot>
 			<DndProvider backend={HTML5Backend}>
 				<GlobalStyle />
-				<button onClick={addNewPane}>Add pane</button>
-				<button onClick={addNewPanel}>Add panel</button>
-				<button onClick={serialize}>Serialize</button>
+				<div>
+					<button onClick={addNewPane}>Add pane</button>
+					<button onClick={addNewPanel}>Add panel</button>
+					<button onClick={serialize}>Serialize</button>
+				</div>
 				<PanelLayout panelLayout={layout} />
 				<CustomDragLayer />
 			</DndProvider>
