@@ -27,8 +27,8 @@ export const PanelRow: React.FC<React.PropsWithChildren<IPanelRowProps>> = ({
 	const [sizes, setSizes] = useSizes(row);
 
 	const renderDividerChild = useCallback(
-		(leftIndex: number) => {
-			return <ColumnDividerDropZone child={children[leftIndex]} />;
+		(rightIndex: number) => {
+			return <ColumnDividerDropZone rightChild={children[rightIndex]} />;
 		},
 		[children]
 	);
@@ -52,10 +52,10 @@ export const PanelRow: React.FC<React.PropsWithChildren<IPanelRowProps>> = ({
 };
 
 interface ColumnDividerDropZoneProps {
-	child: PanelModel | PanelLayoutModel;
+	rightChild: PanelModel | PanelLayoutModel;
 }
 
-function ColumnDividerDropZone({ child }: ColumnDividerDropZoneProps) {
+function ColumnDividerDropZone({ rightChild }: ColumnDividerDropZoneProps) {
 	const { dropRef } = useSectionedDropZone(
 		PaneDragItemKind,
 		coordinateTransformers.isOver,
@@ -64,7 +64,7 @@ function ColumnDividerDropZone({ child }: ColumnDividerDropZoneProps) {
 				return;
 			}
 
-			console.log('dropped on column divider', child);
+			rightChild.getParent()?.addFromDrop(item, rightChild.getId());
 		}
 	);
 

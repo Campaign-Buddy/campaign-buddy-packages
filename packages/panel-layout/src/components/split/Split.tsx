@@ -76,7 +76,7 @@ export const Split: React.FC<React.PropsWithChildren<SplitProps>> = ({
 					<Divider
 						direction={direction}
 						renderDividerChild={renderDividerChild}
-						leftIndex={index}
+						rightIndex={index}
 						onDrag={(diff) => {
 							// Mutates nextSizesRef.current
 							adjustChildrenForDrag(

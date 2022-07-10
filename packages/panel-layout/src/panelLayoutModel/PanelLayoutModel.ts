@@ -43,6 +43,20 @@ export class PanelLayoutModel extends ParentPanelModelBase<
 		);
 	}
 
+	public addFromDrop = (dropData: PaneDragItem, beforeRowId?: string) => {
+		this.transact(() => {
+			const pane = this.popOrCreatePane(dropData);
+
+			const row = new PanelRowModel(this.transactionManager);
+			const panel = new PanelModel(this.transactionManager);
+
+			row.addPanelFromModel(panel);
+			panel.addPaneFromModel(pane);
+
+			this.addChild(row, { beforeTargetId: beforeRowId });
+		});
+	};
+
 	public removeRow = (id: string, giveSizeToId: string): void => {
 		this.removeChild(id, giveSizeToId);
 	};
@@ -63,6 +77,19 @@ export class PanelLayoutModel extends ParentPanelModelBase<
 		sizes: [...this.getSizes()],
 		kind: 'panelLayout',
 	});
+
+	private popOrCreatePane = (dropData: PaneDragItem) => {
+		const existingItem = dropData.paneId && this.modelRegistry[dropData.paneId];
+		if (existingItem instanceof PaneModel) {
+			existingItem.getParent()?.removePane(existingItem.getId());
+			return existingItem;
+		} else {
+			return new PaneModel(this.transactionManager, {
+				location: dropData.location,
+				kind: 'pane',
+			});
+		}
+	};
 }
 
 export class PanelRowModel extends ParentPanelModelBase<
@@ -115,6 +142,17 @@ export class PanelRowModel extends ParentPanelModelBase<
 		);
 	}
 
+	public addFromDrop = (dropData: PaneDragItem, beforeTargetId?: string) => {
+		this.transact(() => {
+			const pane = this.popOrCreatePane(dropData);
+
+			const panel = new PanelModel(this.transactionManager);
+			panel.addPaneFromModel(pane);
+
+			this.addChild(panel, { beforeTargetId });
+		});
+	};
+
 	public removePanel = (id: string, giveSizeToId: string) => {
 		this.removeChild(id, giveSizeToId);
 	};
@@ -139,6 +177,19 @@ export class PanelRowModel extends ParentPanelModelBase<
 		sizes: [...this.getSizes()],
 		kind: 'panelRow',
 	});
+
+	private popOrCreatePane = (dropData: PaneDragItem) => {
+		const existingItem = dropData.paneId && this.modelRegistry[dropData.paneId];
+		if (existingItem instanceof PaneModel) {
+			existingItem.getParent()?.removePane(existingItem.getId());
+			return existingItem;
+		} else {
+			return new PaneModel(this.transactionManager, {
+				location: dropData.location,
+				kind: 'pane',
+			});
+		}
+	};
 }
 
 export class PanelModel extends ParentPanelModelBase<PaneModel, PanelRowModel> {
@@ -264,6 +315,10 @@ export class PanelModel extends ParentPanelModelBase<PaneModel, PanelRowModel> {
 
 	public removePane = (id: string) => {
 		this.removeChild(id);
+	};
+
+	public addPaneFromModel = (pane: PaneModel, beforePaneId?: string) => {
+		this.addChild(pane, { beforeTargetId: beforePaneId });
 	};
 
 	public addPane = (dto: PaneDto, beforePaneId?: string) => {
