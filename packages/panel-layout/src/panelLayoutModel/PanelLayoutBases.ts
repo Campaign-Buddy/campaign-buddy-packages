@@ -192,7 +192,6 @@ export class ParentPanelModelBase<
 			);
 			const index = children.findIndex((x) => x.getId() === id);
 			if (index === -1) {
-				console.log('not returning thing');
 				return;
 			}
 			const child = this.children.getValue()[index];
@@ -225,7 +224,6 @@ export class ParentPanelModelBase<
 			this.children.insert(child, index);
 			(child as any).setParent(this);
 
-			console.log('sizeTargetIndex', sizeTargetIndex);
 			if (this.trackSizes) {
 				this.sizes.setValue(
 					addSize(this.sizes.getValue(), index, sizeTargetIndex)

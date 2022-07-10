@@ -13,6 +13,8 @@ export interface PositionDiff {
 
 export interface DividerProps {
 	direction: 'horizontal' | 'vertical';
+	leftIndex: number;
+	renderDividerChild?: (leftIndex: number) => React.ReactNode;
 	onDrag?: (diff: PositionDiff) => void;
 	onDragEnd?: (totalDiff: PositionDiff) => void;
 }
@@ -21,6 +23,8 @@ export const Divider: React.FC<React.PropsWithChildren<DividerProps>> = ({
 	direction,
 	onDrag,
 	onDragEnd,
+	renderDividerChild,
+	leftIndex,
 }) => {
 	const isDraggingRef = useRef(false);
 	const initPosition = useRef<Position>({ x: 0, y: 0 });
@@ -88,5 +92,9 @@ export const Divider: React.FC<React.PropsWithChildren<DividerProps>> = ({
 		};
 	}, []);
 
-	return <StyledDivider direction={direction} onMouseDown={onMouseDown} />;
+	return (
+		<StyledDivider direction={direction} onMouseDown={onMouseDown}>
+			{renderDividerChild?.(leftIndex)}
+		</StyledDivider>
+	);
 };

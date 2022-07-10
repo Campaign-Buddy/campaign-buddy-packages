@@ -14,6 +14,7 @@ import { findIndexReverse } from './findIndexReverse';
 export interface SplitProps {
 	direction: SplitDirection;
 	sizes: number[];
+	renderDividerChild?: (leftIndex: number) => React.ReactNode;
 	onSizesChange: (sizes: number[]) => void;
 }
 
@@ -22,6 +23,7 @@ export const Split: React.FC<React.PropsWithChildren<SplitProps>> = ({
 	children,
 	sizes,
 	onSizesChange,
+	renderDividerChild,
 }) => {
 	const childCount = React.Children.count(children);
 	const containerRef = useRef<HTMLDivElement>(null);
@@ -73,6 +75,8 @@ export const Split: React.FC<React.PropsWithChildren<SplitProps>> = ({
 				{index !== 0 && (
 					<Divider
 						direction={direction}
+						renderDividerChild={renderDividerChild}
+						leftIndex={index}
 						onDrag={(diff) => {
 							// Mutates nextSizesRef.current
 							adjustChildrenForDrag(
@@ -127,7 +131,7 @@ export const Split: React.FC<React.PropsWithChildren<SplitProps>> = ({
 				</SplitChild>
 			</>
 		));
-	}, [children, direction, gutterSize]);
+	}, [children, direction, gutterSize, renderDividerChild]);
 
 	if (childCount === 1) {
 		return (

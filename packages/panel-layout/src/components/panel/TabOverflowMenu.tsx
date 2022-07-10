@@ -55,7 +55,6 @@ export function TabOverflowMenu({ items }: OverflowedItemsProps<PaneTabItem>) {
 
 	useDelayedEffect(
 		() => {
-			console.log('closing menu?');
 			closeMenu();
 		},
 		!isMouseOverMenu && isDragging,

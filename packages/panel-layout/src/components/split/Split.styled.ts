@@ -16,6 +16,7 @@ export const SplitChild = styled.div`
 `;
 
 export const StyledDivider = styled.div<DirectionAwareProps>`
+	position: relative;
 	flex-basis: ${({ theme }) => theme.panelLayout.gap.size}px;
 	flex-shrink: 0;
 	flex-grow: 0;
