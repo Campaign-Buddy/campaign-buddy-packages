@@ -7,10 +7,46 @@ import {
 	TransactionManager,
 } from './TransactionManager';
 
-const modelRegistry = {};
-
 export type Observer = () => void;
 export type Unobserve = () => void;
+
+export class PanelModelRegistry extends Observable {
+	private registry: TransactableList<ChildPanelModelBase<any>>;
+	private registryMap: Record<string, ChildPanelModelBase<any>>;
+
+	constructor(transactionManager: TransactionManager) {
+		super(transactionManager);
+
+		this.registry = new TransactableList<ChildPanelModelBase<any>>(
+			[],
+			transactionManager
+		);
+		this.registryMap = {};
+
+		this.watchProperties(this.registry);
+	}
+
+	public getRegistry = () => this.registry.getValue();
+
+	public getById = (id: string): ChildPanelModelBase<any> | undefined =>
+		this.registryMap[id];
+
+	public remove = (id: string) => {
+		const index = this.registry.getValue().findIndex((x) => x.getId() === id);
+		if (index !== -1) {
+			this.registry.remove(index);
+		}
+
+		delete this.registryMap[id];
+	};
+
+	public add = (model: ChildPanelModelBase<any>) => {
+		this.registry.insert(model);
+		this.registryMap[model.getId()] = model;
+	};
+}
+
+const modelRegistries: Record<string, PanelModelRegistry> = {};
 
 export class ChildPanelModelBase<
 	TParent extends ParentPanelModelBase<any, any>
@@ -18,7 +54,7 @@ export class ChildPanelModelBase<
 	private id: string;
 	private hasEverHadParent: boolean;
 	protected parent: TransactableProperty<TParent | undefined>;
-	protected modelRegistry: Record<string, ChildPanelModelBase<any>>;
+	public modelRegistry: PanelModelRegistry;
 
 	protected constructor(
 		transactionManager: TransactionManager,
@@ -26,13 +62,21 @@ export class ChildPanelModelBase<
 	) {
 		super(transactionManager);
 
+		if (!modelRegistries[transactionManager.getId()]) {
+			modelRegistries[transactionManager.getId()] = new PanelModelRegistry(
+				transactionManager
+			);
+		}
+
+		// guaranteed to not be null from assignment above
+		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+		this.modelRegistry = modelRegistries[transactionManager.getId()]!;
+
 		this.id = cuid();
-		this.transactionManager = transactionManager;
-		this.modelRegistry = modelRegistry;
 		this.parent = new TransactableProperty(parent, this.transactionManager);
 		this.hasEverHadParent = Boolean(parent);
 
-		this.modelRegistry[this.id] = this;
+		this.modelRegistry.add(this);
 
 		this.parent.addNormalization(() => {
 			if (this.parent.getValue()) {
@@ -42,7 +86,7 @@ export class ChildPanelModelBase<
 			// If we have ever had a parent, and we
 			// lose that parent
 			if (!this.parent.getValue() && this.hasEverHadParent) {
-				delete this.modelRegistry[this.id];
+				this.modelRegistry.remove(this.id);
 			}
 		});
 

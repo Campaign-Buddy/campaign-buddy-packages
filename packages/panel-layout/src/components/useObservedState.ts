@@ -1,10 +1,11 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { ChildPanelModelBase, ParentPanelModelBase } from '../panelLayoutModel';
+import {
+	ChildPanelModelBase,
+	Observable,
+	ParentPanelModelBase,
+} from '../panelLayoutModel';
 
-export function useObserverState<T>(
-	model: ChildPanelModelBase<any>,
-	getState: () => T
-) {
+export function useObserverState<T>(model: Observable, getState: () => T) {
 	const [state, setState] = useState(getState());
 	const getStateRef = useRef(getState);
 	getStateRef.current = getState;

@@ -79,7 +79,8 @@ export class PanelLayoutModel extends ParentPanelModelBase<
 	});
 
 	private popOrCreatePane = (dropData: PaneDragItem) => {
-		const existingItem = dropData.paneId && this.modelRegistry[dropData.paneId];
+		const existingItem =
+			dropData.paneId && this.modelRegistry.getById(dropData.paneId);
 		if (existingItem instanceof PaneModel) {
 			existingItem.getParent()?.removePane(existingItem.getId());
 			return existingItem;
@@ -179,7 +180,8 @@ export class PanelRowModel extends ParentPanelModelBase<
 	});
 
 	private popOrCreatePane = (dropData: PaneDragItem) => {
-		const existingItem = dropData.paneId && this.modelRegistry[dropData.paneId];
+		const existingItem =
+			dropData.paneId && this.modelRegistry.getById(dropData.paneId);
 		if (existingItem instanceof PaneModel) {
 			existingItem.getParent()?.removePane(existingItem.getId());
 			return existingItem;
@@ -333,7 +335,8 @@ export class PanelModel extends ParentPanelModelBase<PaneModel, PanelRowModel> {
 	});
 
 	private popOrCreatePane = (dropData: PaneDragItem) => {
-		const existingItem = dropData.paneId && this.modelRegistry[dropData.paneId];
+		const existingItem =
+			dropData.paneId && this.modelRegistry.getById(dropData.paneId);
 		if (existingItem instanceof PaneModel) {
 			existingItem.getParent()?.removePane(existingItem.getId());
 			return existingItem;

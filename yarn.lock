@@ -10275,6 +10275,11 @@ react-resize-detector@^7.0.0:
     "@types/resize-observer-browser" "^0.1.6"
     lodash "^4.17.21"
 
+react-reverse-portal@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/react-reverse-portal/-/react-reverse-portal-2.1.0.tgz#3c572e1c0d9e49b8febf4bf2fd43b9819ce6f508"
+  integrity sha512-ck1igNI4tUFozJ89X7qqFtWy1wSL7WEd/5iZbjBjyf+6vjZ3leg4JJxdVPbFt9+zwMLcQSPsIkw9xGu9E+VqCQ==
+
 react-split@^2.0.14:
   version "2.0.14"
   resolved "https://registry.yarnpkg.com/react-split/-/react-split-2.0.14.tgz#ef198259bf43264d605f792fb3384f15f5b34432"

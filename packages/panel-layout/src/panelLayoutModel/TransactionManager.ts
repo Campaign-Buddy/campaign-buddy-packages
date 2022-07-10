@@ -17,9 +17,11 @@ interface Transaction {
 export class TransactionManager {
 	private currentTransaction: Transaction | undefined;
 	private normalizers: (() => void)[];
+	private id: string;
 
 	constructor() {
 		this.normalizers = [];
+		this.id = cuid();
 	}
 
 	public isInTransaction = () => Boolean(this.currentTransaction);
@@ -36,6 +38,8 @@ export class TransactionManager {
 			dataMutationRollbacks: [],
 		};
 	};
+
+	public getId = () => this.id;
 
 	public addCommitEvent = (event: () => void) => {
 		if (!this.currentTransaction) {
