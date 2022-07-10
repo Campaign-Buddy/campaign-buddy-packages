@@ -1,20 +1,10 @@
 import React, { useCallback } from 'react';
 import { Split } from '../split';
-import {
-	PanelLayoutModel,
-	PanelModel,
-	PanelRowModel,
-} from '../../panelLayoutModel';
+import { PanelModel, PanelRowModel } from '../../panelLayoutModel';
 import { PanelLayout } from '../panel-layout/PanelLayout';
 import { Panel } from '../panel';
 import { useChildren, useSizes } from '../useObservedState';
-import {
-	useSectionedDropZone,
-	PaneDragItemKind,
-	coordinateTransformers,
-	isPaneDragItem,
-} from '../drag-and-drop';
-import { DividerDropZone } from './PanelRow.styled';
+import { GutterDropZone } from '../gutter-drop-zone';
 
 interface IPanelRowProps {
 	row: PanelRowModel;
@@ -28,7 +18,12 @@ export const PanelRow: React.FC<React.PropsWithChildren<IPanelRowProps>> = ({
 
 	const renderDividerChild = useCallback(
 		(rightIndex: number) => {
-			return <ColumnDividerDropZone rightChild={children[rightIndex]} />;
+			return (
+				<GutterDropZone
+					direction="vertical"
+					rightChild={children[rightIndex]}
+				/>
+			);
 		},
 		[children]
 	);
@@ -50,23 +45,3 @@ export const PanelRow: React.FC<React.PropsWithChildren<IPanelRowProps>> = ({
 		</Split>
 	);
 };
-
-interface ColumnDividerDropZoneProps {
-	rightChild: PanelModel | PanelLayoutModel;
-}
-
-function ColumnDividerDropZone({ rightChild }: ColumnDividerDropZoneProps) {
-	const { dropRef } = useSectionedDropZone(
-		PaneDragItemKind,
-		coordinateTransformers.isOver,
-		(_, item) => {
-			if (!isPaneDragItem(item)) {
-				return;
-			}
-
-			rightChild.getParent()?.addFromDrop(item, rightChild.getId());
-		}
-	);
-
-	return <DividerDropZone ref={dropRef} />;
-}

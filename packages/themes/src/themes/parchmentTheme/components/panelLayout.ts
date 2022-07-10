@@ -47,5 +47,6 @@ export const parchmentPanelLayout: IPanelLayout = {
 		tabBar: 'green',
 		panel: 'blue',
 		opacity: 0.5,
+		gutterDropZoneSize: 64,
 	},
 };

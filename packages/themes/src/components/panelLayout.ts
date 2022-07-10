@@ -55,4 +55,5 @@ interface IDropZones {
 	tabBar: ThemeColor;
 	panel: ThemeColor;
 	opacity: number;
+	gutterDropZoneSize: number;
 }

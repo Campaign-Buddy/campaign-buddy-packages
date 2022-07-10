@@ -20,6 +20,7 @@ export const StyledDivider = styled.div<DirectionAwareProps>`
 	flex-basis: ${({ theme }) => theme.panelLayout.gap.size}px;
 	flex-shrink: 0;
 	flex-grow: 0;
+	z-index: 1000;
 	cursor: ${({ direction, theme }) =>
 		direction === 'horizontal'
 			? theme.panelLayout.gap.horizontalCursor
