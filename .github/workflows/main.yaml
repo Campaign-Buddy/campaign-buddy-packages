@@ -13,3 +13,8 @@ jobs:
       - run: yarn audit-deps
       - run: yarn lint
       - run: yarn test
+      - run: yarn build-storybook
+      - name: Deploy
+        run: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: docs-build
