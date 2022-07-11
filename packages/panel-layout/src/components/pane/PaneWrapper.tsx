@@ -1,5 +1,7 @@
 import React, { useMemo } from 'react';
 import { PaneModel, PaneDefinition } from '../../panelLayoutModel';
+import { useTabTitle } from '../pane-hooks';
+import { useTabIcon } from '../pane-hooks/useTabIcon';
 import { useObserverState } from '../useObservedState';
 
 export interface PaneWrapperProps {
@@ -24,11 +26,10 @@ export function PaneWrapper({ paneDefinitions, pane }: PaneWrapperProps) {
 		}
 	}, [location]);
 
-	if (!toolname) {
-		return null;
-	}
+	const definition = paneDefinitions[toolname ?? ''];
 
-	const definition = paneDefinitions[toolname];
+	useTabTitle(definition?.defaultTitle);
+	useTabIcon(definition?.defaultIcon);
 
 	if (!definition) {
 		return null;

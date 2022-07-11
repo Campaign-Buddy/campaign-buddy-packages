@@ -68,7 +68,7 @@ const layoutDto: PanelLayoutDto = {
 					children: [
 						{
 							kind: 'pane',
-							location: 'campaign-buddy:character?id=someid',
+							location: 'campaign-buddy:tabHookTest',
 						},
 					],
 				},
