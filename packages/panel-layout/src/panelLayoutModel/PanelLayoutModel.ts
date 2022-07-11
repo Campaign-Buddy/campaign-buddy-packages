@@ -1,5 +1,5 @@
-import type { IconName } from '@campaign-buddy/core-ui';
 import { PaneDragItem } from '../components';
+import { TabIcon } from './PaneDefinition';
 import {
 	isPanelLayoutModel,
 	isPanelModel,
@@ -352,18 +352,6 @@ export class PanelModel extends ParentPanelModelBase<PaneModel, PanelRowModel> {
 		}
 	};
 }
-
-interface TabIconNamed {
-	kind: 'icon';
-	icon: IconName;
-}
-
-interface TabIconImage {
-	kind: 'image';
-	src: string;
-}
-
-export type TabIcon = TabIconNamed | TabIconImage;
 
 export class PaneModel extends ChildPanelModelBase<PanelModel> {
 	private location: TransactableProperty<string>;

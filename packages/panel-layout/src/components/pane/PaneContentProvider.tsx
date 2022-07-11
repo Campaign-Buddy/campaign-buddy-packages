@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useMemo, useRef } from 'react';
 import * as portals from 'react-reverse-portal';
-import { PaneModel } from '../../panelLayoutModel';
-import { PaneDefinition } from './PaneDefinition';
+import { PaneModel, PaneDefinition } from '../../panelLayoutModel';
 import { PaneWrapper } from './PaneWrapper';
 
 interface PaneProviderContext {
@@ -24,12 +23,12 @@ export function usePaneNode(id: string) {
 
 interface PaneContentProviderProps {
 	panes: PaneModel[];
-	paneComponents: Record<string, PaneDefinition>;
+	paneDefinitions: Record<string, PaneDefinition>;
 }
 
 export function PaneContentProvider({
 	panes,
-	paneComponents,
+	paneDefinitions,
 	children,
 }: React.PropsWithChildren<PaneContentProviderProps>) {
 	const paneNodes = useRef<Record<string, portals.HtmlPortalNode>>({});
@@ -69,7 +68,7 @@ export function PaneContentProvider({
 						node={paneContext.paneNodes[x.getId()]}
 						key={x.getId()}
 					>
-						<PaneWrapper pane={x} paneComponents={paneComponents} />
+						<PaneWrapper pane={x} paneDefinitions={paneDefinitions} />
 					</portals.InPortal>
 				))}
 				{children}

@@ -10,7 +10,7 @@ import {
 	PanelModel,
 } from '../src';
 import { CustomDragLayer } from './CustomDragLayer';
-import { paneDefinitions } from './PaneComponents';
+import { paneDefinitions } from './PaneDefinitions';
 
 export default {
 	title: 'panel-layout/PanelLayout',
@@ -164,7 +164,7 @@ export const Primary = () => {
 					<button onClick={addNewPanel}>Add panel</button>
 					<button onClick={serialize}>Serialize</button>
 				</div>
-				<PanelLayout panelLayout={layout} paneComponents={paneDefinitions} />
+				<PanelLayout panelLayout={layout} paneDefintions={paneDefinitions} />
 				<CustomDragLayer />
 			</DndProvider>
 		</StoryRoot>

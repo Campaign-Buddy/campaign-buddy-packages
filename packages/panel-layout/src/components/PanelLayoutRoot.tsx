@@ -1,17 +1,21 @@
 import React from 'react';
-import { PanelLayoutModel, PaneModel } from '../panelLayoutModel';
-import { PaneContentProvider, PaneDefinition } from './pane';
+import {
+	PanelLayoutModel,
+	PaneModel,
+	PaneDefinition,
+} from '../panelLayoutModel';
+import { PaneContentProvider } from './pane';
 import { PanelLayout } from './panel-layout';
 import { useObserverState } from './useObservedState';
 
 export interface IPanelLayoutRootProps {
 	panelLayout: PanelLayoutModel;
-	paneComponents: Record<string, PaneDefinition>;
+	paneDefintions: Record<string, PaneDefinition>;
 }
 
 export function PanelLayoutRoot({
 	panelLayout,
-	paneComponents,
+	paneDefintions,
 }: IPanelLayoutRootProps) {
 	const panes = useObserverState(panelLayout.modelRegistry, () =>
 		panelLayout.modelRegistry
@@ -20,7 +24,7 @@ export function PanelLayoutRoot({
 	);
 
 	return (
-		<PaneContentProvider panes={panes} paneComponents={paneComponents}>
+		<PaneContentProvider panes={panes} paneDefinitions={paneDefintions}>
 			<PanelLayout panelLayout={panelLayout} />
 		</PaneContentProvider>
 	);

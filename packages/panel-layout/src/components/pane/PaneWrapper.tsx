@@ -1,14 +1,13 @@
 import React, { useMemo } from 'react';
-import { PaneModel } from '../../panelLayoutModel';
-import { PaneDefinition } from './PaneDefinition';
+import { PaneModel, PaneDefinition } from '../../panelLayoutModel';
 import { useObserverState } from '../useObservedState';
 
 export interface PaneWrapperProps {
-	paneComponents: Record<string, PaneDefinition>;
+	paneDefinitions: Record<string, PaneDefinition>;
 	pane: PaneModel;
 }
 
-export function PaneWrapper({ paneComponents, pane }: PaneWrapperProps) {
+export function PaneWrapper({ paneDefinitions, pane }: PaneWrapperProps) {
 	const location = useObserverState(pane, pane.getLocation);
 
 	const toolname = useMemo(() => {
@@ -29,7 +28,7 @@ export function PaneWrapper({ paneComponents, pane }: PaneWrapperProps) {
 		return null;
 	}
 
-	const definition = paneComponents[toolname];
+	const definition = paneDefinitions[toolname];
 
 	if (!definition) {
 		return null;
