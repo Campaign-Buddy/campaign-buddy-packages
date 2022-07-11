@@ -1,4 +1,3 @@
-import cuid from 'cuid';
 import React from 'react';
 import styled, { createGlobalStyle } from 'styled-components';
 import { DndProvider } from 'react-dnd';
@@ -136,7 +135,7 @@ function addNewPane() {
 	const firstPanel = layout.getChildren()[0].getChildren()[0];
 
 	if (firstPanel instanceof PanelModel) {
-		firstPanel.addPane({ location: cuid(), kind: 'pane' });
+		firstPanel.addPane({ location: 'campaign-buddy:note', kind: 'pane' });
 	}
 }
 
@@ -145,7 +144,7 @@ function addNewPanel() {
 
 	firstRow.addPanel({
 		kind: 'panel',
-		children: [{ kind: 'pane', location: cuid() }],
+		children: [{ kind: 'pane', location: 'campaign-buddy:character' }],
 	});
 }
 
