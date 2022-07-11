@@ -10,6 +10,7 @@ import {
 	PanelModel,
 } from '../src';
 import { CustomDragLayer } from './CustomDragLayer';
+import { paneDefinitions } from './PaneComponents';
 
 export default {
 	title: 'panel-layout/PanelLayout',
@@ -43,7 +44,7 @@ const layoutDto: PanelLayoutDto = {
 					children: [
 						{
 							kind: 'pane',
-							location: 'characterSheet:characterId=1234&foo=bar',
+							location: 'campaign-buddy:character?characterId=1234&foo=bar',
 						},
 					],
 				},
@@ -52,7 +53,7 @@ const layoutDto: PanelLayoutDto = {
 					children: [
 						{
 							kind: 'pane',
-							location: 'notesTool:noteId=12345',
+							location: 'campaign-buddy:note?noteId=12345',
 						},
 					],
 				},
@@ -67,7 +68,7 @@ const layoutDto: PanelLayoutDto = {
 					children: [
 						{
 							kind: 'pane',
-							location: 'characterSheet',
+							location: 'campaign-buddy:character?id=someid',
 						},
 					],
 				},
@@ -82,7 +83,7 @@ const layoutDto: PanelLayoutDto = {
 									children: [
 										{
 											kind: 'pane',
-											location: 'somelocation',
+											location: 'campaign-buddy:character?id=someotherid',
 										},
 									],
 								},
@@ -97,7 +98,7 @@ const layoutDto: PanelLayoutDto = {
 									children: [
 										{
 											kind: 'pane',
-											location: 'someotherlocation',
+											location: 'campaign-buddy:character/with/path?id=someid',
 										},
 									],
 								},
@@ -112,7 +113,7 @@ const layoutDto: PanelLayoutDto = {
 									children: [
 										{
 											kind: 'pane',
-											location: 'someotherlocation',
+											location: 'campaign-buddy:note/with/path?id=someid#hash',
 										},
 									],
 								},
@@ -163,7 +164,7 @@ export const Primary = () => {
 					<button onClick={addNewPanel}>Add panel</button>
 					<button onClick={serialize}>Serialize</button>
 				</div>
-				<PanelLayout panelLayout={layout} />
+				<PanelLayout panelLayout={layout} paneComponents={paneDefinitions} />
 				<CustomDragLayer />
 			</DndProvider>
 		</StoryRoot>

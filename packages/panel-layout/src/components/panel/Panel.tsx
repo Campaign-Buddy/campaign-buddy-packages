@@ -6,7 +6,7 @@ import {
 	PaneDragItemKind,
 	useSectionedDropZone,
 } from '../drag-and-drop';
-import { Pane } from '../Pane';
+import { Pane } from '../pane';
 import { useChildren, useObserverState } from '../useObservedState';
 import {
 	DropPreview,
