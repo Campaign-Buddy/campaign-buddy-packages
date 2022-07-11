@@ -5,7 +5,7 @@ function getStoriesSubDirectory() {
 		console.log(`Running storybook scoped to ${packageScope}`);
 	}
 
-	return `packages/${packageScope}/**` ?? '**';
+	return packageScope ? `packages/${packageScope}/**` : '**';
 }
 
 const subDir = getStoriesSubDirectory();
