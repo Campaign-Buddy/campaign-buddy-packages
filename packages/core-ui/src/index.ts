@@ -7,6 +7,7 @@ export * from './form-group';
 export * from './icon';
 export * from './input';
 export * from './layout-primitives';
+export * from './list';
 export * from './menu';
 export * from './modal';
 export * from './popover';
