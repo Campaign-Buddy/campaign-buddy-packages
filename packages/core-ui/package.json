@@ -14,7 +14,8 @@
 		"framer-motion": "^4.1.17",
 		"fuse.js": "^6.4.6",
 		"lodash.isequal": "^4.5.0",
-		"math-expression-evaluator": "^1.3.7"
+		"math-expression-evaluator": "^1.3.7",
+		"@campaign-buddy/react-theme-provider": "0.1.0"
 	},
 	"devDependencies": {
 		"@types/lodash.isequal": "^4.5.5",

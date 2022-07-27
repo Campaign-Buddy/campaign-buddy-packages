@@ -11,4 +11,6 @@ export interface IListItem {
 	backgroundColors: ThemeColor[];
 	padding: Thickness;
 	borderRadius: BorderRadius;
+	spacing: number;
+	iconSize: number;
 }

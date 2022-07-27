@@ -15,7 +15,10 @@ export const StyledOrderedList = styled.ol`
 `;
 
 export const StyledListItem = styled.li`
+	display: flex;
+	gap: ${({ theme }) => theme.list.item.spacing}px;
 	padding: ${({ theme }) => theme.list.item.padding.toCss()};
+	border-radius: ${({ theme }) => theme.list.item.borderRadius.toCss()};
 
 	${({ theme }) =>
 		theme.list.item.backgroundColors.map(
@@ -25,4 +28,13 @@ export const StyledListItem = styled.li`
 			}
 		`
 		)}
+`;
+
+export const StyledListItemText = styled.span`
+	color: ${({ theme }) => theme.textColor};
+	width: 100%;
+	flex-grow: 1;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
 `;

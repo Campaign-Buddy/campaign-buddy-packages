@@ -7,5 +7,7 @@ export const list: IList = {
 		backgroundColors: [transparent, parchmentLight],
 		padding: new Thickness('4 8'),
 		borderRadius: new BorderRadius(4),
+		iconSize: 18,
+		spacing: 6,
 	},
 };
