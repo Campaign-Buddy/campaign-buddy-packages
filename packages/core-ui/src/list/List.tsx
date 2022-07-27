@@ -1,15 +1,26 @@
 import React from 'react';
+import {
+	StyledOrderedList,
+	StyledUnorderedList,
+	StyledListItem,
+} from './List.styled';
+
+export interface ListProps {
+	ordered?: boolean;
+}
 
 export function List({
 	children,
-}: React.PropsWithChildren<Record<string, unknown>>) {
-	return <ul>{children}</ul>;
+	ordered,
+}: React.PropsWithChildren<ListProps>) {
+	const Component = ordered ? StyledOrderedList : StyledUnorderedList;
+	return <Component>{children}</Component>;
 }
 
 export function ListItem({
 	children,
 }: React.PropsWithChildren<Record<string, unknown>>) {
-	return <li>{children}</li>;
+	return <StyledListItem>{children}</StyledListItem>;
 }
 
 export interface ListItemTextProps {

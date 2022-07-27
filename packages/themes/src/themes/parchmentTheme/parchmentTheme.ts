@@ -1,6 +1,6 @@
 import { barkBrown } from '../../palette/sharedColors';
 import { ITheme } from '../../theme';
-import { parchmentPanelLayout } from './components';
+import { list, parchmentPanelLayout } from './components';
 
 export const parchmentTheme: ITheme = {
 	textColor: barkBrown,
@@ -16,4 +16,5 @@ export const parchmentTheme: ITheme = {
 			background: '#EFE1C6',
 		},
 	},
+	list,
 };
