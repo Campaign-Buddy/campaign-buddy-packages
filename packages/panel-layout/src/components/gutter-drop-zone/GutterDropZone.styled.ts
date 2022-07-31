@@ -4,6 +4,7 @@ const draggingOverStyle = css<{ direction: 'vertical' | 'horizontal' }>`
 	&:before {
 		content: '';
 		position: absolute;
+		pointer-events: none;
 		height: ${({ theme, direction }) =>
 			direction === 'horizontal'
 				? `${theme.panelLayout.dropZones.gutterDropZoneSize}px`

@@ -1,5 +1,5 @@
-export const hoverMask = 'rgba(228,222,210,0.7)';
-export const activeMask = 'rgba(228,222,210,0.9)';
+export const hoverMask = 'rgba(80, 82, 84, 0.2)';
+export const activeMask = 'rgba(80, 82, 84, 0.4)';
 
 export const barkBrown = '#613819';
 export const maroon = '#A22815';

@@ -1,5 +1,11 @@
 import { IPanelLayout } from '../../../components';
-import { barkBrown, parchment, parchmentLight } from '../../../palette';
+import {
+	barkBrown,
+	hoverMask,
+	maroon,
+	parchment,
+	parchmentLight,
+} from '../../../palette';
 import { BorderRadius, Thickness } from '../../../types';
 
 export const parchmentPanelLayout: IPanelLayout = {
@@ -43,10 +49,10 @@ export const parchmentPanelLayout: IPanelLayout = {
 		closeButtonMargin: new Thickness('0 0 0 4'),
 	},
 	dropZones: {
-		tabSeparator: 'red',
-		tabBar: 'green',
-		panel: 'blue',
-		opacity: 0.5,
+		tabSeparator: maroon,
+		tabBar: hoverMask,
+		panel: hoverMask,
+		opacity: 1,
 		gutterDropZoneSize: 64,
 	},
 };

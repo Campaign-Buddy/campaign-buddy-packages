@@ -1,7 +1,7 @@
 import styled, { css } from 'styled-components';
 
 const isOverStyle = css`
-	background-color: green;
+	background-color: ${({ theme }) => theme.panelLayout.dropZones.tabBar};
 
 	:before {
 		content: '';
