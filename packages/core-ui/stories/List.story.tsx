@@ -8,6 +8,7 @@ import {
 	ListItemIconButton,
 	MenuPopover,
 	MenuItem,
+	ListItemShallowClickArea,
 } from '../src';
 
 export default {
@@ -45,9 +46,15 @@ export const Primary = () => {
 			>
 				<ListItemIcon icon="blank" />
 				<ListItemText text="Cheese" />
-				<MenuPopover items={menuItems} isOpen={isMenuOpen} onClose={closeMenu}>
-					<ListItemIconButton icon="menu" onClick={openMenu} />
-				</MenuPopover>
+				<ListItemShallowClickArea>
+					<MenuPopover
+						items={menuItems}
+						isOpen={isMenuOpen}
+						onClose={closeMenu}
+					>
+						<ListItemIconButton icon="menu" onClick={openMenu} />
+					</MenuPopover>
+				</ListItemShallowClickArea>
 			</ListItem>
 			<ListItem onClick={() => console.log('???')}>
 				<ListItemIcon icon="blank" />

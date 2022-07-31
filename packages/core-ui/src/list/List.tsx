@@ -115,6 +115,26 @@ export function ListItemIcon({ icon }: ListItemIconProps) {
 	return <Icon icon={icon} size={theme.list.item.iconSize} />;
 }
 
+/**
+ * Any clicks within the children of this component
+ * will not propagate to the parent ListItem but *will*
+ * propagate to other descendants. Not required for
+ * ListItemIconButton
+ */
+export function ListItemShallowClickArea({
+	children,
+}: React.PropsWithChildren<Record<string, unknown>>) {
+	const shallowClickHandler = useCallback(() => {
+		shallowEventControl.wasEventHandled = true;
+	}, []);
+
+	return (
+		<div onClick={shallowClickHandler} onKeyDown={shallowClickHandler}>
+			{children}
+		</div>
+	);
+}
+
 export interface ListItemIconButtonProps {
 	icon: IconName;
 	onClick: () => void;
