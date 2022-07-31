@@ -10,6 +10,7 @@ import {
 import { IconName, Icon } from '../icon';
 import { ToggleButton } from '../button';
 import { MenuItem } from '../menu';
+import { useCombinedRefs } from '@campaign-buddy/common-hooks';
 
 /**
  * Prevents clicks and key events on
@@ -37,50 +38,64 @@ export interface ListItemProps {
 	contextMenuItems?: MenuItem[];
 }
 
-export function ListItem({
-	children,
-	onClick,
-	contextMenuItems,
-}: React.PropsWithChildren<ListItemProps>) {
-	const listItemRef = useRef<HTMLLIElement | null>(null);
+export const ListItem = React.forwardRef<
+	HTMLLIElement,
+	React.PropsWithChildren<ListItemProps>
+>(
+	(
+		{
+			children,
+			onClick,
+			contextMenuItems,
+		}: React.PropsWithChildren<ListItemProps>,
+		ref
+	) => {
+		const listItemRef = useRef<HTMLLIElement | null>(null);
+		const combinedRefs = useCombinedRefs(listItemRef, ref);
 
-	const shallowClickHandler = useCallback(
-		(e: React.SyntheticEvent) => {
-			if (!shallowEventControl.wasEventHandled) {
-				onClick?.(e);
-			}
-			shallowEventControl.wasEventHandled = false;
-		},
-		[onClick]
-	);
-
-	const handleKeyDown = useCallback(
-		(e: React.KeyboardEvent) => {
-			if (e.key === 'Enter' && e.target === listItemRef.current) {
-				shallowClickHandler(e);
-			}
-		},
-		[shallowClickHandler]
-	);
-
-	const commonProps = {
-		ref: listItemRef,
-		isInteractive: Boolean(onClick),
-		tabIndex: onClick ? 0 : -1,
-		role: onClick && 'button',
-		onClick: onClick && shallowClickHandler,
-		onKeyDown: onClick && handleKeyDown,
-	};
-
-	if (contextMenuItems) {
-		return (
-			<StyledContextMenuListItem {...commonProps} menuItems={contextMenuItems}>
-				{children}
-			</StyledContextMenuListItem>
+		const shallowClickHandler = useCallback(
+			(e: React.SyntheticEvent) => {
+				if (!shallowEventControl.wasEventHandled) {
+					onClick?.(e);
+				}
+				shallowEventControl.wasEventHandled = false;
+			},
+			[onClick]
 		);
+
+		const handleKeyDown = useCallback(
+			(e: React.KeyboardEvent) => {
+				if (e.key === 'Enter' && e.target === listItemRef.current) {
+					shallowClickHandler(e);
+				}
+			},
+			[shallowClickHandler]
+		);
+
+		const commonProps = {
+			ref: combinedRefs,
+			isInteractive: Boolean(onClick),
+			tabIndex: onClick ? 0 : -1,
+			role: onClick && 'button',
+			onClick: onClick && shallowClickHandler,
+			onKeyDown: onClick && handleKeyDown,
+		};
+
+		if (contextMenuItems) {
+			return (
+				<StyledContextMenuListItem
+					{...commonProps}
+					menuItems={contextMenuItems}
+				>
+					{children}
+				</StyledContextMenuListItem>
+			);
+		}
+		return <StyledListItem {...commonProps}>{children}</StyledListItem>;
 	}
-	return <StyledListItem {...commonProps}>{children}</StyledListItem>;
-}
+);
+
+ListItem.displayName = 'displayName';
 
 export interface ListItemTextProps {
 	text: React.ReactNode;

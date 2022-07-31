@@ -1,10 +1,19 @@
 import React, { useCallback } from 'react';
 
 export function useCombinedRefs<T>(
-	...refs: (React.RefCallback<T> | React.MutableRefObject<T>)[]
+	...refs: (
+		| React.RefCallback<T>
+		| React.MutableRefObject<T>
+		| undefined
+		| null
+	)[]
 ): React.RefCallback<T> {
 	return useCallback((target: T) => {
 		for (const ref of refs) {
+			if (!ref) {
+				continue;
+			}
+
 			if (isRefCallback(ref)) {
 				ref(target);
 			} else {
