@@ -8,20 +8,20 @@ export default {
 
 export const Primary = () => (
 	<List>
-		<ListItem>
+		<ListItem onClick={() => console.log('bread :p')}>
 			<ListItemIcon icon="bold" />
 			<ListItemText text="Bread" />
 			<ListItemIcon icon="tick" />
 		</ListItem>
-		<ListItem>
+		<ListItem onClick={() => console.log('milk :p')}>
 			<ListItemIcon icon="database" />
 			<ListItemText text="Milk" />
 		</ListItem>
-		<ListItem>
+		<ListItem onClick={() => console.log('cheese :p')}>
 			<ListItemIcon icon="blank" />
 			<ListItemText text="Cheese" />
 		</ListItem>
-		<ListItem>
+		<ListItem onClick={() => console.log('???')}>
 			<ListItemIcon icon="blank" />
 			<ListItemText text="Super duper duper duper duper duper duper long" />
 		</ListItem>

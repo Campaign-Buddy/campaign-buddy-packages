@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { useTheme } from '@campaign-buddy/react-theme-provider';
 import {
 	StyledOrderedList,
@@ -20,10 +20,34 @@ export function List({
 	return <Component>{children}</Component>;
 }
 
+export interface ListItemProps {
+	onClick?: (e: React.SyntheticEvent) => void;
+}
+
 export function ListItem({
 	children,
-}: React.PropsWithChildren<Record<string, unknown>>) {
-	return <StyledListItem>{children}</StyledListItem>;
+	onClick,
+}: React.PropsWithChildren<ListItemProps>) {
+	const handleKeyDown = useCallback(
+		(e: React.KeyboardEvent) => {
+			if (e.key === 'Enter') {
+				onClick?.(e);
+			}
+		},
+		[onClick]
+	);
+
+	return (
+		<StyledListItem
+			isInteractive={Boolean(onClick)}
+			tabIndex={onClick ? 0 : -1}
+			role={onClick && 'button'}
+			onClick={onClick}
+			onKeyDown={onClick && handleKeyDown}
+		>
+			{children}
+		</StyledListItem>
+	);
 }
 
 export interface ListItemTextProps {
