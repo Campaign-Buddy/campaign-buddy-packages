@@ -5,9 +5,11 @@ import {
 	StyledUnorderedList,
 	StyledListItem,
 	StyledListItemText,
+	StyledContextMenuListItem,
 } from './List.styled';
 import { IconName, Icon } from '../icon';
 import { ToggleButton } from '../button';
+import { MenuItem } from '../menu';
 
 /**
  * Prevents clicks and key events on
@@ -32,11 +34,13 @@ export function List({
 
 export interface ListItemProps {
 	onClick?: (e: React.SyntheticEvent) => void;
+	contextMenuItems?: MenuItem[];
 }
 
 export function ListItem({
 	children,
 	onClick,
+	contextMenuItems,
 }: React.PropsWithChildren<ListItemProps>) {
 	const listItemRef = useRef<HTMLLIElement | null>(null);
 
@@ -59,18 +63,23 @@ export function ListItem({
 		[shallowClickHandler]
 	);
 
-	return (
-		<StyledListItem
-			ref={listItemRef}
-			isInteractive={Boolean(onClick)}
-			tabIndex={onClick ? 0 : -1}
-			role={onClick && 'button'}
-			onClick={onClick && shallowClickHandler}
-			onKeyDown={onClick && handleKeyDown}
-		>
-			{children}
-		</StyledListItem>
-	);
+	const commonProps = {
+		ref: listItemRef,
+		isInteractive: Boolean(onClick),
+		tabIndex: onClick ? 0 : -1,
+		role: onClick && 'button',
+		onClick: onClick && shallowClickHandler,
+		onKeyDown: onClick && handleKeyDown,
+	};
+
+	if (contextMenuItems) {
+		return (
+			<StyledContextMenuListItem {...commonProps} menuItems={contextMenuItems}>
+				{children}
+			</StyledContextMenuListItem>
+		);
+	}
+	return <StyledListItem {...commonProps}>{children}</StyledListItem>;
 }
 
 export interface ListItemTextProps {

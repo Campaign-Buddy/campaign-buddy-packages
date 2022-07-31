@@ -1,4 +1,5 @@
 import styled, { css } from 'styled-components';
+import { ContextMenu } from '../menu';
 
 const listStyle = css`
 	list-style: none;
@@ -14,7 +15,7 @@ export const StyledOrderedList = styled.ol`
 	${listStyle}
 `;
 
-export const StyledListItem = styled.li<{ isInteractive?: boolean }>`
+const listItemStyle = css<{ isInteractive?: boolean }>`
 	display: flex;
 	align-items: center;
 	height: ${({ theme }) =>
@@ -51,6 +52,16 @@ export const StyledListItem = styled.li<{ isInteractive?: boolean }>`
 		cursor: pointer;
 		user-select: none;
 	`}
+`;
+
+export const StyledContextMenuListItem = styled(ContextMenu)<{
+	isInteractive?: boolean;
+}>`
+	${listItemStyle}
+`;
+
+export const StyledListItem = styled.li<{ isInteractive?: boolean }>`
+	${listItemStyle}
 `;
 
 export const StyledListItemText = styled.span`

@@ -7,6 +7,7 @@ import {
 	ListItemIcon,
 	ListItemIconButton,
 	MenuPopover,
+	MenuItem,
 } from '../src';
 
 export default {
@@ -15,6 +16,17 @@ export default {
 
 export const Primary = () => {
 	const [isMenuOpen, openMenu, closeMenu] = useBooleanState(false);
+
+	const menuItems: MenuItem[] = [
+		{
+			displayText: 'Delete',
+			icon: 'trash',
+		},
+		{
+			displayText: 'Rename',
+			icon: 'edit',
+		},
+	];
 
 	return (
 		<List>
@@ -27,23 +39,13 @@ export const Primary = () => {
 				<ListItemIcon icon="database" />
 				<ListItemText text="Milk" />
 			</ListItem>
-			<ListItem onClick={() => console.log('cheese :p')}>
+			<ListItem
+				contextMenuItems={menuItems}
+				onClick={() => console.log('cheese :p')}
+			>
 				<ListItemIcon icon="blank" />
 				<ListItemText text="Cheese" />
-				<MenuPopover
-					items={[
-						{
-							displayText: 'Delete',
-							icon: 'trash',
-						},
-						{
-							displayText: 'Rename',
-							icon: 'edit',
-						},
-					]}
-					isOpen={isMenuOpen}
-					onClose={closeMenu}
-				>
+				<MenuPopover items={menuItems} isOpen={isMenuOpen} onClose={closeMenu}>
 					<ListItemIconButton icon="menu" onClick={openMenu} />
 				</MenuPopover>
 			</ListItem>

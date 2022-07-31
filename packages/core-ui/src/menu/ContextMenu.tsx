@@ -37,16 +37,25 @@ function MenuItem({ item }: { item: MenuItemType }): JSX.Element {
 	);
 }
 
-interface ContextMenuProps {
+export interface ContextMenuProps
+	extends Omit<
+		React.HTMLAttributes<HTMLElement>,
+		'onContextMenu' | 'children'
+	> {
 	menuItems: MenuItemType[];
+	as?: keyof JSX.IntrinsicElements;
 }
 
-export const ContextMenu: React.FC<
+export const ContextMenu = React.forwardRef<
+	HTMLElement,
 	React.PropsWithChildren<ContextMenuProps>
-> = ({ menuItems, children }) => (
+>(({ menuItems, children, as, ...props }, ref) => (
 	<>
 		<GlobalStyle />
 		<ContextMenuCore
+			tagName={as}
+			{...props}
+			ref={ref}
 			content={
 				<StyledMenu>
 					{menuItems.map((x, i) => (
@@ -58,4 +67,5 @@ export const ContextMenu: React.FC<
 			{children}
 		</ContextMenuCore>
 	</>
-);
+));
+ContextMenu.displayName = 'ContextMenu';
