@@ -115,6 +115,11 @@ export function ListItemIcon({ icon }: ListItemIconProps) {
 	return <Icon icon={icon} size={theme.list.item.iconSize} />;
 }
 
+interface ListItemShallowClickAreaProps
+	extends Omit<React.HTMLAttributes<HTMLElement>, 'onClick' | 'onKeyDown'> {
+	as?: keyof JSX.IntrinsicElements;
+}
+
 /**
  * Any clicks within the children of this component
  * will not propagate to the parent ListItem but *will*
@@ -123,15 +128,23 @@ export function ListItemIcon({ icon }: ListItemIconProps) {
  */
 export function ListItemShallowClickArea({
 	children,
-}: React.PropsWithChildren<Record<string, unknown>>) {
+	as: Component = 'div',
+	...props
+}: ListItemShallowClickAreaProps) {
 	const shallowClickHandler = useCallback(() => {
 		shallowEventControl.wasEventHandled = true;
 	}, []);
 
+	const AnyComponent = Component as any;
+
 	return (
-		<div onClick={shallowClickHandler} onKeyDown={shallowClickHandler}>
+		<AnyComponent
+			onClick={shallowClickHandler}
+			onKeyDown={shallowClickHandler}
+			{...props}
+		>
 			{children}
-		</div>
+		</AnyComponent>
 	);
 }
 
