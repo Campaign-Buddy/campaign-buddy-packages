@@ -42,6 +42,10 @@ const listItemStyle = css<{ isInteractive?: boolean }>`
 				&:focus {
 					background-color: ${colors.focus};
 				}
+
+				&:active {
+					background-color: ${colors.active};
+				}
 			}
 		`
 		)}

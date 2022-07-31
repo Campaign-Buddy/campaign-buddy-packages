@@ -21,4 +21,5 @@ export interface IListItemBackgroundColors {
 	hover: ThemeColor;
 	focus: ThemeColor;
 	selected: ThemeColor;
+	active: ThemeColor;
 }
