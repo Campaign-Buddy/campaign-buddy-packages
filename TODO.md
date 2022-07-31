@@ -31,7 +31,6 @@
 	- [ ] Proficiency list?
 	- [ ] Spell slots
 	- [ ] Entity grid
-- [ ] Multi pane UI component package (can copy from previous project?)
 - [ ] File system component (may live in main campaign buddy app project)
 - [ ] Plan out analytic strategy (move this to the main campaign buddy app repo when it exists)
 - [ ] Package level documentation
@@ -39,6 +38,7 @@
 	- [ ] apply-aggregates. What functions are available and how do I use them? (Note this documentation can likely be auto-generated)
 - [ ] Refactor stories to group together logically connected stories (like aggregated inputs)
 - [ ] Set up lerna (maybe), commit lint, and semantic release
+- [ ] Add tab context menus in panel-layout ("Close all", "Close to right", "Duplicate", "Close", etc)
 - [X] Add image widget
 	- [ ] Actually put thought into design
 
@@ -50,6 +50,7 @@
 Partially completed TODOs are still left in the main list but may be re-prioritized. Below is TODO items that have been fully resolved but are kept for posterity.
 <br /><br />
 
+- [X] Multi pane UI component package (can copy from previous project?)
 - [X] Always show edit button in aggregated text when display text is whitespace
 - [X] Update handling of widgets to handle undefined aggregatedValue
 - [X] Investigate performance of form generator
