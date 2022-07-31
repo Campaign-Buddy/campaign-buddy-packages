@@ -26,5 +26,6 @@ export const list: IList = {
 		borderRadius: new BorderRadius(4),
 		iconSize: 18,
 		spacing: 6,
+		lineHeight: 24,
 	},
 };

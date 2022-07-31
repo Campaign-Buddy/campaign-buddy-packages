@@ -13,6 +13,7 @@ export interface IListItem {
 	borderRadius: BorderRadius;
 	spacing: number;
 	iconSize: number;
+	lineHeight: number;
 }
 
 export interface IListItemBackgroundColors {

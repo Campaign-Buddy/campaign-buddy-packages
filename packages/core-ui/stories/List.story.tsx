@@ -1,6 +1,6 @@
 import React from 'react';
 import { List, ListItem, ListItemText } from '../src';
-import { ListItemIcon } from '../src/list/List';
+import { ListItemIcon, ListItemIconButton } from '../src/list/List';
 
 export default {
 	title: 'core-ui/List',
@@ -24,6 +24,7 @@ export const Primary = () => (
 		<ListItem onClick={() => console.log('???')}>
 			<ListItemIcon icon="blank" />
 			<ListItemText text="Super duper duper duper duper duper duper long" />
+			<ListItemIconButton icon="menu" onClick={() => console.log('ICON!')} />
 		</ListItem>
 	</List>
 );

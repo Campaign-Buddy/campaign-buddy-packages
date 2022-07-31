@@ -71,6 +71,30 @@ export class Thickness {
 		}
 	}
 
+	public get top() {
+		return this.thickness.top;
+	}
+
+	public get bottom() {
+		return this.thickness.bottom;
+	}
+
+	public get left() {
+		return this.thickness.left;
+	}
+
+	public get right() {
+		return this.thickness.right;
+	}
+
+	public get vertical() {
+		return this.thickness.top + this.thickness.bottom;
+	}
+
+	public get horizontal() {
+		return this.thickness.right + this.thickness.left;
+	}
+
 	public toCss(): string {
 		return `${this.thickness.top}px ${this.thickness.right}px ${this.thickness.bottom}px ${this.thickness.left}px`;
 	}

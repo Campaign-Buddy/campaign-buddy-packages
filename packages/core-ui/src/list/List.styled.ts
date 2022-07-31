@@ -16,6 +16,9 @@ export const StyledOrderedList = styled.ol`
 
 export const StyledListItem = styled.li<{ isInteractive?: boolean }>`
 	display: flex;
+	align-items: center;
+	height: ${({ theme }) =>
+		theme.list.item.lineHeight + theme.list.item.padding.vertical}px;
 	gap: ${({ theme }) => theme.list.item.spacing}px;
 	padding: ${({ theme }) => theme.list.item.padding.toCss()};
 	border-radius: ${({ theme }) => theme.list.item.borderRadius.toCss()};
