@@ -31,11 +31,11 @@ export type FSItemEditSetFields = keyof FSItemEditSet;
 
 export interface ListResult<TItemData> {
 	folder?: FSItemFolder;
-	items?: FSItem<TItemData>;
+	items: FSItem<TItemData>[];
 }
 
 export interface FileSystemApi<TItemData = any> {
-	list(folderId?: string): Promise<FSItem<TItemData>[]>;
+	list(folderId?: string): Promise<ListResult<TItemData>>;
 	create(createSet: FSItemCreateSet): Promise<FSItem<TItemData>>;
 	delete(itemId: string): Promise<void>;
 	edit(

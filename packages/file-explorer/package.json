@@ -3,7 +3,9 @@
 	"version": "0.1.0",
 	"author": "Joseph Stewart",
 	"license": "MIT",
-	"dependencies": {},
+	"dependencies": {
+		"@campaign-buddy/core-ui": "0.1.0"
+	},
 	"devDependencies": {
 		"@campaign-buddy/frontend-types": "0.1.0",
 		"@campaign-buddy/react-theme-provider": "0.1.0",
@@ -11,12 +13,14 @@
 		"cross-env": "^7.0.3",
 		"cuid": "^2.1.8",
 		"react": "^18.0.9",
+		"react-query": "^3.34.12",
 		"styled-components": "^5.3.3",
 		"typescript": "^4.2.4"
 	},
 	"peerDependencies": {
 		"@campaign-buddy/react-theme-provider": "0.1.0",
 		"react": "^18.0.9",
+		"react-query": "^3.34.12",
 		"styled-components": "^5.3.3"
 	},
 	"scripts": {

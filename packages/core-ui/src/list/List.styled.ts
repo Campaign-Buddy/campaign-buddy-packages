@@ -36,15 +36,15 @@ const listItemStyle = css<{ isInteractive?: boolean }>`
 					&:hover {
 						background-color: ${colors.hover};
 					}
+
+					&:focus {
+						background-color: ${colors.focus};
+					}
+	
+					&:active {
+						background-color: ${colors.active};
+					}
 					`
-				}
-
-				&:focus {
-					background-color: ${colors.focus};
-				}
-
-				&:active {
-					background-color: ${colors.active};
 				}
 			}
 		`

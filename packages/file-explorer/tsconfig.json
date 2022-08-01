@@ -17,6 +17,9 @@
 		},
 		{
 			"path": "../frontend-types/tsconfig.json"
+		},
+		{
+			"path": "../core-ui/tsconfig.json"
 		}
 	]
 }

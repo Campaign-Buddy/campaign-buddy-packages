@@ -3,6 +3,7 @@ import {
 	FSItem,
 	FSItemCreateSet,
 	FSItemEditSet,
+	ListResult,
 } from '@campaign-buddy/frontend-types';
 import cuid from 'cuid';
 
@@ -21,8 +22,14 @@ export class MockTextFileSystemApi implements FileSystemApi<string> {
 		};
 	}
 
-	async list(folderId?: string): Promise<FSItem<string>[]> {
-		return this.itemsByFolderId[folderId ?? ROOT_FOLDER];
+	async list(folderId?: string): Promise<ListResult<string>> {
+		const children = this.itemsByFolderId[folderId ?? ROOT_FOLDER];
+		const folder = folderId && this.getItemById(folderId);
+
+		return {
+			items: children,
+			folder: folder?.kind === 'folder' ? folder : undefined,
+		};
 	}
 
 	async create(createSet: FSItemCreateSet): Promise<FSItem<string>> {
@@ -55,13 +62,7 @@ export class MockTextFileSystemApi implements FileSystemApi<string> {
 			throw new Error('Must supply fields');
 		}
 
-		const item = Object.values(this.itemsByFolderId)
-			.flatMap((x) => x)
-			.find((x) => x.id === itemId);
-
-		if (!item) {
-			throw new Error('Could not edit item');
-		}
+		const item = this.getItemById(itemId);
 
 		for (const field of fieldsToEdit) {
 			if (field === 'parentId') {
@@ -113,5 +114,17 @@ export class MockTextFileSystemApi implements FileSystemApi<string> {
 		}
 
 		return result[0];
+	}
+
+	private getItemById(itemId: string): FSItem<string> {
+		const item = Object.values(this.itemsByFolderId)
+			.flatMap((x) => x)
+			.find((x) => x.id === itemId);
+
+		if (!item) {
+			throw new Error('Could not edit item');
+		}
+
+		return item;
 	}
 }
