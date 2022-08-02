@@ -11,6 +11,7 @@ import { IconName, Icon } from '../icon';
 import { ToggleButton } from '../button';
 import { MenuItem } from '../menu';
 import { useCombinedRefs } from '@campaign-buddy/common-hooks';
+import { CampaignBuddyIcon } from '../icon/IconType';
 
 /**
  * Prevents clicks and key events on
@@ -106,7 +107,7 @@ export function ListItemText({ text }: ListItemTextProps) {
 }
 
 export interface ListItemIconProps {
-	icon: IconName;
+	icon: CampaignBuddyIcon;
 }
 
 export function ListItemIcon({ icon }: ListItemIconProps) {

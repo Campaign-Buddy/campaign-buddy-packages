@@ -19,7 +19,7 @@ export const Image = () => {
 		<Icon
 			icon={{
 				kind: 'image',
-				src: 'https://i.picsum.photos/id/469/75/100.jpg?hmac=vkSFpatBlwe70VN4SSaJjgFNb9UiOXy0FUEnd_FIaSE',
+				src: 'https://picsum.photos/75/100',
 			}}
 			size={24}
 		/>

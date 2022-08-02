@@ -60,6 +60,12 @@ export const Primary = () => {
 				<ListItemIcon icon="blank" />
 				<ListItemText text="Super duper duper duper duper duper duper long" />
 			</ListItem>
+			<ListItem onClick={() => console.log('image icon!')}>
+				<ListItemIcon
+					icon={{ kind: 'image', src: 'https://picsum.photos/75/100' }}
+				/>
+				<ListItemText text="Image icon!" />
+			</ListItem>
 		</List>
 	);
 };
