@@ -3,6 +3,7 @@ import {
 	FSItem,
 	FSItemCreateSet,
 	FSItemEditSet,
+	FSItemFolder,
 	ListResult,
 } from '@campaign-buddy/frontend-types';
 import cuid from 'cuid';
@@ -29,6 +30,7 @@ export class MockTextFileSystemApi implements FileSystemApi<string> {
 		return {
 			items: children,
 			folder: folder?.kind === 'folder' ? folder : undefined,
+			breadcrumbs: this.getBreadcrumbs(folderId),
 		};
 	}
 
@@ -83,7 +85,7 @@ export class MockTextFileSystemApi implements FileSystemApi<string> {
 		return item;
 	}
 
-	async getBreadcrumbs(folderId?: string): Promise<FSItem<string>[]> {
+	private getBreadcrumbs(folderId?: string): FSItemFolder[] {
 		if (!folderId) {
 			return [];
 		}
@@ -94,10 +96,16 @@ export class MockTextFileSystemApi implements FileSystemApi<string> {
 			)
 		);
 
-		const ancestors: FSItem<string>[] = [];
+		const ancestors: FSItemFolder[] = [];
 		let currentId = folderId;
 		while (parentsAndItemsById[currentId]) {
-			ancestors.unshift(parentsAndItemsById[currentId].item);
+			const item = parentsAndItemsById[currentId]?.item;
+
+			if (item.kind !== 'folder') {
+				throw new Error('parents should only be folders');
+			}
+
+			ancestors.unshift(item);
 			currentId = parentsAndItemsById[currentId].parentId;
 		}
 
@@ -119,10 +127,11 @@ export class MockTextFileSystemApi implements FileSystemApi<string> {
 	private getItemById(itemId: string): FSItem<string> {
 		const item = Object.values(this.itemsByFolderId)
 			.flatMap((x) => x)
+			.concat(...this.itemsByFolderId[ROOT_FOLDER])
 			.find((x) => x.id === itemId);
 
 		if (!item) {
-			throw new Error('Could not edit item');
+			throw new Error(`Could not get item by id: ${itemId}`);
 		}
 
 		return item;

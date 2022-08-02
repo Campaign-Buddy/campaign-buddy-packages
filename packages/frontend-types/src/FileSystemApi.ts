@@ -32,6 +32,7 @@ export type FSItemEditSetFields = keyof FSItemEditSet;
 export interface ListResult<TItemData> {
 	folder?: FSItemFolder;
 	items: FSItem<TItemData>[];
+	breadcrumbs: FSItemFolder[];
 }
 
 export interface FileSystemApi<TItemData = any> {
@@ -43,5 +44,4 @@ export interface FileSystemApi<TItemData = any> {
 		editSet: FSItemEditSet,
 		fieldsToEdit: FSItemEditSetFields[]
 	): Promise<FSItem<TItemData>>;
-	getBreadcrumbs(folderId?: string): Promise<FSItem<TItemData>[]>;
 }

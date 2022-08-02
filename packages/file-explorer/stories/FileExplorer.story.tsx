@@ -9,25 +9,62 @@ export default {
 	component: FileExplorer,
 };
 
-const mockApi = new MockTextFileSystemApi([
+const mockApi = new MockTextFileSystemApi(
+	[
+		{
+			name: 'File A',
+			id: cuid(),
+			kind: 'file',
+			data: 'Here is the contents',
+		},
+		{
+			name: 'Folder A',
+			id: 'folderA',
+			kind: 'folder',
+		},
+		{
+			name: 'File B',
+			id: cuid(),
+			kind: 'file',
+			data: 'Here is the contents',
+		},
+	],
 	{
-		name: 'File A',
-		id: cuid(),
-		kind: 'file',
-		data: 'Here is the contents',
-	},
-	{
-		name: 'Folder A',
-		id: 'folderA',
-		kind: 'folder',
-	},
-	{
-		name: 'File B',
-		id: cuid(),
-		kind: 'file',
-		data: 'Here is the contents',
-	},
-]);
+		folderA: [
+			{
+				name: 'File C',
+				id: cuid(),
+				kind: 'file',
+				data: 'Here is the contents',
+			},
+			{
+				name: 'File D',
+				id: cuid(),
+				kind: 'file',
+				data: 'Here is the contents',
+			},
+			{
+				name: 'Folder B',
+				id: 'folderB',
+				kind: 'folder',
+			},
+			{
+				name: 'File E',
+				id: cuid(),
+				kind: 'file',
+				data: 'Here is the contents',
+			},
+		],
+		folderB: [
+			{
+				name: 'File F',
+				id: cuid(),
+				kind: 'file',
+				data: 'Here is the contents',
+			},
+		],
+	}
+);
 const queryClient = new QueryClient();
 
 export function Primary() {
@@ -38,7 +75,7 @@ export function Primary() {
 				folderId={folderId}
 				setFolderId={setFolderId}
 				api={mockApi}
-				renderIconForItem={() => undefined}
+				getIconForItem={() => 'blank'}
 			/>
 		</QueryClientProvider>
 	);
