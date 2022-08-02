@@ -4,6 +4,7 @@ import { FileSystemApi, FSItem } from '@campaign-buddy/frontend-types';
 import { List, IconName } from '@campaign-buddy/core-ui';
 import { FileListItem } from './FileListItem';
 import { FolderListItem } from './FolderListItem';
+import { Breadcrumbs } from './Breadcrumbs';
 
 export interface FileExplorerProps<TItemData = any> {
 	api: FileSystemApi<TItemData>;
@@ -22,17 +23,15 @@ export function FileExplorer({
 		queryFn: () => api.list(folderId),
 	});
 
+	console.log(listResult?.breadcrumbs);
+
 	return listResult?.items ? (
 		<div>
-			<p>
-				{[
-					'root',
-					listResult?.folder?.name ?? '',
-					...listResult.breadcrumbs.map((x) => x.name),
-				]
-					.filter(Boolean)
-					.join(' > ')}
-			</p>
+			<Breadcrumbs
+				currentFolder={listResult.folder}
+				breadcrumbs={listResult.breadcrumbs}
+				onNavigate={setFolderId}
+			/>
 			<List>
 				{listResult.items.map((x) =>
 					x.kind === 'folder' ? (

@@ -91,21 +91,32 @@ export class MockTextFileSystemApi implements FileSystemApi<string> {
 		}
 
 		const parentsAndItemsById = Object.fromEntries(
-			Object.entries(this.itemsByFolderId).flatMap(([listId, list]) =>
-				list.map((item) => [item.id, { parentId: listId, item }])
-			)
+			Object.entries(this.itemsByFolderId)
+				.flatMap(([listId, list]) =>
+					list.map((item) => [item.id, { parentId: listId, item }])
+				)
+				.concat(
+					this.itemsByFolderId[ROOT_FOLDER].map((item) => [
+						item.id,
+						{ parentId: undefined, item },
+					])
+				)
 		);
 
 		const ancestors: FSItemFolder[] = [];
 		let currentId = folderId;
 		while (parentsAndItemsById[currentId]) {
 			const item = parentsAndItemsById[currentId]?.item;
+			const parentId = parentsAndItemsById[currentId]?.parentId;
+			const parent = parentId && parentsAndItemsById[parentId]?.item;
 
-			if (item.kind !== 'folder') {
+			if (item.kind !== 'folder' || (parent && parent.kind !== 'folder')) {
 				throw new Error('parents should only be folders');
 			}
 
-			ancestors.unshift(item);
+			if (parent?.kind === 'folder') {
+				ancestors.unshift(parent);
+			}
 			currentId = parentsAndItemsById[currentId].parentId;
 		}
 
