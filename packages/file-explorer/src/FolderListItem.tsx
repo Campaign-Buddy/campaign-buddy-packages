@@ -1,4 +1,4 @@
-import { ListItem, ListItemText } from '@campaign-buddy/core-ui';
+import { ListItem, ListItemIcon, ListItemText } from '@campaign-buddy/core-ui';
 import { FSItemFolder } from '@campaign-buddy/frontend-types';
 import React, { useCallback } from 'react';
 
@@ -13,6 +13,7 @@ export function FolderListItem({ folder, onNavigate }: FolderListItemProps) {
 	}, [folder.id, onNavigate]);
 	return (
 		<ListItem onClick={handleNavigate}>
+			<ListItemIcon icon="folder-close" />
 			<ListItemText text={folder.name} />
 		</ListItem>
 	);

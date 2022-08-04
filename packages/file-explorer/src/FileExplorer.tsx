@@ -13,11 +13,12 @@ export interface FileExplorerProps<TItemData = any> {
 	getIconForItem: (item: FSItem<TItemData>) => IconName;
 }
 
-export function FileExplorer({
+export function FileExplorer<TItemData>({
 	api,
 	folderId,
 	setFolderId,
-}: FileExplorerProps) {
+	getIconForItem,
+}: FileExplorerProps<TItemData>) {
 	const { data: listResult } = useQuery({
 		queryKey: ['fileExplorer', 'currentFolder', folderId],
 		queryFn: () => api.list(folderId),
@@ -37,7 +38,7 @@ export function FileExplorer({
 					x.kind === 'folder' ? (
 						<FolderListItem key={x.id} folder={x} onNavigate={setFolderId} />
 					) : (
-						<FileListItem key={x.id} file={x} />
+						<FileListItem getIconForFile={getIconForItem} key={x.id} file={x} />
 					)
 				)}
 			</List>

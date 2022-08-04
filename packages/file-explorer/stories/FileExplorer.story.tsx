@@ -75,7 +75,7 @@ export function Primary() {
 				folderId={folderId}
 				setFolderId={setFolderId}
 				api={mockApi}
-				getIconForItem={() => 'blank'}
+				getIconForItem={() => 'document'}
 			/>
 		</QueryClientProvider>
 	);
