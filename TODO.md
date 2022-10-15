@@ -8,6 +8,7 @@
 - [ ] UI tests
 	- [ ] Integration test for form-generator-widgets
 - [ ] Localization process (for packages that have copy) ([crowdin](https://crowdin.com/pricing#annual) has a free tier)
+- [ ] Optimze core-ui list focus management to not mutate state in context, move to pub/sub pattern where consumer subscribes to state changes and are notified when applicable
 - [ ] Update core-ui theme to be more comprehensive (make sure every visible color is a theme color, add theming for spacing and fonts, etc)
 - [X] Start working on rich text editor (using slate)
 	- [ ] Headings
