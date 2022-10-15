@@ -1,6 +1,8 @@
 import styled, { css } from 'styled-components';
 import { ContextMenu } from '../menu';
 
+export const listItemClass = 'CB_CORE_UI_LIST_ITEM';
+
 const listStyle = css`
 	list-style: none;
 	padding: 0;

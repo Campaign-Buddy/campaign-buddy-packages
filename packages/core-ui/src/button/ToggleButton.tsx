@@ -9,11 +9,12 @@ interface ToggleButtonProps {
 	tooltip?: string;
 	size?: 'small' | 'normal' | 'large';
 	preventFocus?: boolean;
+	tabIndex?: number;
 }
 
 export const ToggleButton: React.FC<
 	React.PropsWithChildren<ToggleButtonProps>
-> = ({ value, onChange, icon, size, preventFocus }) => {
+> = ({ value, onChange, icon, size, preventFocus, tabIndex }) => {
 	const handleToggle = useCallback(() => {
 		onChange(!value);
 	}, [onChange, value]);
@@ -36,6 +37,7 @@ export const ToggleButton: React.FC<
 			small={size === 'small'}
 			_style="minimal"
 			isActive={value}
+			tabIndex={tabIndex}
 		/>
 	);
 };

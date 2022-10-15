@@ -6,12 +6,19 @@ import {
 	StyledListItem,
 	StyledListItemText,
 	StyledContextMenuListItem,
+	listItemClass,
 } from './List.styled';
 import { IconName, Icon } from '../icon';
 import { ToggleButton } from '../button';
 import { MenuItem } from '../menu';
 import { useCombinedRefs } from '@campaign-buddy/common-hooks';
 import { CampaignBuddyIcon } from '../icon/IconType';
+import {
+	ListItemFocusManager,
+	ListItemFocusStateProvider,
+	useCanParentListItemReceiveFocus,
+	useListItemFocus,
+} from './ListItemFocusManager';
 
 /**
  * Prevents clicks and key events on
@@ -31,7 +38,11 @@ export function List({
 	ordered,
 }: React.PropsWithChildren<ListProps>) {
 	const Component = ordered ? StyledOrderedList : StyledUnorderedList;
-	return <Component>{children}</Component>;
+	return (
+		<ListItemFocusManager>
+			<Component>{children}</Component>
+		</ListItemFocusManager>
+	);
 }
 
 export interface ListItemProps {
@@ -53,6 +64,7 @@ export const ListItem = React.forwardRef<
 	) => {
 		const listItemRef = useRef<HTMLLIElement | null>(null);
 		const combinedRefs = useCombinedRefs(listItemRef, ref);
+		const { id, canReceiveFocus } = useListItemFocus();
 
 		const shallowClickHandler = useCallback(
 			(e: React.SyntheticEvent) => {
@@ -76,23 +88,31 @@ export const ListItem = React.forwardRef<
 		const commonProps = {
 			ref: combinedRefs,
 			isInteractive: Boolean(onClick),
-			tabIndex: onClick ? 0 : -1,
+			tabIndex: canReceiveFocus ? 0 : -1,
 			role: onClick && 'button',
 			onClick: onClick && shallowClickHandler,
 			onKeyDown: onClick && handleKeyDown,
+			className: listItemClass,
+			id,
 		};
 
 		if (contextMenuItems) {
 			return (
-				<StyledContextMenuListItem
-					{...commonProps}
-					menuItems={contextMenuItems}
-				>
-					{children}
-				</StyledContextMenuListItem>
+				<ListItemFocusStateProvider canReceiveFocus={canReceiveFocus}>
+					<StyledContextMenuListItem
+						{...commonProps}
+						menuItems={contextMenuItems}
+					>
+						{children}
+					</StyledContextMenuListItem>
+				</ListItemFocusStateProvider>
 			);
 		}
-		return <StyledListItem {...commonProps}>{children}</StyledListItem>;
+		return (
+			<ListItemFocusStateProvider canReceiveFocus={canReceiveFocus}>
+				<StyledListItem {...commonProps}>{children}</StyledListItem>
+			</ListItemFocusStateProvider>
+		);
 	}
 );
 
@@ -124,7 +144,7 @@ interface ListItemShallowClickAreaProps
 /**
  * Any clicks within the children of this component
  * will not propagate to the parent ListItem but *will*
- * propagate to other descendants. Not required for
+ * propagate to other ancestors. Not required for
  * ListItemIconButton
  */
 export function ListItemShallowClickArea({
@@ -159,12 +179,16 @@ export function ListItemIconButton({ icon, onClick }: ListItemIconButtonProps) {
 		shallowEventControl.wasEventHandled = true;
 		onClick();
 	}, [onClick]);
+
+	const canReceiveFocus = useCanParentListItemReceiveFocus();
+
 	return (
 		<ToggleButton
 			icon={icon}
 			size="small"
 			value
 			onChange={shallowClickHandler}
+			tabIndex={canReceiveFocus ? 0 : -1}
 		/>
 	);
 }
