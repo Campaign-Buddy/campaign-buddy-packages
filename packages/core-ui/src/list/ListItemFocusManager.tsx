@@ -2,6 +2,7 @@ import React, {
 	createContext,
 	useCallback,
 	useContext,
+	useEffect,
 	useRef,
 	useState,
 } from 'react';
@@ -95,6 +96,23 @@ export function ListItemFocusManager({
 		},
 		[focusedId]
 	);
+
+	useEffect(() => {
+		if (
+			document.activeElement &&
+			containerRef.current?.contains(document.activeElement)
+		) {
+			handleFocus();
+		} else {
+			const firstListItemChild = document.querySelector(`.${listItemClass}`);
+
+			if (!firstListItemChild) {
+				return;
+			}
+
+			setFocusedId(firstListItemChild.id);
+		}
+	}, [children, handleFocus]);
 
 	return (
 		<ListItemFocusManagerContext.Provider value={{ focusedId }}>
