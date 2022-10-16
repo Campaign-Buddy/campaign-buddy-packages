@@ -1,8 +1,8 @@
 import React, { useMemo, useState } from 'react';
 import { IOption, Select, Switch } from '@campaign-buddy/core-ui';
+import { MockMediaApi } from '@campaign-buddy/mock-apis';
 import { FormGenerator } from '@campaign-buddy/form-generator';
 import { widgets, FormWidgetProvider } from '../src';
-import { MockMediaApi } from './mockMediaApi';
 import {
 	aggregationAuditSchema,
 	aggregationAuditLayout,

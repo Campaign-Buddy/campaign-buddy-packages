@@ -4,7 +4,10 @@
 		"outDir": "./dist",
 		"composite": true
 	},
-	"include": ["src/**/*", "theme.d.ts"],
+	"include": [
+		"src/**/*",
+		"theme.d.ts"
+	],
 	"references": [
 		{
 			"path": "../core-ui/tsconfig.json"
@@ -17,6 +20,9 @@
 		},
 		{
 			"path": "../image-grid/tsconfig.json"
+		},
+		{
+			"path": "../mock-apis/tsconfig.json"
 		}
 	]
 }

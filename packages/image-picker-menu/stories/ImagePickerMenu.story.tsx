@@ -1,10 +1,10 @@
 import React, { useCallback } from 'react';
 import { Button } from '@campaign-buddy/core-ui';
 import { useBooleanState } from '@campaign-buddy/common-hooks';
+import { MockMediaApi } from '@campaign-buddy/mock-apis';
 import { Media } from '@campaign-buddy/frontend-types';
 import { QueryClient } from 'react-query';
 import { ImagePickerMenu } from '../src';
-import { MockMediaApi } from './mockMediaApi';
 
 export default {
 	title: 'image-picker-menu/ImagePickerMenu',

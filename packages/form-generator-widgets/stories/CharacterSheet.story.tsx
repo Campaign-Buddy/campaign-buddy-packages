@@ -1,10 +1,10 @@
 import React, { useMemo, useState } from 'react';
 import { FormGenerator } from '@campaign-buddy/form-generator';
 import { Meta, Story } from '@storybook/react';
+import { MockMediaApi } from '@campaign-buddy/mock-apis';
 import { widgets, FormWidgetProvider } from '../src';
 import { characterSchema, characterUiLayout } from './exampleSchemas';
 import { MockEntityApi } from './exampleSchemas/mockEntityApi';
-import { MockMediaApi } from './mockMediaApi';
 import { QueryClient } from 'react-query';
 
 export default {
