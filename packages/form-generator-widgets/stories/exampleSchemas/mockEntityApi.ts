@@ -4,6 +4,9 @@ import {
 	EntitySummary,
 	HydratedEntity,
 } from '@campaign-buddy/frontend-types';
+import { EntityDefinition } from '@campaign-buddy/json-schema-core';
+import { characterClassEntity } from './characterClass';
+import { feat } from './feat';
 
 const DEBUG_NETWORK_LOAD = false;
 
@@ -110,6 +113,21 @@ export class MockEntityApi implements EntityApi {
 			feat: this.feats,
 		};
 	}
+
+	getEntityDefinition = async (
+		entityDefinitionName: string
+	): Promise<EntityDefinition> => {
+		await this.simulateLatency();
+		if (entityDefinitionName === 'characterClass') {
+			return characterClassEntity;
+		}
+
+		if (entityDefinitionName === 'feat') {
+			return feat;
+		}
+
+		throw new Error('unknown entity');
+	};
 
 	getHydratedEntities = async (
 		ids: string[],

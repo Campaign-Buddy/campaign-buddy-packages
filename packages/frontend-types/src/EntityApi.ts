@@ -1,3 +1,5 @@
+import type { EntityDefinition } from '@campaign-buddy/json-schema-core';
+
 export interface EntitySummary {
 	id: string;
 	definitionName: string;
@@ -11,6 +13,10 @@ export interface HydratedEntity {
 }
 
 export interface EntityApi {
+	getEntityDefinition: (
+		entityDefinitionName: string
+	) => Promise<EntityDefinition>;
+
 	searchEntities: (
 		query: string,
 		entityDefinitionName: string,

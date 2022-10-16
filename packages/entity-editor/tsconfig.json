@@ -5,11 +5,15 @@
 		"composite": true
 	},
 	"include": [
-		"src/**/*"
+		"src/**/*",
+		"theme.d.ts"
 	],
 	"references": [
 		{
-			"path": "../json-schema-core/tsconfig.json"
+			"path": "../themes/tsconfig.json"
+		},
+		{
+			"path": "../react-theme-provider/tsconfig.json"
 		}
 	]
 }
