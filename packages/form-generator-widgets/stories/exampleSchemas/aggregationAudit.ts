@@ -7,7 +7,7 @@ import {
 	MultiEntityAggregation,
 	ImageAggregation,
 } from '@campaign-buddy/json-schema-core';
-import { characterClassEntity } from './characterClass';
+import { characterClassEntity } from '@campaign-buddy/mock-apis';
 
 const schemaParts: Record<string, CampaignBuddySchema> = {};
 const uiLayout: UiLayout = [['agg']];

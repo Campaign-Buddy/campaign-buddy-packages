@@ -1,12 +1,11 @@
 import React, { useMemo, useState } from 'react';
 import { IOption, Select, Switch } from '@campaign-buddy/core-ui';
-import { MockMediaApi } from '@campaign-buddy/mock-apis';
+import { MockMediaApi, MockEntityApi } from '@campaign-buddy/mock-apis';
 import { FormGenerator } from '@campaign-buddy/form-generator';
 import { widgets, FormWidgetProvider } from '../src';
 import {
 	aggregationAuditSchema,
 	aggregationAuditLayout,
-	MockEntityApi,
 } from './exampleSchemas';
 import { QueryClient } from 'react-query';
 import { EntityFieldSettings } from '@campaign-buddy/frontend-types';
@@ -17,7 +16,7 @@ export default {
 
 const mediaApi = new MockMediaApi();
 const queryClient = new QueryClient();
-const entityApi = new MockEntityApi();
+const entityApi = new MockEntityApi(MockEntityApi.defaultOptions);
 
 const roleOptions: IOption<string>[] = [
 	{

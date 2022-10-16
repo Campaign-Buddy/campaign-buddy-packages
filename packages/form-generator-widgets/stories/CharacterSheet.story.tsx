@@ -1,10 +1,12 @@
 import React, { useMemo, useState } from 'react';
 import { FormGenerator } from '@campaign-buddy/form-generator';
 import { Meta, Story } from '@storybook/react';
-import { MockMediaApi } from '@campaign-buddy/mock-apis';
+import {
+	MockMediaApi,
+	MockEntityApi,
+	characterEntity,
+} from '@campaign-buddy/mock-apis';
 import { widgets, FormWidgetProvider } from '../src';
-import { characterSchema, characterUiLayout } from './exampleSchemas';
-import { MockEntityApi } from './exampleSchemas/mockEntityApi';
 import { QueryClient } from 'react-query';
 
 export default {
@@ -16,7 +18,10 @@ const queryClient = new QueryClient();
 
 const Template: Story = () => {
 	const [data, setData] = useState({ name: 'Barry Jazz' });
-	const entityApi = useMemo(() => new MockEntityApi(), []);
+	const entityApi = useMemo(
+		() => new MockEntityApi(MockEntityApi.defaultOptions),
+		[]
+	);
 
 	return (
 		<FormWidgetProvider
@@ -25,11 +30,11 @@ const Template: Story = () => {
 			showAggregationIndicator
 		>
 			<FormGenerator
-				schema={characterSchema}
+				schema={characterEntity.schema}
 				data={data}
 				onChange={setData}
 				widgets={widgets}
-				uiLayout={characterUiLayout}
+				uiLayout={characterEntity.uiLayout}
 				entityApi={entityApi}
 			/>
 		</FormWidgetProvider>
