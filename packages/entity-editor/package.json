@@ -22,7 +22,7 @@
 		"add-local": "node ../../tools/addLocal",
 		"remove-local": "node ../../tools/removeLocal",
 		"test": "jest",
-		"storybook": "cross-env STORYBOOK_PACKAGE_SCOPE=<packagename> yarn --cwd ../../ storybook"
+		"storybook": "cross-env STORYBOOK_PACKAGE_SCOPE=entity-editor yarn --cwd ../../ storybook"
 	},
 	"main": "dist/src/index",
 	"files": [

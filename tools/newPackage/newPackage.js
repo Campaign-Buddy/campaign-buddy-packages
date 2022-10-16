@@ -21,7 +21,9 @@ async function createPackageJson(packageName, isReact) {
 		encoding: 'utf-8',
 	});
 
-	const template = JSON.parse(rawTemplate);
+	const template = JSON.parse(
+		rawTemplate.replace(/<packagename>/g, packageName)
+	);
 
 	template.name = `@campaign-buddy/${packageName}`;
 
