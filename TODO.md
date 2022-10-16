@@ -10,6 +10,8 @@
 - [ ] Localization process (for packages that have copy) ([crowdin](https://crowdin.com/pricing#annual) has a free tier)
 - [ ] Optimze core-ui list focus management to not mutate state in context, move to pub/sub pattern where consumer subscribes to state changes and are notified when applicable
 - [ ] Update core-ui theme to be more comprehensive (make sure every visible color is a theme color, add theming for spacing and fonts, etc)
+- [ ] Improve focus behavior for drop downs (focus should be returned to where it was when closed)
+- [ ] Add grid aria roles to list
 - [X] Start working on rich text editor (using slate)
 	- [ ] Headings
 	- [ ] Entity mentions
