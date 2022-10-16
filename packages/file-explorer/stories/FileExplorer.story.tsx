@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import cuid from 'cuid';
+import { MockTextFileSystemApi } from '@campaign-buddy/mock-apis';
 import { FileExplorer } from '../src';
-import { MockTextFileSystemApi } from './MockTextFileSystemApi';
 
 export default {
 	title: 'file-explorer/FileExplorer',

@@ -20,6 +20,9 @@
 		},
 		{
 			"path": "../core-ui/tsconfig.json"
+		},
+		{
+			"path": "../mock-apis/tsconfig.json"
 		}
 	]
 }

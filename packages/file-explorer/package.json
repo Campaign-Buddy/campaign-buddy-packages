@@ -15,7 +15,8 @@
 		"react": "^18.0.9",
 		"react-query": "^3.34.12",
 		"styled-components": "^5.3.3",
-		"typescript": "^4.2.4"
+		"typescript": "^4.2.4",
+		"@campaign-buddy/mock-apis": "0.1.0"
 	},
 	"peerDependencies": {
 		"@campaign-buddy/react-theme-provider": "0.1.0",
