@@ -24,4 +24,7 @@ export const classEntity: EntityDefinition = {
 			{ title: 'Levels' }
 		),
 	}),
+	propertyMap: {
+		displayName: 'name',
+	},
 };

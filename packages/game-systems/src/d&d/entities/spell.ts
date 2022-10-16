@@ -16,4 +16,7 @@ export const spell: EntityDefinition = {
 		classes: types.arrayOf.strings({ title: 'Classes' }),
 		atHigherLevels: types.richText({ title: 'At Higher Levels' }),
 	}),
+	propertyMap: {
+		displayName: 'name',
+	},
 };

@@ -98,4 +98,7 @@ export const characterEntity: EntityDefinition = {
 			},
 		},
 	},
+	propertyMap: {
+		displayName: 'name',
+	},
 };

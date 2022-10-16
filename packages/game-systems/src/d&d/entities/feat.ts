@@ -9,4 +9,7 @@ export const feat: EntityDefinition = {
 		description: types.richText({ title: 'Description' }),
 		additionalProperties: types.schema({ title: 'Additional Properties' }),
 	}),
+	propertyMap: {
+		displayName: 'name',
+	},
 };

@@ -17,4 +17,7 @@ export const race: EntityDefinition = {
 		gainedSpellSlots: types.arrayOf.numbers({ title: 'Gained Spell Slots' }),
 		additionalProperties: types.schema({ title: 'Additional Properties' }),
 	}),
+	propertyMap: {
+		displayName: 'name',
+	},
 };
