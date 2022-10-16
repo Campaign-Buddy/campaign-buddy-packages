@@ -1,0 +1,24 @@
+{
+	"name": "@campaign-buddy/mock-apis",
+	"version": "0.1.0",
+	"author": "Joseph Stewart",
+	"license": "MIT",
+	"dependencies": {
+		"@campaign-buddy/apply-aggregates": "0.1.0",
+		"@campaign-buddy/json-path-ex": "0.1.0"
+	},
+	"devDependencies": {
+		"typescript": "^4.2.4",
+		"@campaign-buddy/frontend-types": "0.1.0"
+	},
+	"scripts": {
+		"build": "tsc -b",
+		"add-local": "node ../../tools/addLocal",
+		"remove-local": "node ../../tools/removeLocal",
+		"test": "jest"
+	},
+	"main": "dist/src/index",
+	"files": [
+		"dist/"
+	]
+}

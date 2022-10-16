@@ -24,7 +24,6 @@ export interface FSItemCreateSet {
 
 export interface FSItemEditSet {
 	name: string;
-	parentId?: string;
 }
 
 export type FSItemEditSetFields = keyof FSItemEditSet;
