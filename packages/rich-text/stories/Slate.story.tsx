@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { FormGroup } from '@campaign-buddy/core-ui';
+import { MockMediaApi } from '@campaign-buddy/mock-apis';
 import { Meta, Story } from '@storybook/react';
 import { QueryClient } from 'react-query';
 import { RichTextEditor, RichTextDocument } from '../src';
-import { MockMediaApi } from './mockMediaApi';
 
 export default {
 	title: 'rich-text/RichTextEditor',
