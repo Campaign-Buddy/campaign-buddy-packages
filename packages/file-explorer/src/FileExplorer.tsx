@@ -76,6 +76,89 @@ export function FileExplorer<TItemData>({
 		},
 	});
 
+	const renameItemMutation = useMutation(
+		({ itemId, newName }: { itemId: string; newName: string }) =>
+			api.edit(
+				itemId,
+				{
+					name: newName,
+				},
+				['name']
+			),
+		{
+			onMutate: (request) => {
+				const previousValue = queryClient.getQueryData(listFolderQueryKey);
+
+				if (previousValue) {
+					// We can append the created result
+					// to the existing query data
+					queryClient.cancelQueries(listFolderQueryKey);
+					const oldItem = (previousValue as ListResult<TItemData>).items.find(
+						(x) => x.id === request.itemId
+					);
+
+					if (!oldItem) {
+						throw new Error('Could not find item to edit');
+					}
+
+					queryClient.setQueryData(
+						listFolderQueryKey,
+						(old: ListResult<TItemData> | undefined) => {
+							if (!old) {
+								throw new Error(`Expected existing query data`);
+							}
+
+							return {
+								...old,
+								items: old.items.map((x) => {
+									if (x.id === request.itemId) {
+										return { ...x, name: request.newName };
+									} else {
+										return x;
+									}
+								}),
+							};
+						}
+					);
+
+					return oldItem.name;
+				}
+			},
+			onError: (error, request, context) => {
+				if (typeof context !== 'string') {
+					return;
+				}
+
+				const previousValue = queryClient.getQueryData(listFolderQueryKey);
+
+				if (previousValue) {
+					// We can append the created result
+					// to the existing query data
+					queryClient.cancelQueries(listFolderQueryKey);
+					queryClient.setQueryData(
+						listFolderQueryKey,
+						(old: ListResult<TItemData> | undefined) => {
+							if (!old) {
+								throw new Error(`Expected existing query data`);
+							}
+
+							return {
+								...old,
+								items: old.items.map((x) => {
+									if (x.id === request.itemId) {
+										return { ...x, name: context };
+									} else {
+										return x;
+									}
+								}),
+							};
+						}
+					);
+				}
+			},
+		}
+	);
+
 	const menuItems = useMemo<MenuItem[]>(
 		() => [
 			{
@@ -126,6 +209,9 @@ export function FileExplorer<TItemData>({
 						<FileListItem
 							openFile={openFile}
 							getIconForFile={getIconForItem}
+							renameItem={(item, name) => {
+								renameItemMutation.mutate({ itemId: item.id, newName: name });
+							}}
 							key={x.id}
 							file={x}
 						/>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useBooleanState } from '@campaign-buddy/common-hooks';
 import {
 	List,
@@ -9,6 +9,7 @@ import {
 	MenuPopover,
 	MenuItem,
 	ListItemShallowClickArea,
+	ListItemInput,
 } from '../src';
 
 export default {
@@ -17,6 +18,8 @@ export default {
 
 export const Primary = () => {
 	const [isMenuOpen, openMenu, closeMenu] = useBooleanState(false);
+
+	const [input, setInput] = useState('Im editable');
 
 	const menuItems: MenuItem[] = [
 		{
@@ -59,6 +62,9 @@ export const Primary = () => {
 			<ListItem onClick={() => console.log('???')}>
 				<ListItemIcon icon="blank" />
 				<ListItemText text="Super duper duper duper duper duper duper long" />
+			</ListItem>
+			<ListItem>
+				<ListItemInput value={input} onChange={setInput} />
 			</ListItem>
 			<ListItem onClick={() => console.log('image icon!')}>
 				<ListItemIcon

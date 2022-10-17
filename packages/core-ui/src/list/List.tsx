@@ -1,5 +1,6 @@
 import React, { useCallback, useRef } from 'react';
 import { useTheme } from '@campaign-buddy/react-theme-provider';
+import { useCombinedRefs } from '@campaign-buddy/common-hooks';
 import {
 	StyledOrderedList,
 	StyledUnorderedList,
@@ -7,11 +8,11 @@ import {
 	StyledListItemText,
 	StyledContextMenuListItem,
 	listItemClass,
+	StyledEditableText,
 } from './List.styled';
 import { IconName, Icon } from '../icon';
 import { ToggleButton } from '../button';
 import { MenuItem } from '../menu';
-import { useCombinedRefs } from '@campaign-buddy/common-hooks';
 import { CampaignBuddyIcon } from '../icon/IconType';
 import {
 	ListItemFocusManager,
@@ -166,6 +167,42 @@ export function ListItemShallowClickArea({
 		>
 			{children}
 		</AnyComponent>
+	);
+}
+
+export interface ListItemInputProps {
+	value: string;
+	onChange: (value: string) => void;
+	onCommit?: () => void;
+	onCancel?: () => void;
+	placeholderText?: string;
+	selectAllOnFocus?: boolean;
+}
+
+export function ListItemInput({
+	value,
+	onChange,
+	onCommit,
+	onCancel,
+	placeholderText,
+	selectAllOnFocus,
+}: ListItemInputProps) {
+	const shallowClickHandler = useCallback(() => {
+		shallowEventControl.wasEventHandled = true;
+	}, []);
+
+	return (
+		<div onClick={shallowClickHandler}>
+			<StyledEditableText
+				isEditing
+				value={value}
+				onChange={onChange}
+				placeholder={placeholderText}
+				onConfirm={onCommit}
+				onCancel={onCancel}
+				selectAllOnFocus={selectAllOnFocus}
+			/>
+		</div>
 	);
 }
 

@@ -17,7 +17,7 @@ StyledInputGroup.defaultProps = {
 	theme: defaultTheme,
 };
 
-interface InputProps extends BaseInputProps<string> {
+export interface InputProps extends BaseInputProps<string> {
 	placeholder?: string;
 	rightElement?: JSX.Element;
 }
