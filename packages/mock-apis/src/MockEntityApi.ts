@@ -2,6 +2,7 @@ import Fuse from 'fuse.js';
 import {
 	EntityApi,
 	EntitySummary,
+	FileSystemApi,
 	HydratedEntity,
 } from '@campaign-buddy/frontend-types';
 import { applyAggregates } from '@campaign-buddy/apply-aggregates';
@@ -13,6 +14,7 @@ import {
 	featEntity,
 } from './mockEntityDefinitions';
 import { characterClasses, feats } from './mockEntityData';
+import { MockEntityFileSystemApi } from './MockEntityFileSystemApi';
 
 const DEBUG_NETWORK_LOAD = false;
 
@@ -70,6 +72,16 @@ export class MockEntityApi implements EntityApi {
 			this.definitionStore[definition.name] = definition;
 		}
 	}
+
+	getFileSystemApiForEntityDefinition = (
+		definitionName: string
+	): FileSystemApi => {
+		return new MockEntityFileSystemApi(
+			this.entitySummaryStores[definitionName],
+			definitionName,
+			this
+		);
+	};
 
 	getEntityDefinition = async (
 		entityDefinitionName: string

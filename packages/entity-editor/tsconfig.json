@@ -14,6 +14,15 @@
 		},
 		{
 			"path": "../react-theme-provider/tsconfig.json"
+		},
+		{
+			"path": "../file-explorer/tsconfig.json"
+		},
+		{
+			"path": "../frontend-types/tsconfig.json"
+		},
+		{
+			"path": "../mock-apis/tsconfig.json"
 		}
 	]
 }

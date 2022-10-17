@@ -8,8 +8,8 @@
 		"@campaign-buddy/json-path-ex": "0.1.0"
 	},
 	"devDependencies": {
-		"typescript": "^4.2.4",
-		"@campaign-buddy/frontend-types": "0.1.0"
+		"@campaign-buddy/frontend-types": "0.1.0",
+		"typescript": "^4.2.4"
 	},
 	"scripts": {
 		"build": "tsc -b",
