@@ -1,6 +1,6 @@
 import { FSItemFolder } from '@campaign-buddy/frontend-types';
 import { Button, Icon } from '@campaign-buddy/core-ui';
-import React from 'react';
+import React, { Fragment } from 'react';
 import { BreadcrumbContainer } from './Breadcrumbs.styled';
 
 export interface BreadcrumbsProps {
@@ -27,18 +27,17 @@ export function Breadcrumbs({
 			{items
 				.filter((x): x is FSItemFolder => Boolean(x))
 				.map((x) => (
-					<>
+					<Fragment key={x.id}>
 						<Icon icon="chevron-right" />
 						<Button
 							style="minimal"
 							size="small"
-							icon={'folder-close'}
-							key={x.id}
+							icon="folder-close"
 							onClick={() => onNavigate(x.id)}
 						>
 							{x.name}
 						</Button>
-					</>
+					</Fragment>
 				))}
 		</BreadcrumbContainer>
 	);

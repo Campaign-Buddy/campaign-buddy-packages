@@ -23,18 +23,18 @@ export class MockTextFileSystemApi implements FileSystemApi<string> {
 		};
 	}
 
-	async list(folderId?: string): Promise<ListResult<string>> {
+	list = async (folderId?: string): Promise<ListResult<string>> => {
 		const children = this.itemsByFolderId[folderId ?? ROOT_FOLDER];
 		const folder = folderId ? this.getItemById(folderId) : null;
 
 		return {
-			items: children,
+			items: [...children],
 			folder: folder?.kind === 'folder' ? folder : undefined,
 			breadcrumbs: this.getBreadcrumbs(folderId),
 		};
-	}
+	};
 
-	async create(createSet: FSItemCreateSet): Promise<FSItem<string>> {
+	create = async (createSet: FSItemCreateSet): Promise<FSItem<string>> => {
 		const targetListId = createSet.parentId ?? ROOT_FOLDER;
 		const item: FSItem<string> = {
 			...createSet,
@@ -42,24 +42,25 @@ export class MockTextFileSystemApi implements FileSystemApi<string> {
 			id: cuid(),
 		};
 
+		this.itemsByFolderId[targetListId] ??= [];
 		this.itemsByFolderId[targetListId].push(item);
 		return item;
-	}
+	};
 
-	async delete(itemId: string): Promise<void> {
+	delete = async (itemId: string): Promise<void> => {
 		const targetListId = this.getItemParentListId(itemId);
-		const targetList = this.itemsByFolderId[targetListId];
+		const targetList = this.itemsByFolderId[targetListId] ?? [];
 
 		this.itemsByFolderId[targetListId] = targetList.filter(
 			(item) => item.id !== itemId
 		);
-	}
+	};
 
-	async edit(
+	edit = async (
 		itemId: string,
 		editSet: FSItemEditSet,
 		fieldsToEdit: (keyof FSItemEditSet)[]
-	): Promise<FSItem<string>> {
+	): Promise<FSItem<string>> => {
 		if (fieldsToEdit.length === 0) {
 			throw new Error('Must supply fields');
 		}
@@ -71,7 +72,7 @@ export class MockTextFileSystemApi implements FileSystemApi<string> {
 		}
 
 		return item;
-	}
+	};
 
 	private getBreadcrumbs(folderId?: string): FSItemFolder[] {
 		if (!folderId) {
