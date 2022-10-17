@@ -1,5 +1,9 @@
 # Todo
 
+- [ ] File explorer
+	- [ ] Confirm deletes
+	- [ ] Kebab menus
+	- [ ] Better (custom?) root icon
 - [ ] Upload media breaks media menu in rich text component
 - [ ] Design map maker v2 (tech and visual) using [fabricjs](http://fabricjs.com/)
 - [ ] Investigate [yjs](https://github.com/yjs/yjs) for collaborative data editing
