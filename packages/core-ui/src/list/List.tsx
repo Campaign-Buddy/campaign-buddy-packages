@@ -9,6 +9,7 @@ import {
 	StyledContextMenuListItem,
 	listItemClass,
 	StyledEditableText,
+	EditableTextContainer,
 } from './List.styled';
 import { IconName, Icon } from '../icon';
 import { ToggleButton } from '../button';
@@ -192,17 +193,19 @@ export function ListItemInput({
 	}, []);
 
 	return (
-		<div onClick={shallowClickHandler}>
-			<StyledEditableText
-				isEditing
-				value={value}
-				onChange={onChange}
-				placeholder={placeholderText}
-				onConfirm={onCommit}
-				onCancel={onCancel}
-				selectAllOnFocus={selectAllOnFocus}
-			/>
-		</div>
+		<EditableTextContainer>
+			<div onClick={shallowClickHandler}>
+				<StyledEditableText
+					isEditing
+					value={value}
+					onChange={onChange}
+					placeholder={placeholderText}
+					onConfirm={onCommit}
+					onCancel={onCancel}
+					selectAllOnFocus={selectAllOnFocus}
+				/>
+			</div>
+		</EditableTextContainer>
 	);
 }
 

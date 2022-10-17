@@ -10,6 +10,17 @@ const listStyle = css`
 	margin: 0;
 `;
 
+export const EditableTextContainer = styled.div`
+	width: 100%;
+	max-width: 100%;
+	min-width: 0;
+	flex-grow: 1;
+
+	& > div {
+		max-width: 100%;
+	}
+`;
+
 export const StyledEditableText = styled(EditableText)`
 	&:before {
 		background-color: transparent !important;
@@ -27,6 +38,7 @@ export const StyledOrderedList = styled.ol`
 const listItemStyle = css<{ isInteractive?: boolean }>`
 	display: flex;
 	align-items: center;
+	overflow: hidden;
 	height: ${({ theme }) =>
 		theme.list.item.lineHeight + theme.list.item.padding.vertical}px;
 	gap: ${({ theme }) => theme.list.item.spacing}px;
