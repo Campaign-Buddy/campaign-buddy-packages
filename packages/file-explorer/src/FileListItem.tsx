@@ -2,16 +2,16 @@ import {
 	ListItem,
 	CampaignBuddyIcon,
 	ListItemIcon,
-	MenuItem,
 } from '@campaign-buddy/core-ui';
-import { FSItemFile } from '@campaign-buddy/frontend-types';
-import React, { useCallback, useMemo, useState } from 'react';
+import { FSItem, FSItemFile } from '@campaign-buddy/frontend-types';
+import React, { useCallback } from 'react';
 import { EditableListItemText } from './EditableListItemText';
+import { useContextMenu } from './useContextMenu';
 
 export interface FileListItemProps<TItemData> {
 	file: FSItemFile<TItemData>;
 	openFile: (item: FSItemFile<TItemData>) => void;
-	renameItem: (item: FSItemFile<TItemData>, newName: string) => void;
+	renameItem: (item: FSItem<TItemData>, newName: string) => void;
 	getIconForFile: (item: FSItemFile<TItemData>) => CampaignBuddyIcon;
 }
 
@@ -25,41 +25,17 @@ export function FileListItem<TItemData>({
 		openFile(file);
 	}, [file, openFile]);
 
-	const [isEditing, setIsEditing] = useState(false);
-
-	const contextMenuItems = useMemo<MenuItem[]>(
-		() => [
-			{
-				displayText: 'Rename',
-				icon: 'edit',
-				onClick: () => {
-					setIsEditing(true);
-				},
-			},
-		],
-		[]
-	);
-
-	const handleCommitRename = useCallback(
-		(newName: string) => {
-			renameItem(file, newName);
-			setIsEditing(false);
-		},
-		[file, renameItem]
-	);
-
-	const handleCancelRename = useCallback(() => {
-		setIsEditing(false);
-	}, []);
+	const { contextMenuItems, commitRename, cancelRename, isRenaming } =
+		useContextMenu({ item: file, renameItem });
 
 	return (
 		<ListItem onClick={handleOnClick} contextMenuItems={contextMenuItems}>
 			<ListItemIcon icon={getIconForFile(file)} />
 			<EditableListItemText
-				isEditing={isEditing}
+				isEditing={isRenaming}
 				text={file.name}
-				onCommit={handleCommitRename}
-				onCancel={handleCancelRename}
+				onCommit={commitRename}
+				onCancel={cancelRename}
 			/>
 		</ListItem>
 	);

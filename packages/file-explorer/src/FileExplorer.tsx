@@ -204,7 +204,14 @@ export function FileExplorer<TItemData>({
 			<List>
 				{listResult.items.map((x) =>
 					x.kind === 'folder' ? (
-						<FolderListItem key={x.id} folder={x} onNavigate={setFolderId} />
+						<FolderListItem
+							key={x.id}
+							folder={x}
+							onNavigate={setFolderId}
+							renameItem={(item, name) => {
+								renameItemMutation.mutate({ itemId: item.id, newName: name });
+							}}
+						/>
 					) : (
 						<FileListItem
 							openFile={openFile}
