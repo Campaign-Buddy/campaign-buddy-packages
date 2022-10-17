@@ -1,6 +1,7 @@
 import { FSItemFolder } from '@campaign-buddy/frontend-types';
-import { Button } from '@campaign-buddy/core-ui';
+import { Button, Icon } from '@campaign-buddy/core-ui';
 import React from 'react';
+import { BreadcrumbContainer } from './Breadcrumbs.styled';
 
 export interface BreadcrumbsProps {
 	currentFolder?: FSItemFolder;
@@ -16,7 +17,7 @@ export function Breadcrumbs({
 	const items = [...breadcrumbs, currentFolder];
 
 	return (
-		<p>
+		<BreadcrumbContainer>
 			<Button
 				style="minimal"
 				size="small"
@@ -26,16 +27,19 @@ export function Breadcrumbs({
 			{items
 				.filter((x): x is FSItemFolder => Boolean(x))
 				.map((x) => (
-					<Button
-						style="minimal"
-						size="small"
-						icon={'folder-close'}
-						key={x.id}
-						onClick={() => onNavigate(x.id)}
-					>
-						{x.name}
-					</Button>
+					<>
+						<Icon icon="chevron-right" />
+						<Button
+							style="minimal"
+							size="small"
+							icon={'folder-close'}
+							key={x.id}
+							onClick={() => onNavigate(x.id)}
+						>
+							{x.name}
+						</Button>
+					</>
 				))}
-		</p>
+		</BreadcrumbContainer>
 	);
 }

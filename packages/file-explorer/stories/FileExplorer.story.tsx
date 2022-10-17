@@ -76,6 +76,7 @@ export function Primary() {
 				setFolderId={setFolderId}
 				api={mockApi}
 				getIconForItem={() => 'document'}
+				openFile={(item) => console.log('opening', item)}
 			/>
 		</QueryClientProvider>
 	);
