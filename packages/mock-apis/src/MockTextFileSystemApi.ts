@@ -44,6 +44,11 @@ export class MockTextFileSystemApi implements FileSystemApi<string> {
 
 		this.itemsByFolderId[targetListId] ??= [];
 		this.itemsByFolderId[targetListId].push(item);
+
+		if (createSet.kind === 'folder') {
+			this.itemsByFolderId[item.id] = [];
+		}
+
 		return item;
 	};
 

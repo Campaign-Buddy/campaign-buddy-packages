@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import {
 	FileSystemApi,
@@ -6,7 +6,14 @@ import {
 	FSItemFile,
 	ListResult,
 } from '@campaign-buddy/frontend-types';
-import { List, IconName, Button } from '@campaign-buddy/core-ui';
+import { useBooleanState } from '@campaign-buddy/common-hooks';
+import {
+	List,
+	IconName,
+	Button,
+	MenuPopover,
+	MenuItem,
+} from '@campaign-buddy/core-ui';
 import { FileListItem } from './FileListItem';
 import { FolderListItem } from './FolderListItem';
 import { Breadcrumbs } from './Breadcrumbs';
@@ -31,6 +38,7 @@ export function FileExplorer<TItemData>({
 	openFile,
 }: FileExplorerProps<TItemData>) {
 	const listFolderQueryKey = ['fileExplorer', 'currentFolder', folderId];
+	const [isMenuOpen, openMenu, closeMenu] = useBooleanState();
 
 	const { data: listResult, refetch } = useQuery({
 		queryKey: listFolderQueryKey,
@@ -40,7 +48,6 @@ export function FileExplorer<TItemData>({
 	const queryClient = useQueryClient();
 	const createNewItemMutation = useMutation(api.create, {
 		onSuccess: (createdItem) => {
-			console.log('createdItem', createdItem);
 			const previousValue = queryClient.getQueryData(listFolderQueryKey);
 
 			if (previousValue) {
@@ -69,6 +76,34 @@ export function FileExplorer<TItemData>({
 		},
 	});
 
+	const menuItems = useMemo<MenuItem[]>(
+		() => [
+			{
+				displayText: 'New file',
+				icon: 'document',
+				onClick: () => {
+					createNewItemMutation.mutate({
+						name: 'Default name',
+						parentId: folderId,
+						kind: 'file',
+					});
+				},
+			},
+			{
+				displayText: 'New folder',
+				icon: 'folder-close',
+				onClick: () => {
+					createNewItemMutation.mutate({
+						name: 'New folder',
+						parentId: folderId,
+						kind: 'folder',
+					});
+				},
+			},
+		],
+		[createNewItemMutation, folderId]
+	);
+
 	return listResult?.items ? (
 		<FileExplorerContainer>
 			<FileExplorerHeader>
@@ -77,20 +112,11 @@ export function FileExplorer<TItemData>({
 					breadcrumbs={listResult.breadcrumbs}
 					onNavigate={setFolderId}
 				/>
-				<Button
-					style="minimal"
-					size="small"
-					icon="plus"
-					onClick={() => {
-						createNewItemMutation.mutate({
-							name: 'Default name',
-							parentId: folderId,
-							kind: 'file',
-						});
-					}}
-				>
-					{'New'}
-				</Button>
+				<MenuPopover isOpen={isMenuOpen} onClose={closeMenu} items={menuItems}>
+					<Button style="minimal" size="small" icon="plus" onClick={openMenu}>
+						{'New'}
+					</Button>
+				</MenuPopover>
 			</FileExplorerHeader>
 			<List>
 				{listResult.items.map((x) =>
