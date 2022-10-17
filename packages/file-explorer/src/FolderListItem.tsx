@@ -8,19 +8,21 @@ export interface FolderListItemProps {
 	folder: FSItemFolder;
 	onNavigate: (folderId: string) => void;
 	renameItem: (item: FSItem<any>, newName: string) => void;
+	deleteItem: (item: FSItem<any>) => void;
 }
 
 export function FolderListItem({
 	folder,
 	onNavigate,
 	renameItem,
+	deleteItem,
 }: FolderListItemProps) {
 	const handleNavigate = useCallback(() => {
 		onNavigate(folder.id);
 	}, [folder.id, onNavigate]);
 
 	const { contextMenuItems, isRenaming, commitRename, cancelRename } =
-		useContextMenu({ item: folder, renameItem });
+		useContextMenu({ item: folder, renameItem, deleteItem });
 
 	return (
 		<ListItem onClick={handleNavigate} contextMenuItems={contextMenuItems}>

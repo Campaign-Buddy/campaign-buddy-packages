@@ -5,25 +5,35 @@ import { FSItem } from '@campaign-buddy/frontend-types';
 interface UseContextMenuOptions<TData> {
 	item: FSItem<TData>;
 	renameItem?: (item: FSItem<TData>, name: string) => void;
+	deleteItem?: (item: FSItem<TData>) => void;
 }
 
 export function useContextMenu<TData>({
 	item,
 	renameItem,
+	deleteItem,
 }: UseContextMenuOptions<TData>) {
 	const [isRenaming, setIsRenaming] = useState(false);
 
 	const contextMenuItems = useMemo<MenuItem[]>(
-		() => [
-			{
-				displayText: 'Rename',
-				icon: 'edit',
-				onClick: () => {
-					setIsRenaming(true);
+		() =>
+			[
+				renameItem && {
+					displayText: 'Rename',
+					icon: 'edit',
+					onClick: () => {
+						setIsRenaming(true);
+					},
 				},
-			},
-		],
-		[]
+				deleteItem && {
+					displayText: 'Delete',
+					icon: 'trash',
+					onClick: () => {
+						deleteItem(item);
+					},
+				},
+			].filter(Boolean) as MenuItem[],
+		[deleteItem, item, renameItem]
 	);
 
 	const commitRename = useCallback(

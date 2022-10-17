@@ -159,6 +159,38 @@ export function FileExplorer<TItemData>({
 		}
 	);
 
+	const deleteItemMutation = useMutation(api.delete, {
+		onSuccess: (_, itemId) => {
+			const previousValue = queryClient.getQueryData(listFolderQueryKey);
+
+			if (previousValue) {
+				// We can append the created result
+				// to the existing query data
+				queryClient.cancelQueries(listFolderQueryKey);
+
+				queryClient.setQueryData(
+					listFolderQueryKey,
+					(old: ListResult<TItemData> | undefined) => {
+						if (!old) {
+							throw new Error(`Expected existing query data`);
+						}
+
+						const oldItemIndex = old.items.findIndex((x) => x.id === itemId);
+						const newItems = [...old.items];
+						newItems.splice(oldItemIndex, 1);
+
+						return {
+							...old,
+							items: newItems,
+						};
+					}
+				);
+			} else {
+				refetch({ cancelRefetch: true });
+			}
+		},
+	});
+
 	const menuItems = useMemo<MenuItem[]>(
 		() => [
 			{
@@ -211,6 +243,9 @@ export function FileExplorer<TItemData>({
 							renameItem={(item, name) => {
 								renameItemMutation.mutate({ itemId: item.id, newName: name });
 							}}
+							deleteItem={(item) => {
+								deleteItemMutation.mutate(item.id);
+							}}
 						/>
 					) : (
 						<FileListItem
@@ -218,6 +253,9 @@ export function FileExplorer<TItemData>({
 							getIconForFile={getIconForItem}
 							renameItem={(item, name) => {
 								renameItemMutation.mutate({ itemId: item.id, newName: name });
+							}}
+							deleteItem={(item) => {
+								deleteItemMutation.mutate(item.id);
 							}}
 							key={x.id}
 							file={x}

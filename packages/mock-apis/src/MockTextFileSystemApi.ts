@@ -123,6 +123,9 @@ export class MockTextFileSystemApi implements FileSystemApi<string> {
 		);
 
 		if (!result) {
+			if (this.itemsByFolderId[ROOT_FOLDER].find((x) => x.id === itemId)) {
+				return ROOT_FOLDER;
+			}
 			throw new Error('Could not find item');
 		}
 
