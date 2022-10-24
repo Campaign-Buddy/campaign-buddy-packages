@@ -1,11 +1,15 @@
-import React, { useMemo, useState } from 'react';
-import { useMutation, useQuery, useQueryClient } from 'react-query';
+import React, { useCallback, useMemo, useState } from 'react';
 import {
 	FileSystemApi,
 	FSItem,
 	FSItemFile,
-	ListResult,
 } from '@campaign-buddy/frontend-types';
+import {
+	useDeleteFile,
+	useEditFile,
+	useCreateFile,
+	useListFolder,
+} from '@campaign-buddy/client-hooks';
 import { useBooleanState } from '@campaign-buddy/common-hooks';
 import {
 	List,
@@ -14,6 +18,7 @@ import {
 	MenuPopover,
 	MenuItem,
 	Modal,
+	ModalButton,
 } from '@campaign-buddy/core-ui';
 import { FileListItem } from './FileListItem';
 import { FolderListItem } from './FolderListItem';
@@ -38,160 +43,24 @@ export function FileExplorer<TItemData>({
 	getIconForItem,
 	openFile,
 }: FileExplorerProps<TItemData>) {
-	const listFolderQueryKey = ['fileExplorer', 'currentFolder', folderId];
 	const [isMenuOpen, openMenu, closeMenu] = useBooleanState();
 	const [itemToDelete, setItemToDelete] = useState<FSItem<TItemData>>();
 
-	const { data: listResult, refetch } = useQuery({
-		queryKey: listFolderQueryKey,
-		queryFn: () => api.list(folderId),
-	});
+	const { data: listResult } = useListFolder(api, folderId);
+	const createNewItemMutation = useCreateFile(api, folderId);
+	const editItem = useEditFile(api, folderId);
+	const deleteItemMutation = useDeleteFile(api, folderId);
 
-	const queryClient = useQueryClient();
-	const createNewItemMutation = useMutation(api.create, {
-		onSuccess: (createdItem) => {
-			const previousValue = queryClient.getQueryData(listFolderQueryKey);
-
-			if (previousValue) {
-				// We can append the created result
-				// to the existing query data
-				queryClient.cancelQueries(listFolderQueryKey);
-				queryClient.setQueryData(
-					listFolderQueryKey,
-					(old: ListResult<TItemData> | undefined) => {
-						if (!old) {
-							throw new Error(`Expected existing query data`);
-						}
-
-						return {
-							...old,
-							items: [...old.items, createdItem],
-						};
-					}
-				);
-			} else {
-				// We haven't loaded the list yet,
-				// so cancel in progress fetching
-				// and refetch
-				refetch({ cancelRefetch: true });
-			}
+	const renameItem = useCallback(
+		async (item: FSItem<TItemData>, name: string) => {
+			editItem.mutateAsync({
+				itemId: item.id,
+				editSet: { name },
+				fieldsToEdit: ['name'],
+			});
 		},
-	});
-
-	const renameItemMutation = useMutation(
-		({ itemId, newName }: { itemId: string; newName: string }) =>
-			api.edit(
-				itemId,
-				{
-					name: newName,
-				},
-				['name']
-			),
-		{
-			onMutate: (request) => {
-				const previousValue = queryClient.getQueryData(listFolderQueryKey);
-
-				if (previousValue) {
-					// We can append the created result
-					// to the existing query data
-					queryClient.cancelQueries(listFolderQueryKey);
-					const oldItem = (previousValue as ListResult<TItemData>).items.find(
-						(x) => x.id === request.itemId
-					);
-
-					if (!oldItem) {
-						throw new Error('Could not find item to edit');
-					}
-
-					queryClient.setQueryData(
-						listFolderQueryKey,
-						(old: ListResult<TItemData> | undefined) => {
-							if (!old) {
-								throw new Error(`Expected existing query data`);
-							}
-
-							return {
-								...old,
-								items: old.items.map((x) => {
-									if (x.id === request.itemId) {
-										return { ...x, name: request.newName };
-									} else {
-										return x;
-									}
-								}),
-							};
-						}
-					);
-
-					return oldItem.name;
-				}
-			},
-			onError: (error, request, context) => {
-				if (typeof context !== 'string') {
-					return;
-				}
-
-				const previousValue = queryClient.getQueryData(listFolderQueryKey);
-
-				if (previousValue) {
-					// We can append the created result
-					// to the existing query data
-					queryClient.cancelQueries(listFolderQueryKey);
-					queryClient.setQueryData(
-						listFolderQueryKey,
-						(old: ListResult<TItemData> | undefined) => {
-							if (!old) {
-								throw new Error(`Expected existing query data`);
-							}
-
-							return {
-								...old,
-								items: old.items.map((x) => {
-									if (x.id === request.itemId) {
-										return { ...x, name: context };
-									} else {
-										return x;
-									}
-								}),
-							};
-						}
-					);
-				}
-			},
-		}
+		[editItem]
 	);
-
-	const deleteItemMutation = useMutation(api.delete, {
-		onSuccess: (_, itemId) => {
-			const previousValue = queryClient.getQueryData(listFolderQueryKey);
-
-			if (previousValue) {
-				// We can append the created result
-				// to the existing query data
-				queryClient.cancelQueries(listFolderQueryKey);
-
-				queryClient.setQueryData(
-					listFolderQueryKey,
-					(old: ListResult<TItemData> | undefined) => {
-						if (!old) {
-							throw new Error(`Expected existing query data`);
-						}
-
-						const oldItemIndex = old.items.findIndex((x) => x.id === itemId);
-						const newItems = [...old.items];
-						newItems.splice(oldItemIndex, 1);
-
-						return {
-							...old,
-							items: newItems,
-						};
-					}
-				);
-			} else {
-				refetch({ cancelRefetch: true });
-			}
-		},
-	});
 
 	const menuItems = useMemo<MenuItem[]>(
 		() => [
@@ -221,6 +90,28 @@ export function FileExplorer<TItemData>({
 		[createNewItemMutation, folderId]
 	);
 
+	const footerButtons = useMemo<ModalButton[]>(
+		() => [
+			{
+				text: 'Close',
+				onClick: () => setItemToDelete(undefined),
+				style: 'minimal',
+			},
+			{
+				text: 'Delete',
+				onClick: async () => {
+					if (!itemToDelete) {
+						return;
+					}
+
+					await deleteItemMutation.mutateAsync(itemToDelete.id);
+					setItemToDelete(undefined);
+				},
+			},
+		],
+		[deleteItemMutation, itemToDelete]
+	);
+
 	return listResult?.items ? (
 		<FileExplorerContainer>
 			<FileExplorerHeader>
@@ -242,23 +133,15 @@ export function FileExplorer<TItemData>({
 							key={x.id}
 							folder={x}
 							onNavigate={setFolderId}
-							renameItem={(item, name) => {
-								renameItemMutation.mutate({ itemId: item.id, newName: name });
-							}}
-							deleteItem={(item) => {
-								setItemToDelete(item);
-							}}
+							renameItem={renameItem}
+							deleteItem={setItemToDelete}
 						/>
 					) : (
 						<FileListItem
 							openFile={openFile}
 							getIconForFile={getIconForItem}
-							renameItem={(item, name) => {
-								renameItemMutation.mutate({ itemId: item.id, newName: name });
-							}}
-							deleteItem={(item) => {
-								setItemToDelete(item);
-							}}
+							renameItem={renameItem}
+							deleteItem={setItemToDelete}
 							key={x.id}
 							file={x}
 						/>
@@ -269,24 +152,7 @@ export function FileExplorer<TItemData>({
 				title="Confirm"
 				onClose={() => setItemToDelete(undefined)}
 				isOpen={Boolean(itemToDelete)}
-				footerButtons={[
-					{
-						text: 'Close',
-						onClick: () => setItemToDelete(undefined),
-						style: 'minimal',
-					},
-					{
-						text: 'Delete',
-						onClick: async () => {
-							if (!itemToDelete) {
-								return;
-							}
-
-							await deleteItemMutation.mutateAsync(itemToDelete.id);
-							setItemToDelete(undefined);
-						},
-					},
-				]}
+				footerButtons={footerButtons}
 			>
 				<p>
 					Are you sure you sure you want to delete{' '}

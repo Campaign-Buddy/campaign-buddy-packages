@@ -23,6 +23,9 @@
 		},
 		{
 			"path": "../mock-apis/tsconfig.json"
+		},
+		{
+			"path": "../client-hooks/tsconfig.json"
 		}
 	]
 }

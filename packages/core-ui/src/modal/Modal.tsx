@@ -10,13 +10,13 @@ import {
 	ScrollStyle,
 } from './Modal.styled';
 
-interface ModalButton {
+export interface ModalButton {
 	text: string;
 	onClick: () => void;
 	style?: ButtonStyle;
 }
 
-interface ModalProps {
+export interface ModalProps {
 	title: string;
 	onClose: () => void;
 	isOpen: boolean;

@@ -15,7 +15,7 @@ interface EditFileOptions {
 
 export function useEditFile<TItemData>(
 	api: FileSystemApi<TItemData>,
-	folderId: string
+	folderId: string | undefined
 ) {
 	const queryClient = useQueryClient();
 	const queryKey = fileSystemApiQueryKeys.listFolder(folderId);

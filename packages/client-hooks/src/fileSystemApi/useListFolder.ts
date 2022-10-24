@@ -4,7 +4,7 @@ import { fileSystemApiQueryKeys } from './fileSystemApiQueryKeys';
 
 export function useListFolder<TItemData>(
 	api: FileSystemApi<TItemData>,
-	folderId: string
+	folderId: string | undefined
 ) {
 	const result = useQuery({
 		queryKey: fileSystemApiQueryKeys.listFolder(folderId),
