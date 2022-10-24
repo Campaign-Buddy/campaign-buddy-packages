@@ -22,6 +22,7 @@ export function EntityNavigator({
 			setFolderId={setFolderId}
 			api={fileSystemApi}
 			getIconForItem={blankIcon}
+			openFile={(item) => console.log('opening', item)}
 		/>
 	);
 }
