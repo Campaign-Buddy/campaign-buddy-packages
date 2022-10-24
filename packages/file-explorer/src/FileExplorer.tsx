@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import {
 	FileSystemApi,
@@ -13,6 +13,7 @@ import {
 	Button,
 	MenuPopover,
 	MenuItem,
+	Modal,
 } from '@campaign-buddy/core-ui';
 import { FileListItem } from './FileListItem';
 import { FolderListItem } from './FolderListItem';
@@ -39,6 +40,7 @@ export function FileExplorer<TItemData>({
 }: FileExplorerProps<TItemData>) {
 	const listFolderQueryKey = ['fileExplorer', 'currentFolder', folderId];
 	const [isMenuOpen, openMenu, closeMenu] = useBooleanState();
+	const [itemToDelete, setItemToDelete] = useState<FSItem<TItemData>>();
 
 	const { data: listResult, refetch } = useQuery({
 		queryKey: listFolderQueryKey,
@@ -229,7 +231,7 @@ export function FileExplorer<TItemData>({
 				/>
 				<MenuPopover isOpen={isMenuOpen} onClose={closeMenu} items={menuItems}>
 					<Button style="minimal" size="small" icon="plus" onClick={openMenu}>
-						{'New'}
+						New
 					</Button>
 				</MenuPopover>
 			</FileExplorerHeader>
@@ -244,7 +246,7 @@ export function FileExplorer<TItemData>({
 								renameItemMutation.mutate({ itemId: item.id, newName: name });
 							}}
 							deleteItem={(item) => {
-								deleteItemMutation.mutate(item.id);
+								setItemToDelete(item);
 							}}
 						/>
 					) : (
@@ -255,7 +257,7 @@ export function FileExplorer<TItemData>({
 								renameItemMutation.mutate({ itemId: item.id, newName: name });
 							}}
 							deleteItem={(item) => {
-								deleteItemMutation.mutate(item.id);
+								setItemToDelete(item);
 							}}
 							key={x.id}
 							file={x}
@@ -263,8 +265,36 @@ export function FileExplorer<TItemData>({
 					)
 				)}
 			</List>
+			<Modal
+				title="Confirm"
+				onClose={() => setItemToDelete(undefined)}
+				isOpen={Boolean(itemToDelete)}
+				footerButtons={[
+					{
+						text: 'Close',
+						onClick: () => setItemToDelete(undefined),
+						style: 'minimal',
+					},
+					{
+						text: 'Delete',
+						onClick: async () => {
+							if (!itemToDelete) {
+								return;
+							}
+
+							await deleteItemMutation.mutateAsync(itemToDelete.id);
+							setItemToDelete(undefined);
+						},
+					},
+				]}
+			>
+				<p>
+					Are you sure you sure you want to delete{' '}
+					<strong>{itemToDelete?.name}</strong>?
+				</p>
+			</Modal>
 		</FileExplorerContainer>
 	) : (
-		<p>{'Loading...'}</p>
+		<p>Loading...</p>
 	);
 }
