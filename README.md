@@ -20,6 +20,10 @@ React components from this collection of packages should be as unaware of their 
 
 Frontend packages should have a clear and defined purpose and should be broken down into smaller, reusable, logical pieces if possible. Each frontend package should be able to grow organically and independently from any packages that depend on it. If the scope of a package can't be succinctly and comprehensively expressed in a sentence or two, then it's probably too broad and can be broken up more.
 
+### UX Driven Abstraction
+
+Abstraction should be optimized to make a consistent user experience a pit of success. Prefer consistency of user experience over highly specialized UX solutions.
+
 ## Individual package documentation
 
 Unlisted packages do not have additional documentation.
@@ -28,3 +32,5 @@ Unlisted packages do not have additional documentation.
 - [@campaign-buddy/json-schema-core](./packages/json-schema-core/): a utility for building campaign buddy schemas using a prop-types like API.
 - [@campaign-buddy/json-path-ex](./packages/json-path-ex/): an implementation of [json-path](https://goessner.net/articles/JsonPath/) with some added functionality such as filtering by key-value.
 - [@campaign-buddy/core-ui](./packages/core-ui/): a shared ui library for core campaign buddy UI components
+- [@campaign-buddy/client-hooks](./packages/client-hooks/): react-query consumers of API clients defined in frontend-types
+- [@campaign-buddy/async-state-notifier](./packages/async-state-notifier/): async action notification system

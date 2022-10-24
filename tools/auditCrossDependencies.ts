@@ -49,6 +49,7 @@ function validateAllCrossPackageDeps(packageName: string) {
 		throw new Error('dependency-cruiser returned unexpected output');
 	}
 
+	const errors: string[] = [];
 	for (const module of result.output.modules) {
 		if (!module.source.startsWith(`packages/${packageName}`)) {
 			continue;
@@ -57,7 +58,7 @@ function validateAllCrossPackageDeps(packageName: string) {
 		for (const moduleDep of module.dependencies) {
 			if (moduleDep.module.startsWith('@campaign-buddy')) {
 				if (!allDependencies.includes(moduleDep.module)) {
-					throw new Error(
+					errors.push(
 						`detected unlisted local module reference (to ${moduleDep.module}) in ${module.source}`
 					);
 				}
@@ -65,11 +66,15 @@ function validateAllCrossPackageDeps(packageName: string) {
 				if (moduleDep.resolved.startsWith(`packages/${packageName}`)) {
 					continue;
 				} else {
-					throw new Error(
+					errors.push(
 						`detected package reference via relative import (to ${moduleDep.module}) in ${module.source}`
 					);
 				}
 			}
 		}
+	}
+
+	if (errors.length) {
+		throw new Error(errors.join('\n'));
 	}
 }

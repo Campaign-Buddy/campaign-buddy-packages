@@ -5,7 +5,8 @@
 	"license": "MIT",
 	"dependencies": {
 		"@campaign-buddy/core-ui": "0.1.0",
-		"@campaign-buddy/client-hooks": "0.1.0"
+		"@campaign-buddy/client-hooks": "0.1.0",
+		"@campaign-buddy/common-hooks": "0.1.0"
 	},
 	"devDependencies": {
 		"@campaign-buddy/frontend-types": "0.1.0",
