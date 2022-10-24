@@ -1,0 +1,3 @@
+# async-state-notifier
+
+`@campaign-buddy/async-state-notifier` standardizes the UX of making the user aware of async interactions. Some async actions make the user wait (such as creating a new character), some async actions can support optimistic updates (such as renames), some actions happen in the background but require the user's browser to stay open (such as large file uploads), and some actions are long running operations that don't require the user's browser (such as video transcoding). This package consolidates the user experience of being aware of the state of any given async operation in the app.
