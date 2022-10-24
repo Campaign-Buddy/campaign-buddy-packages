@@ -1,11 +1,12 @@
 import { FSItemFolder } from '@campaign-buddy/frontend-types';
-import { Button, Icon } from '@campaign-buddy/core-ui';
+import { Button, Icon, CampaignBuddyIcon } from '@campaign-buddy/core-ui';
 import React, { Fragment } from 'react';
 import { BreadcrumbContainer } from './Breadcrumbs.styled';
 
 export interface BreadcrumbsProps {
 	currentFolder?: FSItemFolder;
 	onNavigate: (folderId?: string) => void;
+	rootIcon?: CampaignBuddyIcon;
 	breadcrumbs: FSItemFolder[];
 }
 
@@ -13,6 +14,7 @@ export function Breadcrumbs({
 	currentFolder,
 	onNavigate,
 	breadcrumbs,
+	rootIcon,
 }: BreadcrumbsProps) {
 	const items = [...breadcrumbs, currentFolder];
 
@@ -21,7 +23,7 @@ export function Breadcrumbs({
 			<Button
 				style="minimal"
 				size="small"
-				icon="cube"
+				icon={rootIcon ?? 'cube'}
 				onClick={() => onNavigate()}
 			/>
 			{items

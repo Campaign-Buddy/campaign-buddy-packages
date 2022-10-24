@@ -14,7 +14,7 @@ const adminRole = 'gm';
 const nonAdminRole = 'player';
 
 const StringWidget: React.FC<
-	React.PropsWithChildren<WidgetProps<string, string>>
+	React.PropsWithChildren<WidgetProps<string, any>>
 > = ({
 	value,
 	onChange,

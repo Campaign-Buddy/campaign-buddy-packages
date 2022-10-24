@@ -19,6 +19,7 @@ import {
 	MenuItem,
 	Modal,
 	ModalButton,
+	CampaignBuddyIcon,
 } from '@campaign-buddy/core-ui';
 import { FileListItem } from './FileListItem';
 import { FolderListItem } from './FolderListItem';
@@ -31,6 +32,8 @@ import {
 export interface FileExplorerProps<TItemData = any> {
 	api: FileSystemApi<TItemData>;
 	folderId?: string;
+	rootIcon?: CampaignBuddyIcon;
+	getAddMenu?: (create: FileSystemApi<TItemData>['create']) => MenuItem[];
 	setFolderId: (newFolderId?: string) => void;
 	getIconForItem: (item: FSItem<TItemData>) => IconName;
 	openFile: (file: FSItemFile<TItemData>) => void;
@@ -42,6 +45,7 @@ export function FileExplorer<TItemData>({
 	setFolderId,
 	getIconForItem,
 	openFile,
+	getAddMenu,
 }: FileExplorerProps<TItemData>) {
 	const [isMenuOpen, openMenu, closeMenu] = useBooleanState();
 	const [itemToDelete, setItemToDelete] = useState<FSItem<TItemData>>();
@@ -62,32 +66,33 @@ export function FileExplorer<TItemData>({
 		[editItem]
 	);
 
-	const menuItems = useMemo<MenuItem[]>(
-		() => [
-			{
-				displayText: 'New file',
-				icon: 'document',
-				onClick: () => {
-					createNewItemMutation.mutate({
-						name: 'Default name',
-						parentId: folderId,
-						kind: 'file',
-					});
+	const newMenuItems = useMemo<MenuItem[]>(
+		() =>
+			getAddMenu?.(createNewItemMutation.mutateAsync) ?? [
+				{
+					displayText: 'New file',
+					icon: 'document',
+					onClick: () => {
+						createNewItemMutation.mutate({
+							name: 'Default name',
+							parentId: folderId,
+							kind: 'file',
+						});
+					},
 				},
-			},
-			{
-				displayText: 'New folder',
-				icon: 'folder-close',
-				onClick: () => {
-					createNewItemMutation.mutate({
-						name: 'New folder',
-						parentId: folderId,
-						kind: 'folder',
-					});
+				{
+					displayText: 'New folder',
+					icon: 'folder-close',
+					onClick: () => {
+						createNewItemMutation.mutate({
+							name: 'New folder',
+							parentId: folderId,
+							kind: 'folder',
+						});
+					},
 				},
-			},
-		],
-		[createNewItemMutation, folderId]
+			],
+		[createNewItemMutation, folderId, getAddMenu]
 	);
 
 	const footerButtons = useMemo<ModalButton[]>(
@@ -120,11 +125,17 @@ export function FileExplorer<TItemData>({
 					breadcrumbs={listResult.breadcrumbs}
 					onNavigate={setFolderId}
 				/>
-				<MenuPopover isOpen={isMenuOpen} onClose={closeMenu} items={menuItems}>
-					<Button style="minimal" size="small" icon="plus" onClick={openMenu}>
-						New
-					</Button>
-				</MenuPopover>
+				{newMenuItems.length && (
+					<MenuPopover
+						isOpen={isMenuOpen}
+						onClose={closeMenu}
+						items={newMenuItems}
+					>
+						<Button style="minimal" size="small" icon="plus" onClick={openMenu}>
+							New
+						</Button>
+					</MenuPopover>
+				)}
 			</FileExplorerHeader>
 			<List>
 				{listResult.items.map((x) =>

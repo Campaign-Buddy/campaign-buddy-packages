@@ -12,6 +12,7 @@ const ROOT_FOLDER = Symbol('Empty');
 
 export class MockTextFileSystemApi implements FileSystemApi<string> {
 	private itemsByFolderId: Record<string | symbol, FSItem<string>[]>;
+	private mockLatencyMs?: number = 1_000;
 
 	constructor(
 		rootItems: FSItem<string>[] = [],
@@ -24,6 +25,7 @@ export class MockTextFileSystemApi implements FileSystemApi<string> {
 	}
 
 	list = async (folderId?: string): Promise<ListResult<string>> => {
+		await this.simulateLatency();
 		const children = this.itemsByFolderId[folderId ?? ROOT_FOLDER];
 		const folder = folderId ? this.getItemById(folderId) : null;
 
@@ -35,6 +37,7 @@ export class MockTextFileSystemApi implements FileSystemApi<string> {
 	};
 
 	create = async (createSet: FSItemCreateSet): Promise<FSItem<string>> => {
+		await this.simulateLatency();
 		const targetListId = createSet.parentId ?? ROOT_FOLDER;
 		const item: FSItem<string> = {
 			...createSet,
@@ -53,6 +56,7 @@ export class MockTextFileSystemApi implements FileSystemApi<string> {
 	};
 
 	delete = async (itemId: string): Promise<void> => {
+		await this.simulateLatency();
 		const targetListId = this.getItemParentListId(itemId);
 		const targetList = this.itemsByFolderId[targetListId] ?? [];
 
@@ -66,6 +70,8 @@ export class MockTextFileSystemApi implements FileSystemApi<string> {
 		editSet: FSItemEditSet,
 		fieldsToEdit: (keyof FSItemEditSet)[]
 	): Promise<FSItem<string>> => {
+		await this.simulateLatency();
+
 		if (fieldsToEdit.length === 0) {
 			throw new Error('Must supply fields');
 		}
@@ -73,7 +79,7 @@ export class MockTextFileSystemApi implements FileSystemApi<string> {
 		const item = this.getItemById(itemId);
 
 		for (const field of fieldsToEdit) {
-			item[field] = editSet[field];
+			item[field] = editSet[field] as any;
 		}
 
 		return item;
@@ -144,4 +150,10 @@ export class MockTextFileSystemApi implements FileSystemApi<string> {
 
 		return item;
 	}
+
+	private simulateLatency = (): Promise<void> => {
+		return new Promise((resolve) => {
+			setTimeout(() => resolve(), this.mockLatencyMs);
+		});
+	};
 }

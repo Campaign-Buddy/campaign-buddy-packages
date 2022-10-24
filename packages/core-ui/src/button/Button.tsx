@@ -1,10 +1,10 @@
 import React from 'react';
-import { IconName } from '@blueprintjs/core';
 import { StyledButton, ButtonStyle } from './Button.styled';
+import { CampaignBuddyIcon, Icon } from '../icon';
 
 interface ButtonProps
 	extends Omit<React.ComponentProps<'button'>, 'style' | 'onClick' | 'ref'> {
-	icon?: IconName;
+	icon?: CampaignBuddyIcon;
 	onClick?: (event: React.MouseEvent<HTMLElement, MouseEvent>) => void;
 	style?: ButtonStyle;
 	buttonRef?: React.RefObject<HTMLButtonElement>;
@@ -21,7 +21,7 @@ export const Button: React.FC<React.PropsWithChildren<ButtonProps>> = ({
 	...rest
 }) => (
 	<StyledButton
-		icon={icon}
+		icon={icon && <Icon icon={icon} />}
 		onClick={onClick}
 		minimal={style === 'minimal'}
 		elementRef={buttonRef}

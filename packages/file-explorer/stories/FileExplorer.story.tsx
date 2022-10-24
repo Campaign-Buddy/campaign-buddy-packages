@@ -77,6 +77,30 @@ export function Primary() {
 				api={mockApi}
 				getIconForItem={() => 'document'}
 				openFile={(item) => console.log('opening', item)}
+				getAddMenu={(create) => [
+					{
+						displayText: 'New file',
+						icon: 'document',
+						onClick: () => {
+							create({
+								name: 'Default name',
+								parentId: folderId,
+								kind: 'file',
+							});
+						},
+					},
+					{
+						displayText: 'New folder',
+						icon: 'folder-close',
+						onClick: () => {
+							create({
+								name: 'New folder',
+								parentId: folderId,
+								kind: 'folder',
+							});
+						},
+					},
+				]}
 			/>
 		</QueryClientProvider>
 	);

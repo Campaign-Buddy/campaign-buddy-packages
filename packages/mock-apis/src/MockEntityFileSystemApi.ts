@@ -98,7 +98,7 @@ export class MockEntityFileSystemApi implements FileSystemApi<EntitySummary> {
 		const item = this.getItemById(itemId);
 
 		for (const field of fieldsToEdit) {
-			item[field] = editSet[field];
+			item[field] = editSet[field] as any;
 		}
 
 		return item;
