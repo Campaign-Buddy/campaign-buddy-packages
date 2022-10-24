@@ -23,7 +23,7 @@ export interface FSItemCreateSet {
 }
 
 export interface FSItemEditSet {
-	name: string;
+	name?: string;
 }
 
 export type FSItemEditSetFields = keyof FSItemEditSet;
