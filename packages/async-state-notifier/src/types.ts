@@ -1,33 +1,34 @@
-export enum UpdateKind {
-	ResolveSuccess,
-	ResolveError,
-	Progress,
+export type AsyncActionKind =
+	| 'blocking'
+	| 'optimisitic'
+	| 'background-client'
+	| 'background-server';
+
+export interface UpdateAsyncOperationResult {
+	isResolved: boolean;
 }
 
-export enum AsyncActionKind {
-	Blocking,
-	Optimisitc,
-	BackgroundClient,
-	BackgroundServer,
-}
-
-export interface ResolveUpdateAsyncActionOptions {
-	kind: UpdateKind.ResolveError | UpdateKind.ResolveSuccess;
-	message?: string;
-}
-
-export interface ProgressUpdateAsyncActionOptions {
-	kind: UpdateKind.Progress;
+export interface ProgressOperationOptions {
 	progress: number;
 }
 
-export type UpdateAsyncActionOptions =
-	| ResolveUpdateAsyncActionOptions
-	| ProgressUpdateAsyncActionOptions;
+export interface ResolveOperationOptions {
+	message?: string;
+}
 
-export type UpdateAsyncActionCallback = (
-	options: UpdateAsyncActionOptions
-) => void;
+export interface AsyncOperationState {
+	readonly id: string;
+	readonly kind: AsyncActionKind;
+	readonly progress: number;
+}
+
+export interface AsyncOperation {
+	readonly state: AsyncOperationState;
+
+	progress: (options: ProgressOperationOptions) => UpdateAsyncOperationResult;
+	succeed: (options?: ResolveOperationOptions) => UpdateAsyncOperationResult;
+	fail: (options?: ResolveOperationOptions) => UpdateAsyncOperationResult;
+}
 
 export interface StartAsyncActionOptions {
 	kind: AsyncActionKind;
@@ -36,4 +37,4 @@ export interface StartAsyncActionOptions {
 
 export type StartAsyncActionCallback = (
 	options: StartAsyncActionOptions
-) => UpdateAsyncActionCallback;
+) => AsyncOperation;

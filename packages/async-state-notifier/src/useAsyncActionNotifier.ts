@@ -1,23 +1,20 @@
 import { useCallback, useRef } from 'react';
 import cuid from 'cuid';
 import {
-	AsyncActionKind,
+	AsyncOperationState,
 	StartAsyncActionOptions,
-	UpdateAsyncActionOptions,
-	UpdateKind,
+	AsyncOperation,
 } from './types';
 
-export interface AsyncOperation {
-	id: string;
-	kind: AsyncActionKind;
-	percentage: number;
-}
+type Mutable<T> = {
+	-readonly [P in keyof T]: T[P];
+};
 
 export interface UseAsyncActionNotifierOptions {
-	onStart?: (operation: AsyncOperation, message?: string) => void;
-	onContinue?: (operation: AsyncOperation, percentage: number) => void;
-	onSuccess?: (operation: AsyncOperation, message?: string) => void;
-	onError?: (operation: AsyncOperation, message?: string) => void;
+	onStart?: (operation: AsyncOperationState, message?: string) => void;
+	onContinue?: (operation: AsyncOperationState) => void;
+	onSuccess?: (operation: AsyncOperationState, message?: string) => void;
+	onError?: (operation: AsyncOperationState, message?: string) => void;
 }
 
 export function useAsyncActionNotifier({
@@ -26,39 +23,61 @@ export function useAsyncActionNotifier({
 	onSuccess,
 	onError,
 }: UseAsyncActionNotifierOptions) {
-	const asyncOperationStore = useRef<Record<string, AsyncOperation>>({});
+	const asyncOperationStore = useRef<
+		Record<string, Mutable<AsyncOperationState>>
+	>({});
 
 	const startAsyncOperation = useCallback(
-		(options: StartAsyncActionOptions) => {
+		(options: StartAsyncActionOptions): AsyncOperation => {
 			const id = cuid();
-			asyncOperationStore.current[id] = {
+			const operationState: AsyncOperationState = {
 				id,
 				kind: options.kind,
-				percentage: 0,
+				progress: 0,
 			};
+
+			asyncOperationStore.current[id] = operationState;
 
 			onStart?.(asyncOperationStore.current[id], options.message);
 
-			return (update: UpdateAsyncActionOptions) => {
-				if (!asyncOperationStore.current[id]) {
-					console.error(
-						'Tried to update a disposed async action, this is a noop but indicates a possible memory leak'
-					);
-					return;
-				}
+			return {
+				state: operationState,
+				progress: ({ progress }) => {
+					if (!asyncOperationStore.current[id]) {
+						return { isResolved: true };
+					}
 
-				const operation = asyncOperationStore.current[id];
+					asyncOperationStore.current[id].progress = progress;
+					onContinue?.(asyncOperationStore.current[id]);
 
-				if (update.kind === UpdateKind.Progress) {
-					operation.percentage = update.progress;
-					onContinue?.(operation, update.progress);
-				} else if (update.kind === UpdateKind.ResolveError) {
-					onError?.(operation, update.message);
-				} else if (update.kind === UpdateKind.ResolveSuccess) {
-					onSuccess?.(operation, update.message);
-				} else {
-					throw new Error(`Unknown operation kind ${update.kind}`);
-				}
+					return {
+						isResolved: false,
+					};
+				},
+				succeed: ({ message } = {}) => {
+					if (!asyncOperationStore.current[id]) {
+						return { isResolved: true };
+					}
+
+					onSuccess?.(asyncOperationStore.current[id], message);
+					delete asyncOperationStore.current[id];
+
+					return {
+						isResolved: true,
+					};
+				},
+				fail: ({ message } = {}) => {
+					if (!asyncOperationStore.current[id]) {
+						return { isResolved: true };
+					}
+
+					onError?.(asyncOperationStore.current[id], message);
+					delete asyncOperationStore.current[id];
+
+					return {
+						isResolved: true,
+					};
+				},
 			};
 		},
 		[onContinue, onError, onStart, onSuccess]

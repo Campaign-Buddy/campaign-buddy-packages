@@ -1,27 +1,25 @@
 import React, { useState, useRef, useCallback } from 'react';
-import {
-	useStartAsyncAction,
-	UpdateAsyncActionCallback,
-	UpdateKind,
-	AsyncActionKind,
-} from '../src';
+import { useStartAsyncAction, AsyncOperation } from '../src';
 
 export function AsyncButton() {
 	const startAsyncAction = useStartAsyncAction();
 	const [progress, setProgress] = useState(0);
-	const asyncOperation = useRef<UpdateAsyncActionCallback | undefined>();
+	const asyncOperation = useRef<AsyncOperation | undefined>();
 	const [state, setState] = useState<'idle' | 'working'>('idle');
 
 	const startOperation = useCallback(() => {
 		if (asyncOperation.current) {
-			asyncOperation.current({
-				kind: UpdateKind.ResolveError,
+			const result = asyncOperation.current.fail({
 				message: 'The operation was canceled',
 			});
+
+			if (!result.isResolved) {
+				throw new Error('Could not resolve existing operation');
+			}
 		}
 
 		asyncOperation.current = startAsyncAction({
-			kind: AsyncActionKind.Blocking,
+			kind: 'blocking',
 			message: 'Starting operation',
 		});
 		setState('working');
@@ -32,10 +30,14 @@ export function AsyncButton() {
 			return;
 		}
 
-		asyncOperation.current({
-			kind: UpdateKind.Progress,
+		const result = asyncOperation.current.progress({
 			progress: progress + 10,
 		});
+
+		if (result.isResolved) {
+			asyncOperation.current = undefined;
+			setState('idle');
+		}
 		setProgress(progress + 10);
 	}, [progress]);
 
@@ -44,12 +46,14 @@ export function AsyncButton() {
 			return;
 		}
 
-		asyncOperation.current({
-			kind: UpdateKind.ResolveError,
+		const result = asyncOperation.current.fail({
 			message: 'The operation failed',
 		});
-		asyncOperation.current = undefined;
-		setState('idle');
+
+		if (result.isResolved) {
+			asyncOperation.current = undefined;
+			setState('idle');
+		}
 	}, []);
 
 	const passOperation = useCallback(() => {
@@ -57,12 +61,14 @@ export function AsyncButton() {
 			return;
 		}
 
-		asyncOperation.current({
-			kind: UpdateKind.ResolveSuccess,
+		const result = asyncOperation.current.succeed({
 			message: 'The operation succeeded',
 		});
-		asyncOperation.current = undefined;
-		setState('idle');
+
+		if (result.isResolved) {
+			asyncOperation.current = undefined;
+			setState('idle');
+		}
 	}, []);
 
 	if (state === 'idle') {

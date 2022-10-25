@@ -1,13 +1,22 @@
 import React, { createContext, useContext, useMemo } from 'react';
-import { StartAsyncActionCallback } from './types';
+import cuid from 'cuid';
+import { AsyncOperation, StartAsyncActionCallback } from './types';
 
 export interface AsyncStateNotificationProviderProps {
 	onStartAsyncAction: StartAsyncActionCallback;
 }
 
-export const nullAsyncActionHandler: StartAsyncActionCallback = () => {
-	// eslint-disable-next-line @typescript-eslint/no-empty-function
-	return () => {};
+export const nullAsyncActionHandler = (): AsyncOperation => {
+	return {
+		state: {
+			id: cuid(),
+			kind: 'background-server',
+			progress: 0,
+		},
+		progress: () => ({ isResolved: true }),
+		succeed: () => ({ isResolved: true }),
+		fail: () => ({ isResolved: true }),
+	};
 };
 
 interface AsyncStateNotificationContextData {
