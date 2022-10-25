@@ -13,6 +13,7 @@ export enum AsyncActionKind {
 
 export interface ResolveUpdateAsyncActionOptions {
 	kind: UpdateKind.ResolveError | UpdateKind.ResolveSuccess;
+	message?: string;
 }
 
 export interface ProgressUpdateAsyncActionOptions {
@@ -30,6 +31,7 @@ export type UpdateAsyncActionCallback = (
 
 export interface StartAsyncActionOptions {
 	kind: AsyncActionKind;
+	message?: string;
 }
 
 export type StartAsyncActionCallback = (
