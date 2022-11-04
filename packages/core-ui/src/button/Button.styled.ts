@@ -21,9 +21,7 @@ const primaryStyles = css`
 	}
 `;
 
-export const StyledButton = styled(ButtonCore)<{ _style?: ButtonStyle }>`
-	${({ _style }) => (_style === 'primary' || !_style) && primaryStyles}
-
+export const baseButtonStyles = css`
 	outline: none;
 
 	& .bp4-icon {
@@ -50,6 +48,11 @@ export const StyledButton = styled(ButtonCore)<{ _style?: ButtonStyle }>`
 	&.bp4-minimal:active {
 		background-color: rgba(228, 222, 210, 0.9) !important;
 	}
+`;
+
+export const StyledButton = styled(ButtonCore)<{ _style?: ButtonStyle }>`
+	${({ _style }) => (_style === 'primary' || !_style) && primaryStyles}
+	${baseButtonStyles}
 `;
 
 StyledButton.defaultProps = {

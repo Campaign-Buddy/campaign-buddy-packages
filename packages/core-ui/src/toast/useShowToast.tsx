@@ -1,5 +1,6 @@
 import React, { useCallback, createContext, useContext, useRef } from 'react';
 import { IToaster, Toaster } from '@blueprintjs/core';
+import { GlobalToastStyles } from './Toast.styled';
 
 const ToasterContext = createContext<React.MutableRefObject<IToaster | null>>({
 	current: null,
@@ -16,6 +17,7 @@ export function ToasterProvider({
 
 	return (
 		<>
+			<GlobalToastStyles />
 			<Toaster position="bottom-right" ref={handleRef} />
 			<ToasterContext.Provider value={toasterRef}>
 				{children}
@@ -26,6 +28,7 @@ export function ToasterProvider({
 
 export interface ShowToastOptions {
 	message: string;
+	intent?: 'normal' | 'error';
 }
 
 export type ToastUpdater = (options: ShowToastOptions) => void;
@@ -37,7 +40,7 @@ export interface UseShowToastResult {
 export function useShowToast(): UseShowToastResult {
 	const toasterRef = useContext(ToasterContext);
 	const showToast = useCallback(
-		({ message }: ShowToastOptions) => {
+		({ message, intent }: ShowToastOptions) => {
 			const toaster = toasterRef.current;
 			if (!toaster) {
 				throw new Error(
@@ -47,12 +50,14 @@ export function useShowToast(): UseShowToastResult {
 
 			const key = toaster.show({
 				message,
+				intent: mapToBlueprintIntent(intent),
 			});
 
-			return ({ message: newMessage }: ShowToastOptions) => {
+			return ({ message: newMessage, intent: newIntent }: ShowToastOptions) => {
 				toaster.show(
 					{
 						message: newMessage,
+						intent: mapToBlueprintIntent(newIntent),
 					},
 					key
 				);
@@ -62,4 +67,12 @@ export function useShowToast(): UseShowToastResult {
 	);
 
 	return { showToast };
+}
+
+function mapToBlueprintIntent(cbIntent?: 'normal' | 'error') {
+	if (cbIntent === 'normal' || !cbIntent) {
+		return 'none';
+	}
+
+	return 'danger';
 }
