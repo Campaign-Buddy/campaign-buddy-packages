@@ -1,5 +1,9 @@
 import React from 'react';
-import { ConsoleLoggingAsyncStateNotificationProvider } from '../src';
+import { ToasterProvider } from '@campaign-buddy/core-ui';
+import {
+	ConsoleLoggingAsyncStateNotificationProvider,
+	ToastAsyncStateNotificationProvider,
+} from '../src';
 import { AsyncButton } from './AsyncButton';
 
 export default {
@@ -12,5 +16,16 @@ export function ConsoleLoggingNotifier() {
 			<p>Logs events to console, useful for debugging</p>
 			<AsyncButton />
 		</ConsoleLoggingAsyncStateNotificationProvider>
+	);
+}
+
+export function ToastNotifier() {
+	return (
+		<ToasterProvider>
+			<ToastAsyncStateNotificationProvider>
+				<p>Pops up a toast</p>
+				<AsyncButton />
+			</ToastAsyncStateNotificationProvider>
+		</ToasterProvider>
 	);
 }

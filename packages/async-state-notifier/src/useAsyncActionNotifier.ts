@@ -10,22 +10,31 @@ type Mutable<T> = {
 	-readonly [P in keyof T]: T[P];
 };
 
-export interface UseAsyncActionNotifierOptions {
-	onStart?: (operation: AsyncOperationState, message?: string) => void;
-	onContinue?: (operation: AsyncOperationState) => void;
-	onSuccess?: (operation: AsyncOperationState, message?: string) => void;
-	onError?: (operation: AsyncOperationState, message?: string) => void;
+export interface UseAsyncActionNotifierOptions<T = void> {
+	onStart?: (operation: AsyncOperationState, message?: string) => T;
+	onContinue?: (operation: AsyncOperationState, state?: T) => T | undefined;
+	onSuccess?: (
+		operation: AsyncOperationState,
+		message?: string,
+		state?: T
+	) => void;
+	onError?: (
+		operation: AsyncOperationState,
+		message?: string,
+		state?: T
+	) => void;
 }
 
-export function useAsyncActionNotifier({
+export function useAsyncActionNotifier<T = void>({
 	onStart,
 	onContinue,
 	onSuccess,
 	onError,
-}: UseAsyncActionNotifierOptions) {
+}: UseAsyncActionNotifierOptions<T>) {
 	const asyncOperationStore = useRef<
 		Record<string, Mutable<AsyncOperationState>>
 	>({});
+	const asyncOperationState = useRef<Record<string, T | undefined>>({});
 
 	const startAsyncOperation = useCallback(
 		(options: StartAsyncActionOptions): AsyncOperation => {
@@ -38,7 +47,8 @@ export function useAsyncActionNotifier({
 
 			asyncOperationStore.current[id] = operationState;
 
-			onStart?.(asyncOperationStore.current[id], options.message);
+			const state = onStart?.(asyncOperationStore.current[id], options.message);
+			asyncOperationState.current[id] = state;
 
 			return {
 				state: operationState,
@@ -48,7 +58,14 @@ export function useAsyncActionNotifier({
 					}
 
 					asyncOperationStore.current[id].progress = progress;
-					onContinue?.(asyncOperationStore.current[id]);
+					const currentState = asyncOperationState.current[id];
+					const nextState = onContinue?.(
+						asyncOperationStore.current[id],
+						currentState
+					);
+					if (nextState !== undefined) {
+						asyncOperationState.current[id] = nextState;
+					}
 
 					return {
 						isResolved: false,
@@ -59,8 +76,10 @@ export function useAsyncActionNotifier({
 						return { isResolved: true };
 					}
 
-					onSuccess?.(asyncOperationStore.current[id], message);
+					const currentState = asyncOperationState.current[id];
+					onSuccess?.(asyncOperationStore.current[id], message, currentState);
 					delete asyncOperationStore.current[id];
+					delete asyncOperationState.current[id];
 
 					return {
 						isResolved: true,
@@ -71,8 +90,10 @@ export function useAsyncActionNotifier({
 						return { isResolved: true };
 					}
 
-					onError?.(asyncOperationStore.current[id], message);
+					const currentState = asyncOperationState.current[id];
+					onError?.(asyncOperationStore.current[id], message, currentState);
 					delete asyncOperationStore.current[id];
+					delete asyncOperationState.current[id];
 
 					return {
 						isResolved: true,
