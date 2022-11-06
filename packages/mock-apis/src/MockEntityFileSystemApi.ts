@@ -4,6 +4,7 @@ import {
 	FSItem,
 	FSItemCreateSet,
 	FSItemEditSet,
+	FSItemFolder,
 	ListResult,
 } from '@campaign-buddy/frontend-types';
 import { MockEntityApi } from './MockEntityApi';
@@ -32,15 +33,19 @@ export class MockEntityFileSystemApi implements FileSystemApi<EntitySummary> {
 		}));
 	}
 
-	async list(folderId?: string): Promise<ListResult<EntitySummary>> {
+	list = async (folderId?: string): Promise<ListResult<EntitySummary>> => {
 		await this.simulateLatency();
+		const folder = folderId ? this.getItemById(folderId) : undefined;
 		return {
-			items: this.entitiesByFolderId[folderId ?? ROOT_FOLDER],
-			breadcrumbs: [],
+			items: [...this.entitiesByFolderId[folderId ?? ROOT_FOLDER]],
+			breadcrumbs: this.getBreadcrumbs(folderId),
+			folder: folder?.kind === 'folder' ? folder : undefined,
 		};
-	}
+	};
 
-	async create(createSet: FSItemCreateSet): Promise<FSItem<EntitySummary>> {
+	create = async (
+		createSet: FSItemCreateSet
+	): Promise<FSItem<EntitySummary>> => {
 		await this.simulateLatency();
 		this.entitiesByFolderId[createSet.parentId ?? ROOT_FOLDER] ??= [];
 		const parent = this.entitiesByFolderId[createSet.parentId ?? ROOT_FOLDER];
@@ -64,13 +69,14 @@ export class MockEntityFileSystemApi implements FileSystemApi<EntitySummary> {
 				kind: 'folder',
 				id: this.randomString(),
 			};
+			this.entitiesByFolderId[item.id] = [];
 		}
 
 		parent.push(item);
 		return item;
-	}
+	};
 
-	async delete(itemId: string): Promise<void> {
+	delete = async (itemId: string): Promise<void> => {
 		await this.simulateLatency();
 		const parent = Object.values(this.entitiesByFolderId).find((x) =>
 			x.some((item) => item.id === itemId)
@@ -87,13 +93,13 @@ export class MockEntityFileSystemApi implements FileSystemApi<EntitySummary> {
 
 		const index = parent.findIndex((item) => item.id === itemId);
 		parent.splice(index, 1);
-	}
+	};
 
-	async edit(
+	edit = async (
 		itemId: string,
 		editSet: FSItemEditSet,
 		fieldsToEdit: (keyof FSItemEditSet)[]
-	): Promise<FSItem<EntitySummary>> {
+	): Promise<FSItem<EntitySummary>> => {
 		await this.simulateLatency();
 		const item = this.getItemById(itemId);
 
@@ -102,7 +108,45 @@ export class MockEntityFileSystemApi implements FileSystemApi<EntitySummary> {
 		}
 
 		return item;
-	}
+	};
+
+	private getBreadcrumbs = (folderId?: string): FSItemFolder[] => {
+		if (!folderId) {
+			return [];
+		}
+
+		const parentsAndItemsById = Object.fromEntries(
+			Object.entries(this.entitiesByFolderId)
+				.flatMap(([listId, list]) =>
+					list.map((item) => [item.id, { parentId: listId, item }])
+				)
+				.concat(
+					this.entitiesByFolderId[ROOT_FOLDER].map((item) => [
+						item.id,
+						{ parentId: undefined, item },
+					]) as any
+				)
+		);
+
+		const ancestors: FSItemFolder[] = [];
+		let currentId = folderId;
+		while (parentsAndItemsById[currentId]) {
+			const item = parentsAndItemsById[currentId]?.item;
+			const parentId = parentsAndItemsById[currentId]?.parentId;
+			const parent = parentId && parentsAndItemsById[parentId]?.item;
+
+			if (item.kind !== 'folder' || (parent && parent.kind !== 'folder')) {
+				throw new Error('parents should only be folders');
+			}
+
+			if (parent?.kind === 'folder') {
+				ancestors.unshift(parent);
+			}
+			currentId = parentsAndItemsById[currentId].parentId;
+		}
+
+		return ancestors;
+	};
 
 	private simulateLatency = (): Promise<void> => {
 		return new Promise((resolve) => {

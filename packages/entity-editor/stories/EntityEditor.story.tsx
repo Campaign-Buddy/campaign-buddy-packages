@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { MockEntityApi, featEntity } from '@campaign-buddy/mock-apis';
 import { EntityEditor } from '../src';
@@ -14,9 +14,15 @@ const fileSystemApi = entityApi.getFileSystemApiForEntityDefinition(
 );
 
 export function Primary() {
+	const [folderId, setFolderId] = useState<string | undefined>();
 	return (
 		<QueryClientProvider client={queryClient}>
-			<EntityEditor entityApi={entityApi} fileSystemApi={fileSystemApi} />
+			<EntityEditor
+				entityApi={entityApi}
+				fileSystemApi={fileSystemApi}
+				folderId={folderId}
+				onFolderIdChange={setFolderId}
+			/>
 		</QueryClientProvider>
 	);
 }
