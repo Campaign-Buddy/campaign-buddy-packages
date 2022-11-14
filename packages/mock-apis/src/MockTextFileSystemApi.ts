@@ -1,10 +1,14 @@
 import {
+	CreateFSItemOptions,
+	CreateFSItemResult,
+	DeleteFSItemOptions,
+	EditFSItemOptions,
+	EditFSItemResult,
 	FileSystemApi,
 	FSItem,
-	FSItemCreateSet,
-	FSItemEditSet,
 	FSItemFolder,
-	ListResult,
+	ListFSItemsOptions,
+	ListFSItemsResult,
 } from '@campaign-buddy/frontend-types';
 import cuid from 'cuid';
 
@@ -24,7 +28,9 @@ export class MockTextFileSystemApi implements FileSystemApi<string> {
 		};
 	}
 
-	list = async (folderId?: string): Promise<ListResult<string>> => {
+	list = async ({
+		folderId,
+	}: ListFSItemsOptions): Promise<ListFSItemsResult<string>> => {
 		await this.simulateLatency();
 		const children = this.itemsByFolderId[folderId ?? ROOT_FOLDER];
 		const folder = folderId ? this.getItemById(folderId) : null;
@@ -36,7 +42,9 @@ export class MockTextFileSystemApi implements FileSystemApi<string> {
 		};
 	};
 
-	create = async (createSet: FSItemCreateSet): Promise<FSItem<string>> => {
+	create = async ({
+		createSet,
+	}: CreateFSItemOptions): Promise<CreateFSItemResult<string>> => {
 		await this.simulateLatency();
 		const targetListId = createSet.parentId ?? ROOT_FOLDER;
 		const item: FSItem<string> = {
@@ -52,10 +60,10 @@ export class MockTextFileSystemApi implements FileSystemApi<string> {
 			this.itemsByFolderId[item.id] = [];
 		}
 
-		return item;
+		return { item };
 	};
 
-	delete = async (itemId: string): Promise<void> => {
+	delete = async ({ itemId }: DeleteFSItemOptions): Promise<void> => {
 		await this.simulateLatency();
 		const targetListId = this.getItemParentListId(itemId);
 		const targetList = this.itemsByFolderId[targetListId] ?? [];
@@ -65,11 +73,11 @@ export class MockTextFileSystemApi implements FileSystemApi<string> {
 		);
 	};
 
-	edit = async (
-		itemId: string,
-		editSet: FSItemEditSet,
-		fieldsToEdit: (keyof FSItemEditSet)[]
-	): Promise<FSItem<string>> => {
+	edit = async ({
+		itemId,
+		editSet,
+		fieldsToEdit,
+	}: EditFSItemOptions): Promise<EditFSItemResult<string>> => {
 		await this.simulateLatency();
 
 		if (fieldsToEdit.length === 0) {
@@ -82,7 +90,7 @@ export class MockTextFileSystemApi implements FileSystemApi<string> {
 			item[field] = editSet[field] as any;
 		}
 
-		return item;
+		return { item };
 	};
 
 	private getBreadcrumbs(folderId?: string): FSItemFolder[] {

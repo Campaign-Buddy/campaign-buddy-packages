@@ -8,7 +8,7 @@ export function useListFolder<TItemData>(
 ) {
 	const result = useQuery({
 		queryKey: fileSystemApiQueryKeys.listFolder(folderId),
-		queryFn: () => api.list(folderId),
+		queryFn: () => api.list({ folderId }),
 	});
 
 	return result;

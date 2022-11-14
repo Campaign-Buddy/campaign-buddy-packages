@@ -1,11 +1,15 @@
 import {
+	CreateFSItemOptions,
+	CreateFSItemResult,
+	DeleteFSItemOptions,
+	EditFSItemOptions,
+	EditFSItemResult,
 	EntitySummary,
 	FileSystemApi,
 	FSItem,
-	FSItemCreateSet,
-	FSItemEditSet,
 	FSItemFolder,
-	ListResult,
+	ListFSItemsOptions,
+	ListFSItemsResult,
 } from '@campaign-buddy/frontend-types';
 import { MockEntityApi } from './MockEntityApi';
 
@@ -33,7 +37,9 @@ export class MockEntityFileSystemApi implements FileSystemApi<EntitySummary> {
 		}));
 	}
 
-	list = async (folderId?: string): Promise<ListResult<EntitySummary>> => {
+	list = async ({
+		folderId,
+	}: ListFSItemsOptions): Promise<ListFSItemsResult<EntitySummary>> => {
 		await this.simulateLatency();
 		const folder = folderId ? this.getItemById(folderId) : undefined;
 		return {
@@ -43,9 +49,9 @@ export class MockEntityFileSystemApi implements FileSystemApi<EntitySummary> {
 		};
 	};
 
-	create = async (
-		createSet: FSItemCreateSet
-	): Promise<FSItem<EntitySummary>> => {
+	create = async ({
+		createSet,
+	}: CreateFSItemOptions): Promise<CreateFSItemResult<EntitySummary>> => {
 		await this.simulateLatency();
 		this.entitiesByFolderId[createSet.parentId ?? ROOT_FOLDER] ??= [];
 		const parent = this.entitiesByFolderId[createSet.parentId ?? ROOT_FOLDER];
@@ -73,10 +79,10 @@ export class MockEntityFileSystemApi implements FileSystemApi<EntitySummary> {
 		}
 
 		parent.push(item);
-		return item;
+		return { item };
 	};
 
-	delete = async (itemId: string): Promise<void> => {
+	delete = async ({ itemId }: DeleteFSItemOptions): Promise<void> => {
 		await this.simulateLatency();
 		const parent = Object.values(this.entitiesByFolderId).find((x) =>
 			x.some((item) => item.id === itemId)
@@ -95,11 +101,11 @@ export class MockEntityFileSystemApi implements FileSystemApi<EntitySummary> {
 		parent.splice(index, 1);
 	};
 
-	edit = async (
-		itemId: string,
-		editSet: FSItemEditSet,
-		fieldsToEdit: (keyof FSItemEditSet)[]
-	): Promise<FSItem<EntitySummary>> => {
+	edit = async ({
+		itemId,
+		editSet,
+		fieldsToEdit,
+	}: EditFSItemOptions): Promise<EditFSItemResult<EntitySummary>> => {
 		await this.simulateLatency();
 		const item = this.getItemById(itemId);
 
@@ -107,7 +113,7 @@ export class MockEntityFileSystemApi implements FileSystemApi<EntitySummary> {
 			item[field] = editSet[field] as any;
 		}
 
-		return item;
+		return { item };
 	};
 
 	private getBreadcrumbs = (folderId?: string): FSItemFolder[] => {

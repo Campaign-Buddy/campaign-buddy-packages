@@ -1,4 +1,7 @@
-import { FileSystemApi, ListResult } from '@campaign-buddy/frontend-types';
+import {
+	FileSystemApi,
+	ListFSItemsResult,
+} from '@campaign-buddy/frontend-types';
 import { useQueryClient, useMutation } from 'react-query';
 import { fileSystemApiQueryKeys } from './fileSystemApiQueryKeys';
 
@@ -19,14 +22,14 @@ export function useCreateFile<TItemData>(
 				queryClient.cancelQueries(queryKey);
 				queryClient.setQueryData(
 					queryKey,
-					(old: ListResult<TItemData> | undefined) => {
+					(old: ListFSItemsResult<TItemData> | undefined) => {
 						if (!old) {
 							throw new Error(`Expected existing query data`);
 						}
 
 						return {
 							...old,
-							items: [...old.items, createdItem],
+							items: [...old.items, createdItem.item],
 						};
 					}
 				);

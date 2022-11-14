@@ -74,9 +74,11 @@ export function FileExplorer<TItemData>({
 					icon: 'document',
 					onClick: () => {
 						createNewItemMutation.mutate({
-							name: 'Default name',
-							parentId: folderId,
-							kind: 'file',
+							createSet: {
+								name: 'Default name',
+								parentId: folderId,
+								kind: 'file',
+							},
 						});
 					},
 				},
@@ -85,9 +87,11 @@ export function FileExplorer<TItemData>({
 					icon: 'folder-close',
 					onClick: () => {
 						createNewItemMutation.mutate({
-							name: 'New folder',
-							parentId: folderId,
-							kind: 'folder',
+							createSet: {
+								name: 'New folder',
+								parentId: folderId,
+								kind: 'folder',
+							},
 						});
 					},
 				},
@@ -109,7 +113,7 @@ export function FileExplorer<TItemData>({
 						return;
 					}
 
-					await deleteItemMutation.mutateAsync(itemToDelete.id);
+					await deleteItemMutation.mutateAsync({ itemId: itemToDelete.id });
 					setItemToDelete(undefined);
 				},
 			},

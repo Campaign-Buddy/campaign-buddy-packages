@@ -28,19 +28,41 @@ export interface FSItemEditSet {
 
 export type FSItemEditSetFields = keyof FSItemEditSet;
 
-export interface ListResult<TItemData> {
+export interface ListFSItemsOptions {
+	folderId?: string;
+}
+
+export interface ListFSItemsResult<TItemData> {
 	folder?: FSItemFolder;
 	items: FSItem<TItemData>[];
 	breadcrumbs: FSItemFolder[];
 }
 
+export interface CreateFSItemOptions {
+	createSet: FSItemCreateSet;
+}
+
+export interface CreateFSItemResult<TItemData> {
+	item: FSItem<TItemData>;
+}
+
+export interface DeleteFSItemOptions {
+	itemId: string;
+}
+
+export interface EditFSItemOptions {
+	itemId: string;
+	editSet: FSItemEditSet;
+	fieldsToEdit: FSItemEditSetFields[];
+}
+
+export interface EditFSItemResult<TItemData> {
+	item: FSItem<TItemData>;
+}
+
 export interface FileSystemApi<TItemData = any> {
-	list(folderId?: string): Promise<ListResult<TItemData>>;
-	create(createSet: FSItemCreateSet): Promise<FSItem<TItemData>>;
-	delete(itemId: string): Promise<void>;
-	edit(
-		itemId: string,
-		editSet: FSItemEditSet,
-		fieldsToEdit: FSItemEditSetFields[]
-	): Promise<FSItem<TItemData>>;
+	list(options: ListFSItemsOptions): Promise<ListFSItemsResult<TItemData>>;
+	create(options: CreateFSItemOptions): Promise<CreateFSItemResult<TItemData>>;
+	delete(options: DeleteFSItemOptions): Promise<void>;
+	edit(options: EditFSItemOptions): Promise<EditFSItemResult<TItemData>>;
 }
