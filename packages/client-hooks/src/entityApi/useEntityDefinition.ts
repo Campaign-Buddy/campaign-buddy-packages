@@ -8,6 +8,6 @@ export function useEntityDefinition(
 ) {
 	return useQuery({
 		queryKey: entityApiQueryKeys.getEntityDefinition(entityDefinitionName),
-		queryFn: () => entityApi.getEntityDefinition(entityDefinitionName),
+		queryFn: () => entityApi.getEntityDefinition({ entityDefinitionName }),
 	});
 }

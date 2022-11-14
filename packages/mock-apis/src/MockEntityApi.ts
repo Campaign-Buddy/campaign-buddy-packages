@@ -3,7 +3,17 @@ import {
 	EntityApi,
 	EntitySummary,
 	FileSystemApi,
+	GetDefaultEntitiesOptions,
+	GetDefaultEntitiesResult,
+	GetEntitiesByIdsOptions,
+	GetEntitiesByIdsResult,
+	GetEntityDefinitionOptions,
+	GetEntityDefinitionResult,
+	GetHydratedEntitiesOptions,
+	GetHydratedEntitiesResult,
 	HydratedEntity,
+	SearchEntitiesOptions,
+	SearchEntitiesResult,
 } from '@campaign-buddy/frontend-types';
 import { applyAggregates } from '@campaign-buddy/apply-aggregates';
 import { query } from '@campaign-buddy/json-path-ex';
@@ -83,35 +93,39 @@ export class MockEntityApi implements EntityApi {
 		);
 	};
 
-	getEntityDefinition = async (
-		entityDefinitionName: string
-	): Promise<EntityDefinition> => {
+	getEntityDefinition = async ({
+		entityDefinitionName,
+	}: GetEntityDefinitionOptions): Promise<GetEntityDefinitionResult> => {
 		await this.simulateLatency();
-		return this.definitionStore[entityDefinitionName];
+		return { definition: this.definitionStore[entityDefinitionName] };
 	};
 
-	getHydratedEntities = async (
-		ids: string[],
-		definitionName: string
-	): Promise<HydratedEntity[]> => {
+	getHydratedEntities = async ({
+		ids,
+		entityDefinitionName,
+	}: GetHydratedEntitiesOptions): Promise<GetHydratedEntitiesResult> => {
 		if (DEBUG_NETWORK_LOAD) {
-			console.log('hydratingEntities', ids, definitionName);
+			console.log('hydratingEntities', ids, entityDefinitionName);
 		}
 
-		if (!this.entitySummaryStores[definitionName]) {
-			throw new Error(`Unknown entity definition: ${definitionName}`);
+		if (!this.entitySummaryStores[entityDefinitionName]) {
+			throw new Error(`Unknown entity definition: ${entityDefinitionName}`);
 		}
 
 		await this.simulateLatency();
 
-		return this.entityStores[definitionName].filter((x) => ids.includes(x.id));
+		return {
+			entities: this.entityStores[entityDefinitionName].filter((x) =>
+				ids.includes(x.id)
+			),
+		};
 	};
 
-	searchEntities = async (
-		query: string,
-		entityDefinitionName: string,
-		availableEntityIds?: string[]
-	): Promise<EntitySummary[]> => {
+	searchEntities = async ({
+		query,
+		entityDefinitionName,
+		availableEntityIds,
+	}: SearchEntitiesOptions): Promise<SearchEntitiesResult> => {
 		if (DEBUG_NETWORK_LOAD) {
 			console.log('searching entities', query, entityDefinitionName);
 		}
@@ -122,21 +136,23 @@ export class MockEntityApi implements EntityApi {
 			throw new Error(`Unexpected definition name: ${entityDefinitionName}`);
 		}
 
-		const results = this.searchIndices[entityDefinitionName]
+		const entities = this.searchIndices[entityDefinitionName]
 			.search(query)
 			.map((x) => x.item);
 
 		if (!availableEntityIds) {
-			return results;
+			return { entities };
 		}
 
-		return results.filter((x) => availableEntityIds.includes(x.id));
+		return {
+			entities: entities.filter((x) => availableEntityIds.includes(x.id)),
+		};
 	};
 
-	getEntitiesByIds = async (
-		ids: string[],
-		entityDefinitionName: string
-	): Promise<EntitySummary[]> => {
+	getEntitiesByIds = async ({
+		ids,
+		entityDefinitionName,
+	}: GetEntitiesByIdsOptions): Promise<GetEntitiesByIdsResult> => {
 		if (DEBUG_NETWORK_LOAD) {
 			console.log('getting entities by ids', ids);
 		}
@@ -154,13 +170,13 @@ export class MockEntityApi implements EntityApi {
 			return map;
 		}, {});
 
-		return ids.map((x) => entitiesById[x]);
+		return { entities: ids.map((x) => entitiesById[x]) };
 	};
 
-	getDefaultEntities = async (
-		entityDefinitionName: string,
-		availableEntityIds?: string[]
-	): Promise<EntitySummary[]> => {
+	getDefaultEntities = async ({
+		entityDefinitionName,
+		availableEntityIds,
+	}: GetDefaultEntitiesOptions): Promise<GetDefaultEntitiesResult> => {
 		if (DEBUG_NETWORK_LOAD) {
 			console.log('getting default entities', entityDefinitionName);
 		}
@@ -172,12 +188,16 @@ export class MockEntityApi implements EntityApi {
 		}
 
 		if (!availableEntityIds) {
-			return this.entitySummaryStores[entityDefinitionName].slice(0, 5);
+			return {
+				entities: this.entitySummaryStores[entityDefinitionName].slice(0, 5),
+			};
 		}
 
-		return this.entitySummaryStores[entityDefinitionName]
-			.filter((x) => availableEntityIds.includes(x.id))
-			.slice(0, 5);
+		return {
+			entities: this.entitySummaryStores[entityDefinitionName]
+				.filter((x) => availableEntityIds.includes(x.id))
+				.slice(0, 5),
+		};
 	};
 
 	deleteEntity = async (summary: EntitySummary) => {

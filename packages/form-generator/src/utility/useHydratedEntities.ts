@@ -2,7 +2,11 @@ import { CampaignBuddySchema } from '@campaign-buddy/json-schema-core';
 import { useState, useMemo, useEffect, useRef } from 'react';
 import isEqual from 'lodash.isequal';
 import cloneDeep from 'lodash.clonedeep';
-import { EntityApi, HydratedEntity } from '@campaign-buddy/frontend-types';
+import {
+	EntityApi,
+	GetHydratedEntitiesOptions,
+	HydratedEntity,
+} from '@campaign-buddy/frontend-types';
 import {
 	CancelablePromise,
 	useCancelableCallback,
@@ -39,7 +43,12 @@ export function useHydratedEntities(
 	);
 
 	const hydrateEntities = useCancelableCallback(
-		entityApi?.getHydratedEntities ?? (() => Promise.resolve([]))
+		async (options: GetHydratedEntitiesOptions) => {
+			if (entityApi) {
+				return (await entityApi.getHydratedEntities(options)).entities;
+			}
+			return [];
+		}
 	);
 
 	useEffect(() => {
@@ -64,11 +73,11 @@ export function useHydratedEntities(
 		async function fetchHydratedEntities() {
 			setIsLoading(true);
 			hydrateRequests.current = Object.entries(referencesByDefinitionName).map(
-				([definitionName, entities]) =>
-					hydrateEntities(
-						entities.map((x) => x.id),
-						definitionName
-					)
+				([entityDefinitionName, entities]) =>
+					hydrateEntities({
+						ids: entities.map((x) => x.id),
+						entityDefinitionName,
+					})
 			);
 
 			try {

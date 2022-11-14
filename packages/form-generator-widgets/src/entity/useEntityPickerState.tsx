@@ -46,14 +46,14 @@ export function useEntityPickerState(
 			}
 
 			setIsLoadingInitialOptions(true);
-			const options = await getDefaultEntities(
-				definitionName,
-				availableEntityIds
-			);
+			const options = await getDefaultEntities({
+				entityDefinitionName: definitionName,
+				availableEntityIds,
+			});
 
 			if (!isCanceled) {
 				setIsLoadingInitialOptions(false);
-				setInitialOptions(options.map(entityToOption));
+				setInitialOptions(options.entities.map(entityToOption));
 			}
 		}
 
@@ -107,8 +107,11 @@ export function useEntityPickerState(
 
 			setIsLoadingSelectedEntities(true);
 			const result = (
-				await getEntitiesByIds(selectedEntityIds, definitionName)
-			).map(entityToOption);
+				await getEntitiesByIds({
+					ids: selectedEntityIds,
+					entityDefinitionName: definitionName,
+				})
+			).entities.map(entityToOption);
 
 			if (!isCanceled) {
 				handleSetSelectedEntities(result);
@@ -138,12 +141,12 @@ export function useEntityPickerState(
 				return initialOptions;
 			}
 
-			const results = await searchEntities(
+			const result = await searchEntities({
 				query,
-				definitionName,
-				availableEntityIds
-			);
-			return results.map(entityToOption);
+				entityDefinitionName: definitionName,
+				availableEntityIds,
+			});
+			return result.entities.map(entityToOption);
 		},
 		[searchEntities, initialOptions, definitionName, availableEntityIds]
 	);

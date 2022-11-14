@@ -10,6 +10,6 @@ export function useEntity(
 	return useQuery({
 		queryKey: entityApiQueryKeys.getEntity(entityDefinitionName, entityId),
 		queryFn: () =>
-			entityApi.getHydratedEntities([entityId], entityDefinitionName),
+			entityApi.getHydratedEntities({ ids: [entityId], entityDefinitionName }),
 	});
 }

@@ -12,29 +12,69 @@ export interface HydratedEntity {
 	entityData: any;
 }
 
+export interface GetEntityDefinitionOptions {
+	entityDefinitionName: string;
+}
+
+export interface GetEntityDefinitionResult {
+	definition: EntityDefinition;
+}
+
+export interface SearchEntitiesOptions {
+	query: string;
+	entityDefinitionName: string;
+	availableEntityIds?: string[];
+}
+
+export interface SearchEntitiesResult {
+	entities: EntitySummary[];
+}
+
+export interface GetEntitiesByIdsOptions {
+	ids: string[];
+	entityDefinitionName: string;
+}
+
+export interface GetEntitiesByIdsResult {
+	entities: EntitySummary[];
+}
+
+export interface GetDefaultEntitiesOptions {
+	entityDefinitionName: string;
+	availableEntityIds?: string[];
+}
+
+export interface GetDefaultEntitiesResult {
+	entities: EntitySummary[];
+}
+
+export interface GetHydratedEntitiesOptions {
+	ids: string[];
+	entityDefinitionName: string;
+}
+
+export interface GetHydratedEntitiesResult {
+	entities: HydratedEntity[];
+}
+
 export interface EntityApi {
 	getEntityDefinition: (
-		entityDefinitionName: string
-	) => Promise<EntityDefinition>;
+		options: GetEntityDefinitionOptions
+	) => Promise<GetEntityDefinitionResult>;
 
 	searchEntities: (
-		query: string,
-		entityDefinitionName: string,
-		availableEntityIds?: string[]
-	) => Promise<EntitySummary[]>;
+		options: SearchEntitiesOptions
+	) => Promise<SearchEntitiesResult>;
 
 	getEntitiesByIds: (
-		ids: string[],
-		entityDefinitionName: string
-	) => Promise<EntitySummary[]>;
+		options: GetEntitiesByIdsOptions
+	) => Promise<GetEntitiesByIdsResult>;
 
 	getDefaultEntities: (
-		entityDefinitionName: string,
-		availableEntityIds?: string[]
-	) => Promise<EntitySummary[]>;
+		options: GetDefaultEntitiesOptions
+	) => Promise<GetDefaultEntitiesResult>;
 
 	getHydratedEntities: (
-		ids: string[],
-		entityDefinitionName: string
-	) => Promise<HydratedEntity[]>;
+		options: GetHydratedEntitiesOptions
+	) => Promise<GetHydratedEntitiesResult>;
 }
