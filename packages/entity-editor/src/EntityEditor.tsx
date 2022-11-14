@@ -9,6 +9,7 @@ import { EntityNavigator } from './EntityNavigator';
 export interface EntityEditorProps {
 	fileSystemApi: FileSystemApi<EntitySummary>;
 	entityApi: EntityApi;
+	entityId?: string;
 	folderId?: string;
 	onFolderIdChange: (folderId?: string) => void;
 }

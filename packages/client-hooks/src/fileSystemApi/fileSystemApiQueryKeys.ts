@@ -1,6 +1,6 @@
 export const fileSystemApiQueryKeys = {
 	listFolder: (folderId: string | undefined) => [
-		'fileExplorer',
+		'fileSystemApi',
 		'currentFolder',
 		folderId,
 	],
