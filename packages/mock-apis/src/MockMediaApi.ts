@@ -1,4 +1,12 @@
-import { Media, MediaApi, MediaKind } from '@campaign-buddy/frontend-types';
+import {
+	ListUploadedMediaOptions,
+	ListUploadedMediaResult,
+	Media,
+	MediaApi,
+	MediaKind,
+	UploadMediaOptions,
+	UploadMediaResult,
+} from '@campaign-buddy/frontend-types';
 
 function sleep(timeout: number) {
 	return new Promise<void>((resolve) => setTimeout(() => resolve(), timeout));
@@ -12,7 +20,9 @@ export class MockMediaApi implements MediaApi {
 		this.uploadedMedia = this.generateMedias(30);
 	}
 
-	uploadMedia = async (file: File): Promise<Media> => {
+	uploadMedia = async ({
+		file,
+	}: UploadMediaOptions): Promise<UploadMediaResult> => {
 		if (file.type.startsWith('image/')) {
 			const url = await getBase64(file);
 			const media = {
@@ -23,23 +33,25 @@ export class MockMediaApi implements MediaApi {
 			};
 
 			this.uploadedMedia.push(media);
-			return media;
+			return { media };
 		}
 
 		throw new Error(`Unsupported mime type: ${file.type}`);
 	};
 
-	listUploadedMedia = async (
-		limit: number,
-		offset: number,
-		type?: MediaKind
-	): Promise<Media[]> => {
+	listUploadedMedia = async ({
+		limit,
+		offset,
+		type,
+	}: ListUploadedMediaOptions): Promise<ListUploadedMediaResult> => {
 		if (type !== MediaKind.Image) {
-			return [];
+			return { media: [] };
 		}
 
 		await sleep(1000);
-		return Promise.resolve(this.uploadedMedia.slice(offset, offset + limit));
+		return {
+			media: this.uploadedMedia.slice(offset, offset + limit),
+		};
 	};
 
 	private generateMedias = (count: number): Media[] =>

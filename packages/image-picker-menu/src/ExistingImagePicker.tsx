@@ -33,11 +33,13 @@ export const ExistingImagePicker: React.FC<
 	const { isLoading, data, refetch } = useQuery(
 		['package-campaign-buddy-existing-media-popover', currentPageOffset],
 		async () =>
-			mediaApi.listUploadedMedia(
-				pageSize + 1,
-				currentPageOffset * pageSize,
-				MediaKind.Image
-			)
+			(
+				await mediaApi.listUploadedMedia({
+					limit: pageSize + 1,
+					offset: currentPageOffset * pageSize,
+					type: MediaKind.Image,
+				})
+			).media
 	);
 
 	const hasUploadedMedia = data && data.length > 0;

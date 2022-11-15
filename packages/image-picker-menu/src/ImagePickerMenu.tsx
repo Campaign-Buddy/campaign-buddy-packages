@@ -93,8 +93,8 @@ export const ImagePickerMenu: React.FC<
 		setOpenPickerKind('file-upload');
 		closeMenu();
 		openFilePicker(async (file) => {
-			const result = await mediaApi.uploadMedia(file);
-			onConfirm(result.url, result);
+			const { media } = await mediaApi.uploadMedia({ file });
+			onConfirm(media.url, media);
 		});
 	}, [closeMenu, mediaApi, onConfirm]);
 

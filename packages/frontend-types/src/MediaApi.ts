@@ -13,11 +13,27 @@ export interface Media {
 	alt?: string;
 }
 
+export interface UploadMediaOptions {
+	file: File;
+}
+
+export interface UploadMediaResult {
+	media: Media;
+}
+
+export interface ListUploadedMediaOptions {
+	limit: number;
+	offset: number;
+	type?: MediaKind;
+}
+
+export interface ListUploadedMediaResult {
+	media: Media[];
+}
+
 export interface MediaApi {
-	uploadMedia: (file: File) => Promise<Media>;
+	uploadMedia: (options: UploadMediaOptions) => Promise<UploadMediaResult>;
 	listUploadedMedia: (
-		limit: number,
-		offset: number,
-		type?: MediaKind
-	) => Promise<Media[]>;
+		options: ListUploadedMediaOptions
+	) => Promise<ListUploadedMediaResult>;
 }
