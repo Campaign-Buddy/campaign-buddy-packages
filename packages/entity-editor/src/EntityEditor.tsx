@@ -4,6 +4,7 @@ import {
 	EntitySummary,
 	EntityApi,
 	FSItemFile,
+	MediaApi,
 } from '@campaign-buddy/frontend-types';
 import { useEntityDefinition } from '@campaign-buddy/client-hooks';
 import { EntityNavigator } from './EntityNavigator';
@@ -13,6 +14,7 @@ export interface EntityEditorProps {
 	fileSystemApi: FileSystemApi<EntitySummary>;
 	entityDefinitionName: string;
 	entityApi: EntityApi;
+	mediaApi: MediaApi;
 	entityId?: string;
 	folderId?: string;
 	onEntityIdChange: (entityId?: string) => void;
@@ -27,6 +29,7 @@ export function EntityEditor({
 	entityApi,
 	entityId,
 	entityDefinitionName,
+	mediaApi,
 }: EntityEditorProps) {
 	const definitionQuery = useEntityDefinition(entityApi, entityDefinitionName);
 
@@ -47,6 +50,8 @@ export function EntityEditor({
 				entityDefinition={definitionQuery.data.definition}
 				entityId={entityId}
 				onNavigateBack={clearEntity}
+				entityApi={entityApi}
+				mediaApi={mediaApi}
 			/>
 		) : (
 			<p>Loading...</p>

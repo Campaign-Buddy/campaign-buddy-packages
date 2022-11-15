@@ -26,6 +26,12 @@
 		},
 		{
 			"path": "../client-hooks/tsconfig.json"
+		},
+		{
+			"path": "../form-generator/tsconfig.json"
+		},
+		{
+			"path": "../form-generator-widgets/tsconfig.json"
 		}
 	]
 }

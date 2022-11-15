@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query';
-import { MockEntityApi, featEntity } from '@campaign-buddy/mock-apis';
+import {
+	MockEntityApi,
+	featEntity,
+	MockMediaApi,
+} from '@campaign-buddy/mock-apis';
 import { EntityEditor } from '../src';
 
 export default {
@@ -8,6 +12,7 @@ export default {
 };
 
 const queryClient = new QueryClient();
+const mediaApi = new MockMediaApi();
 const entityApi = new MockEntityApi(MockEntityApi.defaultOptions);
 const fileSystemApi = entityApi.getFileSystemApiForEntityDefinition(
 	featEntity.name
@@ -27,6 +32,7 @@ export function Primary() {
 				entityDefinitionName={featEntity.name}
 				onEntityIdChange={setEntityId}
 				entityId={entityId}
+				mediaApi={mediaApi}
 			/>
 		</QueryClientProvider>
 	);
