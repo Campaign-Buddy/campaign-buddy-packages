@@ -1,6 +1,10 @@
 import React from 'react';
 import type { IconName } from '@campaign-buddy/core-ui';
-import { EntitySummary, FileSystemApi } from '@campaign-buddy/frontend-types';
+import {
+	EntitySummary,
+	FileSystemApi,
+	FSItemFile,
+} from '@campaign-buddy/frontend-types';
 import { FileExplorer } from '@campaign-buddy/file-explorer';
 
 export interface EntityNavigatorProps {
@@ -8,6 +12,7 @@ export interface EntityNavigatorProps {
 	folderId?: string;
 	onFolderIdChange: (folderId?: string) => void;
 	initialFolderId?: string;
+	onSelectEntity: (item: FSItemFile<EntitySummary>) => void;
 }
 
 const blankIcon = (): IconName => 'blank';
@@ -16,6 +21,7 @@ export function EntityNavigator({
 	fileSystemApi,
 	folderId,
 	onFolderIdChange,
+	onSelectEntity,
 }: EntityNavigatorProps) {
 	return (
 		<FileExplorer
@@ -23,7 +29,7 @@ export function EntityNavigator({
 			setFolderId={onFolderIdChange}
 			api={fileSystemApi}
 			getIconForItem={blankIcon}
-			openFile={(item) => console.log('opening', item)}
+			openFile={onSelectEntity}
 		/>
 	);
 }

@@ -15,6 +15,8 @@ const fileSystemApi = entityApi.getFileSystemApiForEntityDefinition(
 
 export function Primary() {
 	const [folderId, setFolderId] = useState<string | undefined>();
+	const [entityId, setEntityId] = useState<string | undefined>();
+
 	return (
 		<QueryClientProvider client={queryClient}>
 			<EntityEditor
@@ -22,6 +24,9 @@ export function Primary() {
 				fileSystemApi={fileSystemApi}
 				folderId={folderId}
 				onFolderIdChange={setFolderId}
+				entityDefinitionName={featEntity.name}
+				onEntityIdChange={setEntityId}
+				entityId={entityId}
 			/>
 		</QueryClientProvider>
 	);
