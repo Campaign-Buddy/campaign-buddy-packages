@@ -111,6 +111,14 @@ export class MockEntityFileSystemApi implements FileSystemApi<EntitySummary> {
 
 		for (const field of fieldsToEdit) {
 			item[field] = editSet[field] as any;
+
+			if (field === 'name' && item.kind === 'file' && item.data?.id) {
+				this.entityApi.editName(
+					this.definitionName,
+					item.data?.id,
+					editSet.name ?? ''
+				);
+			}
 		}
 
 		return { item };

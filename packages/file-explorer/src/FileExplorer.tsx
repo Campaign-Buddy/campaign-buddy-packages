@@ -28,6 +28,7 @@ import {
 	FileExplorerContainer,
 	FileExplorerHeader,
 } from './FileExplorer.styled';
+import { QueryClient } from 'react-query';
 
 export interface FileExplorerProps<TItemData = any> {
 	api: FileSystemApi<TItemData>;
@@ -37,6 +38,10 @@ export interface FileExplorerProps<TItemData = any> {
 	setFolderId: (newFolderId?: string) => void;
 	getIconForItem: (item: FSItem<TItemData>) => IconName;
 	openFile: (file: FSItemFile<TItemData>) => void;
+	invalidateDependentQueries: (
+		queryClient: QueryClient,
+		item?: FSItemFile<TItemData>
+	) => void;
 }
 
 export function FileExplorer<TItemData>({
@@ -46,14 +51,23 @@ export function FileExplorer<TItemData>({
 	getIconForItem,
 	openFile,
 	getAddMenu,
+	invalidateDependentQueries,
 }: FileExplorerProps<TItemData>) {
 	const [isMenuOpen, openMenu, closeMenu] = useBooleanState();
 	const [itemToDelete, setItemToDelete] = useState<FSItem<TItemData>>();
 
 	const { data: listResult } = useListFolder(api, folderId);
-	const createNewItemMutation = useCreateFile(api, folderId);
-	const editItem = useEditFile(api, folderId);
-	const deleteItemMutation = useDeleteFile(api, folderId);
+	const createNewItemMutation = useCreateFile(
+		api,
+		folderId,
+		invalidateDependentQueries
+	);
+	const editItem = useEditFile(api, folderId, invalidateDependentQueries);
+	const deleteItemMutation = useDeleteFile(
+		api,
+		folderId,
+		invalidateDependentQueries
+	);
 
 	const renameItem = useCallback(
 		async (item: FSItem<TItemData>, name: string) => {

@@ -5,7 +5,7 @@ import {
 	FileSystemApi,
 	FSItemFile,
 } from '@campaign-buddy/frontend-types';
-import { FileExplorer } from '@campaign-buddy/file-explorer';
+import { EntityFileExplorer } from '@campaign-buddy/file-explorer';
 
 export interface EntityNavigatorProps {
 	fileSystemApi: FileSystemApi<EntitySummary>;
@@ -24,7 +24,7 @@ export function EntityNavigator({
 	onSelectEntity,
 }: EntityNavigatorProps) {
 	return (
-		<FileExplorer
+		<EntityFileExplorer
 			folderId={folderId}
 			setFolderId={onFolderIdChange}
 			api={fileSystemApi}

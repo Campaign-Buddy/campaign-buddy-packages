@@ -1,14 +1,19 @@
 import {
 	FileSystemApi,
+	FSItemFile,
 	FSItemEditSet,
 	ListFSItemsResult,
 } from '@campaign-buddy/frontend-types';
-import { useQueryClient, useMutation } from 'react-query';
+import { useQueryClient, useMutation, QueryClient } from 'react-query';
 import { fileSystemApiQueryKeys } from './fileSystemApiQueryKeys';
 
 export function useEditFile<TItemData>(
 	api: FileSystemApi<TItemData>,
-	folderId: string | undefined
+	folderId: string | undefined,
+	invalidateDependentQueries: (
+		queryClient: QueryClient,
+		item?: FSItemFile<TItemData>
+	) => void
 ) {
 	const queryClient = useQueryClient();
 	const queryKey = fileSystemApiQueryKeys.listFolder(folderId);
@@ -58,6 +63,11 @@ export function useEditFile<TItemData>(
 				queryClient.refetchQueries(queryKey, undefined, {
 					cancelRefetch: true,
 				});
+			}
+		},
+		onSuccess: (response) => {
+			if (response.item.kind === 'file') {
+				invalidateDependentQueries(queryClient, response.item);
 			}
 		},
 		onError: (error, request, context) => {

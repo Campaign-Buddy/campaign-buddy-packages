@@ -1,13 +1,18 @@
 import {
 	FileSystemApi,
+	FSItemFile,
 	ListFSItemsResult,
 } from '@campaign-buddy/frontend-types';
-import { useMutation, useQueryClient } from 'react-query';
+import { QueryClient, useMutation, useQueryClient } from 'react-query';
 import { fileSystemApiQueryKeys } from './fileSystemApiQueryKeys';
 
 export function useDeleteFile<TItemData>(
 	api: FileSystemApi<TItemData>,
-	folderId: string | undefined
+	folderId: string | undefined,
+	invalidateDependentQueries: (
+		queryClient: QueryClient,
+		item?: FSItemFile<TItemData>
+	) => void
 ) {
 	const queryClient = useQueryClient();
 	const queryKey = fileSystemApiQueryKeys.listFolder(folderId);
@@ -15,6 +20,8 @@ export function useDeleteFile<TItemData>(
 	const deleteItemMutation = useMutation(api.delete, {
 		onSuccess: (_, { itemId }) => {
 			const previousValue = queryClient.getQueryData(queryKey);
+
+			invalidateDependentQueries(queryClient);
 
 			if (previousValue) {
 				// We can append the created result

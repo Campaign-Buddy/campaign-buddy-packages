@@ -45,7 +45,7 @@ export function EntityForm({
 			<FormWidgetProvider queryClient={queryClient} mediaApi={mediaApi}>
 				<FormGenerator
 					schema={entityDefinition.schema}
-					data={entity.data.entities[0].entityData}
+					data={entity.data.entityData}
 					onChange={console.log}
 					widgets={widgets}
 				/>

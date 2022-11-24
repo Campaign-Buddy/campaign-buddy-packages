@@ -4,6 +4,7 @@ export const entityApiQueryKeys = {
 		'entityDefinition',
 		definitionName,
 	],
+	allEntities: () => ['entityApi', 'entity'],
 	getEntity: (definitionName: string, entityId: string) => [
 		'entityApi',
 		'entity',

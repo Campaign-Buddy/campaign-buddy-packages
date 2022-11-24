@@ -1,13 +1,18 @@
 import {
 	FileSystemApi,
+	FSItemFile,
 	ListFSItemsResult,
 } from '@campaign-buddy/frontend-types';
-import { useQueryClient, useMutation } from 'react-query';
+import { useQueryClient, useMutation, QueryClient } from 'react-query';
 import { fileSystemApiQueryKeys } from './fileSystemApiQueryKeys';
 
 export function useCreateFile<TItemData>(
 	api: FileSystemApi<TItemData>,
-	folderId: string | undefined
+	folderId: string | undefined,
+	invalidateDependentQueries: (
+		queryClient: QueryClient,
+		item?: FSItemFile<TItemData>
+	) => void
 ) {
 	const queryClient = useQueryClient();
 	const queryKey = fileSystemApiQueryKeys.listFolder(folderId);
@@ -15,6 +20,10 @@ export function useCreateFile<TItemData>(
 	const createNewItemMutation = useMutation(api.create, {
 		onSuccess: (createdItem) => {
 			const previousValue = queryClient.getQueryData(queryKey);
+
+			if (createdItem.item.kind === 'file') {
+				invalidateDependentQueries(queryClient, createdItem.item);
+			}
 
 			if (previousValue) {
 				// We can append the created result

@@ -77,15 +77,20 @@ export function Primary() {
 				api={mockApi}
 				getIconForItem={() => 'document'}
 				openFile={(item) => console.log('opening', item)}
+				invalidateDependentQueries={() => {
+					//
+				}}
 				getAddMenu={(create) => [
 					{
 						displayText: 'New file',
 						icon: 'document',
 						onClick: () => {
 							create({
-								name: 'Default name',
-								parentId: folderId,
-								kind: 'file',
+								createSet: {
+									name: 'Default name',
+									parentId: folderId,
+									kind: 'file',
+								},
 							});
 						},
 					},
@@ -94,9 +99,11 @@ export function Primary() {
 						icon: 'folder-close',
 						onClick: () => {
 							create({
-								name: 'New folder',
-								parentId: folderId,
-								kind: 'folder',
+								createSet: {
+									name: 'New folder',
+									parentId: folderId,
+									kind: 'folder',
+								},
 							});
 						},
 					},

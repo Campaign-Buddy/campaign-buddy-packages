@@ -213,6 +213,44 @@ export class MockEntityApi implements EntityApi {
 		);
 	};
 
+	editName = async (
+		definitionName: string,
+		entityId: string,
+		name: string
+	): Promise<EntitySummary> => {
+		this.entityStores[definitionName] = this.entityStores[definitionName].map(
+			(x) =>
+				x.id !== entityId
+					? x
+					: {
+							...x,
+							entityData: {
+								...x.entityData,
+								name,
+							},
+					  }
+		);
+		this.entitySummaryStores[definitionName] = this.entitySummaryStores[
+			definitionName
+		].map((x) =>
+			x.id !== entityId
+				? x
+				: {
+						...x,
+						name,
+				  }
+		);
+		this.searchIndices[definitionName] = new Fuse(
+			this.entitySummaryStores[definitionName],
+			{ keys: ['name'] }
+		);
+		return {
+			definitionName,
+			name,
+			id: entityId,
+		};
+	};
+
 	createEntity = async (
 		definitionName: string,
 		entityName: string
