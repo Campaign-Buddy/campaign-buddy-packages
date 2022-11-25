@@ -61,7 +61,7 @@ export function FileExplorer<TItemData>({
 		folderId,
 		invalidateDependentQueries
 	);
-	const deleteItemMutation = useDeleteFile(
+	const { mutateAsync: deleteItem, isLoading: isDeleting } = useDeleteFile(
 		api,
 		folderId,
 		invalidateDependentQueries
@@ -114,12 +114,13 @@ export function FileExplorer<TItemData>({
 						return;
 					}
 
-					await deleteItemMutation.mutateAsync({ itemId: itemToDelete.id });
+					await deleteItem({ itemId: itemToDelete.id });
 					setItemToDelete(undefined);
 				},
+				isLoading: isDeleting,
 			},
 		],
-		[deleteItemMutation, itemToDelete]
+		[deleteItem, isDeleting, itemToDelete]
 	);
 
 	return listResult?.items ? (

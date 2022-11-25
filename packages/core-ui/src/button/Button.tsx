@@ -9,6 +9,7 @@ interface ButtonProps
 	style?: ButtonStyle;
 	buttonRef?: React.RefObject<HTMLButtonElement>;
 	size?: 'small' | 'normal' | 'large';
+	isLoading?: boolean;
 }
 
 export const Button: React.FC<React.PropsWithChildren<ButtonProps>> = ({
@@ -18,6 +19,7 @@ export const Button: React.FC<React.PropsWithChildren<ButtonProps>> = ({
 	style,
 	buttonRef,
 	size,
+	isLoading,
 	...rest
 }) => (
 	<StyledButton
@@ -28,6 +30,7 @@ export const Button: React.FC<React.PropsWithChildren<ButtonProps>> = ({
 		large={size === 'large'}
 		small={size === 'small'}
 		_style={style}
+		loading={isLoading}
 		{...rest}
 	>
 		{children}

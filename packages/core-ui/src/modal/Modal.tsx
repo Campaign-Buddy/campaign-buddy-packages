@@ -14,6 +14,7 @@ export interface ModalButton {
 	text: string;
 	onClick: () => void;
 	style?: ButtonStyle;
+	isLoading?: boolean;
 }
 
 export interface ModalProps {
@@ -60,6 +61,7 @@ export const Modal: React.FC<React.PropsWithChildren<ModalProps>> = ({
 								key={button.text}
 								style={button.style}
 								onClick={button.onClick}
+								isLoading={button.isLoading}
 							>
 								{button.text}
 							</Button>
