@@ -9,6 +9,7 @@ import {
 import { useEntityDefinition } from '@campaign-buddy/client-hooks';
 import { EntityNavigator } from './EntityNavigator';
 import { EntityForm } from './EntityForm';
+import { Spinner } from '@campaign-buddy/core-ui';
 
 export interface EntityEditorProps {
 	fileSystemApi: FileSystemApi<EntitySummary>;
@@ -54,7 +55,7 @@ export function EntityEditor({
 				mediaApi={mediaApi}
 			/>
 		) : (
-			<p>Loading...</p>
+			<Spinner size="fullPage" fullHeight />
 		);
 	}
 

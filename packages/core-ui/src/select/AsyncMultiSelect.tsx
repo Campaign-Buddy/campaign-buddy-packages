@@ -1,5 +1,6 @@
 import React from 'react';
-import { Icon, Spinner } from '@blueprintjs/core';
+import { Icon } from '@blueprintjs/core';
+import { Spinner } from '../spinner';
 import { useCallback, useMemo } from 'react';
 import { FormGroup } from '../form-group';
 import { useHtmlId } from '../hooks';
@@ -90,7 +91,7 @@ export function AsyncMultiSelect<TData>({
 			},
 			rightElement:
 				isLoading || isLoadingOptions ? (
-					<Spinner size={15} />
+					<Spinner size="textInline" />
 				) : (
 					<Icon icon="search" />
 				),

@@ -84,7 +84,7 @@ export const EntityPickerWidget: React.FC<
 			<FormGroup label={label}>
 				<AggregatedDisplayText>
 					{isLoading ? (
-						<Spinner size={15} />
+						<Spinner size="textInline" />
 					) : (
 						selectedEntities?.[0]?.displayValue ?? ''
 					)}

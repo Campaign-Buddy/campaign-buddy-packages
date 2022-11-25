@@ -1,5 +1,5 @@
 import { useEntity } from '@campaign-buddy/client-hooks';
-import { Button } from '@campaign-buddy/core-ui';
+import { Button, Spinner } from '@campaign-buddy/core-ui';
 import { EntityApi, MediaApi } from '@campaign-buddy/frontend-types';
 import { EntityDefinition } from '@campaign-buddy/json-schema-core';
 import { FormGenerator } from '@campaign-buddy/form-generator';
@@ -29,7 +29,7 @@ export function EntityForm({
 	const queryClient = useQueryClient();
 
 	if (!entity.data) {
-		return <p>Loading...</p>;
+		return <Spinner size="fullPage" fullHeight />;
 	}
 
 	return (

@@ -8,7 +8,6 @@ import { QueryClient, useQuery, useQueryClient } from 'react-query';
 import {
 	PopoverContentContainer,
 	MediaContainer,
-	LoadingContainer,
 } from './ExistingImagePicker.styled';
 
 export interface ExistingImagePickerProps {
@@ -66,11 +65,7 @@ export const ExistingImagePicker: React.FC<
 		[]
 	);
 
-	const loadingElement = (
-		<LoadingContainer>
-			<Spinner size={45} />
-		</LoadingContainer>
-	);
+	const loadingElement = <Spinner size="fullPage" fullHeight />;
 
 	const handleImageSelected = useCallback(
 		(image: Image, index: number) => {

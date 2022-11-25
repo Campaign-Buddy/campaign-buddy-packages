@@ -6,7 +6,7 @@ import React, {
 	useRef,
 } from 'react';
 import { Select as GenericSelectCore } from '@blueprintjs/select';
-import { Spinner } from '@blueprintjs/core';
+import { Spinner } from '../spinner';
 import {
 	useCancelableCallback,
 	useDebouncedCallback,
@@ -92,7 +92,7 @@ export function AsyncSelect<TData>({
 	const inputProps = useMemo(
 		() => ({
 			rightElement:
-				isLoading || isLoadingProp ? <Spinner size={15} /> : undefined,
+				isLoading || isLoadingProp ? <Spinner size="textInline" /> : undefined,
 			disabled,
 		}),
 		[isLoading, disabled, isLoadingProp]
@@ -116,7 +116,9 @@ export function AsyncSelect<TData>({
 			>
 				<SelectButton
 					_style="minimal"
-					rightIcon={isLoadingProp ? <Spinner size={15} /> : 'caret-down'}
+					rightIcon={
+						isLoadingProp ? <Spinner size="textInline" /> : 'caret-down'
+					}
 					text={
 						value?.displayValue ?? <i>{placeholder ?? 'Select an option'}</i>
 					}

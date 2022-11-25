@@ -129,7 +129,7 @@ export const MultiEntityPickerWidget: React.FC<
 			<FormGroup label={label}>
 				<AggregatedDisplayText>
 					{isLoading ? (
-						<Spinner size={15} />
+						<Spinner size="textInline" />
 					) : (
 						<TagContainer>
 							{selectedEntities?.map((x) => (

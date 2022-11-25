@@ -19,6 +19,7 @@ import {
 	Modal,
 	ModalButton,
 	CampaignBuddyIcon,
+	Spinner,
 } from '@campaign-buddy/core-ui';
 import { FileListItem } from './FileListItem';
 import { FolderListItem } from './FolderListItem';
@@ -188,6 +189,6 @@ export function FileExplorer<TItemData>({
 			</Modal>
 		</FileExplorerContainer>
 	) : (
-		<p>Loading...</p>
+		<Spinner size="fullPage" fullHeight />
 	);
 }
