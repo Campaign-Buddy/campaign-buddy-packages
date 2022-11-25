@@ -6,6 +6,7 @@ import { useContextMenu } from './useContextMenu';
 
 export interface FolderListItemProps {
 	folder: FSItemFolder;
+	isLoading: boolean;
 	onNavigate: (folderId: string) => void;
 	renameItem: (item: FSItem<any>, newName: string) => void;
 	deleteItem: (item: FSItem<any>) => void;
@@ -13,6 +14,7 @@ export interface FolderListItemProps {
 
 export function FolderListItem({
 	folder,
+	isLoading,
 	onNavigate,
 	renameItem,
 	deleteItem,
@@ -25,7 +27,11 @@ export function FolderListItem({
 		useContextMenu({ item: folder, renameItem, deleteItem });
 
 	return (
-		<ListItem onClick={handleNavigate} contextMenuItems={contextMenuItems}>
+		<ListItem
+			disabled={isLoading}
+			onClick={handleNavigate}
+			contextMenuItems={contextMenuItems}
+		>
 			<ListItemIcon icon="folder-close" />
 			<EditableListItemText
 				text={folder.name}

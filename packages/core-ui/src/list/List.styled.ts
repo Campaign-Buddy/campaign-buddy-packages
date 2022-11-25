@@ -35,7 +35,12 @@ export const StyledOrderedList = styled.ol`
 	${listStyle}
 `;
 
-const listItemStyle = css<{ isInteractive?: boolean }>`
+interface StyledListItemProps {
+	isInteractive?: boolean;
+	disabled?: boolean;
+}
+
+const listItemStyle = css<StyledListItemProps>`
 	display: flex;
 	align-items: center;
 	overflow: hidden;
@@ -44,6 +49,9 @@ const listItemStyle = css<{ isInteractive?: boolean }>`
 	gap: ${({ theme }) => theme.list.item.spacing}px;
 	padding: ${({ theme }) => theme.list.item.padding.toCss()};
 	border-radius: ${({ theme }) => theme.list.item.borderRadius.toCss()};
+
+	color: ${({ theme, disabled }) =>
+		disabled ? theme.legacyCoreUi.colors.textDisabled : theme.textColor};
 
 	${({ theme, isInteractive }) =>
 		theme.list.item.backgroundColors.map(
@@ -79,18 +87,17 @@ const listItemStyle = css<{ isInteractive?: boolean }>`
 	`}
 `;
 
-export const StyledContextMenuListItem = styled(ContextMenu)<{
-	isInteractive?: boolean;
-}>`
+export const StyledContextMenuListItem = styled(
+	ContextMenu
+)<StyledListItemProps>`
 	${listItemStyle}
 `;
 
-export const StyledListItem = styled.li<{ isInteractive?: boolean }>`
+export const StyledListItem = styled.li<StyledListItemProps>`
 	${listItemStyle}
 `;
 
 export const StyledListItemText = styled.span`
-	color: ${({ theme }) => theme.textColor};
 	width: 100%;
 	flex-grow: 1;
 	white-space: nowrap;

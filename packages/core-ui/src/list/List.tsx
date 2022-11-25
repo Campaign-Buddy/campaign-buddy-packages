@@ -49,6 +49,7 @@ export function List({
 
 export interface ListItemProps {
 	onClick?: (e: React.SyntheticEvent) => void;
+	disabled?: boolean;
 	contextMenuItems?: MenuItem[];
 }
 
@@ -60,6 +61,7 @@ export const ListItem = React.forwardRef<
 		{
 			children,
 			onClick,
+			disabled,
 			contextMenuItems,
 		}: React.PropsWithChildren<ListItemProps>,
 		ref
@@ -70,12 +72,12 @@ export const ListItem = React.forwardRef<
 
 		const shallowClickHandler = useCallback(
 			(e: React.SyntheticEvent) => {
-				if (!shallowEventControl.wasEventHandled) {
+				if (!shallowEventControl.wasEventHandled && !disabled) {
 					onClick?.(e);
 				}
 				shallowEventControl.wasEventHandled = false;
 			},
-			[onClick]
+			[onClick, disabled]
 		);
 
 		const handleKeyDown = useCallback(
@@ -96,6 +98,7 @@ export const ListItem = React.forwardRef<
 			onKeyDown: onClick && handleKeyDown,
 			className: listItemClass,
 			id,
+			disabled,
 		};
 
 		if (contextMenuItems) {

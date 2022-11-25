@@ -10,6 +10,7 @@ import { useContextMenu } from './useContextMenu';
 
 export interface FileListItemProps<TItemData> {
 	file: FSItemFile<TItemData>;
+	isLoading: boolean;
 	openFile: (item: FSItemFile<TItemData>) => void;
 	renameItem: (item: FSItem<TItemData>, newName: string) => void;
 	deleteItem: (item: FSItem<TItemData>) => void;
@@ -18,6 +19,7 @@ export interface FileListItemProps<TItemData> {
 
 export function FileListItem<TItemData>({
 	file,
+	isLoading,
 	getIconForFile,
 	openFile,
 	renameItem,
@@ -31,7 +33,11 @@ export function FileListItem<TItemData>({
 		useContextMenu({ item: file, renameItem, deleteItem });
 
 	return (
-		<ListItem onClick={handleOnClick} contextMenuItems={contextMenuItems}>
+		<ListItem
+			disabled={isLoading}
+			onClick={handleOnClick}
+			contextMenuItems={contextMenuItems}
+		>
 			<ListItemIcon icon={getIconForFile(file)} />
 			<EditableListItemText
 				isEditing={isRenaming}

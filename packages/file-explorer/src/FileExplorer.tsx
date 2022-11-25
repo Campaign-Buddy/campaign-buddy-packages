@@ -161,6 +161,7 @@ export function FileExplorer<TItemData>({
 						<FolderListItem
 							key={x.id}
 							folder={x}
+							isLoading={editItem.isLoading}
 							onNavigate={setFolderId}
 							renameItem={renameItem}
 							deleteItem={setItemToDelete}
@@ -171,6 +172,7 @@ export function FileExplorer<TItemData>({
 							getIconForFile={getIconForItem}
 							renameItem={renameItem}
 							deleteItem={setItemToDelete}
+							isLoading={editItem.isLoading}
 							key={x.id}
 							file={x}
 						/>
