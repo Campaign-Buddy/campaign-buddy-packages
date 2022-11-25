@@ -1,34 +1,56 @@
 import { ListItem, ListItemIcon } from '@campaign-buddy/core-ui';
-import { FSItem, FSItemFolder } from '@campaign-buddy/frontend-types';
+import {
+	FileSystemApi,
+	FSItem,
+	FSItemFile,
+	FSItemFolder,
+} from '@campaign-buddy/frontend-types';
 import React, { useCallback } from 'react';
+import { QueryClient } from 'react-query';
 import { EditableListItemText } from './EditableListItemText';
 import { useContextMenu } from './useContextMenu';
 
-export interface FolderListItemProps {
+export interface FolderListItemProps<TItemData> {
 	folder: FSItemFolder;
-	isLoading: boolean;
+	parentFolderId?: string;
+	api: FileSystemApi<TItemData>;
+	invalidateDependentQueries: (
+		queryClient: QueryClient,
+		item?: FSItemFile<TItemData>
+	) => void;
+	openDeleteModal: (item?: FSItem<TItemData>) => void;
 	onNavigate: (folderId: string) => void;
-	renameItem: (item: FSItem<any>, newName: string) => void;
-	deleteItem: (item: FSItem<any>) => void;
 }
 
-export function FolderListItem({
+export function FolderListItem<TItemData>({
 	folder,
-	isLoading,
+	parentFolderId,
+	api,
+	invalidateDependentQueries,
+	openDeleteModal,
 	onNavigate,
-	renameItem,
-	deleteItem,
-}: FolderListItemProps) {
+}: FolderListItemProps<TItemData>) {
 	const handleNavigate = useCallback(() => {
 		onNavigate(folder.id);
 	}, [folder.id, onNavigate]);
 
-	const { contextMenuItems, isRenaming, commitRename, cancelRename } =
-		useContextMenu({ item: folder, renameItem, deleteItem });
+	const {
+		contextMenuItems,
+		isRenaming,
+		commitRename,
+		cancelRename,
+		isComittingRename,
+	} = useContextMenu({
+		item: folder,
+		parentFolderId,
+		api,
+		invalidateDependentQueries,
+		openDeleteModal,
+	});
 
 	return (
 		<ListItem
-			disabled={isLoading}
+			disabled={isComittingRename}
 			onClick={handleNavigate}
 			contextMenuItems={contextMenuItems}
 		>

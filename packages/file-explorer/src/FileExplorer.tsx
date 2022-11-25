@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import {
 	FileSystemApi,
 	FSItem,
@@ -6,7 +6,6 @@ import {
 } from '@campaign-buddy/frontend-types';
 import {
 	useDeleteFile,
-	useEditFile,
 	useCreateFile,
 	useListFolder,
 } from '@campaign-buddy/client-hooks';
@@ -62,22 +61,10 @@ export function FileExplorer<TItemData>({
 		folderId,
 		invalidateDependentQueries
 	);
-	const editItem = useEditFile(api, folderId, invalidateDependentQueries);
 	const deleteItemMutation = useDeleteFile(
 		api,
 		folderId,
 		invalidateDependentQueries
-	);
-
-	const renameItem = useCallback(
-		async (item: FSItem<TItemData>, name: string) => {
-			editItem.mutateAsync({
-				itemId: item.id,
-				editSet: { name },
-				fieldsToEdit: ['name'],
-			});
-		},
-		[editItem]
 	);
 
 	const newMenuItems = useMemo<MenuItem[]>(
@@ -161,18 +148,20 @@ export function FileExplorer<TItemData>({
 						<FolderListItem
 							key={x.id}
 							folder={x}
-							isLoading={editItem.isLoading}
+							parentFolderId={folderId}
 							onNavigate={setFolderId}
-							renameItem={renameItem}
-							deleteItem={setItemToDelete}
+							api={api}
+							invalidateDependentQueries={invalidateDependentQueries}
+							openDeleteModal={setItemToDelete}
 						/>
 					) : (
 						<FileListItem
 							openFile={openFile}
 							getIconForFile={getIconForItem}
-							renameItem={renameItem}
-							deleteItem={setItemToDelete}
-							isLoading={editItem.isLoading}
+							api={api}
+							invalidateDependentQueries={invalidateDependentQueries}
+							parentFolderId={folderId}
+							openDeleteModal={setItemToDelete}
 							key={x.id}
 							file={x}
 						/>

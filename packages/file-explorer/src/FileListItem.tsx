@@ -3,38 +3,59 @@ import {
 	CampaignBuddyIcon,
 	ListItemIcon,
 } from '@campaign-buddy/core-ui';
-import { FSItem, FSItemFile } from '@campaign-buddy/frontend-types';
+import {
+	FileSystemApi,
+	FSItem,
+	FSItemFile,
+} from '@campaign-buddy/frontend-types';
 import React, { useCallback } from 'react';
+import { QueryClient } from 'react-query';
 import { EditableListItemText } from './EditableListItemText';
 import { useContextMenu } from './useContextMenu';
 
 export interface FileListItemProps<TItemData> {
 	file: FSItemFile<TItemData>;
-	isLoading: boolean;
+	parentFolderId?: string;
+	api: FileSystemApi<TItemData>;
+	invalidateDependentQueries: (
+		queryClient: QueryClient,
+		item?: FSItemFile<TItemData>
+	) => void;
+	openDeleteModal: (item?: FSItem<TItemData>) => void;
 	openFile: (item: FSItemFile<TItemData>) => void;
-	renameItem: (item: FSItem<TItemData>, newName: string) => void;
-	deleteItem: (item: FSItem<TItemData>) => void;
 	getIconForFile: (item: FSItemFile<TItemData>) => CampaignBuddyIcon;
 }
 
 export function FileListItem<TItemData>({
 	file,
-	isLoading,
+	api,
+	parentFolderId,
+	invalidateDependentQueries,
 	getIconForFile,
 	openFile,
-	renameItem,
-	deleteItem,
+	openDeleteModal,
 }: FileListItemProps<TItemData>) {
 	const handleOnClick = useCallback(() => {
 		openFile(file);
 	}, [file, openFile]);
 
-	const { contextMenuItems, commitRename, cancelRename, isRenaming } =
-		useContextMenu({ item: file, renameItem, deleteItem });
+	const {
+		contextMenuItems,
+		commitRename,
+		cancelRename,
+		isRenaming,
+		isComittingRename,
+	} = useContextMenu({
+		item: file,
+		api,
+		invalidateDependentQueries,
+		openDeleteModal,
+		parentFolderId,
+	});
 
 	return (
 		<ListItem
-			disabled={isLoading}
+			disabled={isComittingRename}
 			onClick={handleOnClick}
 			contextMenuItems={contextMenuItems}
 		>

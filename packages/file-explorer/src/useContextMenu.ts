@@ -1,47 +1,72 @@
 import { useState, useMemo, useCallback } from 'react';
 import { MenuItem } from '@campaign-buddy/core-ui';
-import { FSItem } from '@campaign-buddy/frontend-types';
+import {
+	FileSystemApi,
+	FSItem,
+	FSItemFile,
+} from '@campaign-buddy/frontend-types';
+import { useEditFile } from '@campaign-buddy/client-hooks';
+import { QueryClient } from 'react-query';
 
 interface UseContextMenuOptions<TData> {
 	item: FSItem<TData>;
-	renameItem?: (item: FSItem<TData>, name: string) => void;
-	deleteItem?: (item: FSItem<TData>) => void;
+	parentFolderId?: string;
+	api: FileSystemApi<TData>;
+	invalidateDependentQueries: (
+		queryClient: QueryClient,
+		item?: FSItemFile<TData>
+	) => void;
+	openDeleteModal?: (item?: FSItem<TData>) => void;
 }
 
 export function useContextMenu<TData>({
 	item,
-	renameItem,
-	deleteItem,
+	api,
+	parentFolderId,
+	invalidateDependentQueries,
+	openDeleteModal,
 }: UseContextMenuOptions<TData>) {
 	const [isRenaming, setIsRenaming] = useState(false);
+
+	const renameItemMutation = useEditFile(
+		api,
+		parentFolderId,
+		invalidateDependentQueries
+	);
 
 	const contextMenuItems = useMemo<MenuItem[]>(
 		() =>
 			[
-				renameItem && {
+				{
 					displayText: 'Rename',
 					icon: 'edit',
 					onClick: () => {
 						setIsRenaming(true);
 					},
 				},
-				deleteItem && {
+				openDeleteModal && {
 					displayText: 'Delete',
 					icon: 'trash',
 					onClick: () => {
-						deleteItem(item);
+						openDeleteModal(item);
 					},
 				},
 			].filter(Boolean) as MenuItem[],
-		[deleteItem, item, renameItem]
+		[item, openDeleteModal]
 	);
 
 	const commitRename = useCallback(
 		(newName: string) => {
-			renameItem?.(item, newName);
+			renameItemMutation.mutate({
+				editSet: {
+					name: newName,
+				},
+				itemId: item.id,
+				fieldsToEdit: ['name'],
+			});
 			setIsRenaming(false);
 		},
-		[item, renameItem]
+		[item, renameItemMutation]
 	);
 
 	const cancelRename = useCallback(() => {
@@ -50,6 +75,7 @@ export function useContextMenu<TData>({
 
 	return {
 		isRenaming,
+		isComittingRename: renameItemMutation.isLoading,
 		commitRename,
 		cancelRename,
 		contextMenuItems,
