@@ -40,6 +40,12 @@ interface StyledListItemProps {
 	disabled?: boolean;
 }
 
+const disabledIconStyle = css`
+	.bp4-icon {
+		color: ${({ theme }) => theme.legacyCoreUi.colors.textDisabled};
+	}
+`;
+
 const listItemStyle = css<StyledListItemProps>`
 	display: flex;
 	align-items: center;
@@ -52,6 +58,8 @@ const listItemStyle = css<StyledListItemProps>`
 
 	color: ${({ theme, disabled }) =>
 		disabled ? theme.legacyCoreUi.colors.textDisabled : theme.textColor};
+
+	${({ disabled }) => disabled && disabledIconStyle}
 
 	${({ theme, isInteractive }) =>
 		theme.list.item.backgroundColors.map(
