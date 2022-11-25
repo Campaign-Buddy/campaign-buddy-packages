@@ -48,6 +48,10 @@ export const baseButtonStyles = css`
 	&.bp4-minimal:active {
 		background-color: rgba(228, 222, 210, 0.9) !important;
 	}
+
+	.bp4-spinner-head {
+		stroke: currentColor !important;
+	}
 `;
 
 export const StyledButton = styled(ButtonCore)<{ _style?: ButtonStyle }>`

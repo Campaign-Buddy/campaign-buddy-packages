@@ -133,11 +133,17 @@ export function FileExplorer<TItemData>({
 				/>
 				{newMenuItems.length && (
 					<MenuPopover
-						isOpen={isMenuOpen}
+						isOpen={isMenuOpen && !createNewItemMutation.isLoading}
 						onClose={closeMenu}
 						items={newMenuItems}
 					>
-						<Button style="minimal" size="small" icon="plus" onClick={openMenu}>
+						<Button
+							isLoading={createNewItemMutation.isLoading}
+							style="minimal"
+							size="small"
+							icon="plus"
+							onClick={openMenu}
+						>
 							New
 						</Button>
 					</MenuPopover>
