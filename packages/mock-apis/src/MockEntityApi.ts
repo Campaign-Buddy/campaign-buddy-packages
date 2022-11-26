@@ -1,4 +1,3 @@
-import Fuse from 'fuse.js';
 import {
 	EntityApi,
 	EntitySummary,
@@ -15,28 +14,29 @@ import {
 	SearchEntitiesOptions,
 	SearchEntitiesResult,
 } from '@campaign-buddy/frontend-types';
-import { applyAggregates } from '@campaign-buddy/apply-aggregates';
-import { query } from '@campaign-buddy/json-path-ex';
 import { EntityDefinition } from '@campaign-buddy/json-schema-core';
+import { MockApiBase, MockApiBaseOptions } from './MockApiBase';
+import { characterClasses, feats } from './mockEntityData';
 import {
 	characterClassEntity,
-	characterEntity,
 	featEntity,
+	characterEntity,
 } from './mockEntityDefinitions';
-import { characterClasses, feats } from './mockEntityData';
-import { MockEntityFileSystemApi } from './MockEntityFileSystemApi';
+import { MockFileSystemApi } from './MockFileSystemApi';
+import {
+	IRepository,
+	MappingRepository,
+	MockRepository,
+} from './MockRepository';
 
-const DEBUG_NETWORK_LOAD = false;
-
-export interface MockEntityApiOptions {
+export interface MockEntityApiOptions extends MockApiBaseOptions {
 	entities: {
 		definition: EntityDefinition;
 		existingEntities?: HydratedEntity[];
 	}[];
-	latencyMs?: number;
 }
 
-export class MockEntityApi implements EntityApi {
+export class MockEntityApi extends MockApiBase implements EntityApi {
 	public static defaultOptions: MockEntityApiOptions = {
 		entities: [
 			{
@@ -53,261 +53,153 @@ export class MockEntityApi implements EntityApi {
 		],
 	};
 
-	private mockLatencyMs;
+	private definitionStore: MockRepository<EntityDefinition>;
+	private entityStore: MockRepository<HydratedEntity>;
+	private summaryStore: IRepository<EntitySummary>;
+	private mockLatency: number;
 
-	private searchIndices: Record<string, Fuse<EntitySummary>>;
-	private entitySummaryStores: Record<string, EntitySummary[]>;
-	private entityStores: Record<string, HydratedEntity[]>;
-	private definitionStore: Record<string, EntityDefinition>;
+	constructor(options: MockEntityApiOptions) {
+		super(options);
+		this.mockLatency = options.mockLatencyMs ?? 1_000;
 
-	constructor({ entities, latencyMs }: MockEntityApiOptions) {
-		this.searchIndices = {};
-		this.entitySummaryStores = {};
-		this.definitionStore = {};
-		this.entityStores = {};
-		this.mockLatencyMs = latencyMs ?? 1_000;
+		const entitiesByDefinition = Object.fromEntries(
+			options.entities.map(({ definition, existingEntities }) => {
+				return [definition.name, existingEntities ?? []];
+			})
+		);
+		const definitions = options.entities.map((x) => x.definition);
 
-		for (const { definition, existingEntities } of entities) {
-			const entitySummaries = existingEntities?.map((entity) =>
-				mapToSummary(definition, entity)
-			);
-
-			this.searchIndices[definition.name] = new Fuse(entitySummaries ?? [], {
+		this.definitionStore = new MockRepository({
+			getIdForItem: (definition) => definition.name,
+			initialUngroupedItems: definitions,
+			searchIndexOptions: {
 				keys: ['name'],
-			});
+			},
+		});
 
-			this.entitySummaryStores[definition.name] = entitySummaries ?? [];
-			this.entityStores[definition.name] = existingEntities ?? [];
+		this.entityStore = new MockRepository({
+			getIdForItem: (entity) => `${entity.definitionName}-${entity.id}`,
+			initialItemsByGroupKey: entitiesByDefinition,
+			searchIndexOptions: {
+				keys: ['entityData.name'],
+			},
+		});
 
-			this.definitionStore[definition.name] = definition;
-		}
+		this.summaryStore = new MappingRepository({
+			repo: this.entityStore,
+			map: (hydratedEntity) => ({
+				id: hydratedEntity.id,
+				definitionName: hydratedEntity.definitionName,
+				name: hydratedEntity.entityData.name,
+			}),
+			unmap: (entitySummary, hydratedEntity) => ({
+				id: entitySummary.id,
+				definitionName: entitySummary.definitionName,
+				entityData: {
+					...(hydratedEntity?.entityData ?? {}),
+					name: entitySummary.name,
+				},
+			}),
+		});
 	}
 
 	getFileSystemApiForEntityDefinition = (
 		definitionName: string
-	): FileSystemApi => {
-		return new MockEntityFileSystemApi(
-			this.entitySummaryStores[definitionName],
-			definitionName,
-			this
-		);
-	};
-
-	getEntityDefinition = async ({
-		entityDefinitionName,
-	}: GetEntityDefinitionOptions): Promise<GetEntityDefinitionResult> => {
-		await this.simulateLatency();
-		return { definition: this.definitionStore[entityDefinitionName] };
-	};
-
-	getHydratedEntities = async ({
-		ids,
-		entityDefinitionName,
-	}: GetHydratedEntitiesOptions): Promise<GetHydratedEntitiesResult> => {
-		if (DEBUG_NETWORK_LOAD) {
-			console.log('hydratingEntities', ids, entityDefinitionName);
-		}
-
-		if (!this.entitySummaryStores[entityDefinitionName]) {
-			throw new Error(`Unknown entity definition: ${entityDefinitionName}`);
-		}
-
-		await this.simulateLatency();
-
-		return {
-			entities: this.entityStores[entityDefinitionName].filter((x) =>
-				ids.includes(x.id)
-			),
-		};
-	};
-
-	searchEntities = async ({
-		query,
-		entityDefinitionName,
-		availableEntityIds,
-	}: SearchEntitiesOptions): Promise<SearchEntitiesResult> => {
-		if (DEBUG_NETWORK_LOAD) {
-			console.log('searching entities', query, entityDefinitionName);
-		}
-
-		await this.simulateLatency();
-
-		if (!this.searchIndices[entityDefinitionName]) {
-			throw new Error(`Unexpected definition name: ${entityDefinitionName}`);
-		}
-
-		const entities = this.searchIndices[entityDefinitionName]
-			.search(query)
-			.map((x) => x.item);
-
-		if (!availableEntityIds) {
-			return { entities };
-		}
-
-		return {
-			entities: entities.filter((x) => availableEntityIds.includes(x.id)),
-		};
-	};
-
-	getEntitiesByIds = async ({
-		ids,
-		entityDefinitionName,
-	}: GetEntitiesByIdsOptions): Promise<GetEntitiesByIdsResult> => {
-		if (DEBUG_NETWORK_LOAD) {
-			console.log('getting entities by ids', ids);
-		}
-
-		await this.simulateLatency();
-
-		if (!this.entitySummaryStores[entityDefinitionName]) {
-			throw new Error(`Unexpected definition name: ${entityDefinitionName}`);
-		}
-
-		const entitiesById = this.entitySummaryStores[entityDefinitionName].reduce<
-			Record<string, EntitySummary>
-		>((map, cur) => {
-			map[cur.id] = cur;
-			return map;
-		}, {});
-
-		return { entities: ids.map((x) => entitiesById[x]) };
-	};
-
-	getDefaultEntities = async ({
-		entityDefinitionName,
-		availableEntityIds,
-	}: GetDefaultEntitiesOptions): Promise<GetDefaultEntitiesResult> => {
-		if (DEBUG_NETWORK_LOAD) {
-			console.log('getting default entities', entityDefinitionName);
-		}
-
-		await this.simulateLatency();
-
-		if (!this.entitySummaryStores[entityDefinitionName]) {
-			throw new Error(`Unexpected definition name: ${entityDefinitionName}`);
-		}
-
-		if (!availableEntityIds) {
-			return {
-				entities: this.entitySummaryStores[entityDefinitionName].slice(0, 5),
-			};
-		}
-
-		return {
-			entities: this.entitySummaryStores[entityDefinitionName]
-				.filter((x) => availableEntityIds.includes(x.id))
-				.slice(0, 5),
-		};
-	};
-
-	deleteEntity = async (summary: EntitySummary) => {
-		this.entityStores[summary.definitionName] = this.entityStores[
-			summary.definitionName
-		].filter((x) => x.id === summary.id);
-		this.entitySummaryStores[summary.definitionName] = this.entitySummaryStores[
-			summary.definitionName
-		].filter((x) => x.id === summary.id);
-		this.searchIndices[summary.definitionName] = new Fuse(
-			this.entitySummaryStores[summary.definitionName],
-			{ keys: ['name'] }
-		);
-	};
-
-	editName = async (
-		definitionName: string,
-		entityId: string,
-		name: string
-	): Promise<EntitySummary> => {
-		this.entityStores[definitionName] = this.entityStores[definitionName].map(
-			(x) =>
-				x.id !== entityId
-					? x
-					: {
-							...x,
-							entityData: {
-								...x.entityData,
-								name,
-							},
-					  }
-		);
-		this.entitySummaryStores[definitionName] = this.entitySummaryStores[
-			definitionName
-		].map((x) =>
-			x.id !== entityId
-				? x
-				: {
-						...x,
-						name,
-				  }
-		);
-		this.searchIndices[definitionName] = new Fuse(
-			this.entitySummaryStores[definitionName],
-			{ keys: ['name'] }
-		);
-		return {
-			definitionName,
-			name,
-			id: entityId,
-		};
-	};
-
-	createEntity = async (
-		definitionName: string,
-		entityName: string
-	): Promise<EntitySummary> => {
-		const entityData = {
-			name: entityName,
-		};
-		const id = this.randomString();
-		this.entityStores[definitionName].push({
-			id,
-			definitionName,
-			entityData,
-		});
-		this.entitySummaryStores[definitionName].push({
-			id,
-			definitionName,
-			name: entityName,
-		});
-		this.searchIndices[definitionName] = new Fuse(
-			this.entitySummaryStores[definitionName],
-			{ keys: ['name'] }
-		);
-
-		return {
-			id,
-			definitionName,
-			name: entityName,
-		};
-	};
-
-	private simulateLatency = (): Promise<void> => {
-		return new Promise((resolve) => {
-			setTimeout(() => resolve(), this.mockLatencyMs);
+	): FileSystemApi<EntitySummary> => {
+		return new MockFileSystemApi<EntitySummary>({
+			mockLatencyMs: this.mockLatency,
+			repo: this.summaryStore,
+			getCreateSet: (name) => ({
+				id: this.generateId(),
+				definitionName,
+				name: name ?? 'Default Name',
+			}),
+			updateName: (existingItem, name) => ({
+				...existingItem,
+				name: name,
+			}),
+			getIdForItem: (item) => item.id,
+			initialRootItems: this.summaryStore
+				.getGroup(definitionName)
+				.map(({ item }) => ({
+					kind: 'file',
+					id: this.generateId(),
+					name: item.name,
+					data: item,
+				})),
 		});
 	};
 
-	private randomString = () =>
-		`${new Date().getMilliseconds()}${Math.random()}`;
-}
+	getEntityDefinition = async (
+		options: GetEntityDefinitionOptions
+	): Promise<GetEntityDefinitionResult> => {
+		await this.simulateLatency();
+		const result = this.definitionStore.getOne(options.entityDefinitionName);
+		if (!result) {
+			throw new Error('could not find definition');
+		}
+		return { definition: result.item };
+	};
 
-function mapToSummary(
-	definition: EntityDefinition,
-	entity: HydratedEntity
-): EntitySummary {
-	const namePath = definition.propertyMap.displayName;
+	searchEntities = async (
+		options: SearchEntitiesOptions
+	): Promise<SearchEntitiesResult> => {
+		await this.simulateLatency();
+		const result = this.summaryStore.searchGroup(
+			options.query,
+			options.entityDefinitionName
+		);
 
-	const entityWithAggregates = applyAggregates(
-		entity.entityData,
-		definition.aggregates,
-		definition.schema
-	);
+		const availableIds =
+			options.availableEntityIds && new Set(options.availableEntityIds);
+		const summaries = result.filter(
+			(x) => !availableIds || availableIds.has(x.id)
+		);
 
-	const name = query(entityWithAggregates, namePath);
+		return { entities: summaries };
+	};
 
-	return {
-		definitionName: entity.definitionName,
-		name,
-		id: entity.id,
+	getEntitiesByIds = async (
+		options: GetEntitiesByIdsOptions
+	): Promise<GetEntitiesByIdsResult> => {
+		await this.simulateLatency();
+		const idsSet = new Set(options.ids);
+		return {
+			entities: this.summaryStore
+				.getGroup(options.entityDefinitionName)
+				.filter((x) => idsSet.has(x.item.id))
+				.map((x) => x.item),
+		};
+	};
+
+	getDefaultEntities = async (
+		options: GetDefaultEntitiesOptions
+	): Promise<GetDefaultEntitiesResult> => {
+		await this.simulateLatency();
+		const idsSet =
+			options.availableEntityIds && new Set(options.availableEntityIds);
+
+		const items = this.summaryStore
+			.getGroup(options.entityDefinitionName)
+			.filter((x) => !idsSet || idsSet.has(x.item.id))
+			.map((x) => x.item)
+			.slice(0, 5);
+
+		return { entities: items };
+	};
+
+	getHydratedEntities = async (
+		options: GetHydratedEntitiesOptions
+	): Promise<GetHydratedEntitiesResult> => {
+		await this.simulateLatency();
+
+		const idsSet = new Set(options.ids);
+
+		return {
+			entities: this.entityStore
+				.getGroup(options.entityDefinitionName)
+				.filter((x) => idsSet.has(x.item.id))
+				.map((x) => x.item),
+		};
 	};
 }

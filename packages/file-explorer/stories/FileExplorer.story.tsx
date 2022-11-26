@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import cuid from 'cuid';
-import { MockTextFileSystemApi } from '@campaign-buddy/mock-apis';
+import { getMockTextFileSystemApi } from '@campaign-buddy/mock-apis';
 import { FileExplorer } from '../src';
 
 export default {
@@ -9,7 +9,7 @@ export default {
 	component: FileExplorer,
 };
 
-const mockApi = new MockTextFileSystemApi(
+const mockApi = getMockTextFileSystemApi(
 	[
 		{
 			name: 'File A',
@@ -78,7 +78,7 @@ export function Primary() {
 				getIconForItem={() => 'document'}
 				openFile={(item) => console.log('opening', item)}
 				invalidateDependentQueries={() => {
-					//
+					// No need to invalidate in the example app
 				}}
 				getAddMenu={(create) => [
 					{
