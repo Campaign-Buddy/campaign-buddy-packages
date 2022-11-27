@@ -13,11 +13,16 @@ import {
 import { MockApiBase, MockApiBaseOptions } from './MockApiBase';
 import { IRepository, MockRepository } from './MockRepository';
 
+export interface MockCreateSet<TItem> {
+	item: TItem;
+	groupKey?: string;
+}
+
 export interface MockFileSystemApiOptions<TItem> extends MockApiBaseOptions {
 	repo: IRepository<TItem>;
 	getIdForItem: (file: TItem) => string;
 	updateName: (existingItem: TItem, name: string) => TItem;
-	getCreateSet: (name?: string) => TItem;
+	getCreateSet: (name?: string) => MockCreateSet<TItem>;
 	getNameForItem?: (item: TItem) => string;
 	initialRootItems?: FSItem<TItem>[];
 	initialFolderChildren?: Record<string, FSItem<TItem>[]>;
@@ -30,7 +35,7 @@ export class MockFileSystemApi<TItem>
 	private fsRepo: MockRepository<FSItem<string>>;
 	private backingRepo: IRepository<TItem>;
 	private updateName: (existingItem: TItem, name: string) => TItem;
-	private getCreateSet: (name?: string) => TItem;
+	private getCreateSet: (name?: string) => MockCreateSet<TItem>;
 	private getIdForItem: (item: TItem) => string;
 	private getNameForItem?: (item: TItem) => string;
 
@@ -136,8 +141,13 @@ export class MockFileSystemApi<TItem>
 			};
 			this.fsRepo.create(item, options.createSet.parentId);
 		} else {
-			const itemCreateSet = this.getCreateSet(options.createSet.name);
-			const createdBackingItem = this.backingRepo.create(itemCreateSet);
+			const { item: itemCreateSet, groupKey } = this.getCreateSet(
+				options.createSet.name
+			);
+			const createdBackingItem = this.backingRepo.create(
+				itemCreateSet,
+				groupKey
+			);
 
 			const fileId = this.generateId();
 			const createdItem = this.fsRepo.create(
@@ -149,7 +159,6 @@ export class MockFileSystemApi<TItem>
 				},
 				options.createSet.parentId
 			);
-			this.backingRepo.create(itemCreateSet);
 
 			item = {
 				...createdItem,

@@ -1,8 +1,9 @@
 import { HydratedEntity } from '@campaign-buddy/frontend-types';
+import { getRandomString } from './getRandomString';
 
 export const characterClasses: HydratedEntity[] = [
 	{
-		id: '1',
+		id: getRandomString(),
 		entityData: {
 			name: 'Bard',
 			description: 'Its a bard',
@@ -13,7 +14,7 @@ export const characterClasses: HydratedEntity[] = [
 		definitionName: 'characterClass',
 	},
 	{
-		id: '2',
+		id: getRandomString(),
 		entityData: {
 			name: 'Fighter',
 			description: 'Its a fighter',
@@ -24,7 +25,7 @@ export const characterClasses: HydratedEntity[] = [
 		definitionName: 'characterClass',
 	},
 	{
-		id: '3',
+		id: getRandomString(),
 		entityData: {
 			name: 'Wizard',
 			description: 'Its a wizard',
@@ -35,7 +36,7 @@ export const characterClasses: HydratedEntity[] = [
 		definitionName: 'characterClass',
 	},
 	{
-		id: '4',
+		id: getRandomString(),
 		entityData: {
 			name: 'Rouge',
 			description: 'Its a rouge',
@@ -46,7 +47,7 @@ export const characterClasses: HydratedEntity[] = [
 		definitionName: 'characterClass',
 	},
 	{
-		id: '5',
+		id: getRandomString(),
 		entityData: {
 			name: 'Potion smith',
 			description: 'Its a potion smith',
@@ -57,7 +58,7 @@ export const characterClasses: HydratedEntity[] = [
 		definitionName: 'characterClass',
 	},
 	{
-		id: '6',
+		id: getRandomString(),
 		entityData: {
 			name: 'Sorcerer',
 			description: 'Its a sorcerer',
@@ -68,7 +69,7 @@ export const characterClasses: HydratedEntity[] = [
 		definitionName: 'characterClass',
 	},
 	{
-		id: '7',
+		id: getRandomString(),
 		entityData: {
 			name: 'Ranger',
 			description: 'Its a ranger',
@@ -79,7 +80,7 @@ export const characterClasses: HydratedEntity[] = [
 		definitionName: 'characterClass',
 	},
 	{
-		id: '8',
+		id: getRandomString(),
 		entityData: {
 			name: 'Paladin',
 			description: 'Its a paladin',
@@ -90,7 +91,7 @@ export const characterClasses: HydratedEntity[] = [
 		definitionName: 'characterClass',
 	},
 	{
-		id: '9',
+		id: getRandomString(),
 		entityData: {
 			name: 'Monk',
 			description: 'Its a monk',
@@ -101,7 +102,7 @@ export const characterClasses: HydratedEntity[] = [
 		definitionName: 'characterClass',
 	},
 	{
-		id: '10',
+		id: getRandomString(),
 		entityData: {
 			name: 'Cleric',
 			description: 'Its a cleric',
@@ -112,7 +113,7 @@ export const characterClasses: HydratedEntity[] = [
 		definitionName: 'characterClass',
 	},
 	{
-		id: '11',
+		id: getRandomString(),
 		entityData: {
 			name: 'Barbarian',
 			description: 'Its a barbarian',
@@ -126,7 +127,7 @@ export const characterClasses: HydratedEntity[] = [
 
 export const feats: HydratedEntity[] = [
 	{
-		id: '1',
+		id: getRandomString(),
 		entityData: {
 			name: 'Somewhat beefy',
 			description: 'Kinda beefy',
@@ -137,7 +138,7 @@ export const feats: HydratedEntity[] = [
 		definitionName: 'feat',
 	},
 	{
-		id: '2',
+		id: getRandomString(),
 		entityData: {
 			name: 'Pretty beefy',
 			description: 'Its pretty beefy',
@@ -148,7 +149,7 @@ export const feats: HydratedEntity[] = [
 		definitionName: 'feat',
 	},
 	{
-		id: '3',
+		id: getRandomString(),
 		entityData: {
 			name: 'Beefy',
 			description: "I'd say its beefy",
@@ -159,7 +160,7 @@ export const feats: HydratedEntity[] = [
 		definitionName: 'feat',
 	},
 	{
-		id: '4',
+		id: getRandomString(),
 		entityData: {
 			name: 'Very beefy',
 			description: 'Its very beefy',
@@ -170,7 +171,7 @@ export const feats: HydratedEntity[] = [
 		definitionName: 'feat',
 	},
 	{
-		id: '5',
+		id: getRandomString(),
 		entityData: {
 			name: 'SUPER BEEFY',
 			description: 'Its a super duper',

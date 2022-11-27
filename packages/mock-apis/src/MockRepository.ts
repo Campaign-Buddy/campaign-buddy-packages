@@ -214,7 +214,7 @@ export class MappingRepository<TItemFrom, TItemTo>
 			return;
 		}
 
-		this.mapItem(item);
+		return this.mapItem(item);
 	};
 
 	private mapItem = (

@@ -55,8 +55,10 @@ export function getMockTextFileSystemApi(
 		repo,
 		getIdForItem: (item) => item.id,
 		getCreateSet: (name) => ({
-			string: name ?? 'Default Name',
-			id: getRandomString(),
+			item: {
+				string: name ?? 'Default Name',
+				id: getRandomString(),
+			},
 		}),
 		updateName: (existingItem) => existingItem,
 		initialFolderChildren: mappedFolderChildren,

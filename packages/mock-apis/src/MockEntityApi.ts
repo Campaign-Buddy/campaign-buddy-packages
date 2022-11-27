@@ -49,6 +49,7 @@ export class MockEntityApi extends MockApiBase implements EntityApi {
 			},
 			{
 				definition: characterEntity,
+				existingEntities: [],
 			},
 		],
 	};
@@ -78,7 +79,7 @@ export class MockEntityApi extends MockApiBase implements EntityApi {
 		});
 
 		this.entityStore = new MockRepository({
-			getIdForItem: (entity) => `${entity.definitionName}-${entity.id}`,
+			getIdForItem: (entity) => entity.id,
 			initialItemsByGroupKey: entitiesByDefinition,
 			searchIndexOptions: {
 				keys: ['entityData.name'],
@@ -110,9 +111,12 @@ export class MockEntityApi extends MockApiBase implements EntityApi {
 			mockLatencyMs: this.mockLatency,
 			repo: this.summaryStore,
 			getCreateSet: (name) => ({
-				id: this.generateId(),
-				definitionName,
-				name: name ?? 'Default Name',
+				item: {
+					id: this.generateId(),
+					definitionName,
+					name: name ?? 'Default Name',
+				},
+				groupKey: definitionName,
 			}),
 			updateName: (existingItem, name) => ({
 				...existingItem,
