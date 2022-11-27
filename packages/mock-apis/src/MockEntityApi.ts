@@ -13,6 +13,8 @@ import {
 	HydratedEntity,
 	SearchEntitiesOptions,
 	SearchEntitiesResult,
+	UpdateEntityOptions,
+	UpdateEntityResult,
 } from '@campaign-buddy/frontend-types';
 import { EntityDefinition } from '@campaign-buddy/json-schema-core';
 import { MockApiBase, MockApiBaseOptions } from './MockApiBase';
@@ -123,6 +125,7 @@ export class MockEntityApi extends MockApiBase implements EntityApi {
 				name: name,
 			}),
 			getIdForItem: (item) => item.id,
+			getNameForItem: (item) => item.name,
 			initialRootItems: this.summaryStore
 				.getGroup(definitionName)
 				.map(({ item }) => ({
@@ -205,5 +208,22 @@ export class MockEntityApi extends MockApiBase implements EntityApi {
 				.filter((x) => idsSet.has(x.item.id))
 				.map((x) => x.item),
 		};
+	};
+
+	updateEntity = async (
+		options: UpdateEntityOptions
+	): Promise<UpdateEntityResult> => {
+		await this.simulateLatency();
+
+		const updated = this.entityStore.update(options.id, (oldItem) => ({
+			...oldItem,
+			entityData: options.entityData,
+		}));
+
+		if (!updated) {
+			throw new Error('Could not find entity');
+		}
+
+		return { entity: updated };
 	};
 }

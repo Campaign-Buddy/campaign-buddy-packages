@@ -57,6 +57,16 @@ export interface GetHydratedEntitiesResult {
 	entities: HydratedEntity[];
 }
 
+export interface UpdateEntityOptions {
+	id: string;
+	entityDefinitionName: string;
+	entityData: any;
+}
+
+export interface UpdateEntityResult {
+	entity: HydratedEntity;
+}
+
 export interface EntityApi {
 	getEntityDefinition: (
 		options: GetEntityDefinitionOptions
@@ -77,4 +87,6 @@ export interface EntityApi {
 	getHydratedEntities: (
 		options: GetHydratedEntitiesOptions
 	) => Promise<GetHydratedEntitiesResult>;
+
+	updateEntity: (options: UpdateEntityOptions) => Promise<UpdateEntityResult>;
 }
