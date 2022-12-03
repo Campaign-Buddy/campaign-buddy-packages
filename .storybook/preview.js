@@ -31,9 +31,7 @@ export const parameters = {
 export const decorators = [
 	(Story) => (
 		<ThemeProvider theme={themes.parchment}>
-			<DragProvider>
-				<Story />
-			</DragProvider>
+			<Story />
 		</ThemeProvider>
 	),
 ];

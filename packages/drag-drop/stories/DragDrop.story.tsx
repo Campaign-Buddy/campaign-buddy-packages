@@ -1,11 +1,24 @@
 import React from 'react';
-import { useDrag, useSectionedDropZone, coordinateTransformers } from '../src';
+import {
+	useDrag,
+	useSectionedDropZone,
+	coordinateTransformers,
+	DragProvider,
+} from '../src';
+import { Bin, Container } from './ExampleComponents';
 
 export default {
 	title: 'drag-drop/DragDrop',
+	decorators: [
+		(Story: React.ComponentType) => (
+			<DragProvider>
+				<Story />
+			</DragProvider>
+		),
+	],
 };
 
-export function Primary() {
+export function BasicDragDrop() {
 	const { dragRef } = useDrag({
 		kind: 'pane',
 		location: 'somelocation',
@@ -21,11 +34,11 @@ export function Primary() {
 	);
 
 	return (
-		<div>
-			<div ref={dragRef}>Drag me!</div>
-			<div ref={dropRef} style={{ width: 100, height: 100 }}>
+		<Container>
+			<Bin ref={dragRef}>Drag me!</Bin>
+			<Bin ref={dropRef} style={{ width: 100, height: 100 }}>
 				Drop here!
-			</div>
-		</div>
+			</Bin>
+		</Container>
 	);
 }
