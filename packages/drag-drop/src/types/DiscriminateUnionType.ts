@@ -8,5 +8,5 @@ export type DiscriminatedUnionMap<
 	TBase extends Record<TProperty, string>,
 	TProperty extends keyof TBase
 > = {
-	[TValue in TBase[TProperty]]?: DiscriminateUnion<TBase, TProperty, TValue>;
+	[TValue in TBase[TProperty]]: DiscriminateUnion<TBase, TProperty, TValue>;
 };

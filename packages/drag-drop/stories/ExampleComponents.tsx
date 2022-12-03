@@ -1,5 +1,11 @@
 import styled from 'styled-components';
 
+export const Stack = styled.div`
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+`;
+
 export const Container = styled.div`
 	display: flex;
 	gap: 8px;
@@ -14,4 +20,5 @@ export const Bin = styled.div`
 	align-items: center;
 	justify-content: center;
 	border-radius: 4px;
+	text-align: center;
 `;

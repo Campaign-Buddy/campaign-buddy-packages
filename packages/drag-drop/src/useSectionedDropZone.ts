@@ -2,12 +2,9 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { useDrop, XYCoord } from 'react-dnd';
 import { useUpdatingRef } from '@campaign-buddy/common-hooks';
 import isEqual from 'lodash/isEqual';
-import { DragData, DragDataKind, isDragData } from './types';
-import {
-	DiscriminatedUnionMap,
-	DiscriminateUnion,
-} from './types/DiscriminateUnionType';
+import { DragDataKind, DragDataMap, isDragData } from './types';
 import { campaignBuddyDragKind } from './campaignBuddyDragKind';
+import { useDragDataTransformer } from './components';
 
 export interface RelativeCoordinates {
 	x: number;
@@ -23,10 +20,7 @@ export interface UsePaneDropZoneHook<T> {
 export function useSectionedDropZone<TLocation, TDropKind extends DragDataKind>(
 	accept: TDropKind,
 	transformCoordinates: (coordinates: RelativeCoordinates) => TLocation,
-	onDrop?: (
-		location: TLocation,
-		item: DiscriminateUnion<DragData, 'kind', TDropKind>
-	) => void
+	onDrop?: (location: TLocation, item: DragDataMap[TDropKind]) => void
 ): UsePaneDropZoneHook<TLocation> {
 	const transformCoordinatesRef = useUpdatingRef(transformCoordinates);
 	const onDropRef = useUpdatingRef(onDrop);
@@ -69,19 +63,17 @@ export function useSectionedDropZone<TLocation, TDropKind extends DragDataKind>(
 		[transformCoordinatesRef]
 	);
 
+	const { tryTransformData } = useDragDataTransformer();
+
 	const getAcceptableItem = useCallback(
-		(item: any): DiscriminateUnion<DragData, 'kind', TDropKind> | undefined => {
+		(item: any): DragDataMap[TDropKind] | undefined => {
 			if (!isDragData(item)) {
 				return undefined;
 			}
 
-			const map: DiscriminatedUnionMap<DragData, 'kind'> = {
-				[item.kind]: item,
-			};
-
-			return map[accept];
+			return tryTransformData(item, accept);
 		},
-		[accept]
+		[accept, tryTransformData]
 	);
 
 	const [{ isOver, canDrop, isDragging }, connectDropTarget] = useDrop(
