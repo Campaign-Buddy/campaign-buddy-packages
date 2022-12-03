@@ -2,9 +2,10 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { useDrop, XYCoord } from 'react-dnd';
 import { useUpdatingRef } from '@campaign-buddy/common-hooks';
 import isEqual from 'lodash/isEqual';
-import { DragDataKind, DragDataMap, isDragData } from './types';
+import { DragDataKind, DragDataMap } from './types';
 import { campaignBuddyDragKind } from './campaignBuddyDragKind';
 import { useDragDataTransformer } from './components';
+import { isInternalDragItem } from './types/InternalDragItem';
 
 export interface RelativeCoordinates {
 	x: number;
@@ -66,12 +67,12 @@ export function useSectionedDropZone<TLocation, TDropKind extends DragDataKind>(
 	const { tryTransformData } = useDragDataTransformer();
 
 	const getAcceptableItem = useCallback(
-		(item: any): DragDataMap[TDropKind] | undefined => {
-			if (!isDragData(item)) {
+		(rawDragData: any): DragDataMap[TDropKind] | undefined => {
+			if (!isInternalDragItem(rawDragData)) {
 				return undefined;
 			}
 
-			return tryTransformData(item, accept);
+			return tryTransformData(rawDragData.item, accept);
 		},
 		[accept, tryTransformData]
 	);

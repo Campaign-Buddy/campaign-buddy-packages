@@ -19,28 +19,7 @@ export interface EntityDragData extends BaseDragData<'entity'> {
 }
 
 export type DragData = PaneDragData | EntityDragData;
+
 export type DragDataKind = DragData['kind'];
 export type DragDataMap = DiscriminatedUnionMap<DragData, 'kind'>;
 export type PartialDragDataMap = Partial<DragDataMap>;
-
-export function isEntityDragData(item: any): item is EntityDragData {
-	return (
-		typeof item === 'object' &&
-		item.kind === 'entity' &&
-		typeof item.entityId === 'string' &&
-		typeof item.entityName === 'string'
-	);
-}
-
-export function isPaneDragData(item: any): item is PaneDragData {
-	return (
-		typeof item === 'object' &&
-		item.kind === 'pane' &&
-		typeof item.location === 'string' &&
-		typeof item.tabName === 'string'
-	);
-}
-
-export function isDragData(item: any): item is DragData {
-	return isPaneDragData(item) || isEntityDragData(item);
-}

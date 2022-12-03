@@ -7,7 +7,10 @@ import { campaignBuddyDragKind } from './campaignBuddyDragKind';
 export function useDrag(item: DragData) {
 	const [{ isDragging }, dragRef, preview] = reactDndUseDrag(() => ({
 		type: campaignBuddyDragKind,
-		item,
+		item: {
+			isInternalCampaignBuddyDragItem: true,
+			item,
+		},
 		collect: (monitor) => ({
 			isDragging: monitor.isDragging(),
 		}),
