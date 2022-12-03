@@ -6,7 +6,8 @@
 	"dependencies": {
 		"@campaign-buddy/common-hooks": "0.1.0",
 		"@campaign-buddy/core-ui": "0.1.0",
-		"lodash": "^4.17.21"
+		"lodash": "^4.17.21",
+		"react-dnd-html5-backend": "^16.0.1"
 	},
 	"devDependencies": {
 		"@campaign-buddy/react-theme-provider": "0.1.0",

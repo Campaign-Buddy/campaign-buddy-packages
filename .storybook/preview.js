@@ -1,4 +1,5 @@
 import { ThemeProvider } from '../packages/react-theme-provider';
+import { DragProvider } from '../packages/drag-drop/src';
 import { themes } from '../packages/themes';
 
 export const parameters = {
@@ -30,7 +31,9 @@ export const parameters = {
 export const decorators = [
 	(Story) => (
 		<ThemeProvider theme={themes.parchment}>
-			<Story />
+			<DragProvider>
+				<Story />
+			</DragProvider>
 		</ThemeProvider>
 	),
 ];
