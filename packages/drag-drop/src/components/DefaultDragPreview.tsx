@@ -1,10 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Icon } from '@campaign-buddy/core-ui';
-import { DefaultDragPreview as DefaultDragPreviewType } from './dragPreviewTypes';
+import { DefaultDragPreviewData } from '../types';
 
 export const DefaultDragPreview: React.FC<
-	React.PropsWithChildren<DefaultDragPreviewType>
+	React.PropsWithChildren<DefaultDragPreviewData>
 > = ({ icon, title }) => {
 	return (
 		<DragPreviewContainer>

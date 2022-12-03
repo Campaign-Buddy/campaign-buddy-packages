@@ -2,11 +2,11 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { useDrop, XYCoord } from 'react-dnd';
 import { useUpdatingRef } from '@campaign-buddy/common-hooks';
 import isEqual from 'lodash/isEqual';
-import { DragData, DragDataKind, isDragData } from './dragDataTypes';
+import { DragData, DragDataKind, isDragData } from './types';
 import {
 	DiscriminatedUnionMap,
 	DiscriminateUnion,
-} from './DiscriminateUnionType';
+} from './types/DiscriminateUnionType';
 import { campaignBuddyDragKind } from './campaignBuddyDragKind';
 
 export interface RelativeCoordinates {

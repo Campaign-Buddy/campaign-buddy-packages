@@ -1,4 +1,4 @@
-import { DragData } from './dragDataTypes';
+import { DragData } from './types';
 import { useDrag as reactDndUseDrag } from 'react-dnd';
 import { getEmptyImage } from 'react-dnd-html5-backend';
 import { useEffect } from 'react';
