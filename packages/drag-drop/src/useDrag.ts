@@ -2,10 +2,11 @@ import { DragData } from './dragDataTypes';
 import { useDrag as reactDndUseDrag } from 'react-dnd';
 import { getEmptyImage } from 'react-dnd-html5-backend';
 import { useEffect } from 'react';
+import { campaignBuddyDragKind } from './campaignBuddyDragKind';
 
 export function useDrag(item: DragData) {
 	const [{ isDragging }, dragRef, preview] = reactDndUseDrag(() => ({
-		type: 'campaign-buddy-drag',
+		type: campaignBuddyDragKind,
 		item,
 		collect: (monitor) => ({
 			isDragging: monitor.isDragging(),

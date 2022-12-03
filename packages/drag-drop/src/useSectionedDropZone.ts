@@ -7,6 +7,7 @@ import {
 	DiscriminatedUnionMap,
 	DiscriminateUnion,
 } from './DiscriminateUnionType';
+import { campaignBuddyDragKind } from './campaignBuddyDragKind';
 
 export interface RelativeCoordinates {
 	x: number;
@@ -85,7 +86,7 @@ export function useSectionedDropZone<TLocation, TDropKind extends DragDataKind>(
 
 	const [{ isOver, canDrop, isDragging }, connectDropTarget] = useDrop(
 		() => ({
-			accept: 'campaign-buddy-drag',
+			accept: campaignBuddyDragKind,
 			collect: (monitor) => {
 				const isOver = monitor.isOver({ shallow: true });
 				const canDrop = monitor.getItemType() === accept;
@@ -99,7 +100,7 @@ export function useSectionedDropZone<TLocation, TDropKind extends DragDataKind>(
 			},
 			hover: (_, monitor) => {
 				const isOver = monitor.isOver({ shallow: true });
-				const canDrop = monitor.getItemType() === 'campaign-buddy-drag';
+				const canDrop = monitor.getItemType() === campaignBuddyDragKind;
 				const hoverCoordinates = monitor.getClientOffset();
 
 				if (isOver && canDrop && hoverCoordinates) {
