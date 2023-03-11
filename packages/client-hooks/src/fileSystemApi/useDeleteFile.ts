@@ -3,7 +3,12 @@ import {
 	FSItemFile,
 	ListFSItemsResult,
 } from '@campaign-buddy/frontend-types';
-import { QueryClient, useMutation, useQueryClient } from 'react-query';
+import {
+	InfiniteData,
+	QueryClient,
+	useMutation,
+	useQueryClient,
+} from 'react-query';
 import { fileSystemApiQueryKeys } from './fileSystemApiQueryKeys';
 
 export function useDeleteFile<TItemData>(
@@ -19,7 +24,10 @@ export function useDeleteFile<TItemData>(
 
 	const deleteItemMutation = useMutation(api.delete, {
 		onSuccess: (_, { itemId }) => {
-			const previousValue = queryClient.getQueryData(queryKey);
+			const previousValue =
+				queryClient.getQueryData<InfiniteData<ListFSItemsResult<TItemData>>>(
+					queryKey
+				);
 
 			invalidateDependentQueries(queryClient);
 
@@ -30,18 +38,19 @@ export function useDeleteFile<TItemData>(
 
 				queryClient.setQueryData(
 					queryKey,
-					(old: ListFSItemsResult<TItemData> | undefined) => {
+					(old: InfiniteData<ListFSItemsResult<TItemData>> | undefined) => {
 						if (!old) {
 							throw new Error(`Expected existing query data`);
 						}
 
-						const oldItemIndex = old.items.findIndex((x) => x.id === itemId);
-						const newItems = [...old.items];
-						newItems.splice(oldItemIndex, 1);
-
 						return {
 							...old,
-							items: newItems,
+							pages: old.pages.map(({ items, ...page }) => {
+								return {
+									...page,
+									items: items.filter((x) => x.id !== itemId),
+								};
+							}),
 						};
 					}
 				);

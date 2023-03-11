@@ -30,12 +30,15 @@ export type FSItemEditSetFields = keyof FSItemEditSet;
 
 export interface ListFSItemsOptions {
 	folderId?: string;
+	nextToken?: string;
+	limit?: number;
 }
 
 export interface ListFSItemsResult<TItemData> {
 	folder?: FSItemFolder;
 	items: FSItem<TItemData>[];
 	breadcrumbs: FSItemFolder[];
+	nextToken?: string;
 }
 
 export interface CreateFSItemOptions {

@@ -56,7 +56,12 @@ export function FileExplorer<TItemData>({
 	const [isMenuOpen, openMenu, closeMenu] = useBooleanState();
 	const [itemToDelete, setItemToDelete] = useState<FSItem<TItemData>>();
 
-	const { data: listResult } = useListFolder(api, folderId);
+	const {
+		data: listResult,
+		fetchNextPage,
+		hasNextPage,
+		isFetchingNextPage,
+	} = useListFolder(api, folderId);
 	const createNewItemMutation = useCreateFile(
 		api,
 		folderId,
@@ -124,12 +129,16 @@ export function FileExplorer<TItemData>({
 		[deleteItem, isDeleting, itemToDelete]
 	);
 
-	return listResult?.items ? (
+	const breadcrumbs = listResult?.pages?.[0].breadcrumbs;
+	const folder = listResult?.pages?.[0].folder;
+	const allItems = listResult?.pages?.flatMap((x) => x.items);
+
+	return allItems ? (
 		<FileExplorerContainer>
 			<FileExplorerHeader>
 				<Breadcrumbs
-					currentFolder={listResult.folder}
-					breadcrumbs={listResult.breadcrumbs}
+					currentFolder={folder}
+					breadcrumbs={breadcrumbs ?? []}
 					onNavigate={setFolderId}
 				/>
 				{newMenuItems.length && (
@@ -151,7 +160,7 @@ export function FileExplorer<TItemData>({
 				)}
 			</FileExplorerHeader>
 			<List>
-				{listResult.items.map((x) =>
+				{allItems.map((x) =>
 					x.kind === 'folder' ? (
 						<FolderListItem
 							key={x.id}
@@ -176,6 +185,16 @@ export function FileExplorer<TItemData>({
 					)
 				)}
 			</List>
+			<div>
+				{hasNextPage && (
+					<Button
+						onClick={() => fetchNextPage()}
+						isLoading={isFetchingNextPage}
+					>
+						More
+					</Button>
+				)}
+			</div>
 			<Modal
 				title="Confirm"
 				onClose={() => setItemToDelete(undefined)}

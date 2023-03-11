@@ -3,7 +3,12 @@ import {
 	FSItemFile,
 	ListFSItemsResult,
 } from '@campaign-buddy/frontend-types';
-import { useQueryClient, useMutation, QueryClient } from 'react-query';
+import {
+	useQueryClient,
+	useMutation,
+	QueryClient,
+	InfiniteData,
+} from 'react-query';
 import { fileSystemApiQueryKeys } from './fileSystemApiQueryKeys';
 
 export function useCreateFile<TItemData>(
@@ -19,7 +24,10 @@ export function useCreateFile<TItemData>(
 
 	const createNewItemMutation = useMutation(api.create, {
 		onSuccess: (createdItem) => {
-			const previousValue = queryClient.getQueryData(queryKey);
+			const previousValue =
+				queryClient.getQueryData<InfiniteData<ListFSItemsResult<TItemData>>>(
+					queryKey
+				);
 
 			if (createdItem.item.kind === 'file') {
 				invalidateDependentQueries(queryClient, createdItem.item);
@@ -31,14 +39,22 @@ export function useCreateFile<TItemData>(
 				queryClient.cancelQueries(queryKey);
 				queryClient.setQueryData(
 					queryKey,
-					(old: ListFSItemsResult<TItemData> | undefined) => {
+					(old: InfiniteData<ListFSItemsResult<TItemData>> | undefined) => {
 						if (!old) {
 							throw new Error(`Expected existing query data`);
 						}
 
+						const lastPage = old.pages[old.pages.length - 1];
+
 						return {
 							...old,
-							items: [...old.items, createdItem.item],
+							pages: [
+								...old.pages.slice(0, old.pages.length - 1),
+								{
+									...lastPage,
+									items: [...lastPage.items, createdItem.item],
+								},
+							],
 						};
 					}
 				);

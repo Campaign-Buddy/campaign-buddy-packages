@@ -4,7 +4,12 @@ import {
 	FSItemEditSet,
 	ListFSItemsResult,
 } from '@campaign-buddy/frontend-types';
-import { useQueryClient, useMutation, QueryClient } from 'react-query';
+import {
+	useQueryClient,
+	useMutation,
+	QueryClient,
+	InfiniteData,
+} from 'react-query';
 import { fileSystemApiQueryKeys } from './fileSystemApiQueryKeys';
 
 export function useEditFile<TItemData>(
@@ -20,15 +25,18 @@ export function useEditFile<TItemData>(
 
 	const renameItemMutation = useMutation(api.edit, {
 		onMutate: (request) => {
-			const previousValue = queryClient.getQueryData(queryKey);
+			const previousValue =
+				queryClient.getQueryData<InfiniteData<ListFSItemsResult<TItemData>>>(
+					queryKey
+				);
 
 			if (previousValue) {
 				// We can append the created result
 				// to the existing query data
 				queryClient.cancelQueries(queryKey);
-				const oldItem = (
-					previousValue as ListFSItemsResult<TItemData>
-				).items.find((x) => x.id === request.itemId);
+				const oldItem = previousValue.pages
+					.flatMap((x) => x.items)
+					.find((x) => x.id === request.itemId);
 
 				if (!oldItem) {
 					throw new Error('Could not find item to edit');
@@ -36,23 +44,28 @@ export function useEditFile<TItemData>(
 
 				queryClient.setQueryData(
 					queryKey,
-					(old: ListFSItemsResult<TItemData> | undefined) => {
+					(old: InfiniteData<ListFSItemsResult<TItemData>> | undefined) => {
 						if (!old) {
 							throw new Error(`Expected existing query data`);
 						}
 
 						return {
 							...old,
-							items: old.items.map((x) => {
-								if (x.id === request.itemId) {
-									const update: FSItemEditSet = {};
-									for (const key of request.fieldsToEdit) {
-										update[key] = request.editSet[key];
-									}
-									return { ...x, ...update };
-								} else {
-									return x;
-								}
+							pages: old.pages.map(({ items, ...rest }) => {
+								return {
+									items: items.map((x) => {
+										if (x.id === request.itemId) {
+											const update: FSItemEditSet = {};
+											for (const key of request.fieldsToEdit) {
+												update[key] = request.editSet[key];
+											}
+											return { ...x, ...update };
+										} else {
+											return x;
+										}
+									}),
+									...rest,
+								};
 							}),
 						};
 					}
@@ -83,19 +96,24 @@ export function useEditFile<TItemData>(
 				queryClient.cancelQueries(queryKey);
 				queryClient.setQueryData(
 					queryKey,
-					(old: ListFSItemsResult<TItemData> | undefined) => {
+					(old: InfiniteData<ListFSItemsResult<TItemData>> | undefined) => {
 						if (!old) {
 							throw new Error(`Expected existing query data`);
 						}
 
 						return {
 							...old,
-							items: old.items.map((x) => {
-								if (x.id === request.itemId) {
-									return { ...x, name: context };
-								} else {
-									return x;
-								}
+							pages: old.pages.map(({ items, ...page }) => {
+								return {
+									...page,
+									items: items.map((x) => {
+										if (x.id === request.itemId) {
+											return { ...x, name: context };
+										} else {
+											return x;
+										}
+									}),
+								};
 							}),
 						};
 					}

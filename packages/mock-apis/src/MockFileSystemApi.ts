@@ -79,9 +79,13 @@ export class MockFileSystemApi<TItem>
 	list = async (
 		options: ListFSItemsOptions
 	): Promise<ListFSItemsResult<TItem>> => {
+		const limit = options.limit ?? 3;
+		const start = parseInt(options.nextToken ?? '0');
+
 		await this.simulateLatency();
 		const siblings = this.fsRepo.getGroup(options.folderId);
 		const items = siblings
+			.slice(start, limit + start + 1)
 			.map(({ item }) => {
 				if (item.kind === 'folder') {
 					return item;
@@ -121,10 +125,12 @@ export class MockFileSystemApi<TItem>
 			}
 		}
 
+		const hasMoreItems = items.length > limit;
 		return {
-			items,
+			items: hasMoreItems ? items.slice(0, -1) : items,
 			breadcrumbs,
 			folder,
+			nextToken: hasMoreItems ? `${start + limit}` : undefined,
 		};
 	};
 
