@@ -1,9 +1,10 @@
 # Todo
 
 - [ ] File explorer
-	- [ ] Confirm deletes
+	- [X] Confirm deletes
 	- [ ] Kebab menus
 	- [ ] Better (custom?) root icon
+	- [ ] Update file explorer queries instead of completely invalidating them on external change
 - [ ] Upload media breaks media menu in rich text component
 - [ ] Design map maker v2 (tech and visual) using [fabricjs](http://fabricjs.com/)
 - [ ] Investigate [yjs](https://github.com/yjs/yjs) for collaborative data editing
@@ -22,6 +23,7 @@
 	- [ ] Entity mentions
 	- [ ] Embeds
 	- [ ] Tables
+- [ ] Update overflow component with new context pub/sub design
 - [ ] Add json-schema validation to form generator to guarantee that form data conforms to the provided schema
 	- Encapsulate validator in new package to be used in backend as well?
 - [ ] Replace schema traversal logic with [json-schema-traverse](https://www.npmjs.com/package/json-schema-traverse)
@@ -39,7 +41,6 @@
 	- [ ] Proficiency list?
 	- [ ] Spell slots
 	- [ ] Entity grid
-- [ ] File system component (may live in main campaign buddy app project)
 - [ ] Plan out analytic strategy (move this to the main campaign buddy app repo when it exists)
 - [ ] Package level documentation
 	- [X] frontend-types. When does a type go in that package?
@@ -58,6 +59,7 @@
 Partially completed TODOs are still left in the main list but may be re-prioritized. Below is TODO items that have been fully resolved but are kept for posterity.
 <br /><br />
 
+- [X] File system component (may live in main campaign buddy app project)
 - [X] Multi pane UI component package (can copy from previous project?)
 - [X] Always show edit button in aggregated text when display text is whitespace
 - [X] Update handling of widgets to handle undefined aggregatedValue
