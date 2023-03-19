@@ -2,6 +2,9 @@
 
 - [ ] File explorer
 	- [X] Confirm deletes
+	- [ ] Create items at the bottom of the loaded data
+	- [ ] Fix react query paging out files after they are created
+	- [ ] Drag and drop to sort
 	- [ ] Kebab menus
 	- [ ] Better (custom?) root icon
 	- [ ] Update file explorer queries instead of completely invalidating them on external change

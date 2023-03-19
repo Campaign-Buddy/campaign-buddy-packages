@@ -31,6 +31,9 @@ export function useUpdateEntity(entityApi: EntityApi) {
 					},
 				],
 			});
+
+			// This is bad, we should be updating the entity in the file
+			// system instead of completely clearing the cache
 			queryClient.removeQueries(fileSystemApiQueryKeys.everything());
 			return previousData;
 		},
