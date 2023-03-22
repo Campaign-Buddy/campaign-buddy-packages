@@ -4,7 +4,8 @@
 	"author": "Joseph Stewart",
 	"license": "MIT",
 	"dependencies": {
-		"@campaign-buddy/object-navigator": "0.1.0"
+		"@campaign-buddy/object-navigator": "0.1.0",
+		"yjs": "^13.5.51"
 	},
 	"devDependencies": {
 		"react": "^18.0.9",

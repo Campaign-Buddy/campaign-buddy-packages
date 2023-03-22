@@ -5,13 +5,13 @@ export type SubscriberCallback<TArgs extends any[]> = (...args: TArgs) => void;
 
 export interface ISyncedDocumentApi<TDocument> {
 	subscribe<TProperty>(
-		id: string,
+		documentId: string,
 		property: ObjectLocation<TDocument, TProperty>,
-		onChange: SubscriberCallback<[]>
+		onChange: SubscriberCallback<[TProperty]>
 	): Promise<UnsubscribeCallback>;
 
 	update<TProperty>(
-		id: string,
+		documentId: string,
 		property: ObjectLocation<TDocument, TProperty>,
 		change: TProperty
 	): Promise<void>;
