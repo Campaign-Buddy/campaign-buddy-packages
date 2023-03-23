@@ -1655,6 +1655,18 @@
   resolved "https://registry.yarnpkg.com/@react-dnd/shallowequal/-/shallowequal-4.0.2.tgz#d1b4befa423f692fa4abf1c79209702e7d8ae4b4"
   integrity sha512-/RVXdLvJxLg4QKvMoM5WlwNR9ViO9z8B/qPcc+C0Sa/teJY7QG7kJ441DwzOjMYEY7GmU4dj5EcGHIkKZiQZCA==
 
+"@reactivedata/react@0.2.1":
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/@reactivedata/react/-/react-0.2.1.tgz#886a1bea2dd8973baa45f75b76d17eaa847a9575"
+  integrity sha512-nNnZaT3MDisDicXIX5/YvXZoVE0uO5LB47zTIs+hBnDRUAAYAzD8l+RcIa1YzouaOLK0yIx3ffwIvfGy/bJWjg==
+  dependencies:
+    "@reactivedata/reactive" "^0.2.0"
+
+"@reactivedata/reactive@0.2.0", "@reactivedata/reactive@^0.2.0":
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/@reactivedata/reactive/-/reactive-0.2.0.tgz#1d370724bb0e3599b96b768bee96099f9326ed23"
+  integrity sha512-qWmVSmUrjKHBiD+ZS8TxNNzyk9J6rbcZSZJgcnKQpTLwORZoWuX5pYbl07aU0kzXGLaaVX2O/ZW+SZaBjRQW3g==
+
 "@sinonjs/commons@^1.7.0":
   version "1.8.3"
   resolved "https://registry.yarnpkg.com/@sinonjs/commons/-/commons-1.8.3.tgz#3802ddd21a50a949b6721ddd72da36e67e7f1b2d"
@@ -2485,6 +2497,30 @@
     regenerator-runtime "^0.13.7"
     resolve-from "^5.0.0"
 
+"@syncedstore/core@^0.4.3":
+  version "0.4.3"
+  resolved "https://registry.yarnpkg.com/@syncedstore/core/-/core-0.4.3.tgz#2798cdc1c09477821caf4b132f32a13d9714e983"
+  integrity sha512-SqubdbA9Fxf5rvho0X8PlsdJFaX4xcL+Ok+WO9MSuKkt0cHcuFmuq/HAdU4ISTeelktZhUzzO5SmlV5vghW2Ag==
+  dependencies:
+    "@reactivedata/reactive" "0.2.0"
+    "@syncedstore/yjs-reactive-bindings" "^0.4.2"
+    "@types/eslint" "6.8.0"
+
+"@syncedstore/react@^0.4.3":
+  version "0.4.3"
+  resolved "https://registry.yarnpkg.com/@syncedstore/react/-/react-0.4.3.tgz#bd3df5074bd67b5035d817ad50362c2234c40328"
+  integrity sha512-rVxiyjYWaRKwm6OgzhdVxqCJ2Lpyhg2EZFCk5VK84uJDEmAs9DpSR60Euh5uUtA7LCbwsENed4wbiowOWOSb6A==
+  dependencies:
+    "@reactivedata/react" "0.2.1"
+    "@types/eslint" "6.8.0"
+
+"@syncedstore/yjs-reactive-bindings@^0.4.2":
+  version "0.4.2"
+  resolved "https://registry.yarnpkg.com/@syncedstore/yjs-reactive-bindings/-/yjs-reactive-bindings-0.4.2.tgz#66def23c1fe95a476a6e078b25dfb5b600fa247a"
+  integrity sha512-QamaNUvUUq5QIGTa2Ls1DeCqe7RmbqHE0syxw/7ZE290yZW5xs7qyKQPRkMHcjfVcDgjFlZ8exOZ7RcpxW4EEg==
+  dependencies:
+    "@types/eslint" "6.8.0"
+
 "@tootallnate/once@1":
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/@tootallnate/once/-/once-1.1.2.tgz#ccb91445360179a04e7fe6aff78c00ffc1eeaf82"
@@ -2559,6 +2595,14 @@
   version "8.4.2"
   resolved "https://registry.yarnpkg.com/@types/eslint/-/eslint-8.4.2.tgz#48f2ac58ab9c631cb68845c3d956b28f79fad575"
   integrity sha512-Z1nseZON+GEnFjJc04sv4NSALGjhFwy6K0HXt7qsn5ArfAKtb63dXNJHf+1YW6IpOIYRBGUbu3GwJdj8DGnCjA==
+  dependencies:
+    "@types/estree" "*"
+    "@types/json-schema" "*"
+
+"@types/eslint@6.8.0":
+  version "6.8.0"
+  resolved "https://registry.yarnpkg.com/@types/eslint/-/eslint-6.8.0.tgz#5f2289b9f01316da7cf31c9e63109a10602a23cb"
+  integrity sha512-hqzmggoxkOubpgTdcOltkfc5N8IftRJqU70d1jbOISjjZVPvjcr+CLi2CI70hx1SUIRkLgpglTy9w28nGe2Hsw==
   dependencies:
     "@types/estree" "*"
     "@types/json-schema" "*"

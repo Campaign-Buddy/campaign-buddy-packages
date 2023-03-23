@@ -1,7 +1,7 @@
 export { generateUiLayout } from './generateUiLayout';
 export { getDataForPath } from './getDataForPath';
 export { getSchemaForPath } from './getSchemaForPath';
-export { useDataUpdater } from './useDataUpdater';
+export { useDataUpdater, useSyncedDataUpdater } from './useDataUpdater';
 export { resolveDynamicSchemas } from './resolveDynamicSchemas';
 export { hasDynamicSchemas } from './hasDynamicSchemas';
 export { cleanUiLayout } from './cleanUiLayout';
@@ -19,3 +19,4 @@ export {
 	usePartialDataSubscription,
 	PartialDataSubscriptionContextProvider,
 } from './usePartialDataSubscription';
+export { useStore } from './useStore';
