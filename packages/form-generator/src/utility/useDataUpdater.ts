@@ -25,7 +25,7 @@ export function useSyncedDataUpdater(
 
 	const addUpdate = useCallback(
 		(path: string, update: any) => {
-			applyUpdate(data, path, update, schemaRef.current);
+			applyUpdate(data.data, path, update, schemaRef.current);
 		},
 		[data]
 	);

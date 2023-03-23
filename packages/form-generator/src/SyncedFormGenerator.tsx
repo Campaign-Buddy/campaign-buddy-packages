@@ -71,7 +71,11 @@ export const SyncedFormGenerator: React.FC<
 		[aggregates, stableSchema]
 	);
 
-	const { hydratedData } = useHydratedEntities(entityApi, data, resolvedSchema);
+	const { hydratedData } = useHydratedEntities(
+		entityApi,
+		data.data,
+		resolvedSchema
+	);
 
 	const aggregatedData = useMemo(
 		() => applyAggregates(hydratedData, fullAggregates),
@@ -79,12 +83,12 @@ export const SyncedFormGenerator: React.FC<
 	);
 
 	const { subscribe: subscribeToDataAtPath, getDataAtPath } =
-		usePartialDataPublisher(data);
+		usePartialDataPublisher(data.data);
 
 	const {
 		subscribe: subscribeToFieldSettingsAtPath,
 		getDataAtPath: getFieldSettingsAtPath,
-	} = usePartialDataPublisher(fieldSettings);
+	} = usePartialDataPublisher(fieldSettings.data);
 
 	const {
 		subscribe: subscribeToAggregatedDataAtPath,
