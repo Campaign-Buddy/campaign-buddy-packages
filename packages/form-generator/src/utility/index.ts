@@ -1,4 +1,3 @@
-export { getSchemaForPath } from './getSchemaForPath';
 export { useDataUpdater, useSyncedDataUpdater } from './useDataUpdater';
 export { getAggregationSupport } from './getAggregationSupport';
 export { removeDisabledAggregations } from './removeDisabledAggregations';

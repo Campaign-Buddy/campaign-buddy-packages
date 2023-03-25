@@ -1,9 +1,9 @@
 import { MappedTypeDescription } from '@syncedstore/core/types/doc';
+import { getSchemaForLocation } from '@campaign-buddy/object-navigator';
 import { JSONSchema4 } from 'json-schema';
 import { useSyncedStore } from '@syncedstore/react';
 import cloneDeep from 'lodash.clonedeep';
 import { useCallback, useEffect, useRef } from 'react';
-import { getSchemaForPath } from './getSchemaForPath';
 
 interface Update {
 	path: string;
@@ -125,7 +125,7 @@ function applyUpdate(
 		const nextType = typeof cur[part];
 
 		if (nextType === 'undefined') {
-			const subSchema = getSchemaForPath(curPath, schema);
+			const subSchema = getSchemaForLocation({ location: curPath, schema });
 
 			if (subSchema?.type === 'array') {
 				cur[part] = [];
