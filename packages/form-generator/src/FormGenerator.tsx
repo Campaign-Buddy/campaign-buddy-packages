@@ -1,22 +1,14 @@
 import React, { useCallback, useMemo } from 'react';
 import { FormGeneratorProps } from './FormGeneratorProps';
 import {
-	applyAggregates,
-	getFullAggregates,
-} from '@campaign-buddy/apply-aggregates';
-import {
-	generateUiLayout,
 	useDataUpdater,
-	hasDynamicSchemas,
-	resolveDynamicSchemas,
-	cleanUiLayout,
-	useHydratedEntities,
 	usePartialDataPublisher,
 	PartialDataSubscriptionContextProvider,
 } from './utility';
 import { FormUiLayout } from './FormUiLayout';
 import styled from 'styled-components';
-import { useStableValue } from '@campaign-buddy/common-hooks';
+import { useFormGeneratorState } from './useFormGeneratorState';
+import { DebouncedWidget } from './DebouncedWidget';
 
 const defaultData = {};
 const defaultFieldSettings = {};
@@ -36,28 +28,16 @@ export const FormGenerator: React.FC<
 	fieldSettings = defaultFieldSettings,
 	currentUserRole,
 }) => {
-	const resolvedSchema = useMemo(() => {
-		if (!hasDynamicSchemas(schema)) {
-			return schema;
-		}
-
-		return resolveDynamicSchemas(schema, data);
-	}, [schema, data]);
-
-	const stableSchema = useStableValue(resolvedSchema);
-
-	const uiLayout = useMemo(() => {
-		if (!providedUiLayout) {
-			return generateUiLayout(stableSchema);
-		}
-
-		return cleanUiLayout(
+	const { resolvedSchema, aggregatedData, uiLayout, fullAggregates } =
+		useFormGeneratorState({
+			schema,
+			data,
+			currentUserRole,
+			aggregates,
 			providedUiLayout,
-			stableSchema,
 			fieldSettings,
-			currentUserRole
-		);
-	}, [currentUserRole, fieldSettings, providedUiLayout, stableSchema]);
+			entityApi,
+		});
 
 	const updateData = useDataUpdater(schema, data, onChange);
 
@@ -71,18 +51,6 @@ export const FormGenerator: React.FC<
 		schema,
 		fieldSettings,
 		updateFieldSettingsOrNoop
-	);
-
-	const fullAggregates = useMemo(
-		() => getFullAggregates(aggregates, stableSchema),
-		[aggregates, stableSchema]
-	);
-
-	const { hydratedData } = useHydratedEntities(entityApi, data, resolvedSchema);
-
-	const aggregatedData = useMemo(
-		() => applyAggregates(hydratedData, fullAggregates),
-		[hydratedData, fullAggregates]
 	);
 
 	const { subscribe: subscribeToDataAtPath, getDataAtPath } =
@@ -124,7 +92,7 @@ export const FormGenerator: React.FC<
 			>
 				<FormUiLayout
 					uiLayout={uiLayout}
-					schema={stableSchema}
+					schema={resolvedSchema}
 					widgetLookup={widgets}
 					updateValue={updateData}
 					UiSection={UiSection}
@@ -133,6 +101,7 @@ export const FormGenerator: React.FC<
 					updateFieldSettings={updateFieldSettings}
 					shouldShowFieldSettingControls={Boolean(providedUpdateFieldSettings)}
 					currentUserRole={currentUserRole}
+					FormWidgetRenderer={DebouncedWidget}
 				/>
 			</PartialDataSubscriptionContextProvider>
 		</FormRoot>

@@ -7,7 +7,11 @@ import {
 } from '@campaign-buddy/json-schema-core';
 import { EntityApi, FieldSettings } from '@campaign-buddy/frontend-types';
 import hash from 'hash-sum';
-import { UiSectionProps, WidgetLookup } from './FormGeneratorProps';
+import {
+	FormWidgetRendererProps,
+	UiSectionProps,
+	WidgetLookup,
+} from './FormGeneratorProps';
 import {
 	generateUiLayout,
 	getDataForPath,
@@ -16,7 +20,7 @@ import {
 	getDefaultColSize,
 	getDefaultColSizeForPath,
 } from './utility';
-import { FormWidget } from './DebouncedWidget';
+import { FormWidget } from './FormWidget';
 import {
 	FormRow,
 	FormCell,
@@ -39,6 +43,7 @@ interface FormUiLayoutProps {
 		| undefined;
 	currentUserRole: string | undefined;
 	shouldShowFieldSettingControls: boolean;
+	FormWidgetRenderer: React.ComponentType<FormWidgetRendererProps<any>>;
 }
 
 const FormUiLayoutCore: React.FC<
@@ -54,6 +59,7 @@ const FormUiLayoutCore: React.FC<
 	updateFieldSettings,
 	currentUserRole,
 	shouldShowFieldSettingControls,
+	FormWidgetRenderer,
 }) => {
 	const nodes: React.ReactElement[] = [];
 
@@ -70,6 +76,7 @@ const FormUiLayoutCore: React.FC<
 				updateFieldSettings={updateFieldSettings}
 				currentUserRole={currentUserRole}
 				shouldShowFieldSettingControls={shouldShowFieldSettingControls}
+				FormWidgetRenderer={FormWidgetRenderer}
 			/>
 		);
 	}
@@ -115,6 +122,7 @@ const FormUiLayoutCore: React.FC<
 								updateFieldSettings={updateFieldSettings}
 								currentUserRole={currentUserRole}
 								shouldShowFieldSettingControls={shouldShowFieldSettingControls}
+								FormWidgetRenderer={FormWidgetRenderer}
 							/>
 						</MinWidthContent>
 					</FormCell>

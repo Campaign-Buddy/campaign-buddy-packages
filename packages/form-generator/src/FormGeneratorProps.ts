@@ -164,3 +164,28 @@ export interface SyncedFormGeneratorProps {
 	 */
 	currentUserRole?: string;
 }
+
+/**
+ * Renders and controls state for an individual widgets
+ */
+export interface FormWidgetRendererProps<T>
+	extends Omit<
+		WidgetProps<T>,
+		| 'onChange'
+		| 'updateFieldSettings'
+		| 'aggregationSupport'
+		| 'aggregatedValue'
+		| 'value'
+		| 'fieldSettings'
+	> {
+	path: string;
+	updateValue: (path: string, data: T) => void;
+	aggregation: Aggregates | string | undefined;
+	Widget: React.FC<React.PropsWithChildren<WidgetProps<T>>>;
+	schema: CampaignBuddySchema;
+	entityApi: EntityApi | undefined;
+	updateFieldSettings:
+		| ((path: string, fieldSetting: FieldSettings<string | Aggregates>) => void)
+		| undefined;
+	shouldShowFieldSettingControls: boolean;
+}

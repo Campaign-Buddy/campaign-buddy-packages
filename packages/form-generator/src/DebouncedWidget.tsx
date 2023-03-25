@@ -5,76 +5,12 @@ import {
 import { EntityApi, FieldSettings } from '@campaign-buddy/frontend-types';
 import React, { useMemo } from 'react';
 import { useState, useEffect, useCallback } from 'react';
-import { WidgetLookup, WidgetProps } from './FormGeneratorProps';
+import { WidgetProps } from './FormGeneratorProps';
 import {
 	getAggregationSupport,
 	removeDisabledAggregations,
 	usePartialDataSubscription,
 } from './utility';
-
-interface FormWidgetProps {
-	schema: CampaignBuddySchema;
-	widgetLookup: WidgetLookup;
-	path: string;
-	updateValue: (path: string, data: any) => void;
-	aggregation: Aggregates | string | undefined;
-	entityApi: EntityApi | undefined;
-	updateFieldSettings:
-		| ((path: string, fieldSetting: FieldSettings<string | Aggregates>) => void)
-		| undefined;
-	currentUserRole: string | undefined;
-	shouldShowFieldSettingControls: boolean;
-}
-
-export const FormWidget: React.FC<React.PropsWithChildren<FormWidgetProps>> = ({
-	schema,
-	widgetLookup,
-	path,
-	updateValue,
-	aggregation,
-	entityApi,
-	updateFieldSettings,
-	currentUserRole,
-	shouldShowFieldSettingControls,
-}) => {
-	let Widget: React.FC<React.PropsWithChildren<WidgetProps<any>>> = () => null;
-
-	if (schema['$uiWidget'] && widgetLookup[schema['$uiWidget']]) {
-		Widget = widgetLookup[schema['$uiWidget']];
-	} else if (schema.type === 'integer') {
-		Widget = widgetLookup.number;
-	} else if (typeof schema.type === 'string') {
-		Widget = widgetLookup[schema.type];
-	}
-
-	if (!Widget) {
-		console.error(
-			`Could not find widget for schema definition at ${path}`,
-			schema
-		);
-		return null;
-	}
-
-	if (!schema.title) {
-		console.error(`Schema definition at ${path} does not have title`, schema);
-		return null;
-	}
-
-	return (
-		<DebouncedWidget
-			path={path}
-			updateValue={updateValue}
-			Widget={Widget}
-			label={schema.title ?? ''}
-			aggregation={aggregation}
-			schema={schema}
-			entityApi={entityApi}
-			updateFieldSettings={updateFieldSettings}
-			currentUserRole={currentUserRole}
-			shouldShowFieldSettingControls={shouldShowFieldSettingControls}
-		/>
-	);
-};
 
 interface DebouncedWidgetProps<T>
 	extends Omit<
