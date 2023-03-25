@@ -1,8 +1,8 @@
-import { AggregationSupport } from '@campaign-buddy/form-generator-core';
 import {
 	Aggregates,
 	CampaignBuddySchema,
 } from '@campaign-buddy/json-schema-core';
+import { AggregationSupport } from '../AggregationSupport';
 
 export function getAggregationSupport(
 	aggregation: string | Aggregates | undefined,

@@ -112,4 +112,5 @@ export interface FormWidgetRendererProps<T>
 	schema: CampaignBuddySchema;
 	entityApi: EntityApi | undefined;
 	shouldShowFieldSettingControls: boolean;
+	aggregationSupport: AggregationSupport<string | Aggregates>;
 }

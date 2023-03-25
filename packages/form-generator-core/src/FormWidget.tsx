@@ -3,12 +3,13 @@ import {
 	CampaignBuddySchema,
 } from '@campaign-buddy/json-schema-core';
 import { EntityApi } from '@campaign-buddy/frontend-types';
-import React from 'react';
+import React, { useMemo } from 'react';
 import {
 	FormWidgetRendererProps,
 	WidgetLookup,
 	WidgetProps,
 } from './FormGeneratorProps';
+import { getAggregationSupport } from './utility';
 
 interface FormWidgetProps {
 	schema: CampaignBuddySchema;
@@ -31,6 +32,11 @@ export const FormWidget: React.FC<React.PropsWithChildren<FormWidgetProps>> = ({
 	shouldShowFieldSettingControls,
 	FormWidgetRenderer,
 }) => {
+	const aggregationSupport = useMemo(
+		() => getAggregationSupport(aggregation, schema),
+		[aggregation, schema]
+	);
+
 	let Widget: React.FC<React.PropsWithChildren<WidgetProps<any>>> = () => null;
 
 	if (schema['$uiWidget'] && widgetLookup[schema['$uiWidget']]) {
@@ -64,6 +70,7 @@ export const FormWidget: React.FC<React.PropsWithChildren<FormWidgetProps>> = ({
 			entityApi={entityApi}
 			currentUserRole={currentUserRole}
 			shouldShowFieldSettingControls={shouldShowFieldSettingControls}
+			aggregationSupport={aggregationSupport}
 		/>
 	);
 };

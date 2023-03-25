@@ -1,4 +1,5 @@
 export { generateUiLayout } from './generateUiLayout';
+export { getAggregationSupport } from './getAggregationSupport';
 export { resolveDynamicSchemas } from './resolveDynamicSchemas';
 export { hasDynamicSchemas } from './hasDynamicSchemas';
 export { cleanUiLayout } from './cleanUiLayout';

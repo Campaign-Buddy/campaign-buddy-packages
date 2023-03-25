@@ -4,7 +4,6 @@ import { FormWidgetRendererProps } from '@campaign-buddy/form-generator-core/src
 import React, { useMemo } from 'react';
 import { useState, useEffect, useCallback } from 'react';
 import {
-	getAggregationSupport,
 	removeDisabledAggregations,
 	usePartialDataSubscription,
 } from './utility';
@@ -20,6 +19,7 @@ export const DebouncedWidget: React.FC<
 	entityApi,
 	currentUserRole,
 	shouldShowFieldSettingControls,
+	aggregationSupport,
 }) => {
 	const {
 		data,
@@ -55,11 +55,6 @@ export const DebouncedWidget: React.FC<
 			propsUpdateFieldSettings?.(fieldSettings);
 		},
 		[propsUpdateFieldSettings]
-	);
-
-	const aggregationSupport = useMemo(
-		() => getAggregationSupport(propsAggregation, schema),
-		[propsAggregation, schema]
 	);
 
 	const aggregatedValue = useMemo(
