@@ -19,6 +19,7 @@ import {
 	useSyncedDataUpdater,
 } from './utility';
 import { FormUiLayout } from './FormUiLayout';
+import { DebouncedWidget } from './DebouncedWidget';
 
 export const SyncedFormGenerator: React.FC<
 	React.PropsWithChildren<SyncedFormGeneratorProps>
@@ -62,9 +63,12 @@ export const SyncedFormGenerator: React.FC<
 		);
 	}, [currentUserRole, fieldSettings, providedUiLayout, stableSchema]);
 
-	const updateData = useSyncedDataUpdater(schema, dataStore);
+	const updateDataAtPath = useSyncedDataUpdater(schema, dataStore);
 
-	const updateFieldSettings = useSyncedDataUpdater(schema, fieldSettingsStore);
+	const updateFieldSettingsAtPath = useSyncedDataUpdater(
+		schema,
+		fieldSettingsStore
+	);
 
 	const fullAggregates = useMemo(
 		() => getFullAggregates(aggregates, stableSchema),
@@ -99,10 +103,12 @@ export const SyncedFormGenerator: React.FC<
 		() => ({
 			subscribeToDataAtPath,
 			getDataAtPath,
+			updateDataAtPath,
 			subscribeToAggregatedDataAtPath,
 			getAggregatedDataAtPath,
 			subscribeToFieldSettingsAtPath,
 			getFieldSettingsAtPath,
+			updateFieldSettingsAtPath,
 		}),
 		[
 			getAggregatedDataAtPath,
@@ -111,6 +117,8 @@ export const SyncedFormGenerator: React.FC<
 			subscribeToAggregatedDataAtPath,
 			subscribeToDataAtPath,
 			subscribeToFieldSettingsAtPath,
+			updateDataAtPath,
+			updateFieldSettingsAtPath,
 		]
 	);
 
@@ -123,13 +131,12 @@ export const SyncedFormGenerator: React.FC<
 					uiLayout={uiLayout}
 					schema={stableSchema}
 					widgetLookup={widgets}
-					updateValue={updateData}
 					UiSection={UiSection}
 					aggregates={fullAggregates}
 					entityApi={entityApi}
-					updateFieldSettings={updateFieldSettings}
 					shouldShowFieldSettingControls={Boolean(fieldSettingsDoc)}
 					currentUserRole={currentUserRole}
+					FormWidgetRenderer={DebouncedWidget}
 				/>
 			</PartialDataSubscriptionContextProvider>
 		</FormRoot>

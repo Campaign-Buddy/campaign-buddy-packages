@@ -2,7 +2,7 @@ import {
 	Aggregates,
 	CampaignBuddySchema,
 } from '@campaign-buddy/json-schema-core';
-import { EntityApi, FieldSettings } from '@campaign-buddy/frontend-types';
+import { EntityApi } from '@campaign-buddy/frontend-types';
 import React from 'react';
 import {
 	FormWidgetRendererProps,
@@ -14,12 +14,8 @@ interface FormWidgetProps {
 	schema: CampaignBuddySchema;
 	widgetLookup: WidgetLookup;
 	path: string;
-	updateValue: (path: string, data: any) => void;
 	aggregation: Aggregates | string | undefined;
 	entityApi: EntityApi | undefined;
-	updateFieldSettings:
-		| ((path: string, fieldSetting: FieldSettings<string | Aggregates>) => void)
-		| undefined;
 	currentUserRole: string | undefined;
 	shouldShowFieldSettingControls: boolean;
 	FormWidgetRenderer: React.ComponentType<FormWidgetRendererProps<any>>;
@@ -29,10 +25,8 @@ export const FormWidget: React.FC<React.PropsWithChildren<FormWidgetProps>> = ({
 	schema,
 	widgetLookup,
 	path,
-	updateValue,
 	aggregation,
 	entityApi,
-	updateFieldSettings,
 	currentUserRole,
 	shouldShowFieldSettingControls,
 	FormWidgetRenderer,
@@ -63,13 +57,11 @@ export const FormWidget: React.FC<React.PropsWithChildren<FormWidgetProps>> = ({
 	return (
 		<FormWidgetRenderer
 			path={path}
-			updateValue={updateValue}
 			Widget={Widget}
 			label={schema.title ?? ''}
 			aggregation={aggregation}
 			schema={schema}
 			entityApi={entityApi}
-			updateFieldSettings={updateFieldSettings}
 			currentUserRole={currentUserRole}
 			shouldShowFieldSettingControls={shouldShowFieldSettingControls}
 		/>

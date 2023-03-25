@@ -39,7 +39,7 @@ export const FormGenerator: React.FC<
 			entityApi,
 		});
 
-	const updateData = useDataUpdater(schema, data, onChange);
+	const updateDataAtPath = useDataUpdater(schema, data, onChange);
 
 	const updateFieldSettingsOrNoop = useCallback(
 		(newFieldSettings: any) => {
@@ -47,7 +47,7 @@ export const FormGenerator: React.FC<
 		},
 		[providedUpdateFieldSettings]
 	);
-	const updateFieldSettings = useDataUpdater(
+	const updateFieldSettingsAtPath = useDataUpdater(
 		schema,
 		fieldSettings,
 		updateFieldSettingsOrNoop
@@ -70,10 +70,12 @@ export const FormGenerator: React.FC<
 		() => ({
 			subscribeToDataAtPath,
 			getDataAtPath,
+			updateDataAtPath,
 			subscribeToAggregatedDataAtPath,
 			getAggregatedDataAtPath,
 			subscribeToFieldSettingsAtPath,
 			getFieldSettingsAtPath,
+			updateFieldSettingsAtPath,
 		}),
 		[
 			getAggregatedDataAtPath,
@@ -82,6 +84,8 @@ export const FormGenerator: React.FC<
 			subscribeToAggregatedDataAtPath,
 			subscribeToDataAtPath,
 			subscribeToFieldSettingsAtPath,
+			updateDataAtPath,
+			updateFieldSettingsAtPath,
 		]
 	);
 
@@ -94,11 +98,9 @@ export const FormGenerator: React.FC<
 					uiLayout={uiLayout}
 					schema={resolvedSchema}
 					widgetLookup={widgets}
-					updateValue={updateData}
 					UiSection={UiSection}
 					aggregates={fullAggregates}
 					entityApi={entityApi}
-					updateFieldSettings={updateFieldSettings}
 					shouldShowFieldSettingControls={Boolean(providedUpdateFieldSettings)}
 					currentUserRole={currentUserRole}
 					FormWidgetRenderer={DebouncedWidget}

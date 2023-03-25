@@ -3,9 +3,8 @@ import {
 	EntityDefinition,
 	UiLayout,
 	CampaignBuddySchema,
-	Aggregates,
 } from '@campaign-buddy/json-schema-core';
-import { EntityApi, FieldSettings } from '@campaign-buddy/frontend-types';
+import { EntityApi } from '@campaign-buddy/frontend-types';
 import hash from 'hash-sum';
 import {
 	FormWidgetRendererProps,
@@ -34,13 +33,9 @@ interface FormUiLayoutProps {
 	uiLayout: UiLayout;
 	schema: CampaignBuddySchema;
 	widgetLookup: WidgetLookup;
-	updateValue: (path: string, data: any) => void;
 	aggregates: EntityDefinition['aggregates'];
 	UiSection?: React.FC<React.PropsWithChildren<UiSectionProps>>;
 	entityApi: EntityApi | undefined;
-	updateFieldSettings:
-		| ((path: string, fieldSetting: FieldSettings<string | Aggregates>) => void)
-		| undefined;
 	currentUserRole: string | undefined;
 	shouldShowFieldSettingControls: boolean;
 	FormWidgetRenderer: React.ComponentType<FormWidgetRendererProps<any>>;
@@ -52,11 +47,9 @@ const FormUiLayoutCore: React.FC<
 	uiLayout,
 	schema,
 	widgetLookup,
-	updateValue,
 	UiSection,
 	aggregates,
 	entityApi,
-	updateFieldSettings,
 	currentUserRole,
 	shouldShowFieldSettingControls,
 	FormWidgetRenderer,
@@ -69,11 +62,9 @@ const FormUiLayoutCore: React.FC<
 				uiLayout={layout}
 				schema={schema}
 				widgetLookup={widgetLookup}
-				updateValue={updateValue}
 				UiSection={UiSection}
 				aggregates={aggregates}
 				entityApi={entityApi}
-				updateFieldSettings={updateFieldSettings}
 				currentUserRole={currentUserRole}
 				shouldShowFieldSettingControls={shouldShowFieldSettingControls}
 				FormWidgetRenderer={FormWidgetRenderer}
@@ -116,10 +107,8 @@ const FormUiLayoutCore: React.FC<
 								schema={subSchema}
 								widgetLookup={widgetLookup}
 								path={element}
-								updateValue={updateValue}
 								aggregation={aggregation}
 								entityApi={entityApi}
-								updateFieldSettings={updateFieldSettings}
 								currentUserRole={currentUserRole}
 								shouldShowFieldSettingControls={shouldShowFieldSettingControls}
 								FormWidgetRenderer={FormWidgetRenderer}

@@ -179,13 +179,9 @@ export interface FormWidgetRendererProps<T>
 		| 'fieldSettings'
 	> {
 	path: string;
-	updateValue: (path: string, data: T) => void;
 	aggregation: Aggregates | string | undefined;
 	Widget: React.FC<React.PropsWithChildren<WidgetProps<T>>>;
 	schema: CampaignBuddySchema;
 	entityApi: EntityApi | undefined;
-	updateFieldSettings:
-		| ((path: string, fieldSetting: FieldSettings<string | Aggregates>) => void)
-		| undefined;
 	shouldShowFieldSettingControls: boolean;
 }
