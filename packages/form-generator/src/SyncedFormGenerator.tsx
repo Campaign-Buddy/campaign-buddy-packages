@@ -44,7 +44,7 @@ export const SyncedFormGenerator: React.FC<
 			return schema;
 		}
 
-		return resolveDynamicSchemas(schema, data);
+		return resolveDynamicSchemas(schema, data.data);
 	}, [schema, data]);
 
 	const stableSchema = useStableValue(resolvedSchema);
@@ -57,7 +57,7 @@ export const SyncedFormGenerator: React.FC<
 		return cleanUiLayout(
 			providedUiLayout,
 			stableSchema,
-			fieldSettings,
+			fieldSettings.data,
 			currentUserRole
 		);
 	}, [currentUserRole, fieldSettings, providedUiLayout, stableSchema]);
