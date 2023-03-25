@@ -1,19 +1,65 @@
 import React, { useCallback, useMemo } from 'react';
-import { FormGeneratorProps } from './FormGeneratorProps';
+import { EntityApi, EntityFieldSettings } from '@campaign-buddy/frontend-types';
+import {
+	CampaignBuddySchema,
+	UiLayout,
+	Aggregates,
+} from '@campaign-buddy/json-schema-core';
+import {
+	useFormGeneratorState,
+	FormUiLayout,
+	FormRoot,
+	UiSectionProps,
+	WidgetLookup,
+} from '@campaign-buddy/form-generator-core';
 import {
 	useDataUpdater,
 	usePartialDataPublisher,
 	PartialDataSubscriptionContextProvider,
 } from './utility';
-import {
-	useFormGeneratorState,
-	FormUiLayout,
-	FormRoot,
-} from '@campaign-buddy/form-generator-core';
 import { DebouncedWidget } from './DebouncedWidget';
 
 const defaultData = {};
 const defaultFieldSettings = {};
+
+export interface FormGeneratorProps {
+	schema: CampaignBuddySchema;
+	data: any;
+	onChange: (data: any) => void;
+	widgets: WidgetLookup;
+	uiLayout?: UiLayout;
+	UiSection?: React.FC<React.PropsWithChildren<UiSectionProps>>;
+	aggregates?: Aggregates;
+
+	/**
+	 * Not technically needed, but some
+	 * widgets may fail if an entity
+	 * api is not provided
+	 */
+	entityApi?: EntityApi;
+
+	/**
+	 * Field level settings for the data being
+	 * operated on
+	 */
+	fieldSettings?: EntityFieldSettings;
+
+	/**
+	 * Allows for widget components to update field settings
+	 * for individual fields
+	 */
+	updateFieldSettings?: (fieldSettings: EntityFieldSettings) => void;
+
+	/**
+	 * The role of the current user. The semantic
+	 * values for role is left to the consumer. This
+	 * property is used to match field visibility
+	 * settings in fieldSettings. If left undefined,
+	 * it is assumed the current user has all visibility
+	 * permissions.
+	 */
+	currentUserRole?: string;
+}
 
 export const FormGenerator: React.FC<
 	React.PropsWithChildren<FormGeneratorProps>

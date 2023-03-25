@@ -1,7 +1,5 @@
-import { MappedTypeDescription } from '@syncedstore/core/types/doc';
 import { getSchemaForLocation } from '@campaign-buddy/object-navigator';
 import { JSONSchema4 } from 'json-schema';
-import { useSyncedStore } from '@syncedstore/react';
 import cloneDeep from 'lodash.clonedeep';
 import { useCallback, useEffect, useRef } from 'react';
 
@@ -11,27 +9,6 @@ interface Update {
 }
 
 type DataUpdater = (path: string, update: any) => any;
-
-export function useSyncedDataUpdater(
-	schema: JSONSchema4,
-	store: MappedTypeDescription<{ data: any }>
-): DataUpdater {
-	const schemaRef = useRef(schema);
-	const data = useSyncedStore(store);
-
-	useEffect(() => {
-		schemaRef.current = schema;
-	}, [schema]);
-
-	const addUpdate = useCallback(
-		(path: string, update: any) => {
-			applyUpdate(data.data, path, update, schemaRef.current);
-		},
-		[data]
-	);
-
-	return addUpdate;
-}
 
 export function useDataUpdater(
 	schema: JSONSchema4,

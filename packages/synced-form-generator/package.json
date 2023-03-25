@@ -1,0 +1,39 @@
+{
+	"name": "@campaign-buddy/synced-form-generator",
+	"version": "0.1.0",
+	"author": "Joseph Stewart",
+	"license": "MIT",
+	"dependencies": {
+		"@campaign-buddy/form-generator-core": "0.1.0",
+		"@syncedstore/core": "^0.4.3",
+		"@syncedstore/react": "^0.4.3",
+		"lib0": "^0.2.73",
+		"yjs": "^13.5.51",
+		"@campaign-buddy/object-navigator": "0.1.0"
+	},
+	"devDependencies": {
+		"@campaign-buddy/react-theme-provider": "0.1.0",
+		"@campaign-buddy/themes": "0.1.0",
+		"cross-env": "^7.0.3",
+		"react": "^18.0.9",
+		"styled-components": "^5.3.3",
+		"typescript": "^4.2.4",
+		"@campaign-buddy/json-schema-core": "0.1.0"
+	},
+	"peerDependencies": {
+		"@campaign-buddy/react-theme-provider": "0.1.0",
+		"react": "^18.0.9",
+		"styled-components": "^5.3.3"
+	},
+	"scripts": {
+		"build": "tsc -b",
+		"add-local": "node ../../tools/addLocal",
+		"remove-local": "node ../../tools/removeLocal",
+		"test": "jest",
+		"storybook": "cross-env STORYBOOK_PACKAGE_SCOPE=synced-form-generator yarn --cwd ../../ storybook"
+	},
+	"main": "dist/src/index",
+	"files": [
+		"dist/"
+	]
+}
