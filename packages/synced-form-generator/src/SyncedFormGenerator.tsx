@@ -21,8 +21,8 @@ import { SyncedWidgetRenderer } from './SyncedWidgetRenderer';
 export interface SyncedFormGeneratorProps {
 	schema: CampaignBuddySchema;
 	doc: Y.Doc;
-	fieldSettingsDoc?: Y.Doc;
 	widgets: WidgetLookup;
+	shouldShowFieldSettingsControls?: boolean;
 	uiLayout?: UiLayout;
 	UiSection?: React.FC<React.PropsWithChildren<UiSectionProps>>;
 	aggregates?: Aggregates;
@@ -49,7 +49,6 @@ export const SyncedFormGenerator: React.FC<
 	React.PropsWithChildren<SyncedFormGeneratorProps>
 > = ({
 	doc,
-	fieldSettingsDoc,
 	schema,
 	widgets,
 	uiLayout: providedUiLayout,
@@ -57,19 +56,18 @@ export const SyncedFormGenerator: React.FC<
 	aggregates,
 	entityApi,
 	currentUserRole,
+	shouldShowFieldSettingsControls,
 }) => {
-	const dataStore = useStore(doc);
-	const fieldSettingsStore = useStore(fieldSettingsDoc);
+	const store = useStore(doc);
 
-	const data = useSyncedStore(dataStore);
-	const fieldSettings = useSyncedStore(fieldSettingsStore);
+	const document = useSyncedStore(store);
 
 	const { resolvedSchema, aggregatedData, fullAggregates, uiLayout } =
 		useFormGeneratorState({
 			schema,
-			data: data?.data,
+			data: document?.data,
 			currentUserRole,
-			fieldSettings: fieldSettings?.data,
+			fieldSettings: document?.data,
 			providedUiLayout,
 			entityApi,
 			aggregates,
@@ -77,11 +75,7 @@ export const SyncedFormGenerator: React.FC<
 
 	return (
 		<FormRoot>
-			<SyncedStoreProvider
-				dataStore={dataStore}
-				fieldSettingsStore={fieldSettingsStore}
-				aggregatedData={aggregatedData}
-			>
+			<SyncedStoreProvider store={store} aggregatedData={aggregatedData}>
 				<FormUiLayout
 					uiLayout={uiLayout}
 					schema={resolvedSchema}
@@ -89,7 +83,9 @@ export const SyncedFormGenerator: React.FC<
 					UiSection={UiSection}
 					aggregates={fullAggregates}
 					entityApi={entityApi}
-					shouldShowFieldSettingControls={Boolean(fieldSettingsDoc)}
+					shouldShowFieldSettingControls={
+						shouldShowFieldSettingsControls ?? false
+					}
 					currentUserRole={currentUserRole}
 					FormWidgetRenderer={SyncedWidgetRenderer}
 				/>

@@ -10,7 +10,7 @@ import { exampleWidgets } from './examples/exampleWidgets';
 import { ExampleUiSection } from './examples/ExampleUiSection';
 
 export default {
-	title: 'form-generator/SyncedFormGenerator',
+	title: 'synced-form-generator/SyncedFormGenerator',
 	component: SyncedFormGenerator,
 } as Meta;
 

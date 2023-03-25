@@ -1,8 +1,5 @@
-import React, { useCallback, useMemo } from 'react';
-import {
-	FormWidgetRendererProps,
-	removeDisabledAggregations,
-} from '@campaign-buddy/form-generator-core';
+import React, { useCallback } from 'react';
+import { FormWidgetRendererProps } from '@campaign-buddy/form-generator-core';
 import { useSyncedStore } from '@syncedstore/react';
 import { useSyncedStoreContext } from './SyncedStoreProvider';
 import {
@@ -15,58 +12,57 @@ export function SyncedWidgetRenderer({
 	path,
 	Widget,
 	label,
-	aggregation: propsAggregation,
+	// aggregation: propsAggregation,
 	schema,
 	entityApi,
 	currentUserRole,
 	shouldShowFieldSettingControls,
 	aggregationSupport,
 }: FormWidgetRendererProps<any>) {
-	const { dataStore, fieldSettingsStore, aggregatedData } =
-		useSyncedStoreContext();
-	const data = useSyncedStore(dataStore);
-	const fieldSettingsData = useSyncedStore(fieldSettingsStore);
+	const { store } = useSyncedStoreContext();
+	const document = useSyncedStore(store);
 
-	const aggregatedValue = useMemo(
-		() =>
-			removeDisabledAggregations(
-				aggregatedData,
-				fieldSettingsData.data.aggregationSettings
-			),
-		[fieldSettingsData.data.aggregationSettings, aggregatedData]
-	);
+	// const aggregatedValue = removeDisabledAggregations(
+	// 	aggregatedData,
+	// 	document.fieldSettings.settings?.aggregationSettings
+	// );
 
-	const aggregation = useMemo(
-		() =>
-			removeDisabledAggregations(
-				propsAggregation,
-				fieldSettingsData.data.aggregationSettings
-			),
-		[fieldSettingsData.data.aggregationSettings, propsAggregation]
-	);
+	// const aggregation = useMemo(
+	// 	() =>
+	// 		removeDisabledAggregations(
+	// 			propsAggregation,
+	// 			document.fieldSettings.settings
+	// 		),
+	// 	[fieldSettingsData.data.aggregationSettings, propsAggregation]
+	// );
 
 	const value = navigateObject({
 		location: path,
-		root: data.data,
+		root: document.data,
 	});
 
 	const fieldSettings = navigateObject({
 		location: path,
-		root: fieldSettingsData.data,
+		root: document.fieldSettings.settings,
 	});
 
 	const updateValue = useCallback(
 		(newData: any) => {
-			applyUpdate(data.data, path, newData, schema);
+			applyUpdate(document.data, path, newData, schema);
 		},
-		[data.data, path, schema]
+		[document.data, path, schema]
 	);
 
 	const updateFieldSettings = useCallback(
 		(newFieldSettings: any) => {
-			applyUpdate(fieldSettingsData.data, path, newFieldSettings, schema);
+			applyUpdate(
+				document.fieldSettings.settings,
+				path,
+				newFieldSettings,
+				schema
+			);
 		},
-		[fieldSettingsData.data, path, schema]
+		[document.fieldSettings.settings, path, schema]
 	);
 
 	return (
@@ -74,8 +70,8 @@ export function SyncedWidgetRenderer({
 			value={value}
 			onChange={updateValue}
 			label={label}
-			aggregatedValue={aggregatedValue}
-			aggregation={aggregation}
+			aggregatedValue={undefined}
+			aggregation={undefined}
 			schema={schema}
 			entityApi={entityApi}
 			fieldSettings={fieldSettings}

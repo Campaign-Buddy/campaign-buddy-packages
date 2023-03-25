@@ -1,9 +1,8 @@
 import React, { useContext, useMemo } from 'react';
-import { MappedTypeDescription } from '@syncedstore/core/types/doc';
+import { SyncedFormDocument } from './useStore';
 
 interface SyncedStoreContextData {
-	dataStore: MappedTypeDescription<{ data: Record<any, any> }>;
-	fieldSettingsStore: MappedTypeDescription<{ data: Record<any, any> }>;
+	store: SyncedFormDocument;
 	aggregatedData: any;
 }
 
@@ -12,24 +11,21 @@ const SyncedStoreContext = React.createContext<
 >(undefined);
 
 export interface SyncedStoreProviderProps {
-	dataStore: MappedTypeDescription<{ data: Record<any, any> }>;
-	fieldSettingsStore: MappedTypeDescription<{ data: Record<any, any> }>;
+	store: SyncedFormDocument;
 	aggregatedData: any;
 }
 
 export function SyncedStoreProvider({
-	dataStore,
-	fieldSettingsStore,
+	store,
 	aggregatedData,
 	children,
 }: React.PropsWithChildren<SyncedStoreProviderProps>) {
 	const contextValue = useMemo(
 		() => ({
-			dataStore,
-			fieldSettingsStore,
+			store,
 			aggregatedData,
 		}),
-		[aggregatedData, dataStore, fieldSettingsStore]
+		[aggregatedData, store]
 	);
 
 	return (
