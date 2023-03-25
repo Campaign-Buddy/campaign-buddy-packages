@@ -4,8 +4,8 @@
 
 import { EntityFieldSettings } from '@campaign-buddy/frontend-types';
 import { UiLayout } from '@campaign-buddy/json-schema-core';
+import { navigateObject } from '@campaign-buddy/object-navigator';
 import { JSONSchema4 } from 'json-schema';
-import { getDataForPath } from './getDataForPath';
 import { getSchemaForPath } from './getSchemaForPath';
 
 // widgets that don't exist
@@ -54,11 +54,10 @@ export function cleanUiLayout(
 					return result;
 				}
 
-				const fieldSettingsAtPath = getDataForPath(
-					element,
-					fieldSettings,
-					undefined
-				);
+				const fieldSettingsAtPath = navigateObject({
+					location: element,
+					root: fieldSettings,
+				});
 
 				const visibleRoles =
 					fieldSettingsAtPath?.visibleRoles ?? subSchema?.$defaultVisibleRoles;

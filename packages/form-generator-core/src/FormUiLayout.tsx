@@ -13,7 +13,6 @@ import {
 } from './FormGeneratorProps';
 import {
 	generateUiLayout,
-	getDataForPath,
 	getSchemaForPath,
 	isUiDirective,
 	getDefaultColSize,
@@ -28,6 +27,7 @@ import {
 	WhiteSpace,
 	MinWidthContent,
 } from './FormUiLayout.styled';
+import { navigateObject } from '@campaign-buddy/object-navigator';
 
 interface FormUiLayoutProps {
 	uiLayout: UiLayout;
@@ -83,7 +83,10 @@ const FormUiLayoutCore: React.FC<
 				continue;
 			}
 
-			const aggregation = getDataForPath(element, aggregates ?? {}, undefined);
+			const aggregation = navigateObject({
+				location: element,
+				root: aggregates ?? {},
+			});
 
 			// So that we don't have to manually type out all properties in an object
 			// if the default layout is good enough
