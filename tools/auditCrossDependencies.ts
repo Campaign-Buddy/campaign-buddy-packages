@@ -17,9 +17,7 @@ for (const packageName of allPackageFolderNames) {
 
 function validateAllCrossPackageDeps(packageName: string) {
 	const packageSrcDir = path.join('./packages/', packageName, 'src');
-	const result = cruise([packageSrcDir], {
-		exclude: path.join('./packages/', packageName, 'dist'),
-	});
+	const result = cruise([packageSrcDir]);
 
 	const packageJson = readPackageJson(packageName);
 	const tsConfig = readTsConfig(packageName);
@@ -53,7 +51,10 @@ function validateAllCrossPackageDeps(packageName: string) {
 
 	const errors: string[] = [];
 	for (const module of result.output.modules) {
-		if (!module.source.startsWith(`packages/${packageName}`)) {
+		if (
+			!module.source.startsWith(`packages/${packageName}`) ||
+			/^packages\/[a-zA-Z-]+\/dist/.test(module.source)
+		) {
 			continue;
 		}
 
@@ -61,7 +62,7 @@ function validateAllCrossPackageDeps(packageName: string) {
 			if (moduleDep.module.startsWith('@campaign-buddy')) {
 				if (!allDependencies.includes(moduleDep.module)) {
 					errors.push(
-						`detected unlisted local module reference (to ${moduleDep.module}) in ${module.source}`
+						`detected unlisted local module reference (to ${moduleDep.module}) in ${module.source} (auditing ${packageName})`
 					);
 				}
 			} else if (moduleDep.resolved.startsWith('packages')) {
