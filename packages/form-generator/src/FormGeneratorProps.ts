@@ -9,7 +9,6 @@ import { Y } from '@syncedstore/core';
 import {
 	UiSectionProps,
 	WidgetLookup,
-	WidgetProps,
 } from '@campaign-buddy/form-generator-core';
 
 export interface FormGeneratorProps {
@@ -76,25 +75,4 @@ export interface SyncedFormGeneratorProps {
 	 * permissions.
 	 */
 	currentUserRole?: string;
-}
-
-/**
- * Renders and controls state for an individual widgets
- */
-export interface FormWidgetRendererProps<T>
-	extends Omit<
-		WidgetProps<T>,
-		| 'onChange'
-		| 'updateFieldSettings'
-		| 'aggregationSupport'
-		| 'aggregatedValue'
-		| 'value'
-		| 'fieldSettings'
-	> {
-	path: string;
-	aggregation: Aggregates | string | undefined;
-	Widget: React.FC<React.PropsWithChildren<WidgetProps<T>>>;
-	schema: CampaignBuddySchema;
-	entityApi: EntityApi | undefined;
-	shouldShowFieldSettingControls: boolean;
 }
