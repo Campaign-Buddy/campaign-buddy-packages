@@ -1,5 +1,4 @@
 export { generateUiLayout } from './generateUiLayout';
-export { getSchemaForPath } from './getSchemaForPath';
 export { resolveDynamicSchemas } from './resolveDynamicSchemas';
 export { hasDynamicSchemas } from './hasDynamicSchemas';
 export { cleanUiLayout } from './cleanUiLayout';

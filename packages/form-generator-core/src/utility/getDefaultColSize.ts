@@ -2,8 +2,8 @@ import {
 	CampaignBuddySchema,
 	UiLayout,
 } from '@campaign-buddy/json-schema-core';
+import { getSchemaForLocation } from '@campaign-buddy/object-navigator';
 import { ArrayElement } from './ArrayElement';
-import { getSchemaForPath } from './getSchemaForPath';
 import { isUiDirective } from './isUiDirective';
 
 interface ElementSpec {
@@ -19,7 +19,10 @@ export function getDefaultColSizeForPath(
 	// Get the expected size of the elements rendered in this layout
 	const renderedElementSpecs = uiLayout.map<ElementSpec>((cur) => {
 		if (typeof cur === 'string') {
-			const subSchema = getSchemaForPath(cur, rootSchema);
+			const subSchema = getSchemaForLocation({
+				location: cur,
+				schema: rootSchema,
+			});
 
 			if (
 				!subSchema ||

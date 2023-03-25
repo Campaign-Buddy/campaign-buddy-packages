@@ -1,4 +1,4 @@
 export * from './parseLocation';
 export * from './navigateObject';
-export * from './navigateSchema';
+export * from './getSchemaForLocation';
 export * from './types';

@@ -1,8 +1,8 @@
-import { navigateSchema } from '../src';
+import { getSchemaForLocation } from '../src';
 
-describe('navigateSchema', () => {
+describe('getSchemaForLocation', () => {
 	it('resolves the schema of a property', () => {
-		const result = navigateSchema({
+		const result = getSchemaForLocation({
 			schema: {
 				type: 'object',
 				properties: {
@@ -10,7 +10,7 @@ describe('navigateSchema', () => {
 					bar: { type: 'number' },
 				},
 			},
-			path: '$.foo',
+			location: '$.foo',
 		});
 
 		expect(result).toBeDefined();
@@ -18,7 +18,7 @@ describe('navigateSchema', () => {
 	});
 
 	it('resolves the root schema', () => {
-		const result = navigateSchema({
+		const result = getSchemaForLocation({
 			schema: {
 				type: 'object',
 				properties: {
@@ -26,7 +26,7 @@ describe('navigateSchema', () => {
 					bar: { type: 'number' },
 				},
 			},
-			path: '$',
+			location: '$',
 		});
 
 		expect(result).toBeDefined();
@@ -38,14 +38,14 @@ describe('navigateSchema', () => {
 	});
 
 	it('returns undefined for non-existent properties', () => {
-		const result = navigateSchema({
+		const result = getSchemaForLocation({
 			schema: {
 				type: 'object',
 				properties: {
 					foo: { type: 'string' },
 				},
 			},
-			path: '$.foo.bar.baz',
+			location: '$.foo.bar.baz',
 		});
 
 		expect(result).toBeUndefined();

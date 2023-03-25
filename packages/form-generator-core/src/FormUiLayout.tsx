@@ -5,6 +5,10 @@ import {
 	CampaignBuddySchema,
 } from '@campaign-buddy/json-schema-core';
 import { EntityApi } from '@campaign-buddy/frontend-types';
+import {
+	getSchemaForLocation,
+	navigateObject,
+} from '@campaign-buddy/object-navigator';
 import hash from 'hash-sum';
 import {
 	FormWidgetRendererProps,
@@ -13,7 +17,6 @@ import {
 } from './FormGeneratorProps';
 import {
 	generateUiLayout,
-	getSchemaForPath,
 	isUiDirective,
 	getDefaultColSize,
 	getDefaultColSizeForPath,
@@ -27,7 +30,6 @@ import {
 	WhiteSpace,
 	MinWidthContent,
 } from './FormUiLayout.styled';
-import { navigateObject } from '@campaign-buddy/object-navigator';
 
 interface FormUiLayoutProps {
 	uiLayout: UiLayout;
@@ -74,7 +76,7 @@ const FormUiLayoutCore: React.FC<
 
 	for (const element of uiLayout) {
 		if (typeof element === 'string') {
-			const subSchema = getSchemaForPath(element, schema);
+			const subSchema = getSchemaForLocation({ location: element, schema });
 
 			if (
 				!subSchema ||

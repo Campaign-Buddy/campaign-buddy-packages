@@ -5,7 +5,10 @@
 		"composite": true
 	},
 	"include": [
-		"src/**/*"
+		"./src/**/*",
+	],
+	"exclude": [
+		"./dist/**/*"
 	],
 	"references": [
 		{

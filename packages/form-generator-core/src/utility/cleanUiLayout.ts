@@ -4,9 +4,11 @@
 
 import { EntityFieldSettings } from '@campaign-buddy/frontend-types';
 import { UiLayout } from '@campaign-buddy/json-schema-core';
-import { navigateObject } from '@campaign-buddy/object-navigator';
+import {
+	navigateObject,
+	getSchemaForLocation,
+} from '@campaign-buddy/object-navigator';
 import { JSONSchema4 } from 'json-schema';
-import { getSchemaForPath } from './getSchemaForPath';
 
 // widgets that don't exist
 export function cleanUiLayout(
@@ -18,7 +20,7 @@ export function cleanUiLayout(
 	return layout
 		.map((element) => {
 			if (typeof element === 'string') {
-				const subSchema = getSchemaForPath(element, schema);
+				const subSchema = getSchemaForLocation({ location: element, schema });
 				if (!subSchema) {
 					return '';
 				}

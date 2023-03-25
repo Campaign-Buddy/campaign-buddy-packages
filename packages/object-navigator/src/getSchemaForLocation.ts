@@ -1,18 +1,19 @@
-import { navigateObject } from '@campaign-buddy/object-navigator';
 import { CampaignBuddySchema } from '@campaign-buddy/json-schema-core';
+import { navigateObject } from './navigateObject';
+import { ObjectLocation } from './types';
 
 export interface NavigateSchemaOptions {
 	schema: CampaignBuddySchema;
-	path: string;
+	location: ObjectLocation;
 }
 
-export function navigateSchema({
+export function getSchemaForLocation({
 	schema,
-	path,
+	location,
 }: NavigateSchemaOptions): CampaignBuddySchema | undefined {
 	return navigateObject({
 		root: schema,
-		location: path,
+		location,
 		accessNext: (data, key) => {
 			return data?.properties?.[key];
 		},
