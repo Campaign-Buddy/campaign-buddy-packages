@@ -1,7 +1,7 @@
+import { navigateObject } from '@campaign-buddy/object-navigator';
 import cuid from 'cuid';
 import diff from 'microdiff';
 import { useCallback, useEffect, useRef } from 'react';
-import { getDataForPath } from './getDataForPath';
 
 interface DataSubscription {
 	path: string;
@@ -34,7 +34,7 @@ export function usePartialDataPublisher(data: any) {
 	);
 
 	const getDataAtPath = useCallback((path: string) => {
-		return getDataForPath(path, dataRef.current, undefined);
+		return navigateObject({ location: path, root: dataRef.current });
 	}, []);
 
 	useEffect(() => {

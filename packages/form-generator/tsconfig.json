@@ -21,6 +21,9 @@
 		},
 		{
 			"path": "../form-generator-core/tsconfig.json"
+		},
+		{
+			"path": "../object-navigator/tsconfig.json"
 		}
 	]
 }
