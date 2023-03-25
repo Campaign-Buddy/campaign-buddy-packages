@@ -1,5 +1,4 @@
 export { useDataUpdater, useSyncedDataUpdater } from './useDataUpdater';
-export { removeDisabledAggregations } from './removeDisabledAggregations';
 export { usePartialDataPublisher } from './usePartialDataPublisher';
 export {
 	usePartialDataSubscription,

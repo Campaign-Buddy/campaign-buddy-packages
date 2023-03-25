@@ -1,12 +1,12 @@
 import { Aggregates } from '@campaign-buddy/json-schema-core';
 import { FieldSettings } from '@campaign-buddy/frontend-types';
-import { FormWidgetRendererProps } from '@campaign-buddy/form-generator-core/src/FormGeneratorProps';
+import {
+	FormWidgetRendererProps,
+	removeDisabledAggregations,
+} from '@campaign-buddy/form-generator-core';
 import React, { useMemo } from 'react';
 import { useState, useEffect, useCallback } from 'react';
-import {
-	removeDisabledAggregations,
-	usePartialDataSubscription,
-} from './utility';
+import { usePartialDataSubscription } from './utility';
 
 export const DebouncedWidget: React.FC<
 	React.PropsWithChildren<FormWidgetRendererProps<any>>
