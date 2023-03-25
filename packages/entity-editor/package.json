@@ -7,7 +7,8 @@
 		"@campaign-buddy/file-explorer": "0.1.0",
 		"@campaign-buddy/client-hooks": "0.1.0",
 		"@campaign-buddy/form-generator": "0.1.0",
-		"@campaign-buddy/form-generator-widgets": "0.1.0"
+		"@campaign-buddy/form-generator-widgets": "0.1.0",
+		"@campaign-buddy/core-ui": "0.1.0"
 	},
 	"devDependencies": {
 		"@campaign-buddy/frontend-types": "0.1.0",

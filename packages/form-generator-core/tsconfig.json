@@ -17,6 +17,21 @@
 		},
 		{
 			"path": "../object-navigator/tsconfig.json"
+		},
+		{
+			"path": "../json-schema-core/tsconfig.json"
+		},
+		{
+			"path": "../json-path-ex/tsconfig.json"
+		},
+		{
+			"path": "../frontend-types/tsconfig.json"
+		},
+		{
+			"path": "../common-hooks/tsconfig.json"
+		},
+		{
+			"path": "../apply-aggregates/tsconfig.json"
 		}
 	]
 }

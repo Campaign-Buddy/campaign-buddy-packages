@@ -17,6 +17,8 @@
 		"@campaign-buddy/object-navigator": "0.1.0"
 	},
 	"devDependencies": {
+		"@campaign-buddy/themes": "0.1.0",
+		"@campaign-buddy/react-theme-provider": "0.1.0",
 		"@campaign-buddy/json-schema-core": "0.1.0",
 		"@types/hash-sum": "^1.0.0",
 		"@types/json-schema": "^7.0.7",

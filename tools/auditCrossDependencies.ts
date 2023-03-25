@@ -17,7 +17,9 @@ for (const packageName of allPackageFolderNames) {
 
 function validateAllCrossPackageDeps(packageName: string) {
 	const packageSrcDir = path.join('./packages/', packageName, 'src');
-	const result = cruise([packageSrcDir]);
+	const result = cruise([packageSrcDir], {
+		exclude: path.join('./packages/', packageName, 'dist'),
+	});
 
 	const packageJson = readPackageJson(packageName);
 	const tsConfig = readTsConfig(packageName);

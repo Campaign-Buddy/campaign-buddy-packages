@@ -1,5 +1,10 @@
 # Todo
 
+- [ ] Improve cross dependency audit tool
+	- [ ] Automatically install missing packages
+	- [ ] Parse tsconfigs with json5
+	- [ ] Audit all packages before quitting
+	- [ ] Don't audit `dist/` folders
 - [ ] File explorer
 	- [X] Confirm deletes
 	- [ ] Create items at the bottom of the loaded data

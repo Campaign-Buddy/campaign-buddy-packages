@@ -32,6 +32,9 @@
 		},
 		{
 			"path": "../form-generator-widgets/tsconfig.json"
+		},
+		{
+			"path": "../core-ui/tsconfig.json"
 		}
 	]
 }
