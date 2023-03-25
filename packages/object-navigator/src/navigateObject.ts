@@ -25,7 +25,7 @@ interface NavigateObjectOptions<TRoot, TProperty> {
 	 * A custom indexer for traversing objects, by default will
 	 * just try to use default index
 	 */
-	accessNext?: (data: any, key: Indexer) => any;
+	accessNext?: (data: any, key: Indexer, fullLocation: LocationArray) => any;
 
 	/**
 	 * By default, navigateObject will stop navigation and
@@ -55,7 +55,10 @@ export function navigateObject<TRoot = any, TProperty = any>({
 			return;
 		}
 
-		cur = (accessNext ?? defaultAccessNext)(cur, locationPart);
+		cur = (accessNext ?? defaultAccessNext)(cur, locationPart, [
+			...currentPath,
+			locationPart,
+		]);
 		currentPath.push(locationPart);
 		remainingPath.shift();
 	}
