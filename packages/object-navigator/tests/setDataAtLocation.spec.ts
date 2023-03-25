@@ -1,4 +1,4 @@
-import { setDataAtLocation } from '../src/setDataAtLocation';
+import { setDataAtLocation } from '../src';
 
 describe('setDataAtLocation', () => {
 	it('updates nested properties', () => {

@@ -1,4 +1,4 @@
-import { getSchemaForLocation } from '@campaign-buddy/object-navigator';
+import { setDataAtLocation } from '@campaign-buddy/object-navigator';
 import { JSONSchema4 } from 'json-schema';
 import cloneDeep from 'lodash.clonedeep';
 import { useCallback, useEffect, useRef } from 'react';
@@ -50,7 +50,12 @@ export function useDataUpdater(
 		const dataClone = cloneDeep(dataRef.current);
 
 		for (const update of updates) {
-			applyUpdate(dataClone, update.path, update.update, schemaRef.current);
+			setDataAtLocation({
+				root: dataClone,
+				location: update.path,
+				value: update.update,
+				schema: schemaRef.current,
+			});
 		}
 
 		pendingUpdates.current = [];
@@ -78,50 +83,4 @@ export function useDataUpdater(
 	);
 
 	return addUpdate;
-}
-
-function applyUpdate(
-	data: any,
-	path: string,
-	update: any,
-	schema: JSONSchema4
-): void {
-	const parts = path.split('.');
-	let cur = data;
-	let curPath = '$';
-
-	for (let i = 0; i < parts.length - 1; i++) {
-		const part = parts[i];
-
-		if (part === '$' && i === 0) {
-			continue;
-		}
-
-		curPath = `${curPath}.${part}`;
-
-		const nextType = typeof cur[part];
-
-		if (nextType === 'undefined') {
-			const subSchema = getSchemaForLocation({ location: curPath, schema });
-
-			if (subSchema?.type === 'array') {
-				cur[part] = [];
-			} else {
-				cur[part] = {};
-			}
-		} else if (nextType !== 'object') {
-			console.error(
-				`navigation error, tried to traverse ${nextType} using path ${path}`,
-				update
-			);
-			return;
-		}
-
-		cur = cur[part];
-	}
-
-	const lastPart = parts[parts.length - 1];
-	cur[lastPart] = update;
-
-	return;
 }
