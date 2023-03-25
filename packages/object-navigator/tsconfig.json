@@ -4,6 +4,12 @@
 		"outDir": "./dist",
 		"composite": true
 	},
-	"include": ["src/**/*"],
-	"references": []
+	"include": [
+		"src/**/*"
+	],
+	"references": [
+		{
+			"path": "../json-schema-core/tsconfig.json"
+		}
+	]
 }
