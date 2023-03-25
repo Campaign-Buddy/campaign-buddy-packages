@@ -1,8 +1,8 @@
 import { Aggregates } from '@campaign-buddy/json-schema-core';
 import { FieldSettings } from '@campaign-buddy/frontend-types';
+import { FormWidgetRendererProps } from '@campaign-buddy/form-generator-core/src/FormGeneratorProps';
 import React, { useMemo } from 'react';
 import { useState, useEffect, useCallback } from 'react';
-import { FormWidgetRendererProps } from './FormGeneratorProps';
 import {
 	getAggregationSupport,
 	removeDisabledAggregations,
