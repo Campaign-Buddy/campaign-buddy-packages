@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { UiSectionProps } from '../src';
+import { UiSectionProps } from '../../src';
 
 const Header = styled.div`
 	display: flex;

@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from 'react';
-import { WidgetLookup, WidgetProps } from '../src';
+import { WidgetLookup, WidgetProps, AggregationSupport } from '../../src';
 import {
 	ContextMenu,
 	Input,
@@ -7,7 +7,6 @@ import {
 	Switch,
 	MenuItem,
 } from '@campaign-buddy/core-ui';
-import { AggregationSupport } from '../src/AggregationSupport';
 import { FieldSettings } from '@campaign-buddy/frontend-types';
 
 const adminRole = 'gm';
