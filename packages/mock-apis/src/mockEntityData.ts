@@ -7,7 +7,7 @@ export const characterClasses: HydratedEntity[] = [
 		entityData: {
 			name: 'Bard',
 			description: 'Its a bard',
-			bonuses: {
+			bonus: {
 				maxHp: 1,
 			},
 		},
@@ -18,7 +18,7 @@ export const characterClasses: HydratedEntity[] = [
 		entityData: {
 			name: 'Fighter',
 			description: 'Its a fighter',
-			bonuses: {
+			bonus: {
 				maxHp: 2,
 			},
 		},
@@ -29,7 +29,7 @@ export const characterClasses: HydratedEntity[] = [
 		entityData: {
 			name: 'Wizard',
 			description: 'Its a wizard',
-			bonuses: {
+			bonus: {
 				maxHp: 3,
 			},
 		},
@@ -40,7 +40,7 @@ export const characterClasses: HydratedEntity[] = [
 		entityData: {
 			name: 'Rouge',
 			description: 'Its a rouge',
-			bonuses: {
+			bonus: {
 				maxHp: 4,
 			},
 		},
@@ -51,7 +51,7 @@ export const characterClasses: HydratedEntity[] = [
 		entityData: {
 			name: 'Potion smith',
 			description: 'Its a potion smith',
-			bonuses: {
+			bonus: {
 				maxHp: 5,
 			},
 		},
@@ -62,7 +62,7 @@ export const characterClasses: HydratedEntity[] = [
 		entityData: {
 			name: 'Sorcerer',
 			description: 'Its a sorcerer',
-			bonuses: {
+			bonus: {
 				maxHp: 6,
 			},
 		},
@@ -73,7 +73,7 @@ export const characterClasses: HydratedEntity[] = [
 		entityData: {
 			name: 'Ranger',
 			description: 'Its a ranger',
-			bonuses: {
+			bonus: {
 				maxHp: 7,
 			},
 		},
@@ -84,7 +84,7 @@ export const characterClasses: HydratedEntity[] = [
 		entityData: {
 			name: 'Paladin',
 			description: 'Its a paladin',
-			bonuses: {
+			bonus: {
 				maxHp: 8,
 			},
 		},
@@ -95,7 +95,7 @@ export const characterClasses: HydratedEntity[] = [
 		entityData: {
 			name: 'Monk',
 			description: 'Its a monk',
-			bonuses: {
+			bonus: {
 				maxHp: 9,
 			},
 		},
@@ -106,7 +106,7 @@ export const characterClasses: HydratedEntity[] = [
 		entityData: {
 			name: 'Cleric',
 			description: 'Its a cleric',
-			bonuses: {
+			bonus: {
 				maxHp: 10,
 			},
 		},
@@ -117,7 +117,7 @@ export const characterClasses: HydratedEntity[] = [
 		entityData: {
 			name: 'Barbarian',
 			description: 'Its a barbarian',
-			bonuses: {
+			bonus: {
 				maxHp: 11,
 			},
 		},
@@ -131,7 +131,7 @@ export const feats: HydratedEntity[] = [
 		entityData: {
 			name: 'Somewhat beefy',
 			description: 'Kinda beefy',
-			bonuses: {
+			bonus: {
 				maxHp: 1,
 			},
 		},
@@ -142,7 +142,7 @@ export const feats: HydratedEntity[] = [
 		entityData: {
 			name: 'Pretty beefy',
 			description: 'Its pretty beefy',
-			bonuses: {
+			bonus: {
 				maxHp: 2,
 			},
 		},
@@ -153,7 +153,7 @@ export const feats: HydratedEntity[] = [
 		entityData: {
 			name: 'Beefy',
 			description: "I'd say its beefy",
-			bonuses: {
+			bonus: {
 				maxHp: 3,
 			},
 		},
@@ -164,7 +164,7 @@ export const feats: HydratedEntity[] = [
 		entityData: {
 			name: 'Very beefy',
 			description: 'Its very beefy',
-			bonuses: {
+			bonus: {
 				maxHp: 4,
 			},
 		},
@@ -175,7 +175,7 @@ export const feats: HydratedEntity[] = [
 		entityData: {
 			name: 'SUPER BEEFY',
 			description: 'Its a super duper',
-			bonuses: {
+			bonus: {
 				maxHp: 5,
 			},
 		},
