@@ -1,25 +1,18 @@
 import React, { useMemo } from 'react';
-import { useStableValue } from '@campaign-buddy/common-hooks';
 import { useSyncedStore } from '@syncedstore/react';
 import styled from 'styled-components';
 import { SyncedFormGeneratorProps } from './FormGeneratorProps';
 import {
-	applyAggregates,
-	getFullAggregates,
-} from '@campaign-buddy/apply-aggregates';
-import {
-	generateUiLayout,
-	hasDynamicSchemas,
-	resolveDynamicSchemas,
-	cleanUiLayout,
-	useHydratedEntities,
 	usePartialDataPublisher,
 	PartialDataSubscriptionContextProvider,
 	useStore,
 	useSyncedDataUpdater,
 } from './utility';
-import { FormUiLayout } from './FormUiLayout';
 import { DebouncedWidget } from './DebouncedWidget';
+import {
+	FormUiLayout,
+	useFormGeneratorState,
+} from '@campaign-buddy/form-generator-core';
 
 export const SyncedFormGenerator: React.FC<
 	React.PropsWithChildren<SyncedFormGeneratorProps>
@@ -40,50 +33,22 @@ export const SyncedFormGenerator: React.FC<
 	const data = useSyncedStore(dataStore);
 	const fieldSettings = useSyncedStore(fieldSettingsStore);
 
-	const resolvedSchema = useMemo(() => {
-		if (!hasDynamicSchemas(schema)) {
-			return schema;
-		}
-
-		return resolveDynamicSchemas(schema, data.data);
-	}, [schema, data]);
-
-	const stableSchema = useStableValue(resolvedSchema);
-
-	const uiLayout = useMemo(() => {
-		if (!providedUiLayout) {
-			return generateUiLayout(stableSchema);
-		}
-
-		return cleanUiLayout(
+	const { resolvedSchema, aggregatedData, fullAggregates, uiLayout } =
+		useFormGeneratorState({
+			schema,
+			data,
+			currentUserRole,
+			fieldSettings,
 			providedUiLayout,
-			stableSchema,
-			fieldSettings.data,
-			currentUserRole
-		);
-	}, [currentUserRole, fieldSettings, providedUiLayout, stableSchema]);
+			entityApi,
+			aggregates,
+		});
 
 	const updateDataAtPath = useSyncedDataUpdater(schema, dataStore);
 
 	const updateFieldSettingsAtPath = useSyncedDataUpdater(
 		schema,
 		fieldSettingsStore
-	);
-
-	const fullAggregates = useMemo(
-		() => getFullAggregates(aggregates, stableSchema),
-		[aggregates, stableSchema]
-	);
-
-	const { hydratedData } = useHydratedEntities(
-		entityApi,
-		data.data,
-		resolvedSchema
-	);
-
-	const aggregatedData = useMemo(
-		() => applyAggregates(hydratedData, fullAggregates),
-		[hydratedData, fullAggregates]
 	);
 
 	const { subscribe: subscribeToDataAtPath, getDataAtPath } =
@@ -129,7 +94,7 @@ export const SyncedFormGenerator: React.FC<
 			>
 				<FormUiLayout
 					uiLayout={uiLayout}
-					schema={stableSchema}
+					schema={resolvedSchema}
 					widgetLookup={widgets}
 					UiSection={UiSection}
 					aggregates={fullAggregates}

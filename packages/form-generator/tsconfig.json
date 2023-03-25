@@ -5,7 +5,10 @@
 		"composite": true,
 		"skipDefaultLibCheck": true
 	},
-	"include": ["src/**/*", "theme.d.ts"],
+	"include": [
+		"src/**/*",
+		"theme.d.ts"
+	],
 	"references": [
 		{
 			"path": "../json-path-ex/tsconfig.json"
@@ -24,6 +27,9 @@
 		},
 		{
 			"path": "../frontend-types/tsconfig.json"
+		},
+		{
+			"path": "../form-generator-core/tsconfig.json"
 		}
 	]
 }

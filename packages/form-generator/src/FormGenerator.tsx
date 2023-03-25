@@ -5,9 +5,11 @@ import {
 	usePartialDataPublisher,
 	PartialDataSubscriptionContextProvider,
 } from './utility';
-import { FormUiLayout } from './FormUiLayout';
-import styled from 'styled-components';
-import { useFormGeneratorState } from './useFormGeneratorState';
+import {
+	useFormGeneratorState,
+	FormUiLayout,
+	FormRoot,
+} from '@campaign-buddy/form-generator-core';
 import { DebouncedWidget } from './DebouncedWidget';
 
 const defaultData = {};
@@ -109,8 +111,3 @@ export const FormGenerator: React.FC<
 		</FormRoot>
 	);
 };
-
-const FormRoot = styled.div`
-	display: flex;
-	flex-direction: column;
-`;
