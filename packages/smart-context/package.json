@@ -1,0 +1,36 @@
+{
+	"name": "@campaign-buddy/smart-context",
+	"version": "0.1.0",
+	"author": "Joseph Stewart",
+	"license": "MIT",
+	"dependencies": {
+		"@campaign-buddy/object-navigator": "0.1.0",
+		"cuid": "^3.0.0",
+		"microdiff": "^1.3.1",
+		"@campaign-buddy/common-hooks": "0.1.0"
+	},
+	"devDependencies": {
+		"@campaign-buddy/react-theme-provider": "0.1.0",
+		"@campaign-buddy/themes": "0.1.0",
+		"cross-env": "^7.0.3",
+		"react": "^18.0.9",
+		"styled-components": "^5.3.3",
+		"typescript": "^4.2.4"
+	},
+	"peerDependencies": {
+		"@campaign-buddy/react-theme-provider": "0.1.0",
+		"react": "^18.0.9",
+		"styled-components": "^5.3.3"
+	},
+	"scripts": {
+		"build": "tsc -b",
+		"add-local": "node ../../tools/addLocal",
+		"remove-local": "node ../../tools/removeLocal",
+		"test": "jest",
+		"storybook": "cross-env STORYBOOK_PACKAGE_SCOPE=use-data-subscription yarn --cwd ../../ storybook"
+	},
+	"main": "dist/src/index",
+	"files": [
+		"dist/"
+	]
+}

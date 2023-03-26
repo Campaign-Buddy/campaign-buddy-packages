@@ -6,7 +6,7 @@ import {
 } from '@campaign-buddy/form-generator-core';
 import React, { useMemo } from 'react';
 import { useState, useEffect, useCallback } from 'react';
-import { usePartialDataSubscription } from './utility';
+import { useFieldData } from './useFieldData';
 
 export const DebouncedWidget: React.FC<
 	React.PropsWithChildren<FormWidgetRendererProps<any>>
@@ -27,7 +27,7 @@ export const DebouncedWidget: React.FC<
 		fieldSettingsData,
 		updateData: propsUpdateValue,
 		updateFieldSettings: propsUpdateFieldSettings,
-	} = usePartialDataSubscription(path);
+	} = useFieldData(path);
 	const dataOrDefault = data ?? schema?.default;
 
 	const [value, setValue] = useState(dataOrDefault);

@@ -1,0 +1,25 @@
+{
+	"extends": "../../tsconfig.build.json",
+	"compilerOptions": {
+		"outDir": "./dist",
+		"composite": true
+	},
+	"include": [
+		"src/**/*",
+		"theme.d.ts"
+	],
+	"references": [
+		{
+			"path": "../themes/tsconfig.json"
+		},
+		{
+			"path": "../react-theme-provider/tsconfig.json"
+		},
+		{
+			"path": "../object-navigator/tsconfig.json"
+		},
+		{
+			"path": "../common-hooks/tsconfig.json"
+		}
+	]
+}

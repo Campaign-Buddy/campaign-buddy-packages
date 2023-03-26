@@ -24,6 +24,9 @@
 		},
 		{
 			"path": "../object-navigator/tsconfig.json"
+		},
+		{
+			"path": "../smart-context/tsconfig.json"
 		}
 	]
 }

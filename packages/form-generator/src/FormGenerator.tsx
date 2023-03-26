@@ -12,11 +12,8 @@ import {
 	UiSectionProps,
 	WidgetLookup,
 } from '@campaign-buddy/form-generator-core';
-import {
-	useDataUpdater,
-	usePartialDataPublisher,
-	PartialDataSubscriptionContextProvider,
-} from './utility';
+import { DataUpdaterProvider, FormStateProvider } from './useFieldData';
+import { useDataUpdater } from './useDataUpdater';
 import { DebouncedWidget } from './DebouncedWidget';
 
 const defaultData = {};
@@ -101,59 +98,33 @@ export const FormGenerator: React.FC<
 		updateFieldSettingsOrNoop
 	);
 
-	const { subscribe: subscribeToDataAtPath, getDataAtPath } =
-		usePartialDataPublisher(data);
-
-	const {
-		subscribe: subscribeToFieldSettingsAtPath,
-		getDataAtPath: getFieldSettingsAtPath,
-	} = usePartialDataPublisher(fieldSettings);
-
-	const {
-		subscribe: subscribeToAggregatedDataAtPath,
-		getDataAtPath: getAggregatedDataAtPath,
-	} = usePartialDataPublisher(aggregatedData);
-
-	const partialDataSubscriptionContextProviderValue = useMemo(
+	const dataUpdaterContext = useMemo(
 		() => ({
-			subscribeToDataAtPath,
-			getDataAtPath,
 			updateDataAtPath,
-			subscribeToAggregatedDataAtPath,
-			getAggregatedDataAtPath,
-			subscribeToFieldSettingsAtPath,
-			getFieldSettingsAtPath,
 			updateFieldSettingsAtPath,
 		}),
-		[
-			getAggregatedDataAtPath,
-			getDataAtPath,
-			getFieldSettingsAtPath,
-			subscribeToAggregatedDataAtPath,
-			subscribeToDataAtPath,
-			subscribeToFieldSettingsAtPath,
-			updateDataAtPath,
-			updateFieldSettingsAtPath,
-		]
+		[updateDataAtPath, updateFieldSettingsAtPath]
 	);
 
 	return (
 		<FormRoot>
-			<PartialDataSubscriptionContextProvider
-				value={partialDataSubscriptionContextProviderValue}
-			>
-				<FormUiLayout
-					uiLayout={uiLayout}
-					schema={resolvedSchema}
-					widgetLookup={widgets}
-					UiSection={UiSection}
-					aggregates={fullAggregates}
-					entityApi={entityApi}
-					shouldShowFieldSettingControls={Boolean(providedUpdateFieldSettings)}
-					currentUserRole={currentUserRole}
-					FormWidgetRenderer={DebouncedWidget}
-				/>
-			</PartialDataSubscriptionContextProvider>
+			<DataUpdaterProvider value={dataUpdaterContext}>
+				<FormStateProvider value={{ data, fieldSettings, aggregatedData }}>
+					<FormUiLayout
+						uiLayout={uiLayout}
+						schema={resolvedSchema}
+						widgetLookup={widgets}
+						UiSection={UiSection}
+						aggregates={fullAggregates}
+						entityApi={entityApi}
+						shouldShowFieldSettingControls={Boolean(
+							providedUpdateFieldSettings
+						)}
+						currentUserRole={currentUserRole}
+						FormWidgetRenderer={DebouncedWidget}
+					/>
+				</FormStateProvider>
+			</DataUpdaterProvider>
 		</FormRoot>
 	);
 };
