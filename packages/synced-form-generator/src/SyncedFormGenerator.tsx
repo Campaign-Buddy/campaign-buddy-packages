@@ -17,6 +17,7 @@ import { Y } from '@syncedstore/core';
 import { SyncedStoreProvider } from './SyncedStoreProvider';
 import { useStore } from './useStore';
 import { SyncedWidgetRenderer } from './SyncedWidgetRenderer';
+import { useStableValue } from '@campaign-buddy/common-hooks';
 
 export interface SyncedFormGeneratorProps {
 	schema: CampaignBuddySchema;
@@ -67,17 +68,19 @@ export const SyncedFormGenerator: React.FC<
 			schema,
 			data: document?.data,
 			currentUserRole,
-			fieldSettings: document?.data,
+			fieldSettings: document?.fieldSettings?.settings,
 			providedUiLayout,
 			entityApi,
 			aggregates,
 		});
 
+	const stableUiLayout = useStableValue(uiLayout);
+
 	return (
 		<FormRoot>
 			<SyncedStoreProvider store={store} aggregatedData={aggregatedData}>
 				<FormUiLayout
-					uiLayout={uiLayout}
+					uiLayout={stableUiLayout}
 					schema={resolvedSchema}
 					widgetLookup={widgets}
 					UiSection={UiSection}

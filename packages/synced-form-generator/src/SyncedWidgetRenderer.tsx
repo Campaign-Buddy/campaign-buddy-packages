@@ -1,7 +1,13 @@
 import React, { useCallback } from 'react';
-import { FormWidgetRendererProps } from '@campaign-buddy/form-generator-core';
+import {
+	FormWidgetRendererProps,
+	removeDisabledAggregations,
+} from '@campaign-buddy/form-generator-core';
 import { useSyncedStore } from '@syncedstore/react';
-import { useSyncedStoreContext } from './SyncedStoreProvider';
+import {
+	useAggregatedDataAtPath,
+	useSyncedStoreContext,
+} from './SyncedStoreProvider';
 import {
 	navigateObject,
 	setDataAtLocation,
@@ -11,7 +17,7 @@ export function SyncedWidgetRenderer({
 	path,
 	Widget,
 	label,
-	// aggregation: propsAggregation,
+	aggregation: propsAggregation,
 	schema,
 	entityApi,
 	currentUserRole,
@@ -20,29 +26,26 @@ export function SyncedWidgetRenderer({
 }: FormWidgetRendererProps<any>) {
 	const { store } = useSyncedStoreContext();
 	const document = useSyncedStore(store);
-
-	// const aggregatedValue = removeDisabledAggregations(
-	// 	aggregatedData,
-	// 	document.fieldSettings.settings?.aggregationSettings
-	// );
-
-	// const aggregation = useMemo(
-	// 	() =>
-	// 		removeDisabledAggregations(
-	// 			propsAggregation,
-	// 			document.fieldSettings.settings
-	// 		),
-	// 	[fieldSettingsData.data.aggregationSettings, propsAggregation]
-	// );
-
-	const value = navigateObject({
-		location: path,
-		root: document.data,
-	});
+	const aggregatedData = useAggregatedDataAtPath(path);
 
 	const fieldSettings = navigateObject({
 		location: path,
 		root: document.fieldSettings.settings,
+	});
+
+	const aggregatedValue = removeDisabledAggregations(
+		aggregatedData,
+		fieldSettings?.aggregationSettings
+	);
+
+	const aggregation = removeDisabledAggregations(
+		propsAggregation,
+		fieldSettings?.aggregationSettings
+	);
+
+	const value = navigateObject({
+		location: path,
+		root: document.data,
 	});
 
 	const updateValue = useCallback(
@@ -73,8 +76,8 @@ export function SyncedWidgetRenderer({
 			value={value}
 			onChange={updateValue}
 			label={label}
-			aggregatedValue={undefined}
-			aggregation={undefined}
+			aggregatedValue={aggregatedValue}
+			aggregation={aggregation}
 			schema={schema}
 			entityApi={entityApi}
 			fieldSettings={fieldSettings}

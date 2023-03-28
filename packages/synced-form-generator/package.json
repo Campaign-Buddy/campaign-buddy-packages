@@ -10,7 +10,8 @@
 		"@syncedstore/react": "^0.4.3",
 		"lib0": "^0.2.73",
 		"y-webrtc": "^10.2.5",
-		"yjs": "^13.5.51"
+		"yjs": "^13.5.51",
+		"@campaign-buddy/smart-context": "0.1.0"
 	},
 	"devDependencies": {
 		"@campaign-buddy/json-schema-core": "0.1.0",

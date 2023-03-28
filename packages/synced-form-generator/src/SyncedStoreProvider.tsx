@@ -1,9 +1,15 @@
 import React, { useContext, useMemo } from 'react';
+import {
+	createSmartContext,
+	useSmartContext,
+} from '@campaign-buddy/smart-context';
 import { SyncedFormDocument } from './useStore';
+import { ObjectLocation } from '@campaign-buddy/object-navigator';
+
+const AggregatedDataContext = createSmartContext<any>(undefined);
 
 interface SyncedStoreContextData {
 	store: SyncedFormDocument;
-	aggregatedData: any;
 }
 
 const SyncedStoreContext = React.createContext<
@@ -23,14 +29,15 @@ export function SyncedStoreProvider({
 	const contextValue = useMemo(
 		() => ({
 			store,
-			aggregatedData,
 		}),
-		[aggregatedData, store]
+		[store]
 	);
 
 	return (
 		<SyncedStoreContext.Provider value={contextValue}>
-			{children}
+			<AggregatedDataContext.Provider value={aggregatedData}>
+				{children}
+			</AggregatedDataContext.Provider>
 		</SyncedStoreContext.Provider>
 	);
 }
@@ -43,4 +50,8 @@ export function useSyncedStoreContext() {
 	}
 
 	return context;
+}
+
+export function useAggregatedDataAtPath(path: ObjectLocation) {
+	return useSmartContext(AggregatedDataContext, path);
 }
