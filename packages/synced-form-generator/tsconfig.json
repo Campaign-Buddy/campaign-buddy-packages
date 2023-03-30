@@ -26,6 +26,9 @@
 		},
 		{
 			"path": "../smart-context/tsconfig.json"
+		},
+		{
+			"path": "../common-hooks/tsconfig.json"
 		}
 	]
 }
