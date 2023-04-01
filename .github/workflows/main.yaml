@@ -9,7 +9,7 @@ jobs:
         with:
           node-version: 18.x
       - run: yarn
-      - run: yarn workspaces run build
+      - run: npx lerna run build
       - run: yarn audit-deps
       - run: yarn lint
       - run: yarn test
