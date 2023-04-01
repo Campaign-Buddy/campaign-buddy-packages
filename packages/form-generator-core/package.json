@@ -1,14 +1,14 @@
 {
 	"name": "@campaign-buddy/form-generator-core",
-	"version": "0.1.0",
+	"version": "0.0.0",
 	"author": "Joseph Stewart",
 	"license": "MIT",
 	"dependencies": {
-		"@campaign-buddy/apply-aggregates": "^0.1.0",
-		"@campaign-buddy/common-hooks": "^0.1.0",
-		"@campaign-buddy/frontend-types": "^0.1.0",
-		"@campaign-buddy/json-path-ex": "^0.1.0",
-		"@campaign-buddy/object-navigator": "^0.1.0",
+		"@campaign-buddy/apply-aggregates": "*",
+		"@campaign-buddy/common-hooks": "*",
+		"@campaign-buddy/frontend-types": "*",
+		"@campaign-buddy/json-path-ex": "*",
+		"@campaign-buddy/object-navigator": "*",
 		"@syncedstore/core": "^0.4.3",
 		"@syncedstore/react": "^0.4.3",
 		"cuid": "^2.1.8",
@@ -17,9 +17,9 @@
 		"lodash.isequal": "^4.5.0"
 	},
 	"devDependencies": {
-		"@campaign-buddy/json-schema-core": "^0.1.0",
-		"@campaign-buddy/react-theme-provider": "^0.1.0",
-		"@campaign-buddy/themes": "^0.1.0",
+		"@campaign-buddy/json-schema-core": "*",
+		"@campaign-buddy/react-theme-provider": "*",
+		"@campaign-buddy/themes": "*",
 		"@types/hash-sum": "^1.0.0",
 		"@types/json-schema": "^7.0.7",
 		"@types/lodash": "^4.14.168",

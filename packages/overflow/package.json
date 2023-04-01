@@ -1,14 +1,14 @@
 {
 	"name": "@campaign-buddy/overflow",
-	"version": "0.1.0",
+	"version": "0.0.0",
 	"author": "Joseph Stewart",
 	"license": "MIT",
 	"dependencies": {
-		"@campaign-buddy/common-hooks": "^0.1.0"
+		"@campaign-buddy/common-hooks": "*"
 	},
 	"devDependencies": {
-		"@campaign-buddy/react-theme-provider": "^0.1.0",
-		"@campaign-buddy/themes": "^0.1.0",
+		"@campaign-buddy/react-theme-provider": "*",
+		"@campaign-buddy/themes": "*",
 		"cross-env": "^7.0.3",
 		"react": "^18.0.9",
 		"styled-components": "^5.3.3",

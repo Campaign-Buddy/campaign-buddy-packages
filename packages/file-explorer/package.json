@@ -1,18 +1,18 @@
 {
 	"name": "@campaign-buddy/file-explorer",
-	"version": "0.1.0",
+	"version": "0.0.0",
 	"author": "Joseph Stewart",
 	"license": "MIT",
 	"dependencies": {
-		"@campaign-buddy/client-hooks": "^0.1.0",
-		"@campaign-buddy/common-hooks": "^0.1.0",
-		"@campaign-buddy/core-ui": "^0.1.0"
+		"@campaign-buddy/client-hooks": "*",
+		"@campaign-buddy/common-hooks": "*",
+		"@campaign-buddy/core-ui": "*"
 	},
 	"devDependencies": {
-		"@campaign-buddy/frontend-types": "^0.1.0",
-		"@campaign-buddy/mock-apis": "^0.1.0",
-		"@campaign-buddy/react-theme-provider": "^0.1.0",
-		"@campaign-buddy/themes": "^0.1.0",
+		"@campaign-buddy/frontend-types": "*",
+		"@campaign-buddy/mock-apis": "*",
+		"@campaign-buddy/react-theme-provider": "*",
+		"@campaign-buddy/themes": "*",
 		"cross-env": "^7.0.3",
 		"cuid": "^2.1.8",
 		"react": "^18.0.9",

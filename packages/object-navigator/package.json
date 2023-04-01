@@ -1,10 +1,10 @@
 {
 	"name": "@campaign-buddy/object-navigator",
-	"version": "0.1.0",
+	"version": "0.0.0",
 	"author": "Joseph Stewart",
 	"license": "MIT",
 	"devDependencies": {
-		"@campaign-buddy/json-schema-core": "^0.1.0",
+		"@campaign-buddy/json-schema-core": "*",
 		"typescript": "^4.2.4"
 	},
 	"scripts": {
