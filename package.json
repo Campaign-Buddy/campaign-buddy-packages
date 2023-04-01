@@ -2,6 +2,7 @@
   "name": "campaign-buddy-frontend",
   "version": "1.0.0",
   "license": "MIT",
+  "private": true,
   "workspaces": {
     "packages": [
       "packages/*"
