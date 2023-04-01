@@ -4,27 +4,27 @@
 	"author": "Joseph Stewart",
 	"license": "MIT",
 	"dependencies": {
-		"@campaign-buddy/form-generator-core": "0.1.0",
-		"@campaign-buddy/object-navigator": "0.1.0",
+		"@campaign-buddy/form-generator-core": "*",
+		"@campaign-buddy/object-navigator": "*",
 		"@syncedstore/core": "^0.4.3",
 		"@syncedstore/react": "^0.4.3",
 		"lib0": "^0.2.73",
 		"y-webrtc": "^10.2.5",
 		"yjs": "^13.5.51",
-		"@campaign-buddy/smart-context": "0.1.0",
-		"@campaign-buddy/common-hooks": "0.1.0"
+		"@campaign-buddy/smart-context": "*",
+		"@campaign-buddy/common-hooks": "*"
 	},
 	"devDependencies": {
-		"@campaign-buddy/json-schema-core": "0.1.0",
-		"@campaign-buddy/react-theme-provider": "0.1.0",
-		"@campaign-buddy/themes": "0.1.0",
+		"@campaign-buddy/json-schema-core": "*",
+		"@campaign-buddy/react-theme-provider": "*",
+		"@campaign-buddy/themes": "*",
 		"cross-env": "^7.0.3",
 		"react": "^18.0.9",
 		"styled-components": "^5.3.3",
 		"typescript": "^4.2.4"
 	},
 	"peerDependencies": {
-		"@campaign-buddy/react-theme-provider": "0.1.0",
+		"@campaign-buddy/react-theme-provider": "*",
 		"react": "^18.0.9",
 		"styled-components": "^5.3.3"
 	},

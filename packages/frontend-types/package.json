@@ -6,7 +6,7 @@
 	"dependencies": {},
 	"devDependencies": {
 		"typescript": "^4.2.4",
-		"@campaign-buddy/json-schema-core": "0.1.0"
+		"@campaign-buddy/json-schema-core": "*"
 	},
 	"scripts": {
 		"build": "tsc -b",

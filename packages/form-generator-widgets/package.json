@@ -4,18 +4,18 @@
 	"author": "Joseph Stewart",
 	"license": "MIT",
 	"dependencies": {
-		"@campaign-buddy/common-hooks": "0.1.0",
-		"@campaign-buddy/core-ui": "0.1.0",
-		"@campaign-buddy/frontend-types": "0.1.0",
-		"@campaign-buddy/image-picker-menu": "0.1.0",
-		"@campaign-buddy/rich-text": "0.1.0",
+		"@campaign-buddy/common-hooks": "*",
+		"@campaign-buddy/core-ui": "*",
+		"@campaign-buddy/frontend-types": "*",
+		"@campaign-buddy/image-picker-menu": "*",
+		"@campaign-buddy/rich-text": "*",
 		"lodash.clonedeep": "^4.5.0",
 		"react-query": "^3.34.12",
 		"semver": "^7.3.5"
 	},
 	"devDependencies": {
-		"@campaign-buddy/form-generator": "0.1.0",
-		"@campaign-buddy/json-schema-core": "0.1.0",
+		"@campaign-buddy/form-generator": "*",
+		"@campaign-buddy/json-schema-core": "*",
 		"@types/json-schema": "^7.0.9",
 		"@types/lodash.clonedeep": "^4.5.6",
 		"@types/semver": "^7.3.9",
@@ -23,7 +23,7 @@
 		"react": "^18.0.9",
 		"typescript": "^4.2.4",
 		"styled-components": "^5.3.3",
-		"@campaign-buddy/mock-apis": "0.1.0"
+		"@campaign-buddy/mock-apis": "*"
 	},
 	"main": "dist/src/index",
 	"files": [

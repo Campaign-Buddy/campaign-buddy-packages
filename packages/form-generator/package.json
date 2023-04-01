@@ -4,8 +4,8 @@
 	"author": "Joseph Stewart",
 	"license": "MIT",
 	"dependencies": {
-		"@campaign-buddy/frontend-types": "0.1.0",
-		"@campaign-buddy/form-generator-core": "0.1.0",
+		"@campaign-buddy/frontend-types": "*",
+		"@campaign-buddy/form-generator-core": "*",
 		"@syncedstore/core": "^0.4.3",
 		"@syncedstore/react": "^0.4.3",
 		"cuid": "^2.1.8",
@@ -13,13 +13,13 @@
 		"lodash.clonedeep": "^4.5.0",
 		"microdiff": "^1.3.0",
 		"yjs": "^13.5.51",
-		"@campaign-buddy/object-navigator": "0.1.0",
-		"@campaign-buddy/smart-context": "0.1.0"
+		"@campaign-buddy/object-navigator": "*",
+		"@campaign-buddy/smart-context": "*"
 	},
 	"devDependencies": {
 		"y-webrtc": "^10.2.5",
-		"@campaign-buddy/core-ui": "0.1.0",
-		"@campaign-buddy/json-schema-core": "0.1.0",
+		"@campaign-buddy/core-ui": "*",
+		"@campaign-buddy/json-schema-core": "*",
 		"@types/hash-sum": "^1.0.0",
 		"@types/json-schema": "^7.0.7",
 		"@types/lodash": "^4.14.168",

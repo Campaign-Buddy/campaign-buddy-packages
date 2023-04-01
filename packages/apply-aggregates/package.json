@@ -4,7 +4,7 @@
 	"author": "Joseph Stewart",
 	"license": "MIT",
 	"devDependencies": {
-		"@campaign-buddy/json-schema-core": "0.1.0",
+		"@campaign-buddy/json-schema-core": "*",
 		"typescript": "^4.2.4"
 	},
 	"scripts": {
@@ -18,7 +18,7 @@
 		"dist"
 	],
 	"dependencies": {
-		"@campaign-buddy/json-path-ex": "0.1.0",
+		"@campaign-buddy/json-path-ex": "*",
 		"lodash.clonedeep": "^4.5.0"
 	}
 }
