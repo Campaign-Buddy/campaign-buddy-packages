@@ -47,7 +47,8 @@
     "styled-components": "^5.3.3",
     "ts-jest": "^26.5.5",
     "ts-node": "^9.1.1",
-    "typescript": "^4.2.4"
+    "typescript": "^4.2.4",
+    "husky": "^8.0.0"
   },
   "scripts": {
     "storybook": "start-storybook -p 6006",
@@ -59,6 +60,7 @@
     "new-react-package": "node ./tools/newPackage/newPackage.js -r -p",
     "audit-deps": "ts-node --transpile-only tools/auditCrossDependencies.ts",
     "modify-tsconfigs": "ts-node --transpile-only tools/modifyTsConfigs.ts",
-    "prettier": "prettier --write ./packages"
+    "prettier": "prettier --write ./packages",
+    "prepare": "husky install"
   }
 }
