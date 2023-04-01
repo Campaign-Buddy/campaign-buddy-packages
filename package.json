@@ -51,8 +51,8 @@
     "husky": "^8.0.0"
   },
   "scripts": {
-    "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook -o docs-build",
+    "storybook": "cross-env NODE_OPTIONS=--openssl-legacy-provider start-storybook -p 6006",
+    "build-storybook": "cross-env NODE_OPTIONS=--openssl-legacy-provider build-storybook -o docs-build",
     "google": "ts-node --transpile-only tools/getGoogleAccessToken.ts",
     "test": "jest",
     "lint": "eslint . --quiet",
