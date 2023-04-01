@@ -18,3 +18,8 @@ jobs:
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           folder: docs-build
+      - name: Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: lerna exec --concurrency 1 -- npx --no-install semantic-release -e semantic-release-monorepo

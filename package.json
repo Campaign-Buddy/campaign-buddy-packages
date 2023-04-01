@@ -8,6 +8,7 @@
       "packages/*"
     ]
   },
+  "repository": "https://github.com/Campaign-Buddy/campaign-buddy-frontend",
   "devDependencies": {
     "@babel/core": "^7.13.16",
     "@storybook/addon-actions": "^6.4.22",
@@ -42,6 +43,7 @@
     "react": "^18.0.9",
     "react-dom": "^18.0.9",
     "semantic-release": "^21.0.1",
+    "semantic-release-monorepo": "^7.0.5",
     "styled-components": "^5.3.3",
     "ts-jest": "^26.5.5",
     "ts-node": "^9.1.1",
