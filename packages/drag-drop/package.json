@@ -1,6 +1,6 @@
 {
 	"name": "@campaign-buddy/drag-drop",
-	"version": "0.1.0",
+	"version": "0.0.0-managed-by-semantic-release",
 	"author": "Joseph Stewart",
 	"license": "MIT",
 	"dependencies": {
