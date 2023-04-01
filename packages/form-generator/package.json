@@ -4,22 +4,21 @@
 	"author": "Joseph Stewart",
 	"license": "MIT",
 	"dependencies": {
-		"@campaign-buddy/frontend-types": "*",
-		"@campaign-buddy/form-generator-core": "*",
+		"@campaign-buddy/form-generator-core": "^0.1.0",
+		"@campaign-buddy/frontend-types": "^0.1.0",
+		"@campaign-buddy/object-navigator": "^0.1.0",
+		"@campaign-buddy/smart-context": "^0.1.0",
 		"@syncedstore/core": "^0.4.3",
 		"@syncedstore/react": "^0.4.3",
 		"cuid": "^2.1.8",
 		"lib0": "^0.2.73",
 		"lodash.clonedeep": "^4.5.0",
 		"microdiff": "^1.3.0",
-		"yjs": "^13.5.51",
-		"@campaign-buddy/object-navigator": "*",
-		"@campaign-buddy/smart-context": "*"
+		"yjs": "^13.5.51"
 	},
 	"devDependencies": {
-		"y-webrtc": "^10.2.5",
-		"@campaign-buddy/core-ui": "*",
-		"@campaign-buddy/json-schema-core": "*",
+		"@campaign-buddy/core-ui": "^0.1.0",
+		"@campaign-buddy/json-schema-core": "^0.1.0",
 		"@types/hash-sum": "^1.0.0",
 		"@types/json-schema": "^7.0.7",
 		"@types/lodash": "^4.14.168",
@@ -27,7 +26,8 @@
 		"@types/lodash.isequal": "^4.5.5",
 		"react": "^18.0.9",
 		"styled-components": "^5.3.3",
-		"typescript": "^4.2.4"
+		"typescript": "^4.2.4",
+		"y-webrtc": "^10.2.5"
 	},
 	"main": "dist/src/index",
 	"files": [

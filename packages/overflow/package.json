@@ -4,11 +4,11 @@
 	"author": "Joseph Stewart",
 	"license": "MIT",
 	"dependencies": {
-		"@campaign-buddy/common-hooks": "*"
+		"@campaign-buddy/common-hooks": "^0.1.0"
 	},
 	"devDependencies": {
-		"@campaign-buddy/react-theme-provider": "*",
-		"@campaign-buddy/themes": "*",
+		"@campaign-buddy/react-theme-provider": "^0.1.0",
+		"@campaign-buddy/themes": "^0.1.0",
 		"cross-env": "^7.0.3",
 		"react": "^18.0.9",
 		"styled-components": "^5.3.3",

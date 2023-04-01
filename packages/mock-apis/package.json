@@ -4,12 +4,12 @@
 	"author": "Joseph Stewart",
 	"license": "MIT",
 	"dependencies": {
-		"@campaign-buddy/apply-aggregates": "*",
-		"@campaign-buddy/json-path-ex": "*",
-		"@campaign-buddy/json-schema-core": "*"
+		"@campaign-buddy/apply-aggregates": "^0.1.0",
+		"@campaign-buddy/json-path-ex": "^0.1.0",
+		"@campaign-buddy/json-schema-core": "^0.1.0"
 	},
 	"devDependencies": {
-		"@campaign-buddy/frontend-types": "*",
+		"@campaign-buddy/frontend-types": "^0.1.0",
 		"@campaign-buddy/json-schema-core": "*",
 		"typescript": "^4.2.4"
 	},
