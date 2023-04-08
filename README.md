@@ -1,6 +1,6 @@
-# campaign-buddy-frontend
+# campaign-buddy-packages
 
-This repository houses several frontend packages (using yarn workspaces) used to make campaign buddy, an online table-top role playing platform.
+This repository houses several packages (using yarn workspaces) used to make campaign buddy, an online table-top role playing platform.
 
 Todo list may be found [here](./TODO.md)
 
@@ -8,7 +8,7 @@ Todo list may be found [here](./TODO.md)
 
 Below are some design philosophies which should guide code design and contribution.
 
-### Backend agnosticism
+### Backend agnosticism in frontend packages
 
 Frontend packages should be developed agnostic to any particular backend system implementations. Packages and components that need backend functionality should describe the minimum backend API surface needed as an interface in the `@campaign-buddy/frontend-types` package. It is okay for the frontend and the backend to share *concepts*, but no frontend components should ever be making API requests directly.
 
