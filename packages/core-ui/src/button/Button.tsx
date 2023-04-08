@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyledButton, ButtonStyle } from './Button.styled';
+import { Spinner } from '@blueprintjs/core';
 import { CampaignBuddyIcon, Icon } from '../icon';
 
 interface ButtonProps
@@ -20,19 +21,24 @@ export const Button: React.FC<React.PropsWithChildren<ButtonProps>> = ({
 	buttonRef,
 	size,
 	isLoading,
+	disabled,
 	...rest
 }) => (
 	<StyledButton
-		icon={icon && <Icon icon={icon} />}
 		onClick={onClick}
-		minimal={style === 'minimal' || style === 'minimal-primary'}
-		elementRef={buttonRef}
-		large={size === 'large'}
-		small={size === 'small'}
+		ref={buttonRef}
+		size={size}
 		_style={style}
-		loading={isLoading}
+		disabled={isLoading || disabled}
 		{...rest}
 	>
-		{children}
+		{isLoading ? (
+			<Spinner size={20} />
+		) : (
+			<>
+				{icon && <Icon icon={icon} />}
+				{children}
+			</>
+		)}
 	</StyledButton>
 );

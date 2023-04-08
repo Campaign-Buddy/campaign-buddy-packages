@@ -1,5 +1,6 @@
 import React, { useCallback } from 'react';
 import { IconName } from '@blueprintjs/icons';
+import { Icon } from '../icon';
 import { StyledToggleButton } from './Button.styled';
 
 interface ToggleButtonProps {
@@ -29,15 +30,14 @@ export const ToggleButton: React.FC<
 
 	return (
 		<StyledToggleButton
-			icon={icon}
 			onClick={preventFocus ? undefined : handleToggle}
 			onMouseDown={preventFocus ? preventFocusHandleToggle : undefined}
-			minimal
-			large={size === 'large'}
-			small={size === 'small'}
+			size={size}
 			_style="minimal"
 			isActive={value}
 			tabIndex={tabIndex}
-		/>
+		>
+			<Icon icon={icon} />
+		</StyledToggleButton>
 	);
 };

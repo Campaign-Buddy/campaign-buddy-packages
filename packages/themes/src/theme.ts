@@ -1,4 +1,10 @@
-import { IList, IPanelLayout, LegacyCoreUiTheme, IToolbar } from './components';
+import {
+	IList,
+	IPanelLayout,
+	LegacyCoreUiTheme,
+	IToolbar,
+	ISizedButtons,
+} from './components';
 import { ThemeColor } from './types';
 
 export interface ITheme {
@@ -7,4 +13,8 @@ export interface ITheme {
 	panelLayout: IPanelLayout;
 	toolbar: IToolbar;
 	textColor: ThemeColor;
+	buttons: {
+		primary: ISizedButtons;
+		minimal: ISizedButtons;
+	};
 }

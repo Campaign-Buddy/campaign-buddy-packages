@@ -1,60 +1,61 @@
 import styled, { css } from 'styled-components';
-import { Button as ButtonCore } from '@blueprintjs/core';
+import { IButton } from '@campaign-buddy/themes/src/components';
 import { defaultTheme } from '../theme';
 
-export type ButtonStyle = 'primary' | 'minimal' | 'minimal-primary';
+export type ButtonStyle = 'primary' | 'minimal';
 
-const primaryStyles = css`
-	background-color: ${({ theme }) =>
-		theme.legacyCoreUi.colors.primary} !important;
-	color: ${({ theme }) => theme.legacyCoreUi.colors.background} !important;
-	background-image: none !important;
+const getButtonStyles = (button: IButton) => `
+	cursor: pointer;
+	display: inline-flex;
+	align-items: center;
+	outline: none;
+	border: none;
+	padding: ${button.sizing.padding.toCss()};
+	min-height: ${button.sizing.height}px;
+	max-height: ${button.sizing.height}px;
+	min-width: ${button.sizing.minWidth}px;
+	font-size: ${button.sizing.fontSize}px;
+	border-radius: ${button.sizing.borderRadius.toCss()};
+	background-color: ${button.states.default.background};
+	box-shadow: ${button.states.default.shadow?.toCss() ?? 'none'};
+	color: ${button.states.default.text};
+
+	& .bp4-icon {
+		color: ${button.states.default.text} !important;
+	}
 
 	&:hover {
-		background-color: ${({ theme }) =>
-			theme.legacyCoreUi.colors.primaryHover} !important;
+		background-color: ${button.states.hover.background};
+		color: ${button.states.hover.text};
+		box-shadow: ${button.states.hover.shadow?.toCss() ?? 'none'};
+
+		& .bp4-icon {
+			color: ${button.states.hover.text} !important;
+		}
 	}
 
 	&:active {
-		background-color: ${({ theme }) =>
-			theme.legacyCoreUi.colors.primaryActive} !important;
-	}
-`;
+		background-color: ${button.states.active.background};
+		color: ${button.states.active.text};
+		box-shadow: ${button.states.active.shadow?.toCss() ?? 'none'};
 
-const minimalPrimaryStyles = css`
-	color: ${({ theme }) => theme.legacyCoreUi.colors.background} !important;
-
-	& .bp4-icon {
-		color: ${({ theme }) => theme.legacyCoreUi.colors.background} !important;
-	}
-`;
-
-const minimalStyles = css`
-	& .bp4-icon {
-		color: ${({ theme }) => theme.legacyCoreUi.colors.text} !important;
+		& .bp4-icon {
+			color: ${button.states.active.text} !important;
+		}
 	}
 
-	color: ${({ theme }) => theme.legacyCoreUi.colors.text} !important;
-`;
+	&:disabled {
+		background-color: ${button.states.disabled.background};
+		color: ${button.states.disabled.text};
+		box-shadow: ${button.states.disabled.shadow?.toCss() ?? 'none'};
 
-export const baseButtonStyles = css`
-	outline: none;
-
-	&.bp4-disabled {
-		opacity: 0.5;
+		& .bp4-icon {
+			color: ${button.states.disabled.text} !important;
+		}
 	}
 
 	&:focus {
-		box-shadow: 0 0 0 1px #137cbd, 0 0 0 3px rgb(19 124 189 / 30%),
-			inset 0 1px 1px rgb(16 22 26 / 20%) !important;
-	}
-
-	&.bp4-minimal:hover {
-		background-color: rgba(228, 222, 210, 0.7) !important;
-	}
-
-	&.bp4-minimal:active {
-		background-color: rgba(228, 222, 210, 0.9) !important;
+		box-shadow: ${button.states.focus.shadow?.toCss() ?? 'none'};
 	}
 
 	.bp4-spinner-head {
@@ -62,11 +63,16 @@ export const baseButtonStyles = css`
 	}
 `;
 
-export const StyledButton = styled(ButtonCore)<{ _style?: ButtonStyle }>`
-	${({ _style }) => (_style === 'primary' || !_style) && primaryStyles}
-	${baseButtonStyles}
-	${({ _style }) => _style === 'minimal' && minimalStyles}
-	${({ _style }) => _style === 'minimal-primary' && minimalPrimaryStyles}
+export const baseButtonStyles = css`
+	${({ theme }) => getButtonStyles(theme.buttons.primary.normal)}
+`;
+
+export const StyledButton = styled.button<{
+	_style?: ButtonStyle;
+	size?: 'large' | 'small' | 'normal';
+}>`
+	${({ _style, theme, size }) =>
+		getButtonStyles(theme.buttons[_style ?? 'primary'][size ?? 'normal'])}
 `;
 
 StyledButton.defaultProps = {
