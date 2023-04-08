@@ -33,4 +33,3 @@ Unlisted packages do not have additional documentation.
 - [@campaign-buddy/json-path-ex](./packages/json-path-ex/): an implementation of [json-path](https://goessner.net/articles/JsonPath/) with some added functionality such as filtering by key-value.
 - [@campaign-buddy/core-ui](./packages/core-ui/): a shared ui library for core campaign buddy UI components
 - [@campaign-buddy/client-hooks](./packages/client-hooks/): react-query consumers of API clients defined in frontend-types
-- [@campaign-buddy/async-state-notifier](./packages/async-state-notifier/): async action notification system
