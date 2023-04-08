@@ -26,3 +26,13 @@ export const MinimalStyle = makeStory(Template, {
 	onClick,
 	style: 'minimal',
 });
+
+export function MinimalPrimaryStyle() {
+	return (
+		<div style={{ backgroundColor: '#A22815', padding: '8px' }}>
+			<Button style="minimal-primary" onClick={onClick}>
+				Click me
+			</Button>
+		</div>
+	);
+}

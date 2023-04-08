@@ -2,7 +2,7 @@ import styled, { css } from 'styled-components';
 import { Button as ButtonCore } from '@blueprintjs/core';
 import { defaultTheme } from '../theme';
 
-export type ButtonStyle = 'primary' | 'minimal';
+export type ButtonStyle = 'primary' | 'minimal' | 'minimal-primary';
 
 const primaryStyles = css`
 	background-color: ${({ theme }) =>
@@ -21,16 +21,24 @@ const primaryStyles = css`
 	}
 `;
 
-export const baseButtonStyles = css`
-	outline: none;
+const minimalPrimaryStyles = css`
+	color: ${({ theme }) => theme.legacyCoreUi.colors.background} !important;
 
+	& .bp4-icon {
+		color: ${({ theme }) => theme.legacyCoreUi.colors.background} !important;
+	}
+`;
+
+const minimalStyles = css`
 	& .bp4-icon {
 		color: ${({ theme }) => theme.legacyCoreUi.colors.text} !important;
 	}
 
-	&.bp4-minimal {
-		color: ${({ theme }) => theme.legacyCoreUi.colors.text} !important;
-	}
+	color: ${({ theme }) => theme.legacyCoreUi.colors.text} !important;
+`;
+
+export const baseButtonStyles = css`
+	outline: none;
 
 	&.bp4-disabled {
 		opacity: 0.5;
@@ -57,6 +65,8 @@ export const baseButtonStyles = css`
 export const StyledButton = styled(ButtonCore)<{ _style?: ButtonStyle }>`
 	${({ _style }) => (_style === 'primary' || !_style) && primaryStyles}
 	${baseButtonStyles}
+	${({ _style }) => _style === 'minimal' && minimalStyles}
+	${({ _style }) => _style === 'minimal-primary' && minimalPrimaryStyles}
 `;
 
 StyledButton.defaultProps = {

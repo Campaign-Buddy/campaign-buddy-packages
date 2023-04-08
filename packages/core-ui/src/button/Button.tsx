@@ -25,7 +25,7 @@ export const Button: React.FC<React.PropsWithChildren<ButtonProps>> = ({
 	<StyledButton
 		icon={icon && <Icon icon={icon} />}
 		onClick={onClick}
-		minimal={style === 'minimal'}
+		minimal={style === 'minimal' || style === 'minimal-primary'}
 		elementRef={buttonRef}
 		large={size === 'large'}
 		small={size === 'small'}
