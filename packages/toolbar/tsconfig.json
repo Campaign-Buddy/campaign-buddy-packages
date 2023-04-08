@@ -14,6 +14,9 @@
 		},
 		{
 			"path": "../react-theme-provider/tsconfig.json"
+		},
+		{
+			"path": "../core-ui/tsconfig.json"
 		}
 	]
 }

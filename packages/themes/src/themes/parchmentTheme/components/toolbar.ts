@@ -4,5 +4,5 @@ import { maroon } from '../../../palette';
 
 export const toolbar: IToolbar = {
 	backgroundColor: maroon,
-	padding: new Thickness('8 4'),
+	padding: new Thickness(8),
 };

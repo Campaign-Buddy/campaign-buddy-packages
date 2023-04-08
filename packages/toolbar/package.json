@@ -3,7 +3,9 @@
 	"version": "0.0.0",
 	"author": "Joseph Stewart",
 	"license": "MIT",
-	"dependencies": {},
+	"dependencies": {
+		"@campaign-buddy/core-ui": "0.0.0"
+	},
 	"devDependencies": {
 		"@campaign-buddy/themes": "*",
 		"@campaign-buddy/react-theme-provider": "*",
