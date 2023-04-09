@@ -1,13 +1,20 @@
 import React from 'react';
-import { StyledButton, ButtonStyle } from './Button.styled';
+import { IButton } from '@campaign-buddy/themes';
 import { Spinner } from '@blueprintjs/core';
+import { StyledButton, ButtonStyle } from './Button.styled';
 import { CampaignBuddyIcon, Icon } from '../icon';
 
 interface ButtonProps
 	extends Omit<React.ComponentProps<'button'>, 'style' | 'onClick' | 'ref'> {
 	icon?: CampaignBuddyIcon;
 	onClick?: (event: React.MouseEvent<HTMLElement, MouseEvent>) => void;
-	style?: ButtonStyle;
+
+	/**
+	 * Prefer to use named button style instead of passing in custom theme
+	 * overrides. Custom theme overrides should always be specified by a
+	 * theme object and never be hard coded.
+	 */
+	style?: ButtonStyle | IButton;
 	buttonRef?: React.RefObject<HTMLButtonElement>;
 	size?: 'small' | 'normal' | 'large';
 	isLoading?: boolean;

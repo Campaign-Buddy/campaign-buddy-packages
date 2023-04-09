@@ -1,14 +1,20 @@
-import { barkBrown, maroon, parchment, makeSizedButtons } from '../../palette';
+import {
+	barkBrown,
+	maroon,
+	parchment,
+	makeSizedButtons,
+	parchmentLight,
+} from '../../palette';
 import { ITheme } from '../../theme';
 import { DropShadow } from '../../types';
-import { list, parchmentPanelLayout, toolbar } from './components';
+import { list, parchmentPanelLayout, toolbar, input } from './components';
 
 export const parchmentTheme: ITheme = {
 	textColor: barkBrown,
 	panelLayout: parchmentPanelLayout,
 	legacyCoreUi: {
 		colors: {
-			inputBackground: '#F7EFDE',
+			inputBackground: parchmentLight,
 			text: '#613819',
 			textDisabled: '#c5bdb6',
 			primary: '#A22815',
@@ -33,4 +39,5 @@ export const parchmentTheme: ITheme = {
 	},
 	toolbar,
 	list,
+	input,
 };

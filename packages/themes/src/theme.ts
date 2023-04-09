@@ -4,6 +4,7 @@ import {
 	LegacyCoreUiTheme,
 	IToolbar,
 	ISizedButtons,
+	IInput,
 } from './components';
 import { ThemeColor } from './types';
 
@@ -17,4 +18,5 @@ export interface ITheme {
 		primary: ISizedButtons;
 		minimal: ISizedButtons;
 	};
+	input: IInput;
 }

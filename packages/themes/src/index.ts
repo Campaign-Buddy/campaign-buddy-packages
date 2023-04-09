@@ -1,6 +1,7 @@
 import { ITheme } from './theme';
 import { parchmentTheme } from './themes';
 
+export * from './components';
 export * from './theme';
 
 export type ThemeKind = 'parchment';

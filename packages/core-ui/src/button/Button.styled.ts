@@ -68,11 +68,13 @@ export const baseButtonStyles = css`
 `;
 
 export const StyledButton = styled.button<{
-	_style?: ButtonStyle;
+	_style?: ButtonStyle | IButton;
 	size?: 'large' | 'small' | 'normal';
 }>`
 	${({ _style, theme, size }) =>
-		getButtonStyles(theme.buttons[_style ?? 'primary'][size ?? 'normal'])}
+		typeof _style === 'string' || !_style
+			? getButtonStyles(theme.buttons[_style ?? 'primary'][size ?? 'normal'])
+			: getButtonStyles(_style)}
 `;
 
 StyledButton.defaultProps = {

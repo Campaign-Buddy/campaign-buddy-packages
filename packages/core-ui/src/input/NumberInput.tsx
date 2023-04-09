@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import styled from 'styled-components';
+import styled, { useTheme } from 'styled-components';
 import mexpr from 'math-expression-evaluator';
 import { Keys, InputGroup, ButtonGroup, Classes } from '@blueprintjs/core';
 import { Button } from '../button';
@@ -47,6 +47,7 @@ export const NumberInput: React.FC<
 	const [internalValue, setInternalValue] = useState(`${value ?? 0}`);
 	const generatedId = useHtmlId();
 	const id = idProp ?? generatedId;
+	const theme = useTheme();
 
 	// When the value is changed from the outside, then
 	// we want to update our internal input
@@ -148,8 +149,16 @@ export const NumberInput: React.FC<
 				className={Classes.NUMERIC_INPUT}
 				rightElement={
 					<ButtonGroup vertical>
-						<Button style="minimal" onClick={stepUp} icon="chevron-up" />
-						<Button style="minimal" onClick={stepDown} icon="chevron-down" />
+						<Button
+							style={theme.input.numeric.incrementButtons}
+							onClick={stepUp}
+							icon="chevron-up"
+						/>
+						<Button
+							style={theme.input.numeric.incrementButtons}
+							onClick={stepDown}
+							icon="chevron-down"
+						/>
 					</ButtonGroup>
 				}
 				{...rest}
