@@ -1,8 +1,8 @@
 {
   "name": "campaign-buddy-frontend",
-	"publishConfig": {
-		"access": "public"
-	},
+  "publishConfig": {
+    "access": "public"
+  },
   "version": "1.0.0",
   "license": "MIT",
   "private": true,
@@ -48,7 +48,6 @@
     "prettier-eslint": "^14.0.1",
     "react": "^18.0.9",
     "react-dom": "^18.0.9",
-    "semantic-release": "^17.0.2",
     "styled-components": "^5.3.3",
     "ts-jest": "^26.5.5",
     "ts-node": "^9.1.1",
