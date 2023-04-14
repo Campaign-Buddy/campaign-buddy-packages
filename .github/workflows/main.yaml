@@ -5,10 +5,11 @@ jobs:
     name: Run Tests
     steps:
       - uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.GH_PAT }}
       - uses: actions/setup-node@v1
         with:
           node-version: 18.x
-          persist-credentials: false
       - run: yarn
       - run: npx lerna run build
       # - run: yarn audit-deps
@@ -27,7 +28,7 @@ jobs:
       - name: Prepare release
         env:
           GH_TOKEN: ${{ secrets.GH_PAT }}
-        run: npx lerna version --yes --no-commit-hooks --conventional-commits --create-release github
+        run: npx lerna version --yes --no-commit-hooks --conventional-commits --create-release github --message "Version [skip ci]"
       - name: Authenticate NPM user
         run: |
           yarn logout
