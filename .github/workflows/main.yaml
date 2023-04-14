@@ -23,19 +23,17 @@ jobs:
           git config user.name "${{ github.actor }}"
           git config user.email "${{ github.actor}}@users.noreply.github.com"
           git remote set-url origin https://${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
-      - name: Authenticate NPM user
-        run: |
-          yarn logout
-          echo "@apollo-elements:registry=http://registry.npmjs.org/" > .npmrc
-          echo "registry=http://registry.npmjs.org/" >> .npmrc
-          echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" >> .npmrc
-          npm whoami
-        env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
       - name: Prepare release
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: npx lerna version --yes --no-commit-hooks --conventional-commits --create-release github
+      - name: Authenticate NPM user
+        run: |
+          yarn logout
+          echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" >> .npmrc
+          npm whoami
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
       - name: Release
         run: npx lerna publish
 
