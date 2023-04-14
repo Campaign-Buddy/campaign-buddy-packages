@@ -1,6 +1,6 @@
 {
 	"name": "@campaign-buddy/core-ui",
-	"version": "2.1.1",
+	"version": "2.1.2",
 	"author": "Joseph Stewart",
 	"license": "MIT",
 	"dependencies": {
@@ -8,10 +8,10 @@
 		"@blueprintjs/icons": "^4.2.6",
 		"@blueprintjs/popover2": "1.2.2",
 		"@blueprintjs/select": "^4.2.2",
-		"@campaign-buddy/common-hooks": "^2.1.1",
-		"@campaign-buddy/json-path-ex": "^2.1.1",
-		"@campaign-buddy/react-theme-provider": "^2.1.1",
-		"@campaign-buddy/themes": "^2.1.1",
+		"@campaign-buddy/common-hooks": "^2.1.2",
+		"@campaign-buddy/json-path-ex": "^2.1.2",
+		"@campaign-buddy/react-theme-provider": "^2.1.2",
+		"@campaign-buddy/themes": "^2.1.2",
 		"framer-motion": "^4.1.17",
 		"fuse.js": "^6.4.6",
 		"lodash.isequal": "^4.5.0",

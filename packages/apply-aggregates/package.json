@@ -1,10 +1,10 @@
 {
 	"name": "@campaign-buddy/apply-aggregates",
-	"version": "2.1.1",
+	"version": "2.1.2",
 	"author": "Joseph Stewart",
 	"license": "MIT",
 	"devDependencies": {
-		"@campaign-buddy/json-schema-core": "^2.1.1",
+		"@campaign-buddy/json-schema-core": "^2.1.2",
 		"typescript": "^4.2.4"
 	},
 	"scripts": {
@@ -18,7 +18,7 @@
 		"dist"
 	],
 	"dependencies": {
-		"@campaign-buddy/json-path-ex": "^2.1.1",
+		"@campaign-buddy/json-path-ex": "^2.1.2",
 		"lodash.clonedeep": "^4.5.0"
 	}
 }
