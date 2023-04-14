@@ -24,5 +24,5 @@ export const PrimaryStyle = makeStory(Template, {
 export const MinimalStyle = makeStory(Template, {
 	children: 'Click Me!',
 	onClick,
-	style: 'minimal',
+	variant: 'minimal',
 });

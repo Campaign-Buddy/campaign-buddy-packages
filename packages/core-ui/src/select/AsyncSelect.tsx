@@ -123,7 +123,11 @@ export function AsyncSelect<TData>({
 					id={htmlId}
 					disabled={disabled}
 				>
-					{value?.displayValue ?? <i>{placeholder ?? 'Select an option'}</i>}
+					{value?.displayValue ? (
+						<span>{value?.displayValue}</span>
+					) : (
+						<i>{placeholder ?? 'Select an option'}</i>
+					)}
 				</SelectButton>
 			</SelectCore>
 		</FormGroup>
