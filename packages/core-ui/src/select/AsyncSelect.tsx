@@ -21,6 +21,7 @@ import { usePopoverProps } from './usePopoverProps';
 
 const SelectCore = GenericSelectCore.ofType<IOption>();
 
+//TEMP
 interface SelectProps<TData> {
 	fetchOptions: (query: string | undefined) => Promise<IOption<TData>[]>;
 	value: IOption<TData> | undefined;
