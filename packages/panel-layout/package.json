@@ -1,12 +1,12 @@
 {
 	"name": "@campaign-buddy/panel-layout",
-	"version": "2.1.0",
+	"version": "2.1.1",
 	"author": "Joseph Stewart",
 	"license": "MIT",
 	"dependencies": {
-		"@campaign-buddy/common-hooks": "^2.1.0",
-		"@campaign-buddy/core-ui": "^2.1.0",
-		"@campaign-buddy/overflow": "^2.1.0",
+		"@campaign-buddy/common-hooks": "^2.1.1",
+		"@campaign-buddy/core-ui": "^2.1.1",
+		"@campaign-buddy/overflow": "^2.1.1",
 		"cuid": "^2.1.8",
 		"lodash.clonedeep": "^4.5.0",
 		"lodash.isequal": "^4.5.0",
@@ -14,7 +14,7 @@
 		"react-split": "^2.0.14"
 	},
 	"devDependencies": {
-		"@campaign-buddy/react-theme-provider": "^2.1.0",
+		"@campaign-buddy/react-theme-provider": "^2.1.1",
 		"@types/lodash.clonedeep": "^4.5.6",
 		"@types/lodash.isequal": "^4.5.6",
 		"@types/react-dnd": "^3.0.2",
