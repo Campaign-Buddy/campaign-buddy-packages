@@ -1,15 +1,15 @@
 {
 	"name": "@campaign-buddy/mock-apis",
-	"version": "2.1.0",
+	"version": "2.1.1",
 	"author": "Joseph Stewart",
 	"license": "MIT",
 	"dependencies": {
-		"@campaign-buddy/apply-aggregates": "^2.1.0",
-		"@campaign-buddy/json-path-ex": "^2.1.0",
-		"@campaign-buddy/json-schema-core": "^2.1.0"
+		"@campaign-buddy/apply-aggregates": "^2.1.1",
+		"@campaign-buddy/json-path-ex": "^2.1.1",
+		"@campaign-buddy/json-schema-core": "^2.1.1"
 	},
 	"devDependencies": {
-		"@campaign-buddy/frontend-types": "^2.1.0",
+		"@campaign-buddy/frontend-types": "^2.1.1",
 		"@campaign-buddy/json-schema-core": "*",
 		"typescript": "^4.2.4"
 	},

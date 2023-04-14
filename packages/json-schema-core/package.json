@@ -1,6 +1,6 @@
 {
 	"name": "@campaign-buddy/json-schema-core",
-	"version": "2.1.0",
+	"version": "2.1.1",
 	"author": "Joseph Stewart",
 	"license": "MIT",
 	"devDependencies": {
