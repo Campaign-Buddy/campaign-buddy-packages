@@ -35,7 +35,7 @@ jobs:
       - name: Prepare release
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: npx lerna version --yes --no-commit-hooks --create-release github
+        run: npx lerna version --yes --no-commit-hooks --conventional-commits --create-release github
       - name: Release
         run: npx lerna publish
 
