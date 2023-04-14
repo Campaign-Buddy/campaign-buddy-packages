@@ -18,8 +18,24 @@ jobs:
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           folder: docs-build
+      - name: Authenticate git user
+        run: |
+          git config user.name "${{ github.actor }}"
+          git config user.email "${{ github.actor}}@users.noreply.github.com"
+          git remote set-url origin https://${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}@github.com/bennypowers/apollo-elements
+      - name: Authenticate NPM user
+        run: |
+          yarn logout
+          echo "@apollo-elements:registry=http://registry.npmjs.org/" > .npmrc
+          echo "registry=http://registry.npmjs.org/" >> .npmrc
+          echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> .npmrc
+          npm whoami
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
       - name: Prepare release
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: npx semantic-release
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: npx lerna version --yes --no-commit-hooks --create-release github
+      - name: Release
+        env: npx lerna publish
+
