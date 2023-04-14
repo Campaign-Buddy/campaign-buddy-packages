@@ -8,6 +8,7 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: 18.x
+          token: ${{ secrets.GH_PAT }}
       - run: yarn
       - run: npx lerna run build
       # - run: yarn audit-deps
@@ -18,14 +19,9 @@ jobs:
       #   uses: JamesIves/github-pages-deploy-action@v4
       #   with:
       #     folder: docs-build
-      - name: Authenticate git user
-        run: |
-          git config user.name "${{ github.actor }}"
-          git config user.email "${{ github.actor}}@users.noreply.github.com"
-          git remote set-url origin https://${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
       - name: Prepare release
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GH_PAT }}
         run: npx lerna version --yes --no-commit-hooks --conventional-commits --create-release github
       - name: Authenticate NPM user
         run: |
