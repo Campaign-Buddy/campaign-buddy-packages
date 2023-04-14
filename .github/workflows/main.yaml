@@ -37,5 +37,5 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: npx lerna version --yes --no-commit-hooks --create-release github
       - name: Release
-        env: npx lerna publish
+        run: npx lerna publish
 
