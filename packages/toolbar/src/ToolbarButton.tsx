@@ -25,7 +25,7 @@ export function ToolbarButton({
 		showText === 'always' || (showTextOrientation === orientation && icon);
 
 	return (
-		<Button icon={icon} onClick={onClick} style="minimal-primary" color="white">
+		<Button icon={icon} onClick={onClick} variant="minimal">
 			{shouldShowText && text}
 		</Button>
 	);
