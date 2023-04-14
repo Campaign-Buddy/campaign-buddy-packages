@@ -17,12 +17,12 @@ const Template: Story<ComponentProps<typeof Button>> = (props) => (
 const onClick = () => {};
 
 export const PrimaryStyle = makeStory(Template, {
-	children: 'Click Me',
+	children: 'Click Me!',
 	onClick,
 });
 
 export const MinimalStyle = makeStory(Template, {
-	children: 'Click Me',
+	children: 'Click Me!',
 	onClick,
 	style: 'minimal',
 });
