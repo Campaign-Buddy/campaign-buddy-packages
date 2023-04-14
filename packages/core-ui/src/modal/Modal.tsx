@@ -59,7 +59,7 @@ export const Modal: React.FC<React.PropsWithChildren<ModalProps>> = ({
 						{footerButtons.map((button) => (
 							<Button
 								key={button.text}
-								style={button.style}
+								variant={button.style}
 								onClick={button.onClick}
 								isLoading={button.isLoading}
 							>
