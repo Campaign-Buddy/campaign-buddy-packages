@@ -28,14 +28,5 @@ jobs:
       - name: Prepare release
         env:
           GH_TOKEN: ${{ secrets.GH_PAT }}
-        run: npx lerna version --yes --no-commit-hooks --conventional-commits --create-release github --message "Version [skip ci]"
-      - name: Authenticate NPM user
-        run: |
-          yarn logout
-          echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" >> .npmrc
-          npm whoami
-        env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-      - name: Release
-        run: npx lerna publish
-
+        run: npx lerna publish --yes --no-commit-hooks --conventional-commits --create-release github --message "Version [skip ci]"
