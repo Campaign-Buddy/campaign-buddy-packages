@@ -1,5 +1,8 @@
 {
 	"name": "@campaign-buddy/json-path-ex",
+	"publishConfig": {
+		"access": "public"
+	},
 	"version": "2.1.2",
 	"author": "Joseph Stewart",
 	"license": "MIT",

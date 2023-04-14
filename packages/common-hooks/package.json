@@ -1,5 +1,8 @@
 {
 	"name": "@campaign-buddy/common-hooks",
+	"publishConfig": {
+		"access": "public"
+	},
 	"version": "2.1.2",
 	"author": "Joseph Stewart",
 	"license": "MIT",

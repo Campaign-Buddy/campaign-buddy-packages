@@ -1,5 +1,8 @@
 {
 	"name": "@campaign-buddy/react-theme-provider",
+	"publishConfig": {
+		"access": "public"
+	},
 	"version": "2.1.2",
 	"author": "Joseph Stewart",
 	"license": "MIT",

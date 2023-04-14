@@ -1,5 +1,8 @@
 {
 	"name": "@campaign-buddy/<packagename>",
+	"publishConfig": {
+		"access": "public"
+	},
 	"version": "0.0.0",
 	"author": "Joseph Stewart",
 	"license": "MIT",
