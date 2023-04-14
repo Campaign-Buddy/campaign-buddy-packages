@@ -1,17 +1,17 @@
 {
 	"name": "@campaign-buddy/image-picker-menu",
-	"version": "2.1.1",
+	"version": "2.1.2",
 	"author": "Joseph Stewart",
 	"license": "MIT",
 	"dependencies": {
-		"@campaign-buddy/common-hooks": "^2.1.1",
-		"@campaign-buddy/core-ui": "^2.1.1",
-		"@campaign-buddy/image-grid": "^2.1.1",
+		"@campaign-buddy/common-hooks": "^2.1.2",
+		"@campaign-buddy/core-ui": "^2.1.2",
+		"@campaign-buddy/image-grid": "^2.1.2",
 		"react-query": "^3.34.12"
 	},
 	"devDependencies": {
-		"@campaign-buddy/frontend-types": "^2.1.1",
-		"@campaign-buddy/mock-apis": "^2.1.1",
+		"@campaign-buddy/frontend-types": "^2.1.2",
+		"@campaign-buddy/mock-apis": "^2.1.2",
 		"styled-components": "^5.3.3",
 		"typescript": "^4.2.4"
 	},
