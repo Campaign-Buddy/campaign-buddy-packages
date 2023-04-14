@@ -33,4 +33,4 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GH_PAT }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: npx lerna publish from-git --yes --no-commit-hooks --conventional-commits --create-release github --message "Version [skip ci]" --no-verify-access
+        run: npx lerna publish --yes --no-commit-hooks --conventional-commits --create-release github --message "Version [skip ci]" --no-verify-access
