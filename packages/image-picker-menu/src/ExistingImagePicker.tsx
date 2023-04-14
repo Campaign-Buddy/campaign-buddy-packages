@@ -90,7 +90,7 @@ export const ExistingImagePicker: React.FC<
 						<Button
 							onClick={handleRefresh}
 							icon="refresh"
-							style="minimal"
+							variant="minimal"
 							size="small"
 							disabled={isRefetching}
 						/>
@@ -114,14 +114,14 @@ export const ExistingImagePicker: React.FC<
 						<Button
 							onClick={previousPage}
 							size="small"
-							style="minimal"
+							variant="minimal"
 							icon="caret-left"
 							disabled={currentPageOffset === 0}
 						/>
 						<Button
 							onClick={nextPage}
 							size="small"
-							style="minimal"
+							variant="minimal"
 							icon="caret-right"
 							disabled={!hasNextPage}
 						/>

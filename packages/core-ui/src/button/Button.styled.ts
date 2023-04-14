@@ -63,18 +63,33 @@ const getButtonStyles = (button: IButton) => `
 	}
 `;
 
+export const RightIconContainer = styled.span`
+	margin-left: auto;
+`;
+
 export const baseButtonStyles = css`
 	${({ theme }) => getButtonStyles(theme.buttons.primary.normal)}
 `;
 
 export const StyledButton = styled.button<{
-	_style?: ButtonStyle | IButton;
+	variant?: ButtonStyle | IButton;
 	size?: 'large' | 'small' | 'normal';
+	fill?: boolean;
 }>`
-	${({ _style, theme, size }) =>
-		typeof _style === 'string' || !_style
-			? getButtonStyles(theme.buttons[_style ?? 'primary'][size ?? 'normal'])
-			: getButtonStyles(_style)}
+	${({ variant, theme, size }) => {
+		console.log(
+			'styled button',
+			variant,
+			typeof variant === 'string' || !variant
+				? theme.buttons[variant ?? 'primary'][size ?? 'normal']
+				: variant
+		);
+		return typeof variant === 'string' || !variant
+			? getButtonStyles(theme.buttons[variant ?? 'primary'][size ?? 'normal'])
+			: getButtonStyles(variant);
+	}}
+
+	${({ fill }) => fill && 'width: 100%;'}
 `;
 
 StyledButton.defaultProps = {
@@ -87,10 +102,20 @@ export const StyledToggleButton = styled(StyledButton)<{ isActive: boolean }>`
 			? theme.legacyCoreUi.colors.text
 			: theme.legacyCoreUi.colors.textDisabled} !important;
 
-	& .bp4-icon {
+	& .bp4-icon,
+	&:active,
+	&:focus,
+	&:hover {
 		color: ${({ isActive, theme }) =>
 			isActive
 				? theme.legacyCoreUi.colors.text
 				: theme.legacyCoreUi.colors.textDisabled} !important;
+
+		.bp4-icon {
+			color: ${({ isActive, theme }) =>
+				isActive
+					? theme.legacyCoreUi.colors.text
+					: theme.legacyCoreUi.colors.textDisabled} !important;
+		}
 	}
 `;

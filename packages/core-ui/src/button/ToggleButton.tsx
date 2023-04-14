@@ -33,7 +33,7 @@ export const ToggleButton: React.FC<
 			onClick={preventFocus ? undefined : handleToggle}
 			onMouseDown={preventFocus ? preventFocusHandleToggle : undefined}
 			size={size}
-			_style="minimal"
+			variant="minimal"
 			isActive={value}
 			tabIndex={tabIndex}
 		>

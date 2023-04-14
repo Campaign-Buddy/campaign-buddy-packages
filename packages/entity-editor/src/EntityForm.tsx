@@ -49,7 +49,7 @@ export function EntityForm({
 			<Button
 				onClick={onNavigateBack}
 				icon="caret-left"
-				style="minimal"
+				variant="minimal"
 				size="small"
 			>
 				Back

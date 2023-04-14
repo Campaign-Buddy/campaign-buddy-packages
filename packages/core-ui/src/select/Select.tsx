@@ -66,20 +66,13 @@ export function Select<TData>({
 				onQueryChange={handleQueryChange}
 				disabled={isDisabled}
 			>
-				<SelectButton
-					_style="minimal"
-					rightIcon="caret-down"
-					text={
-						value?.displayValue ? (
-							<span>{value?.displayValue}</span>
-						) : (
-							<i>{placeholder ?? 'Select an option'}</i>
-						)
-					}
-					minimal
-					fill
-					id={htmlId}
-				/>
+				<SelectButton variant="minimal" rightIcon="caret-down" fill id={htmlId}>
+					{value?.displayValue ? (
+						<span>{value?.displayValue}</span>
+					) : (
+						<i>{placeholder ?? 'Select an option'}</i>
+					)}
+				</SelectButton>
 			</SelectCore>
 		</FormGroup>
 	);

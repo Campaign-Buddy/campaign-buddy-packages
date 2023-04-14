@@ -71,7 +71,7 @@ export const PaneTab: React.FC<ItemProps<PaneTabItem, HTMLDivElement>> = ({
 							event.stopPropagation();
 							pane.close();
 						}}
-						style="minimal"
+						variant="minimal"
 						size="small"
 					/>
 				</ButtonContainer>

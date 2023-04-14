@@ -150,12 +150,12 @@ export const NumberInput: React.FC<
 				rightElement={
 					<ButtonGroup vertical>
 						<Button
-							style={theme.input.numeric.incrementButtons}
+							variant={theme.input.numeric.incrementButtons}
 							onClick={stepUp}
 							icon="chevron-up"
 						/>
 						<Button
-							style={theme.input.numeric.incrementButtons}
+							variant={theme.input.numeric.incrementButtons}
 							onClick={stepDown}
 							icon="chevron-down"
 						/>

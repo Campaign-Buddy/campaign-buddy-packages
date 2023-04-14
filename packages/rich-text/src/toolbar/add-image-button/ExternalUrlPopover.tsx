@@ -46,7 +46,7 @@ export const ExternalUrlPopover: React.FC<
 					onSubmit={handleSubmit}
 					rightElement={
 						<Button
-							style="minimal"
+							variant="minimal"
 							size="small"
 							icon="small-tick"
 							onClick={handleSubmit}

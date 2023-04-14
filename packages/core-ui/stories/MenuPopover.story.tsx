@@ -63,7 +63,7 @@ export function Primary() {
 
 	return (
 		<MenuPopover items={items} onClose={() => setIsOpen(false)} isOpen={isOpen}>
-			<Button style="minimal" onClick={() => setIsOpen(true)}>
+			<Button variant="minimal" onClick={() => setIsOpen(true)}>
 				File
 			</Button>
 		</MenuPopover>
@@ -80,7 +80,7 @@ export function IconMenu() {
 			isOpen={isOpen}
 		>
 			<Button
-				style="minimal"
+				variant="minimal"
 				onClick={() => setIsOpen(true)}
 				icon="align-center"
 			/>

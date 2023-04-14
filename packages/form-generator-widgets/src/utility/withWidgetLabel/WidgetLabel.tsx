@@ -122,7 +122,7 @@ export const WidgetLabel: React.FC<
 						key="settings-button"
 						onClick={handleOpenSettingsMenu}
 						icon="settings"
-						style="minimal"
+						variant="minimal"
 						size="small"
 					/>
 				</MenuPopover>

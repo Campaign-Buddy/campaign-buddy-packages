@@ -163,7 +163,7 @@ export const AggregatedInput = <
 							onClick={openPopover}
 							onFocus={onEditButtonFocus}
 							onBlur={onEditButtonBlur}
-							style="minimal"
+							variant="minimal"
 							buttonRef={buttonRef}
 							size="small"
 						/>

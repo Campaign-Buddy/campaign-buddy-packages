@@ -46,7 +46,7 @@ export const ExternalUrlPicker: React.FC<
 					onSubmit={handleSubmit}
 					rightElement={
 						<Button
-							style="minimal"
+							variant="minimal"
 							size="small"
 							icon="small-tick"
 							onClick={handleSubmit}

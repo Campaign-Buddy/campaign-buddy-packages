@@ -149,7 +149,7 @@ export function FileExplorer<TItemData>({
 					>
 						<Button
 							isLoading={createNewItemMutation.isLoading}
-							style="minimal"
+							variant="minimal"
 							size="small"
 							icon="plus"
 							onClick={openMenu}

@@ -142,7 +142,7 @@ function OverflowMenuItem({ item, MenuItem }: MenuItemRenderApi<PaneTabItem>) {
 							event.stopPropagation();
 							tabItem.pane.close();
 						}}
-						style="minimal"
+						variant="minimal"
 					/>
 				</CloseButtonContainer>
 			),

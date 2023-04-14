@@ -115,19 +115,16 @@ export function AsyncSelect<TData>({
 				disabled={disabled}
 			>
 				<SelectButton
-					_style="minimal"
+					variant="minimal"
 					rightIcon={
 						isLoadingProp ? <Spinner size="textInline" /> : 'caret-down'
 					}
-					text={
-						value?.displayValue ?? <i>{placeholder ?? 'Select an option'}</i>
-					}
-					placeholder="Select a value"
-					minimal
 					fill
 					id={htmlId}
 					disabled={disabled}
-				/>
+				>
+					{value?.displayValue ?? <i>{placeholder ?? 'Select an option'}</i>}
+				</SelectButton>
 			</SelectCore>
 		</FormGroup>
 	);

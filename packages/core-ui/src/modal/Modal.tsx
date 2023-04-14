@@ -50,7 +50,7 @@ export const Modal: React.FC<React.PropsWithChildren<ModalProps>> = ({
 				>
 					<ModalTitle>
 						<h1>{title}</h1>
-						<Button icon="cross" onClick={onClose} style="minimal" />
+						<Button icon="cross" onClick={onClose} variant="minimal" />
 					</ModalTitle>
 					<ModalContent scrollStyle={scrollStyle ?? 'content'}>
 						{children}

@@ -21,7 +21,7 @@ export function Breadcrumbs({
 	return (
 		<BreadcrumbContainer>
 			<Button
-				style="minimal"
+				variant="minimal"
 				size="small"
 				icon={rootIcon ?? 'cube'}
 				onClick={() => onNavigate()}
@@ -32,7 +32,7 @@ export function Breadcrumbs({
 					<Fragment key={x.id}>
 						<Icon icon="chevron-right" />
 						<Button
-							style="minimal"
+							variant="minimal"
 							size="small"
 							icon="folder-close"
 							onClick={() => onNavigate(x.id)}

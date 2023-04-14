@@ -1,4 +1,4 @@
-import { StyledButton as ButtonCore } from '../button/Button.styled';
+import { Button as ButtonCore } from '../button';
 import styled, { createGlobalStyle } from 'styled-components';
 import { defaultTheme } from '../theme';
 
