@@ -1,20 +1,20 @@
 {
 	"name": "@campaign-buddy/entity-editor",
-	"version": "0.0.0",
+	"version": "2.1.0",
 	"author": "Joseph Stewart",
 	"license": "MIT",
 	"dependencies": {
-		"@campaign-buddy/client-hooks": "*",
-		"@campaign-buddy/core-ui": "*",
-		"@campaign-buddy/file-explorer": "*",
-		"@campaign-buddy/form-generator": "*",
-		"@campaign-buddy/form-generator-widgets": "*"
+		"@campaign-buddy/client-hooks": "^2.1.0",
+		"@campaign-buddy/core-ui": "^2.1.0",
+		"@campaign-buddy/file-explorer": "^2.1.0",
+		"@campaign-buddy/form-generator": "^2.1.0",
+		"@campaign-buddy/form-generator-widgets": "^2.1.0"
 	},
 	"devDependencies": {
-		"@campaign-buddy/frontend-types": "*",
-		"@campaign-buddy/mock-apis": "*",
-		"@campaign-buddy/react-theme-provider": "*",
-		"@campaign-buddy/themes": "*",
+		"@campaign-buddy/frontend-types": "^2.1.0",
+		"@campaign-buddy/mock-apis": "^2.1.0",
+		"@campaign-buddy/react-theme-provider": "^2.1.0",
+		"@campaign-buddy/themes": "^2.1.0",
 		"cross-env": "^7.0.3",
 		"react": "^18.0.9",
 		"react-query": "^3.34.12",
