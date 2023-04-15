@@ -12,14 +12,14 @@ jobs:
           node-version: 18.x
       - run: yarn
       - run: npx lerna run build
-      # - run: yarn audit-deps
-      # - run: yarn lint
-      # - run: yarn test
-      # - run: yarn build-storybook
-      # - name: Deploy
-      #   uses: JamesIves/github-pages-deploy-action@v4
-      #   with:
-      #     folder: docs-build
+      - run: yarn audit-deps
+      - run: yarn lint
+      - run: yarn test
+      - run: yarn build-storybook
+      - name: Deploy
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: docs-build
       - name: Git Identity
         run: |
           git config --global user.name 'github-actions[bot]'
