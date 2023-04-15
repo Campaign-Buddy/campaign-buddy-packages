@@ -15,11 +15,11 @@ jobs:
       - run: yarn audit-deps
       - run: yarn lint
       - run: yarn test
-      - run: yarn build-storybook
-      - name: Deploy
-        uses: JamesIves/github-pages-deploy-action@v4
-        with:
-          folder: docs-build
+      # - run: yarn build-storybook
+      # - name: Deploy
+      #   uses: JamesIves/github-pages-deploy-action@v4
+      #   with:
+      #     folder: docs-build
       - name: Git Identity
         run: |
           git config --global user.name 'github-actions[bot]'
@@ -28,8 +28,7 @@ jobs:
       - name: Prepare release
         env:
           GH_TOKEN: ${{ secrets.GH_PAT }}
-        run: npx lerna version --yes --no-commit-hooks --conventional-commits --create-release github --message "Version [skip ci]" --no-push
-      - run: git push
+        run: npx lerna version --yes --no-commit-hooks --conventional-commits --create-release github --message "Version [skip ci]"
       - name: Authenticate NPM user
         run: |
           yarn logout
