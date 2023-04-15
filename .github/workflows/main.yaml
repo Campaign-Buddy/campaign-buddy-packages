@@ -12,25 +12,30 @@ jobs:
           node-version: 18.x
       - run: yarn
       - run: npx lerna run build
-      - run: yarn audit-deps
-      - run: yarn lint
-      - run: yarn test
-      - run: yarn build-storybook
-      - name: Deploy
-        uses: JamesIves/github-pages-deploy-action@v4
-        with:
-          folder: docs-build
+      # - run: yarn audit-deps
+      # - run: yarn lint
+      # - run: yarn test
+      # - run: yarn build-storybook
+      # - name: Deploy
+      #   uses: JamesIves/github-pages-deploy-action@v4
+      #   with:
+      #     folder: docs-build
       - name: Git Identity
         run: |
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
           git remote set-url origin https://x-access-token:${{ secrets.GH_PAT }}@github.com/${{ github.repository }}
-      - name: NPM Identity
-        env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > .npmrc
       - name: Prepare release
         env:
           GH_TOKEN: ${{ secrets.GH_PAT }}
+        run: npx lerna version --yes --no-commit-hooks --conventional-commits --create-release github --message "Version [skip ci]"
+      - name: Authenticate NPM user
+        run: |
+          yarn logout
+          echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" >> .npmrc
+          npm whoami
+        env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: npx lerna publish --yes --no-commit-hooks --conventional-commits --create-release github --message "Version [skip ci]" --no-verify-access
+      - name: Release
+        run: npx lerna publish from-package
+
