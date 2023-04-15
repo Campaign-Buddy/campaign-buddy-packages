@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.1.5](https://github.com/Campaign-Buddy/campaign-buddy-packages/compare/v2.1.4...v2.1.5) (2023-04-15)
+
+### Bug Fixes
+
+- make trivial change to test fetch-depth. ([a3bee83](https://github.com/Campaign-Buddy/campaign-buddy-packages/commit/a3bee8375c12cf5cd7372b7b9f1882ed05b4f215))
+
 ## 2.1.4 (2023-04-15)
 
 **Note:** Version bump only for package @campaign-buddy/core-ui

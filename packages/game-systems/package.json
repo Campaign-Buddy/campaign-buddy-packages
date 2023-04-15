@@ -3,11 +3,11 @@
 	"publishConfig": {
 		"access": "public"
 	},
-	"version": "2.1.4",
+	"version": "2.1.5",
 	"author": "Joseph Stewart",
 	"license": "MIT",
 	"dependencies": {
-		"@campaign-buddy/json-schema-core": "^2.1.4"
+		"@campaign-buddy/json-schema-core": "^2.1.5"
 	},
 	"devDependencies": {
 		"typescript": "^4.2.4"
