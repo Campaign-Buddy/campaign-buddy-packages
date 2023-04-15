@@ -13,7 +13,7 @@ export interface ButtonProps
 	/**
 	 * Prefer to use named button style instead of passing in custom theme
 	 * overrides. Custom theme overrides should always be specified by a
-	 * theme object and never be hard coded.
+	 * theme object and should never be hard coded.
 	 */
 	variant?: ButtonStyle | IButton;
 	buttonRef?: React.RefObject<HTMLButtonElement>;
