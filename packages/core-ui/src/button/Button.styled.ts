@@ -1,10 +1,10 @@
 import styled, { css } from 'styled-components';
-import { IButton } from '@campaign-buddy/themes/src/components';
+import { IButton } from '@campaign-buddy/themes';
 import { defaultTheme } from '../theme';
 
 export type ButtonStyle = 'primary' | 'minimal';
 
-const getButtonStyles = (button: IButton) => `
+const getButtonStyles = (button: IButton) => css`
 	cursor: pointer;
 	display: inline-flex;
 	align-items: center;
@@ -21,37 +21,28 @@ const getButtonStyles = (button: IButton) => `
 	color: ${button.states.default.text};
 
 	& .bp4-icon {
-		color: ${button.states.default.text} !important;
+		--cb-icon-color: ${button.states.default.text};
 	}
 
 	&:hover {
 		background-color: ${button.states.hover.background};
 		color: ${button.states.hover.text};
 		box-shadow: ${button.states.hover.shadow?.toCss() ?? 'none'};
-
-		& .bp4-icon {
-			color: ${button.states.hover.text} !important;
-		}
+		--cb-icon-color: ${button.states.hover.text};
 	}
 
 	&:active {
 		background-color: ${button.states.active.background};
 		color: ${button.states.active.text};
 		box-shadow: ${button.states.active.shadow?.toCss() ?? 'none'};
-
-		& .bp4-icon {
-			color: ${button.states.active.text} !important;
-		}
+		--cb-icon-color: ${button.states.active.text};
 	}
 
 	&:disabled {
 		background-color: ${button.states.disabled.background};
 		color: ${button.states.disabled.text};
 		box-shadow: ${button.states.disabled.shadow?.toCss() ?? 'none'};
-
-		& .bp4-icon {
-			color: ${button.states.disabled.text} !important;
-		}
+		--cb-icon-color: ${button.states.disabled.text};
 	}
 
 	&:focus {
@@ -102,7 +93,6 @@ export const StyledToggleButton = styled(StyledButton)<{ isActive: boolean }>`
 			? theme.legacyCoreUi.colors.text
 			: theme.legacyCoreUi.colors.textDisabled} !important;
 
-	& .bp4-icon,
 	&:active,
 	&:focus,
 	&:hover {
@@ -110,12 +100,9 @@ export const StyledToggleButton = styled(StyledButton)<{ isActive: boolean }>`
 			isActive
 				? theme.legacyCoreUi.colors.text
 				: theme.legacyCoreUi.colors.textDisabled} !important;
-
-		.bp4-icon {
-			color: ${({ isActive, theme }) =>
-				isActive
-					? theme.legacyCoreUi.colors.text
-					: theme.legacyCoreUi.colors.textDisabled} !important;
-		}
+		--cb-icon-color: ${({ isActive, theme }) =>
+			isActive
+				? theme.legacyCoreUi.colors.text
+				: theme.legacyCoreUi.colors.textDisabled};
 	}
 `;

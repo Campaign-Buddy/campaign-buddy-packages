@@ -2,38 +2,30 @@ import {
 	IButton,
 	IButtonSizing,
 	IButtonState,
-	ISizedButtons,
+	IButtonStates,
 } from '../components';
-import { buttonSizes } from './buttonSizes';
 import { active, disable, hover } from './colorUtility';
 import { focusShadow } from './shadows';
 
-export function makeSizedButtons(defaultState: IButtonState): ISizedButtons {
-	return {
-		large: makeButton(defaultState, buttonSizes.large),
-		normal: makeButton(defaultState, buttonSizes.normal),
-		small: makeButton(defaultState, buttonSizes.small),
-	};
-}
-
 export function makeButton(
 	defaultState: IButtonState,
-	sizing: IButtonSizing
+	sizing: IButtonSizing,
+	stateOverrides?: Partial<Omit<IButtonStates, 'default' | 'focus'>>
 ): IButton {
 	return {
 		states: {
 			default: defaultState,
-			hover: {
+			hover: stateOverrides?.hover ?? {
 				text: defaultState.text,
 				shadow: defaultState.shadow?.withTransformedColor(hover),
 				background: hover(defaultState.background),
 			},
-			active: {
+			active: stateOverrides?.active ?? {
 				text: defaultState.text,
 				shadow: defaultState.shadow?.withTransformedColor(active),
 				background: active(defaultState.background),
 			},
-			disabled: {
+			disabled: stateOverrides?.disabled ?? {
 				text: disable(defaultState.text),
 				shadow: defaultState.shadow?.withTransformedColor(disable),
 				background: disable(defaultState.background),

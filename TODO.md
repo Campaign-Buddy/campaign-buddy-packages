@@ -1,5 +1,6 @@
 # Todo
 
+- [ ] Replace blueprintjs with something else
 - [ ] Improve cross dependency audit tool
 	- [ ] Automatically install missing packages
 	- [ ] Parse tsconfigs with json5
@@ -14,6 +15,7 @@
 	- [ ] Better (custom?) root icon
 	- [ ] Update file explorer queries instead of completely invalidating them on external change
 - [ ] Upload media breaks media menu in rich text component
+- [ ] Design virtual tabletop (perhaps built on top of yjs?)
 - [ ] Design map maker v2 (tech and visual) using [fabricjs](http://fabricjs.com/)
 - [ ] Investigate [yjs](https://github.com/yjs/yjs) for collaborative data editing
 	- [ ] What kind of network architecture to use? P2P? If so, how are edits made on the server?

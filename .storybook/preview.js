@@ -15,7 +15,7 @@ export const parameters = {
 		values: [
 			{
 				name: "campaign-buddy-panel",
-				value: "#EFE1C6",
+				value: "#F6EBD6",
 			},
 			{
 				name: "campaign-buddy-app",

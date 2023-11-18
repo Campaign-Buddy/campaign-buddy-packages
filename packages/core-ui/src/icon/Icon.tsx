@@ -5,7 +5,7 @@ import { defaultTheme } from '../theme';
 import { CampaignBuddyIcon } from './IconType';
 
 const StyledIconCore = styled(IconCore)`
-	color: ${({ theme }) => theme.legacyCoreUi.colors.text};
+	color: var(--cb-icon-color, ${({ theme }) => theme.legacyCoreUi.colors.text});
 `;
 StyledIconCore.defaultProps = {
 	theme: defaultTheme,

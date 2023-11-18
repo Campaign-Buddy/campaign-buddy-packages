@@ -4,9 +4,18 @@ import {
 	parchment,
 	makeSizedButtons,
 	parchmentLight,
+	maroonDark,
+	maroonExtraDark,
+	backgroundColor,
+	gray,
+	transparent,
 } from '../../palette';
+import {
+	grayShadow,
+	maroonDarkShadow,
+	maroonShadow,
+} from '../../palette/shadows';
 import { ITheme } from '../../theme';
-import { DropShadow } from '../../types';
 import { list, parchmentPanelLayout, toolbar, input } from './components';
 
 export const parchmentTheme: ITheme = {
@@ -24,18 +33,42 @@ export const parchmentTheme: ITheme = {
 		},
 	},
 	buttons: {
-		primary: makeSizedButtons({
-			text: parchment,
-			background: maroon,
-			shadow: new DropShadow([
-				'inset 0 0 0 1px rgba(17, 20, 24, 0.2)',
-				'0 1px 2px rgba(17, 20, 24, 0.1)',
-			]),
-		}),
-		minimal: makeSizedButtons({
-			text: barkBrown,
-			background: parchment,
-		}),
+		primary: makeSizedButtons(
+			{
+				text: parchment,
+				background: maroon,
+				shadow: maroonShadow,
+			},
+			{
+				hover: {
+					text: parchment,
+					background: maroonDark,
+					shadow: maroonShadow,
+				},
+				active: {
+					text: parchment,
+					background: maroonExtraDark,
+					shadow: maroonDarkShadow,
+				},
+				disabled: {
+					text: backgroundColor,
+					background: maroon,
+					shadow: grayShadow,
+				},
+			}
+		),
+		minimal: makeSizedButtons(
+			{
+				text: barkBrown,
+				background: transparent,
+			},
+			{
+				disabled: {
+					text: gray,
+					background: transparent,
+				},
+			}
+		),
 	},
 	toolbar,
 	list,
