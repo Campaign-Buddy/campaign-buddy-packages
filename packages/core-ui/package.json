@@ -13,7 +13,6 @@
 		"@blueprintjs/select": "^4.2.2",
 		"@campaign-buddy/common-hooks": "^2.1.5",
 		"@campaign-buddy/json-path-ex": "^2.1.5",
-		"@campaign-buddy/react-theme-provider": "^2.1.5",
 		"@campaign-buddy/themes": "^2.1.5",
 		"framer-motion": "^4.1.17",
 		"fuse.js": "^6.4.6",
@@ -45,6 +44,7 @@
 	"peerDependencies": {
 		"react": "^18.0.9",
 		"react-dom": "^18.0.9",
-		"styled-components": "^5.3.3"
+		"styled-components": "^5.3.3",
+		"@campaign-buddy/react-theme-provider": "^2.1.5"
 	}
 }
