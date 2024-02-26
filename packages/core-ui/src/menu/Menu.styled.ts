@@ -39,7 +39,8 @@ export const StyledMenuItem = styled(MenuItemCore)<{
 	}
 
 	.bp4-icon {
-		color: ${({ theme }) => theme.legacyCoreUi.colors.text} !important;
+		--cb-icon-color: color: ${({ theme }) =>
+			theme.legacyCoreUi.colors.text} !important;
 	}
 
 	&.bp4-active,

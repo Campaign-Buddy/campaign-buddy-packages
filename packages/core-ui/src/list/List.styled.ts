@@ -41,9 +41,7 @@ interface StyledListItemProps {
 }
 
 const disabledIconStyle = css`
-	.bp4-icon {
-		color: ${({ theme }) => theme.legacyCoreUi.colors.textDisabled};
-	}
+	--cb-icon-color: ${({ theme }) => theme.legacyCoreUi.colors.textDisabled};
 `;
 
 const listItemStyle = css<StyledListItemProps>`

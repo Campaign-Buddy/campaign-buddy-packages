@@ -19,10 +19,7 @@ const getButtonStyles = (button: IButton) => css`
 	background-color: ${button.states.default.background};
 	box-shadow: ${button.states.default.shadow?.toCss() ?? 'none'};
 	color: ${button.states.default.text};
-
-	& .bp4-icon {
-		--cb-icon-color: ${button.states.default.text};
-	}
+	--cb-icon-color: ${button.states.default.text};
 
 	&:hover {
 		background-color: ${button.states.hover.background};

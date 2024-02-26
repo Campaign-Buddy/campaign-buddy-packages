@@ -25,7 +25,7 @@ export const GlobalStyle = createGlobalStyle`
 	}
 
 	.campaign-buddy-select .bp4-select-popover .bp4-input-group .bp4-icon {
-		color: ${({ theme }) => theme.legacyCoreUi.colors.text};
+		color: ${({ theme }) => theme.legacyCoreUi.colors.text} !important;
 	}
 `;
 GlobalStyle.defaultProps = {
