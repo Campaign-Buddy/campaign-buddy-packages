@@ -18,3 +18,5 @@ export const backgroundColor = `var(--cb-background-color, ${parchmentLight})`;
  */
 export const parchmentText = barkBrown;
 export const parchmentInputBackground = parchmentExtraLight;
+export const parchmentDisabled = gray;
+export const parchmentDisabledText = parchmentExtraLight;

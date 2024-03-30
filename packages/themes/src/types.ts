@@ -183,12 +183,11 @@ export class DropShadow {
 		const [xOffset, yOffset, blurRadius = 0, spreadRadius = 0] = numbersMatch
 			.split(/\s+/)
 			.map((match) => {
-				const [valueMatch, numberMatch] =
-					/(\d+(?:\.\d)?(?:px)?\s*)/.exec(match) ?? [];
+				const rawNumber = match.replaceAll('px', '').trim();
 
-				const number = parseFloat(numberMatch);
+				const number = parseFloat(rawNumber);
 
-				if (!valueMatch || isNaN(number)) {
+				if (isNaN(number)) {
 					throw new Error(`${match} is not a valid value in "${shadowString}"`);
 				}
 
@@ -215,6 +214,6 @@ export class DropShadow {
 	};
 
 	private get dropShadowRegex() {
-		return /^\s*(inset)?\s*((?:\d+(?:\.\d)?(?:px)?\s*){2,4})(\s+(?:#(?:[\dA-Fa-f]{3}){1,2}(?:[\dA-Fa-f]{2})?|rgba?\s*\(.+\)|hsl\s*\(.+\)|[a-zA-Z]+))?$/;
+		return /^\s*(inset)?\s*((?:-?\s*\d+(?:\.\d)?(?:px)?\s*){2,4})(\s+(?:#(?:[\dA-Fa-f]{3}){1,2}(?:[\dA-Fa-f]{2})?|rgba?\s*\(.+\)|hsl\s*\(.+\)|[a-zA-Z]+))?$/;
 	}
 }

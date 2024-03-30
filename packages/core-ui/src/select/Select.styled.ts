@@ -1,6 +1,7 @@
 import { Button as ButtonCore } from '../button';
 import styled, { createGlobalStyle } from 'styled-components';
 import { defaultTheme } from '../theme';
+import { getButtonStyles } from '../utility';
 
 export const GlobalStyle = createGlobalStyle`
 	.campaign-buddy-select .bp4-transition-container {
@@ -34,15 +35,7 @@ GlobalStyle.defaultProps = {
 };
 
 export const SelectButton = styled(ButtonCore)`
-	background-color: ${({ theme }) => theme.select.backgroundColor} !important;
-	box-shadow: inset 0 0 0 1px rgb(16 22 26 / 20%),
-		inset 0 -1px 0 rgb(16 22 26 / 10%) !important;
-
-	& .bp4-button-text {
-		width: 100%;
-		overflow: hidden;
-		text-overflow: ellipsis;
-	}
+	${({ theme }) => getButtonStyles(theme.select.button)}
 `;
 SelectButton.defaultProps = {
 	theme: defaultTheme,

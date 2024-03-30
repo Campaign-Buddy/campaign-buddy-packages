@@ -20,6 +20,18 @@ export const grayShadow: DropShadow = new DropShadow([
 	'inset 0px 0px 0px 1px rgba(46, 35, 33, 0.20)',
 ]);
 
+export const buttonShadow: DropShadow = new DropShadow([
+	'inset 0 -1px 1px 0 rgba(0, 0, 0, 0.20)',
+	'inset 0 0 0 1px rgba(46, 35, 33, 0.20)',
+]);
+
+export const buttonShadowActive: DropShadow = new DropShadow([
+	'inset 0 1px 1px 0 rgba(0, 0, 0, 0.25)',
+	'inset 0 0 0 1px rgba(46, 35, 33, 0.20)',
+]);
+
+export const buttonShadowDisabled: DropShadow = grayShadow;
+
 export const menuShadow: DropShadow = new DropShadow([
 	'0 0 0 1px rgba(67, 63, 54, 0.08)',
 	'0 8px 24px 0 rgba(67, 63, 54, 0.35)',
