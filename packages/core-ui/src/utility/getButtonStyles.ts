@@ -4,6 +4,7 @@ import { css } from 'styled-components';
 export const getButtonStyles = (button: IButton) => css`
 	cursor: pointer;
 	display: inline-flex;
+	line-height: normal;
 	align-items: center;
 	outline: none;
 	border: none;
@@ -12,6 +13,7 @@ export const getButtonStyles = (button: IButton) => css`
 	max-height: ${button.sizing.height}px;
 	min-width: ${button.sizing.minWidth}px;
 	font-size: ${button.sizing.fontSize}px;
+	gap: ${button.sizing.gap}px;
 	border-radius: ${button.sizing.borderRadius.toCss()};
 	background-color: ${button.states.default.background};
 	box-shadow: ${button.states.default.shadow?.toCss() ?? 'none'};

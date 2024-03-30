@@ -24,6 +24,7 @@ export interface IButtonSizing {
 	height: number;
 	minWidth: number;
 	fontSize: number;
+	gap: number;
 }
 
 export interface IButton {

@@ -49,14 +49,16 @@ export const Button: React.FC<React.PropsWithChildren<ButtonProps>> = ({
 		) : (
 			<>
 				{icon && <Icon icon={icon} />}
-				{children}
-				<RightIconContainer>
-					{isCampaignBuddyIcon(rightIcon) ? (
-						<Icon icon={rightIcon} />
-					) : (
-						rightIcon
-					)}
-				</RightIconContainer>
+				{children && <span>{children}</span>}
+				{rightIcon && (
+					<RightIconContainer>
+						{isCampaignBuddyIcon(rightIcon) ? (
+							<Icon icon={rightIcon} />
+						) : (
+							rightIcon
+						)}
+					</RightIconContainer>
+				)}
 			</>
 		)}
 	</StyledButton>

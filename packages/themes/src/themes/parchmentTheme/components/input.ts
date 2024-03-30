@@ -17,6 +17,7 @@ const defaultIncrementButtons = makeButton(
 		padding: new Thickness('0 8'),
 		borderRadius: new BorderRadius(2),
 		fontSize: 14,
+		gap: 4,
 	}
 );
 
