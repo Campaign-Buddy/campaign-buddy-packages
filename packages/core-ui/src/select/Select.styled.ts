@@ -8,24 +8,25 @@ export const GlobalStyle = createGlobalStyle`
 	}
 
 	.campaign-buddy-select .bp4-select-popover {
-		padding: 4px;
+		padding: ${({ theme }) => theme.select.menu.padding.toCss()};
 		background-color: ${({ theme }) =>
-			theme.legacyCoreUi.colors.background} !important;
+			theme.select.menu.backgroundColor} !important;
 		max-width: 100%;
+		box-shadow: ${({ theme }) => theme.select.menu.dropShadow.toCss()} !important;
 	}
 
 	.campaign-buddy-select .bp4-select-popover .bp4-popover-content {
 		background-color: ${({ theme }) =>
-			theme.legacyCoreUi.colors.background} !important;
+			theme.select.menu.backgroundColor} !important;
 	}
 
 	.campaign-buddy-select .bp4-select-popover .bp4-input-group input {
-		background-color: ${({ theme }) => theme.legacyCoreUi.colors.inputBackground};
-		color: ${({ theme }) => theme.legacyCoreUi.colors.text};
+		background-color: ${({ theme }) => theme.select.backgroundColor};
+		color: ${({ theme }) => theme.select.textColor};
 	}
 
 	.campaign-buddy-select .bp4-select-popover .bp4-input-group .bp4-icon {
-		color: ${({ theme }) => theme.legacyCoreUi.colors.text} !important;
+		color: ${({ theme }) => theme.select.textColor} !important;
 	}
 `;
 GlobalStyle.defaultProps = {
@@ -33,8 +34,7 @@ GlobalStyle.defaultProps = {
 };
 
 export const SelectButton = styled(ButtonCore)`
-	background-color: ${({ theme }) =>
-		theme.legacyCoreUi.colors.inputBackground} !important;
+	background-color: ${({ theme }) => theme.select.backgroundColor} !important;
 	box-shadow: inset 0 0 0 1px rgb(16 22 26 / 20%),
 		inset 0 -1px 0 rgb(16 22 26 / 10%) !important;
 
@@ -49,7 +49,7 @@ SelectButton.defaultProps = {
 };
 
 export const NoResults = styled.i`
-	color: ${({ theme }) => theme.legacyCoreUi.colors.text};
+	color: ${({ theme }) => theme.select.textColor};
 	text-align: center;
 	width: 100%;
 	display: block;

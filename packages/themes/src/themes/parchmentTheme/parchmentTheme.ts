@@ -16,7 +16,13 @@ import {
 	maroonShadow,
 } from '../../palette/shadows';
 import { ITheme } from '../../theme';
-import { list, parchmentPanelLayout, toolbar, input } from './components';
+import {
+	list,
+	parchmentPanelLayout,
+	toolbar,
+	input,
+	select,
+} from './components';
 
 export const parchmentTheme: ITheme = {
 	textColor: barkBrown,
@@ -73,4 +79,5 @@ export const parchmentTheme: ITheme = {
 	toolbar,
 	list,
 	input,
+	select,
 };

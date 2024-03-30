@@ -17,5 +17,11 @@ export const maroonDarkShadow: DropShadow = new DropShadow([
 ]);
 
 export const grayShadow: DropShadow = new DropShadow([
-	' inset 0px 0px 0px 1px rgba(46, 35, 33, 0.20)',
+	'inset 0px 0px 0px 1px rgba(46, 35, 33, 0.20)',
+]);
+
+export const menuShadow: DropShadow = new DropShadow([
+	'0 0 0 1px rgba(67, 63, 54, 0.08)',
+	'0 8px 24px 0 rgba(67, 63, 54, 0.35)',
+	'0 2px 4px 0 rgba(67, 63, 54, 0.20)',
 ]);

@@ -1,11 +1,15 @@
 import { IInput } from '../../../components';
-import { barkBrown, makeButton, parchmentLight } from '../../../palette';
+import {
+	makeButton,
+	parchmentInputBackground,
+	parchmentText,
+} from '../../../palette';
 import { BorderRadius, Thickness } from '../../../types';
 
 const defaultIncrementButtons = makeButton(
 	{
-		text: barkBrown,
-		background: parchmentLight,
+		text: parchmentText,
+		background: parchmentInputBackground,
 	},
 	{
 		minWidth: 10,
@@ -28,5 +32,9 @@ export const input: IInput = {
 				},
 			},
 		},
+	},
+	base: {
+		backgroundColor: parchmentInputBackground,
+		textColor: parchmentText,
 	},
 };

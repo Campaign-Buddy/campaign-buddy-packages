@@ -5,6 +5,7 @@ import {
 	IToolbar,
 	ISizedButtons,
 	IInput,
+	ISelect,
 } from './components';
 import { ThemeColor } from './types';
 
@@ -19,4 +20,5 @@ export interface ITheme {
 		minimal: ISizedButtons;
 	};
 	input: IInput;
+	select: ISelect;
 }

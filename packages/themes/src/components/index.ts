@@ -4,3 +4,4 @@ export * from './panelLayout';
 export * from './toolbar';
 export * from './button';
 export * from './input';
+export * from './select';

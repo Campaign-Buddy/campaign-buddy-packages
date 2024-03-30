@@ -12,3 +12,9 @@ export const silver = '#C5BDB6';
 export const gray = '#DDD3BE';
 export const transparent = 'transparent';
 export const backgroundColor = `var(--cb-background-color, ${parchmentLight})`;
+
+/**
+ * Parchment semantic colors
+ */
+export const parchmentText = barkBrown;
+export const parchmentInputBackground = parchmentExtraLight;
