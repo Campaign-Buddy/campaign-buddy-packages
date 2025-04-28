@@ -1,7 +1,10 @@
-export const hoverMask = 'rgba(191, 184, 179, 0.20)';
-export const activeMask = 'rgba(191, 184, 179, 0.45)';
+export const hoverMask = 'rgba(191, 184, 179, 0.30)';
+export const activeMask = 'rgba(191, 184, 179, 0.50)';
+export const disabledMask = 'rgba(221, 211, 190, 0.60)';
 
 export const barkBrown = '#613819';
+export const maroonExtraLight = '#C97669';
+export const maroonLight = '#C2503E';
 export const maroon = '#A22815';
 export const maroonDark = '#902413';
 export const maroonExtraDark = '#7E1F10';

@@ -1,14 +1,40 @@
-import { IButtonState, IButtonStates, ISizedButtons } from '../components';
+import { ISizedButtons } from '../components';
+import { StatefulColor, StatefulDropShadow, ThemeColor } from '../types';
 import { buttonSizes } from './buttonSizes';
 import { makeButton } from './makeButton';
 
-export function makeSizedButtons(
-	defaultState: IButtonState,
-	stateOverrides?: Partial<Omit<IButtonStates, 'default' | 'focus'>>
-): ISizedButtons {
+export function makeSizedButtons({
+	background,
+	border,
+	text,
+	disabledText,
+}: {
+	background: StatefulColor;
+	border: StatefulDropShadow;
+	text: ThemeColor;
+	disabledText: ThemeColor;
+}): ISizedButtons {
 	return {
-		large: makeButton(defaultState, buttonSizes.large, stateOverrides),
-		normal: makeButton(defaultState, buttonSizes.normal, stateOverrides),
-		small: makeButton(defaultState, buttonSizes.small, stateOverrides),
+		large: makeButton(
+			background,
+			border,
+			text,
+			disabledText,
+			buttonSizes.large
+		),
+		normal: makeButton(
+			background,
+			border,
+			text,
+			disabledText,
+			buttonSizes.normal
+		),
+		small: makeButton(
+			background,
+			border,
+			text,
+			disabledText,
+			buttonSizes.small
+		),
 	};
 }

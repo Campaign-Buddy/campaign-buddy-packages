@@ -1,20 +1,4 @@
-import {
-	barkBrown,
-	maroon,
-	parchment,
-	makeSizedButtons,
-	parchmentLight,
-	maroonDark,
-	maroonExtraDark,
-	backgroundColor,
-	gray,
-	transparent,
-} from '../../palette';
-import {
-	grayShadow,
-	maroonDarkShadow,
-	maroonShadow,
-} from '../../palette/shadows';
+import { barkBrown, makeSizedButtons, parchmentLight } from '../../palette';
 import { ITheme } from '../../theme';
 import {
 	list,
@@ -23,6 +7,8 @@ import {
 	input,
 	select,
 } from './components';
+import { colors } from './semantic/colors';
+import { shadows } from './semantic/shadows';
 
 export const parchmentTheme: ITheme = {
 	textColor: barkBrown,
@@ -39,42 +25,18 @@ export const parchmentTheme: ITheme = {
 		},
 	},
 	buttons: {
-		primary: makeSizedButtons(
-			{
-				text: parchment,
-				background: maroon,
-				shadow: maroonShadow,
-			},
-			{
-				hover: {
-					text: parchment,
-					background: maroonDark,
-					shadow: maroonShadow,
-				},
-				active: {
-					text: parchment,
-					background: maroonExtraDark,
-					shadow: maroonDarkShadow,
-				},
-				disabled: {
-					text: backgroundColor,
-					background: maroon,
-					shadow: grayShadow,
-				},
-			}
-		),
-		minimal: makeSizedButtons(
-			{
-				text: barkBrown,
-				background: transparent,
-			},
-			{
-				disabled: {
-					text: gray,
-					background: transparent,
-				},
-			}
-		),
+		primary: makeSizedButtons({
+			background: colors.primary,
+			border: shadows.raised,
+			text: colors.primaryText.onPrimary,
+			disabledText: colors.secondaryText.onPrimary,
+		}),
+		minimal: makeSizedButtons({
+			background: colors.minimal,
+			border: shadows.none,
+			text: colors.primaryText.onBackground,
+			disabledText: colors.secondaryText.onBackground,
+		}),
 	},
 	toolbar,
 	list,

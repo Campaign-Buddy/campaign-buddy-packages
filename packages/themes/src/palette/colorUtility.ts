@@ -1,6 +1,6 @@
 import Color from 'color';
 import { ThemeColor } from '../types';
-import { activeMask, gray, hoverMask } from './sharedColors';
+import { activeMask, disabledMask, hoverMask } from './sharedColors';
 
 export function hover(baseColor: ThemeColor): ThemeColor {
 	return Color(baseColor).mix(Color(hoverMask)).rgb().toString();
@@ -11,5 +11,9 @@ export function active(baseColor: ThemeColor): ThemeColor {
 }
 
 export function disable(baseColor: ThemeColor): ThemeColor {
-	return Color(baseColor).mix(Color(gray)).rgb().toString();
+	return Color(baseColor).mix(Color(disabledMask)).rgb().toString();
+}
+
+export function mix(left: ThemeColor, right: ThemeColor): ThemeColor {
+	return Color(left).mix(Color(right)).rgb().toString();
 }

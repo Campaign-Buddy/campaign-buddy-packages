@@ -1,37 +1,38 @@
-import {
-	IButton,
-	IButtonSizing,
-	IButtonState,
-	IButtonStates,
-} from '../components';
-import { active, disable, hover } from './colorUtility';
-import { focusShadow } from './shadows';
+import { IButton, IButtonSizing } from '../components';
+import { StatefulColor, ThemeColor } from '../types';
+import { StatefulDropShadow } from '../types/StatefulDropShadow';
 
 export function makeButton(
-	defaultState: IButtonState,
-	sizing: IButtonSizing,
-	stateOverrides?: Partial<Omit<IButtonStates, 'default' | 'focus'>>
+	background: StatefulColor,
+	border: StatefulDropShadow,
+	text: ThemeColor,
+	disabledText: ThemeColor,
+	sizing: IButtonSizing
 ): IButton {
 	return {
 		states: {
-			default: defaultState,
-			hover: stateOverrides?.hover ?? {
-				text: defaultState.text,
-				shadow: defaultState.shadow?.withTransformedColor(hover),
-				background: hover(defaultState.background),
+			default: {
+				background: background.default,
+				text,
+				shadow: border.default,
 			},
-			active: stateOverrides?.active ?? {
-				text: defaultState.text,
-				shadow: defaultState.shadow?.withTransformedColor(active),
-				background: active(defaultState.background),
+			active: {
+				background: background.active,
+				text,
+				shadow: border.active,
 			},
-			disabled: stateOverrides?.disabled ?? {
-				text: disable(defaultState.text),
-				shadow: defaultState.shadow?.withTransformedColor(disable),
-				background: disable(defaultState.background),
+			hover: {
+				background: background.hover,
+				text,
+				shadow: border.hover,
+			},
+			disabled: {
+				background: background.disabled,
+				text: disabledText,
+				shadow: border.disabled,
 			},
 			focus: {
-				shadow: focusShadow,
+				shadow: border.focused,
 			},
 		},
 		sizing,
