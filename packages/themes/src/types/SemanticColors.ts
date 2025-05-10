@@ -20,7 +20,7 @@ export interface SemanticColors {
 	};
 	primaryText: ContextualTextColors;
 	secondaryText: ContextualTextColors;
-	inputBackground: ThemeColor;
+	input: StatefulColor;
 	danger: StatefulColor;
 	border: ThemeColor;
 }

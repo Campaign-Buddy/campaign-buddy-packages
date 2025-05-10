@@ -2,13 +2,19 @@ import { IButton, IButtonSizing } from '../components';
 import { StatefulColor, ThemeColor } from '../types';
 import { StatefulDropShadow } from '../types/StatefulDropShadow';
 
-export function makeButton(
-	background: StatefulColor,
-	border: StatefulDropShadow,
-	text: ThemeColor,
-	disabledText: ThemeColor,
-	sizing: IButtonSizing
-): IButton {
+export function makeButton({
+	background,
+	border,
+	text,
+	disabledText,
+	sizing,
+}: {
+	background: StatefulColor;
+	border: StatefulDropShadow;
+	text: ThemeColor;
+	disabledText: ThemeColor;
+	sizing: IButtonSizing;
+}): IButton {
 	return {
 		states: {
 			default: {

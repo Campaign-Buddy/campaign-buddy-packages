@@ -15,26 +15,26 @@ export function makeSizedButtons({
 	disabledText: ThemeColor;
 }): ISizedButtons {
 	return {
-		large: makeButton(
+		large: makeButton({
 			background,
 			border,
 			text,
 			disabledText,
-			buttonSizes.large
-		),
-		normal: makeButton(
+			sizing: buttonSizes.large,
+		}),
+		normal: makeButton({
 			background,
 			border,
 			text,
 			disabledText,
-			buttonSizes.normal
-		),
-		small: makeButton(
+			sizing: buttonSizes.normal,
+		}),
+		small: makeButton({
 			background,
 			border,
 			text,
 			disabledText,
-			buttonSizes.small
-		),
+			sizing: buttonSizes.small,
+		}),
 	};
 }

@@ -1,6 +1,5 @@
 import { ThemeProvider } from '../packages/react-theme-provider';
-import { DragProvider } from '../packages/drag-drop/src';
-import { themes } from '../packages/themes';
+import { themes, semanticThemes } from '../packages/themes';
 
 export const parameters = {
 	actions: { argTypesRegex: "^on[A-Z].*" },
@@ -30,7 +29,7 @@ export const parameters = {
 
 export const decorators = [
 	(Story) => (
-		<ThemeProvider theme={themes.parchment}>
+		<ThemeProvider theme={themes.parchment} semanticTheme={semanticThemes.parchment}>
 			<Story />
 		</ThemeProvider>
 	),

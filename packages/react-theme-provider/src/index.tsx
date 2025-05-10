@@ -1,20 +1,25 @@
-import React, { createContext, useContext } from 'react';
+import React, { createContext, useContext, useMemo } from 'react';
 import { ThemeProvider as StyledThemeProvider } from 'styled-components';
-import { ITheme } from '@campaign-buddy/themes';
+import { ISemanticTheme, ITheme } from '@campaign-buddy/themes';
 
 const ThemeContext = createContext<ITheme | null>(null);
 
 export interface ThemeProviderProps {
 	theme: ITheme;
+	semanticTheme: ISemanticTheme;
 	children?: React.ReactNode;
 }
 
 export const ThemeProvider: React.FC<
 	React.PropsWithChildren<ThemeProviderProps>
-> = ({ theme, children }) => {
+> = ({ theme, semanticTheme, children }) => {
+	const mergedTheme = useMemo(
+		() => ({ ...theme, ...semanticTheme }),
+		[semanticTheme, theme]
+	);
 	return (
-		<ThemeContext.Provider value={theme}>
-			<StyledThemeProvider theme={theme}>{children}</StyledThemeProvider>
+		<ThemeContext.Provider value={mergedTheme}>
+			<StyledThemeProvider theme={mergedTheme}>{children}</StyledThemeProvider>
 		</ThemeContext.Provider>
 	);
 };

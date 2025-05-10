@@ -1,46 +1,23 @@
 import { ISelect } from '../../../components/select';
-import {
-	makeButton,
-	parchment,
-	parchmentDisabled,
-	parchmentDisabledText,
-	parchmentInputBackground,
-	parchmentText,
-} from '../../../palette';
+import { makeButton } from '../../../palette';
 import { buttonSizes } from '../../../palette/buttonSizes';
-import { active } from '../../../palette/colorUtility';
-import {
-	buttonShadow,
-	buttonShadowActive,
-	menuShadow,
-} from '../../../palette/shadows';
-import { Thickness } from '../../../types';
+import { colors } from '../semantic/colors';
+import { shadows } from '../semantic/shadows';
+import { sizes } from '../semantic/sizes';
 
 export const select: ISelect = {
-	backgroundColor: parchmentInputBackground,
-	textColor: parchmentText,
+	backgroundColor: colors.input.default,
+	textColor: colors.primaryText.onInput.default,
 	menu: {
-		dropShadow: menuShadow,
-		padding: new Thickness(4),
-		backgroundColor: parchment,
+		dropShadow: shadows.dropdown,
+		padding: sizes.uiContentPadding.small,
+		backgroundColor: colors.background.panel,
 	},
-	button: makeButton(
-		{
-			text: parchmentText,
-			background: parchmentInputBackground,
-			shadow: buttonShadow,
-		},
-		buttonSizes.normal,
-		{
-			active: {
-				background: active(parchmentInputBackground),
-				text: parchmentText,
-				shadow: buttonShadowActive,
-			},
-			disabled: {
-				background: parchmentDisabled,
-				text: parchmentDisabledText,
-			},
-		}
-	),
+	button: makeButton({
+		text: colors.primaryText.onInput.default,
+		background: colors.input,
+		border: shadows.raised,
+		disabledText: colors.secondaryText.onInput.default,
+		sizing: buttonSizes.normal,
+	}),
 };

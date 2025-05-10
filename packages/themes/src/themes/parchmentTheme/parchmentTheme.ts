@@ -1,5 +1,6 @@
 import { barkBrown, makeSizedButtons, parchmentLight } from '../../palette';
-import { ITheme } from '../../theme';
+import { ISemanticTheme, ITheme } from '../../theme';
+import { BorderRadius } from '../../types';
 import {
 	list,
 	parchmentPanelLayout,
@@ -9,6 +10,7 @@ import {
 } from './components';
 import { colors } from './semantic/colors';
 import { shadows } from './semantic/shadows';
+import { sizes } from './semantic/sizes';
 
 export const parchmentTheme: ITheme = {
 	textColor: barkBrown,
@@ -42,4 +44,14 @@ export const parchmentTheme: ITheme = {
 	list,
 	input,
 	select,
+};
+
+export const semanticParchmentTheme: ISemanticTheme = {
+	colors,
+	shadows,
+	sizes,
+	borderRadii: {
+		default: new BorderRadius(4),
+		pill: new BorderRadius(50),
+	},
 };
