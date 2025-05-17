@@ -14,6 +14,7 @@
 		"@campaign-buddy/common-hooks": "^2.1.5",
 		"@campaign-buddy/json-path-ex": "^2.1.5",
 		"@campaign-buddy/themes": "^2.1.5",
+		"@types/styled-components": "^5.1.34",
 		"framer-motion": "^4.1.17",
 		"fuse.js": "^6.4.6",
 		"lodash.isequal": "^4.5.0",
@@ -40,9 +41,9 @@
 		"storybook": "cross-env STORYBOOK_PACKAGE_SCOPE=core-ui yarn --cwd ../../ storybook"
 	},
 	"peerDependencies": {
+		"@campaign-buddy/react-theme-provider": "^2.1.5",
 		"react": "^18.0.9",
 		"react-dom": "^18.0.9",
-		"styled-components": "^5.3.3",
-		"@campaign-buddy/react-theme-provider": "^2.1.5"
+		"styled-components": "^5.3.3"
 	}
 }
