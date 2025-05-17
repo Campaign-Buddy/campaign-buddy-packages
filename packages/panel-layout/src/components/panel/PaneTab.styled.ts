@@ -15,7 +15,7 @@ const hoverStyle = css<{ hoveringSide?: 'left' | 'right' }>`
 `;
 
 export const ButtonContainer = styled.div`
-	margin-left: ${({ theme }) => theme.sizes.gaps.small};
+	margin-left: ${({ theme }) => theme.sizes.gaps.small}px;
 `;
 
 export const TabContainer = styled.div<{

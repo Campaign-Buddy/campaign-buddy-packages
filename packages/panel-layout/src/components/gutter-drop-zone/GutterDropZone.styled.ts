@@ -9,7 +9,7 @@ const draggingOverStyle = css<{ direction: 'vertical' | 'horizontal' }>`
 			direction === 'horizontal' ? '64px' : '100%'};
 		width: ${({ direction }) => (direction === 'vertical' ? '64px' : '100%')};
 		opacity: 1;
-		background-color: ${({ theme }) => theme.colors.background.panel};
+		background-color: ${({ theme }) => theme.colors.background.dropzone};
 		z-index: 1000;
 
 		top: ${({ direction, theme }) =>

@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const IconContainer = styled.div`
-	margin-right: ${({ theme }) => theme.sizes.gaps.medium};
+	margin-right: ${({ theme }) => theme.sizes.gaps.medium}px;
 	display: flex;
 `;
 
