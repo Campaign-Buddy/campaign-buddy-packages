@@ -5,33 +5,19 @@ const draggingOverStyle = css<{ direction: 'vertical' | 'horizontal' }>`
 		content: '';
 		position: absolute;
 		pointer-events: none;
-		height: ${({ theme, direction }) =>
-			direction === 'horizontal'
-				? `${theme.panelLayout.dropZones.gutterDropZoneSize}px`
-				: '100%'};
-		width: ${({ theme, direction }) =>
-			direction === 'vertical'
-				? `${theme.panelLayout.dropZones.gutterDropZoneSize}px`
-				: '100%'};
-		opacity: ${({ theme }) => theme.panelLayout.dropZones.opacity};
-		background-color: ${({ theme }) => theme.panelLayout.dropZones.panel};
+		height: ${({ direction }) =>
+			direction === 'horizontal' ? '64px' : '100%'};
+		width: ${({ direction }) => (direction === 'vertical' ? '64px' : '100%')};
+		opacity: 1;
+		background-color: ${({ theme }) => theme.colors.background.panel};
 		z-index: 1000;
 
 		top: ${({ direction, theme }) =>
-			direction === 'horizontal'
-				? (theme.panelLayout.dropZones.gutterDropZoneSize -
-						theme.panelLayout.gap.size) /
-				  -2
-				: 0}px;
+			direction === 'horizontal' ? (64 - theme.sizes.gaps.medium) / -2 : 0}px;
 		left: ${({ direction, theme }) =>
-			direction === 'vertical'
-				? (theme.panelLayout.dropZones.gutterDropZoneSize -
-						theme.panelLayout.gap.size) /
-				  -2
-				: 0}px;
+			direction === 'vertical' ? (64 - theme.sizes.gaps.medium) / -2 : 0}px;
 
-		border-radius: ${({ theme }) =>
-			theme.panelLayout.pane.borderRadius.toCss()};
+		border-radius: ${({ theme }) => theme.borderRadii.default.toCss()};
 	}
 `;
 

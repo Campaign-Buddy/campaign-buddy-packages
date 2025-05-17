@@ -1,39 +1,37 @@
 import styled, { css } from 'styled-components';
 
 const isOverStyle = css`
-	background-color: ${({ theme }) => theme.panelLayout.dropZones.tabBar};
+	background-color: ${({ theme }) => theme.colors.background.dropzone};
 
 	:before {
 		content: '';
 		position: absolute;
-		bottom: ${({ theme }) =>
-			theme.panelLayout.pane.borderRadius.topLeft * -1}px;
+		bottom: ${({ theme }) => theme.borderRadii.default.topLeft * -1}px;
 		left: 0;
-		width: ${({ theme }) => theme.panelLayout.pane.borderRadius.topLeft}px;
-		height: ${({ theme }) => theme.panelLayout.pane.borderRadius.topLeft}px;
+		width: ${({ theme }) => theme.borderRadii.default.topLeft}px;
+		height: ${({ theme }) => theme.borderRadii.default.topLeft}px;
 		z-index: -10;
-		background-color: ${({ theme }) => theme.panelLayout.dropZones.tabBar};
+		background-color: ${({ theme }) => theme.colors.background.dropzone};
 	}
 
 	:after {
 		content: '';
 		position: absolute;
-		bottom: ${({ theme }) =>
-			theme.panelLayout.pane.borderRadius.topRight * -1}px;
+		bottom: ${({ theme }) => theme.borderRadii.default.topRight * -1}px;
 		right: 0;
-		width: ${({ theme }) => theme.panelLayout.pane.borderRadius.topRight}px;
-		height: ${({ theme }) => theme.panelLayout.pane.borderRadius.topRight}px;
+		width: ${({ theme }) => theme.borderRadii.default.topRight}px;
+		height: ${({ theme }) => theme.borderRadii.default.topRight}px;
 		z-index: -10;
-		background-color: ${({ theme }) => theme.panelLayout.dropZones.tabBar};
+		background-color: ${({ theme }) => theme.colors.background.dropzone};
 	}
 `;
 
 export const TabBarContainer = styled.div<{ isOver?: boolean }>`
 	display: flex;
-	border-radius: ${({ theme }) => theme.panelLayout.tab.borderRadius.topLeft}px
-		${({ theme }) => theme.panelLayout.tab.borderRadius.topRight}px 0 0;
+	border-radius: ${({ theme }) => theme.borderRadii.default.topLeft}px
+		${({ theme }) => theme.borderRadii.default.topRight}px 0 0;
 	position: relative;
 	// The tabs may flicker away for a second for measuring to occur
-	min-height: ${({ theme }) => theme.panelLayout.tab.height}px;
+	min-height: ${({ theme }) => theme.sizes.uiHeights.medium}px;
 	${({ isOver }) => isOver && isOverStyle}
 `;

@@ -17,14 +17,12 @@ export const SplitChild = styled.div`
 
 export const StyledDivider = styled.div<DirectionAwareProps>`
 	position: relative;
-	flex-basis: ${({ theme }) => theme.panelLayout.gap.size}px;
+	flex-basis: ${({ theme }) => theme.sizes.gaps.medium}px;
 	flex-shrink: 0;
 	flex-grow: 0;
 	z-index: 1000;
-	cursor: ${({ direction, theme }) =>
-		direction === 'horizontal'
-			? theme.panelLayout.gap.horizontalCursor
-			: theme.panelLayout.gap.verticalCursor};
+	cursor: ${({ direction }) =>
+		direction === 'horizontal' ? 'ew-resize' : 'ns-resize'};
 `;
 
 export const SplitContainer = styled.div<DirectionAwareProps>`

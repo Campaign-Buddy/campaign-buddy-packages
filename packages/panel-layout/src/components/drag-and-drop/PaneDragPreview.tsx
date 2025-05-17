@@ -20,12 +20,10 @@ export const PaneDragPreview: React.FC<
 
 const TabPreview = styled.div`
 	display: flex;
-	color: ${({ theme }) => theme.textColor};
+	color: ${({ theme }) => theme.colors.primaryText.onBackground};
 	width: fit-content;
-	background-color: ${({ theme }) =>
-		theme.panelLayout.tab.preview.backgroundColor};
-	border-radius: ${({ theme }) =>
-		theme.panelLayout.tab.preview.borderRadius.toCss()};
-	opacity: ${({ theme }) => theme.panelLayout.tab.preview.opacity};
-	padding: ${({ theme }) => theme.panelLayout.tab.preview.padding.toCss()};
+	background-color: ${({ theme }) => theme.colors.background.panel};
+	border-radius: ${({ theme }) => theme.borderRadii.default.toCss()};
+	opacity: 0.75;
+	padding: ${({ theme }) => theme.sizes.uiInputPadding.medium.toCss()};
 `;

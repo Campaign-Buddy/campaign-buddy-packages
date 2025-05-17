@@ -16,6 +16,7 @@ export interface SemanticColors {
 	primary: StatefulColor;
 	minimal: StatefulColor;
 	background: {
+		dropzone: ThemeColor;
 		app: ThemeColor;
 		panel: ThemeColor;
 		dropdown: ThemeColor;

@@ -2,7 +2,7 @@ import React, { createContext, useContext, useMemo } from 'react';
 import { ThemeProvider as StyledThemeProvider } from 'styled-components';
 import { ISemanticTheme, ITheme } from '@campaign-buddy/themes';
 
-const ThemeContext = createContext<ITheme | null>(null);
+const ThemeContext = createContext<(ITheme & ISemanticTheme) | null>(null);
 
 export interface ThemeProviderProps {
 	theme: ITheme;
@@ -24,7 +24,7 @@ export const ThemeProvider: React.FC<
 	);
 };
 
-export function useTheme(): ITheme {
+export function useTheme(): ITheme & ISemanticTheme {
 	const theme = useContext(ThemeContext);
 
 	if (!theme) {

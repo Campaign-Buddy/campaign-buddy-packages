@@ -10,8 +10,7 @@ const hoveringStyle = css<{ hoveringSide?: 'top' | 'bottom' }>`
 		width: 100%;
 		z-index: 100;
 		top: left;
-		border-top: solid 2px
-			${({ theme }) => theme.panelLayout.dropZones.tabSeparator};
+		border-top: solid 2px ${({ theme }) => theme.colors.primary.default};
 	}
 `;
 
@@ -25,8 +24,7 @@ export const MenuItemContainer = styled.div<{
 
 export const DropDownButtonContainer = styled.div`
 	align-self: center;
-	padding: 0
-		${({ theme }) => theme.panelLayout.tab.overflow.buttonHorizontalPadding}px;
+	padding: 0 ${({ theme }) => theme.sizes.gaps.small}px;
 `;
 
 export const CloseButtonContainer = styled.div`

@@ -14,7 +14,7 @@ export function TabIcon({ tabIcon }: TabIconProps) {
 	if (tabIcon?.kind === 'icon') {
 		return (
 			<IconContainer>
-				<Icon icon={tabIcon.icon} size={theme.panelLayout.tab.icon.size} />
+				<Icon icon={tabIcon.icon} size={theme.sizes.uiHeights.extraSmall} />
 			</IconContainer>
 		);
 	}

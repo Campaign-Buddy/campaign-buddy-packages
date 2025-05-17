@@ -36,7 +36,7 @@ export const Split: React.FC<React.PropsWithChildren<SplitProps>> = ({
 	const nextSizesRef = useRef([...sizes]);
 	const onSizesChangeRef = useRef(onSizesChange);
 	const theme = useTheme();
-	const gutterSize = theme.panelLayout.gap.size;
+	const gutterSize = theme.sizes.gaps.medium;
 
 	useEffect(() => {
 		onSizesChangeRef.current = onSizesChange;

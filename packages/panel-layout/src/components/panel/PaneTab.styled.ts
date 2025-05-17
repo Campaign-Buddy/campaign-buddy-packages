@@ -10,13 +10,12 @@ const hoverStyle = css<{ hoveringSide?: 'left' | 'right' }>`
 		height: 100%;
 		z-index: 100;
 		top: 0;
-		border-left: solid 2px
-			${({ theme }) => theme.panelLayout.dropZones.tabSeparator};
+		border-left: solid 2px ${({ theme }) => theme.colors.primary.default};
 	}
 `;
 
 export const ButtonContainer = styled.div`
-	margin: ${({ theme }) => theme.panelLayout.tab.closeButtonMargin.toCss()};
+	margin-left: ${({ theme }) => theme.sizes.gaps.small};
 `;
 
 export const TabContainer = styled.div<{
@@ -34,52 +33,44 @@ export const TabContainer = styled.div<{
 		height: 60%;
 		top: 20%;
 		border-left: solid 1px
-			${({ theme }) => theme.panelLayout.tab.separatorColor};
+			${({ theme }) => theme.colors.primaryText.onBackground};
 	}
 
 	&:not(.campaign-buddy-active-tab):hover {
-		background-color: ${({ theme }) =>
-			theme.panelLayout.tab.hoverBackgroundColor};
+		background-color: ${({ theme }) => theme.colors.minimal.hover};
 
 		&:first-child:before {
 			position: absolute;
 			content: '';
-			bottom: ${({ theme }) =>
-				theme.panelLayout.pane.borderRadius.topLeft * -1}px;
+			bottom: ${({ theme }) => theme.borderRadii.default.topLeft * -1}px;
 			left: 0;
 			z-index: -10;
-			width: ${({ theme }) => theme.panelLayout.pane.borderRadius.topLeft}px;
-			height: ${({ theme }) => theme.panelLayout.pane.borderRadius.topLeft}px;
-			background-color: ${({ theme }) =>
-				theme.panelLayout.tab.hoverBackgroundColor};
+			width: ${({ theme }) => theme.borderRadii.default.topLeft}px;
+			height: ${({ theme }) => theme.borderRadii.default.topLeft}px;
+			background-color: ${({ theme }) => theme.colors.minimal.hover};
 		}
 	}
 
-	border-radius: ${({ theme }) => theme.panelLayout.tab.borderRadius.toCss()};
+	border-radius: ${({ theme }) => theme.borderRadii.default.toCss()};
 
-	background-color: ${({ theme, isActive, isDragging }) =>
-		isDragging
-			? theme.panelLayout.tab.draggingBackgroundColor
-			: isActive
-			? theme.panelLayout.tab.activeBackgroundColor
-			: theme.panelLayout.tab.backgroundColor};
+	background-color: ${({ theme, isActive }) =>
+		isActive ? theme.colors.background.panel : theme.colors.minimal.default};
 
-	${({ isDragging, theme }) =>
-		isDragging ? `opacity: ${theme.panelLayout.tab.draggingOpacity};` : ''};
+	${({ isDragging }) => (isDragging ? 'opacity: 0.5;' : '')};
 `;
 
 export const StyledTab = styled.div<{
 	hoveringSide?: 'left' | 'right';
 }>`
-	min-height: ${({ theme }) => theme.panelLayout.tab.height}px;
-	max-height: ${({ theme }) => theme.panelLayout.tab.height}px;
-	height: ${({ theme }) => theme.panelLayout.tab.height}px;
-	padding: 0 ${({ theme }) => theme.panelLayout.tab.horizontalPadding}px;
+	min-height: ${({ theme }) => theme.sizes.uiHeights.medium}px;
+	max-height: ${({ theme }) => theme.sizes.uiHeights.medium}px;
+	height: ${({ theme }) => theme.sizes.uiHeights.medium}px;
+	padding: 0 ${({ theme }) => theme.sizes.gaps.medium}px;
 	white-space: nowrap;
 	cursor: default;
 	user-select: none;
 	display: flex;
-	color: ${({ theme }) => theme.textColor};
+	color: ${({ theme }) => theme.colors.primaryText.onBackground};
 	align-items: center;
 
 	${({ hoveringSide }) => hoveringSide && hoverStyle}

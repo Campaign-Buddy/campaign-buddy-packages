@@ -1,13 +1,10 @@
 import styled from 'styled-components';
 
-// TODO: Replace with theme values
 export const PanelContentContainer = styled.div<{ isFirstTabActive: boolean }>`
-	border-radius: ${({ theme }) => theme.panelLayout.pane.borderRadius.toCss()};
+	border-radius: ${({ theme }) => theme.borderRadii.default.toCss()};
 	border-top-left-radius: ${({ isFirstTabActive, theme }) =>
-		isFirstTabActive
-			? '0'
-			: `${theme.panelLayout.pane.borderRadius.topLeft}px`};
-	background-color: ${({ theme }) => theme.panelLayout.pane.backgroundColor};
+		isFirstTabActive ? '0' : `${theme.borderRadii.default.topLeft}px`};
+	background-color: ${({ theme }) => theme.colors.background.panel};
 	height: 100%;
 `;
 
@@ -57,10 +54,10 @@ export const DropPreview = styled.div<{
 	hoveringLocation: 'top' | 'right' | 'left' | 'bottom' | 'center';
 }>`
 	position: absolute;
-	opacity: ${({ theme }) => theme.panelLayout.dropZones.opacity};
-	background-color: ${({ theme }) => theme.panelLayout.dropZones.panel};
+	opacity: 1;
+	background-color: ${({ theme }) => theme.colors.background.dropzone};
 	pointer-events: none;
-	border-radius: ${({ theme }) => theme.panelLayout.pane.borderRadius.toCss()};
+	border-radius: ${({ theme }) => theme.borderRadii.default.toCss()};
 	top: ${({ hoveringLocation }) => topValues[hoveringLocation]};
 	left: ${({ hoveringLocation }) => leftValues[hoveringLocation]};
 	width: ${({ hoveringLocation }) => widthValues[hoveringLocation]};

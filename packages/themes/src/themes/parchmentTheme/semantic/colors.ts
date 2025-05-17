@@ -29,6 +29,7 @@ export const colors: SemanticColors = {
 		disabled: transparent,
 	},
 	background: {
+		dropzone: hoverMask,
 		app: parchmentExtraLight,
 		panel: parchmentLight,
 		dropdown: parchmentLight,
