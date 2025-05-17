@@ -51,7 +51,15 @@ export const TabContainer = styled.div<{
 		}
 	}
 
-	border-radius: ${({ theme }) => theme.borderRadii.default.toCss()};
+	border-radius: ${({ theme }) =>
+		[
+			theme.borderRadii.default.topRight,
+			theme.borderRadii.default.topLeft,
+			0,
+			0,
+		]
+			.map((x) => `${x}px`)
+			.join(' ')};
 
 	background-color: ${({ theme, isActive }) =>
 		isActive ? theme.colors.background.panel : theme.colors.minimal.default};
