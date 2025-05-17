@@ -1,20 +1,30 @@
 import React from 'react';
-import { useFloating, autoUpdate } from '@floating-ui/react-dom';
+import { useFloating, autoUpdate, flip, shift } from '@floating-ui/react-dom';
 import { tagComponent, useSingleTaggedChild } from './useSingleTaggedChild';
 import { ReferenceContainer } from './styled';
+import { useDomNode } from './useDomNode';
+import { createPortal } from 'react-dom';
 
 export interface DropdownProps {
 	isOpen: boolean;
 	children: React.ReactNode;
 	setIsOpen: (isOpen: boolean) => void;
+	portalElementSelector?: string;
 }
 
-export function Dropdown({ isOpen, children }: DropdownProps) {
+export function Dropdown({
+	isOpen,
+	children,
+	portalElementSelector,
+}: DropdownProps) {
 	const button = useSingleTaggedChild(children, dropdownReferenceSymbol);
 	const content = useSingleTaggedChild(children, dropdownContentSymbol);
+	const portalElement = useDomNode(portalElementSelector ?? 'body');
 
 	const { refs, floatingStyles } = useFloating({
 		whileElementsMounted: autoUpdate,
+		middleware: [flip(), shift()],
+		placement: 'bottom-start',
 	});
 
 	if (!button || !content) {
@@ -26,11 +36,14 @@ export function Dropdown({ isOpen, children }: DropdownProps) {
 	return (
 		<>
 			<ReferenceContainer ref={refs.setReference}>{button}</ReferenceContainer>
-			{isOpen && (
-				<div ref={refs.setFloating} style={floatingStyles}>
-					{content}
-				</div>
-			)}
+			{isOpen &&
+				portalElement &&
+				createPortal(
+					<div ref={refs.setFloating} style={floatingStyles}>
+						{content}
+					</div>,
+					portalElement
+				)}
 		</>
 	);
 }
