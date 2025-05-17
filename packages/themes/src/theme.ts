@@ -1,6 +1,5 @@
 import {
 	IList,
-	IPanelLayout,
 	LegacyCoreUiTheme,
 	IToolbar,
 	ISizedButtons,
@@ -14,7 +13,6 @@ import { SemanticSizes } from './types/SemanticSizes';
 export interface ITheme {
 	legacyCoreUi: LegacyCoreUiTheme;
 	list: IList;
-	panelLayout: IPanelLayout;
 	toolbar: IToolbar;
 	textColor: ThemeColor;
 	buttons: {

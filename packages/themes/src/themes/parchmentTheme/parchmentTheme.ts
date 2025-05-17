@@ -1,20 +1,13 @@
 import { barkBrown, makeSizedButtons, parchmentLight } from '../../palette';
 import { ISemanticTheme, ITheme } from '../../theme';
 import { BorderRadius } from '../../types';
-import {
-	list,
-	parchmentPanelLayout,
-	toolbar,
-	input,
-	select,
-} from './components';
+import { list, toolbar, input, select } from './components';
 import { colors } from './semantic/colors';
 import { shadows } from './semantic/shadows';
 import { sizes } from './semantic/sizes';
 
 export const parchmentTheme: ITheme = {
 	textColor: barkBrown,
-	panelLayout: parchmentPanelLayout,
 	legacyCoreUi: {
 		colors: {
 			inputBackground: parchmentLight,
