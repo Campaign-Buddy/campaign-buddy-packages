@@ -3,6 +3,7 @@ import { ThemeColor } from './ThemeColor';
 
 interface ContextualTextColors {
 	onBackground: ThemeColor;
+	onDropdown: ThemeColor;
 	onInput: {
 		default: ThemeColor;
 		placeholder: ThemeColor;
@@ -17,6 +18,7 @@ export interface SemanticColors {
 	background: {
 		app: ThemeColor;
 		panel: ThemeColor;
+		dropdown: ThemeColor;
 	};
 	primaryText: ContextualTextColors;
 	secondaryText: ContextualTextColors;

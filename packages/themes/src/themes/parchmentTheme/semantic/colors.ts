@@ -31,9 +31,11 @@ export const colors: SemanticColors = {
 	background: {
 		app: parchmentExtraLight,
 		panel: parchmentLight,
+		dropdown: parchmentLight,
 	},
 	primaryText: {
 		onBackground: barkBrown,
+		onDropdown: barkBrown,
 		onInput: {
 			default: barkBrown,
 			placeholder: gray,
@@ -43,6 +45,7 @@ export const colors: SemanticColors = {
 	},
 	secondaryText: {
 		onBackground: gray,
+		onDropdown: barkBrown,
 		onInput: {
 			default: barkBrown,
 			placeholder: gray,

@@ -22,6 +22,8 @@
     "@storybook/react": "^6.4.22",
     "@types/babel__core": "^7.1.14",
     "@types/jest": "^26.0.22",
+    "@types/react": "^18.3.21",
+    "@types/react-dom": "^18.3.7",
     "@typescript-eslint/eslint-plugin": "^4.30.0",
     "@typescript-eslint/parser": "^4.30.0",
     "babel-loader": "^8.2.2",
