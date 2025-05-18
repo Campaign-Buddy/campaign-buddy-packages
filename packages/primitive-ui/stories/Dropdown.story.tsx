@@ -22,7 +22,6 @@ export function Primary() {
 			<Dropdown.Content>
 				<div
 					style={{
-						backgroundColor: 'lavender',
 						width: '200px',
 						height: '200px',
 					}}

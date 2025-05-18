@@ -1,7 +1,7 @@
 import React from 'react';
 import { useFloating, autoUpdate, flip, shift } from '@floating-ui/react-dom';
 import { tagComponent, useSingleTaggedChild } from './useSingleTaggedChild';
-import { ReferenceContainer } from './styled';
+import { DropdownContentContainer, ReferenceContainer } from './styled';
 import { useDomNode } from './useDomNode';
 import { createPortal } from 'react-dom';
 import { useOnClickOutside, useRefBoundary } from './useOnClickOutside';
@@ -67,9 +67,9 @@ export function Dropdown({
 			{isOpen &&
 				portalElement &&
 				createPortal(
-					<div ref={floatingRef} style={floatingStyles}>
+					<DropdownContentContainer ref={floatingRef} style={floatingStyles}>
 						{content}
-					</div>,
+					</DropdownContentContainer>,
 					portalElement
 				)}
 		</>
