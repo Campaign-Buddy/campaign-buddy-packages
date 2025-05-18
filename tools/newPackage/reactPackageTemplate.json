@@ -27,7 +27,9 @@
 		"test": "jest",
 		"storybook": "cross-env STORYBOOK_PACKAGE_SCOPE=<packagename> yarn --cwd ../../ storybook"
 	},
-	"main": "dist/src/index",
+	"type": "module",
+	"module": "dist/src/index",
+	"types": "dist/src/index",
 	"files": [
 		"dist/"
 	]

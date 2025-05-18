@@ -32,7 +32,9 @@
 		"typescript": "^4.2.4",
 		"y-webrtc": "^10.2.5"
 	},
-	"main": "dist/src/index",
+	"type": "module",
+	"module": "dist/src/index",
+	"types": "dist/src/index",
 	"files": [
 		"dist/"
 	],

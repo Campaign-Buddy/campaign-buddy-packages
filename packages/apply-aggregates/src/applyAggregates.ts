@@ -1,5 +1,5 @@
 import type { EntityDefinition } from '@campaign-buddy/json-schema-core';
-import cloneDeep = require('lodash.clonedeep');
+import cloneDeep from 'lodash.clonedeep';
 import { executeAggregationExpression } from './executeAggregationExpression';
 import { extractAggregatesFromSchema } from './extractAggregatesFromSchema';
 import {

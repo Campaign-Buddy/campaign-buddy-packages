@@ -1,5 +1,5 @@
 import { Aggregates } from '@campaign-buddy/json-schema-core';
-import cloneDeep = require('lodash.clonedeep');
+import cloneDeep from 'lodash.clonedeep';
 
 export function extractAggregatesFromSchema(
 	schema: any,

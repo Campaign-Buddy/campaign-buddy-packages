@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import isEqual = require('lodash.isequal');
+import isEqual from 'lodash.isequal';
 
 /**
  * Returns a "stable" copy of value that only changes

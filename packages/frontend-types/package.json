@@ -15,7 +15,9 @@
 		"add-local": "node ../../tools/addLocal",
 		"remove-local": "node ../../tools/removeLocal"
 	},
-	"main": "dist/src/index",
+	"type": "module",
+	"module": "dist/src/index",
+	"types": "dist/src/index",
 	"files": [
 		"dist/"
 	]
