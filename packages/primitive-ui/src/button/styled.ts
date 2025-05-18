@@ -119,4 +119,6 @@ export const StyledButton = styled.button<StyledButtonProps>`
 
 export const RightIconContainer = styled.span`
 	margin-left: auto;
+	display: inline-flex;
+	align-items: center;
 `;
