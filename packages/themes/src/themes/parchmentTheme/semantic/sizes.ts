@@ -21,7 +21,7 @@ export const sizes: SemanticSizes = {
 		small: 12,
 		medium: 18,
 		large: 24,
-		extraLarge: 28,
+		extraLarge: 32,
 	},
 	uiFont: {
 		extraSmall: 12,
