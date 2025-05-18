@@ -4,6 +4,8 @@ import { tagComponent, useSingleTaggedChild } from './useSingleTaggedChild';
 import { ReferenceContainer } from './styled';
 import { useDomNode } from './useDomNode';
 import { createPortal } from 'react-dom';
+import { useOnClickOutside, useRefBoundary } from './useOnClickOutside';
+import { useCombinedRefs } from '@campaign-buddy/common-hooks';
 
 export interface DropdownProps {
 	isOpen: boolean;
@@ -15,17 +17,41 @@ export interface DropdownProps {
 export function Dropdown({
 	isOpen,
 	children,
+	setIsOpen,
 	portalElementSelector,
 }: DropdownProps) {
 	const button = useSingleTaggedChild(children, dropdownReferenceSymbol);
 	const content = useSingleTaggedChild(children, dropdownContentSymbol);
 	const portalElement = useDomNode(portalElementSelector ?? 'body');
 
+	const contentClickOutsideBoundary = useRefBoundary();
+	const buttonClickOutsideBoundary = useRefBoundary();
+	useOnClickOutside(
+		() => {
+			if (!isOpen) {
+				return;
+			}
+
+			setIsOpen(false);
+		},
+		contentClickOutsideBoundary,
+		buttonClickOutsideBoundary
+	);
+
 	const { refs, floatingStyles } = useFloating({
 		whileElementsMounted: autoUpdate,
 		middleware: [flip(), shift()],
 		placement: 'bottom-start',
 	});
+
+	const floatingRef = useCombinedRefs(
+		refs.setFloating,
+		contentClickOutsideBoundary
+	);
+	const referenceContainerRef = useCombinedRefs(
+		refs.setReference,
+		buttonClickOutsideBoundary
+	);
 
 	if (!button || !content) {
 		throw new Error(
@@ -35,11 +61,13 @@ export function Dropdown({
 
 	return (
 		<>
-			<ReferenceContainer ref={refs.setReference}>{button}</ReferenceContainer>
+			<ReferenceContainer ref={referenceContainerRef}>
+				{button}
+			</ReferenceContainer>
 			{isOpen &&
 				portalElement &&
 				createPortal(
-					<div ref={refs.setFloating} style={floatingStyles}>
+					<div ref={floatingRef} style={floatingStyles}>
 						{content}
 					</div>,
 					portalElement
