@@ -32,6 +32,6 @@ function hasTag(child: React.ReactNode, tag: symbol) {
 		'type' in child &&
 		typeof child.type !== 'string' &&
 		'__cbTag' in child.type &&
-		child.type.__cbTag === tag
+		(child.type as any).__cbTag === tag
 	);
 }
