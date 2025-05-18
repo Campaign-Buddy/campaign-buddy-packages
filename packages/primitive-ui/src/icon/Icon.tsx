@@ -2,18 +2,21 @@ import React, { useEffect, useState } from 'react';
 import { IconBaseProps } from 'react-icons';
 import { IconName, iconNames } from './iconNames';
 import { IconContainer } from './styled';
+import { SizeStep } from '@campaign-buddy/themes';
+import { useTheme } from '@campaign-buddy/react-theme-provider';
 
 export interface IconProps {
 	name: IconName;
-	size: number;
+	size?: SizeStep;
 }
 
-export function Icon({ name, size }: IconProps) {
+export function Icon({ name, size = 'medium' }: IconProps) {
+	const theme = useTheme();
 	const IconComponent = useLazyIcon(iconNames[name]);
 
 	return (
-		<IconContainer size={size}>
-			{IconComponent && <IconComponent size={size} />}
+		<IconContainer size={theme.sizes.iconSizes[size]}>
+			{IconComponent && <IconComponent size={theme.sizes.iconSizes[size]} />}
 		</IconContainer>
 	);
 }

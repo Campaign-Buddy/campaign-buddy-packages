@@ -16,6 +16,13 @@ export const sizes: SemanticSizes = {
 		large: 40,
 		extraLarge: 48,
 	},
+	iconSizes: {
+		extraSmall: 8,
+		small: 12,
+		medium: 18,
+		large: 24,
+		extraLarge: 28,
+	},
 	uiFont: {
 		extraSmall: 12,
 		small: 14,

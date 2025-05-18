@@ -14,6 +14,7 @@ export interface SemanticSizes {
 	uiContentPadding: Stepped<Thickness>;
 	uiInputPadding: Stepped<Thickness>;
 	gaps: Stepped<number>;
+	iconSizes: Stepped<number>;
 	uiFont: Stepped<number>;
 	uiHeights: Stepped<number>;
 }
