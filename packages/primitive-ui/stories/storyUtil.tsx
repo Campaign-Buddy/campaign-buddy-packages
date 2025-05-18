@@ -1,8 +1,9 @@
 import React from 'react';
 import { Icon } from '../src';
+import { SizeStep } from '@campaign-buddy/themes';
 import { IconName, iconNames } from '../src/icon/iconNames';
 
-export function iconElementControl(size: number) {
+export function iconElementControl(size: SizeStep) {
 	const mapping: Record<string, React.ReactNode> = Object.fromEntries(
 		Object.keys(iconNames).map((iconName) => [
 			iconName,

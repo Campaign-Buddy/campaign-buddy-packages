@@ -7,8 +7,8 @@ export default {
 	title: 'primitive-ui/Button',
 	component: Button,
 	argTypes: {
-		rightIcon: iconElementControl(16),
-		leftIcon: iconElementControl(16),
+		rightIcon: iconElementControl('medium'),
+		leftIcon: iconElementControl('medium'),
 	},
 } as Meta;
 
