@@ -8,6 +8,7 @@ export const parameters = {
 			color: /(background|color)$/i,
 			date: /Date$/,
 		},
+		expanded: true,
 	},
 	backgrounds: {
 		default: "campaign-buddy-panel",
@@ -22,9 +23,6 @@ export const parameters = {
 			}
 		],
 	},
-	options: {
-		showPanel: false,
-	}
 };
 
 export const decorators = [

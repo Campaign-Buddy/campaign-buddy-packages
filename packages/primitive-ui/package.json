@@ -7,8 +7,8 @@
 	"author": "Joseph Stewart",
 	"license": "MIT",
 	"dependencies": {
-		"@blueprintjs/icons": "^5.22.0",
-		"@floating-ui/react-dom": "^2.1.2"
+		"@floating-ui/react-dom": "^2.1.2",
+		"react-icons": "^5.5.0"
 	},
 	"devDependencies": {
 		"@campaign-buddy/react-theme-provider": "*",
