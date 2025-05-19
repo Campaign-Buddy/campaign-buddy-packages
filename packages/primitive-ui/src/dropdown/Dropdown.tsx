@@ -6,6 +6,7 @@ import { useDomNode } from './useDomNode';
 import { createPortal } from 'react-dom';
 import { useOnClickOutside, useRefBoundary } from './useOnClickOutside';
 import { useCombinedRefs } from '@campaign-buddy/common-hooks';
+import { useGlobalHotkeys } from './useGlobalHotkeys';
 
 export interface DropdownProps {
 	isOpen: boolean;
@@ -23,6 +24,13 @@ export function Dropdown({
 	const button = useSingleTaggedChild(children, dropdownReferenceSymbol);
 	const content = useSingleTaggedChild(children, dropdownContentSymbol);
 	const portalElement = useDomNode(portalElementSelector ?? 'body');
+
+	useGlobalHotkeys(
+		{
+			esc: () => setIsOpen(false),
+		},
+		isOpen
+	);
 
 	const contentClickOutsideBoundary = useRefBoundary();
 	const buttonClickOutsideBoundary = useRefBoundary();

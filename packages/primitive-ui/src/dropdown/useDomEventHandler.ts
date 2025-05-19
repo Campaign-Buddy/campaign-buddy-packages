@@ -3,13 +3,14 @@ import { useEffect, useRef } from 'react';
 export function useDomEventHandler<TEvent extends keyof HTMLElementEventMap>(
 	node: HTMLElement | undefined | null,
 	event: TEvent,
-	handler: (event: HTMLElementEventMap[TEvent]) => void
+	handler: (event: HTMLElementEventMap[TEvent]) => void,
+	enabled = true
 ) {
 	const handlerRef = useRef(handler);
 	handlerRef.current = handler;
 
 	useEffect(() => {
-		if (!node) {
+		if (!node || !enabled) {
 			return;
 		}
 
@@ -22,5 +23,5 @@ export function useDomEventHandler<TEvent extends keyof HTMLElementEventMap>(
 		return () => {
 			node.removeEventListener(event, callback);
 		};
-	}, [event, node]);
+	}, [enabled, event, node]);
 }
