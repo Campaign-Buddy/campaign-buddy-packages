@@ -161,3 +161,5 @@ $RECYCLE.BIN/
 docs-build/
 
 .npmrc
+
+.turbo

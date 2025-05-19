@@ -1,9 +1,11 @@
 // import original module declarations
 import 'styled-components';
-import { ITheme } from '@campaign-buddy/themes';
+import { ITheme, ISemanticTheme } from '@campaign-buddy/themes';
+
+type MergedTheme = ITheme & ISemanticTheme;
 
 // and extend them!
 declare module 'styled-components' {
 	// eslint-disable-next-line @typescript-eslint/no-empty-interface
-	export interface DefaultTheme extends ITheme {}
+	export interface DefaultTheme extends MergedTheme {}
 }

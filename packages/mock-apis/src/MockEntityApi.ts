@@ -1,7 +1,6 @@
 import {
 	EntityApi,
 	EntitySummary,
-	FileSystemApi,
 	GetDefaultEntitiesOptions,
 	GetDefaultEntitiesResult,
 	GetEntitiesByIdsOptions,
@@ -24,7 +23,6 @@ import {
 	featEntity,
 	characterEntity,
 } from './mockEntityDefinitions';
-import { MockFileSystemApi } from './MockFileSystemApi';
 import {
 	IRepository,
 	MappingRepository,
@@ -105,37 +103,6 @@ export class MockEntityApi extends MockApiBase implements EntityApi {
 			}),
 		});
 	}
-
-	getFileSystemApiForEntityDefinition = (
-		definitionName: string
-	): FileSystemApi<EntitySummary> => {
-		return new MockFileSystemApi<EntitySummary>({
-			mockLatencyMs: this.mockLatency,
-			repo: this.summaryStore,
-			getCreateSet: (name) => ({
-				item: {
-					id: this.generateId(),
-					definitionName,
-					name: name ?? 'Default Name',
-				},
-				groupKey: definitionName,
-			}),
-			updateName: (existingItem, name) => ({
-				...existingItem,
-				name: name,
-			}),
-			getIdForItem: (item) => item.id,
-			getNameForItem: (item) => item.name,
-			initialRootItems: this.summaryStore
-				.getGroup(definitionName)
-				.map(({ item }) => ({
-					kind: 'file',
-					id: this.generateId(),
-					name: item.name,
-					data: item,
-				})),
-		});
-	};
 
 	getEntityDefinition = async (
 		options: GetEntityDefinitionOptions
