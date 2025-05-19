@@ -1,15 +1,13 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
+import path from 'path';
+import fs from 'fs';
+import { exec } from 'child_process';
 
-const path = require('path');
-const fs = require('fs');
-const { exec } = require('child_process');
-
-const operationKinds = {
+export const operationKinds = {
 	add: 'add',
 	remove: 'remove',
 };
 
-function modifyDependency(
+export function modifyDependency(
 	packageName,
 	isDev,
 	operation = 'add',
@@ -82,11 +80,11 @@ function modifyDependency(
 
 	const child = exec('yarn');
 
-	child.stdout.on('data', (data) => console.log(data));
-	child.stderr.on('data', (data) => console.error(data));
+	child.stdout.on('data', (data) => process.stdout.write(data));
+	child.stderr.on('data', (data) => process.stderr.write(data));
 }
 
-function normalizePackageName(name) {
+export function normalizePackageName(name) {
 	const prefix = '@campaign-buddy/';
 	if (name.startsWith(prefix)) {
 		return name.substring(prefix.length);
@@ -110,9 +108,3 @@ function getCurrentVersion(name) {
 
 	return packageJson.version;
 }
-
-module.exports = {
-	modifyDependency,
-	operationKinds,
-	normalizePackageName,
-};

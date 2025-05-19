@@ -1,7 +1,5 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
-
-const { Command } = require('commander');
-const { modifyDependency, operationKinds } = require('./modifyDependency');
+import { Command } from 'commander';
+import { modifyDependency, operationKinds } from './modifyDependency.js';
 
 const program = new Command();
 
