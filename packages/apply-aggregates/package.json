@@ -13,7 +13,8 @@
 	"scripts": {
 		"build": "tsc -b",
 		"add-local": "node ../../tools/addLocal",
-		"remove-local": "node ../../tools/removeLocal"
+		"remove-local": "node ../../tools/removeLocal",
+		"test": "jest"
 	},
 	"type": "module",
 	"module": "dist/src/index",

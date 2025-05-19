@@ -35,7 +35,6 @@
 		"build": "tsc -b",
 		"add-local": "node ../../tools/addLocal",
 		"remove-local": "node ../../tools/removeLocal",
-		"test": "jest",
 		"storybook": "cross-env STORYBOOK_PACKAGE_SCOPE=synced-form-generator yarn --cwd ../../ storybook"
 	},
 	"type": "module",

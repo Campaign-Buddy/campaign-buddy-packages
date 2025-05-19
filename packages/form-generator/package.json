@@ -40,7 +40,6 @@
 	],
 	"scripts": {
 		"build": "tsc -b",
-		"test": "jest",
 		"add-local": "node ../../tools/addLocal",
 		"remove-local": "node ../../tools/removeLocal",
 		"storybook": "cross-env STORYBOOK_PACKAGE_SCOPE=form-generator yarn --cwd ../../ storybook"

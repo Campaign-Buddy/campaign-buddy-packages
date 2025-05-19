@@ -17,8 +17,8 @@
 	],
 	"scripts": {
 		"build": "tsc -b",
-		"test": "jest",
 		"add-local": "node ../../tools/addLocal",
-		"remove-local": "node ../../tools/removeLocal"
+		"remove-local": "node ../../tools/removeLocal",
+		"test": "jest"
 	}
 }
