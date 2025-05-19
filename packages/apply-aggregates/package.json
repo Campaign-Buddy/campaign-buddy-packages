@@ -14,9 +14,10 @@
 		"build": "tsc -b",
 		"add-local": "node ../../tools/addLocal",
 		"remove-local": "node ../../tools/removeLocal",
-		"test": "jest"
+		"test": "vitest run"
 	},
 	"type": "module",
+	"main": "dist/src/index",
 	"module": "dist/src/index",
 	"types": "dist/src/index",
 	"files": [

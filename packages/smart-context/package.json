@@ -32,6 +32,7 @@
 		"storybook": "cross-env STORYBOOK_PACKAGE_SCOPE=use-data-subscription yarn --cwd ../../ storybook"
 	},
 	"type": "module",
+	"main": "dist/src/index",
 	"module": "dist/src/index",
 	"types": "dist/src/index",
 	"files": [

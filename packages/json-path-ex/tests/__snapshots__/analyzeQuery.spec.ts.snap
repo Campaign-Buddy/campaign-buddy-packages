@@ -1,55 +1,55 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`analyzeQuery query analysis works for query = $.foo 1`] = `
-Object {
-  "evaluatedExpressions": Array [],
+exports[`analyzeQuery > query analysis works for query = $.foo 1`] = `
+{
+  "evaluatedExpressions": [],
 }
 `;
 
-exports[`analyzeQuery query analysis works for query = $.foo..bings 1`] = `
-Object {
-  "evaluatedExpressions": Array [],
+exports[`analyzeQuery > query analysis works for query = $.foo..bings 1`] = `
+{
+  "evaluatedExpressions": [],
 }
 `;
 
-exports[`analyzeQuery query analysis works for query = $.foo<?(@ === "bar")> 1`] = `
-Object {
-  "evaluatedExpressions": Array [],
+exports[`analyzeQuery > query analysis works for query = $.foo<?(@ === "bar")> 1`] = `
+{
+  "evaluatedExpressions": [],
 }
 `;
 
-exports[`analyzeQuery query analysis works for query = $.foo[?(@ > 2)] 1`] = `
-Object {
-  "evaluatedExpressions": Array [],
+exports[`analyzeQuery > query analysis works for query = $.foo[?(@ > 2)] 1`] = `
+{
+  "evaluatedExpressions": [],
 }
 `;
 
-exports[`analyzeQuery query analysis works for query = $.foo[?(@.id > 0)]..bings 1`] = `
-Object {
-  "evaluatedExpressions": Array [],
+exports[`analyzeQuery > query analysis works for query = $.foo[?(@.id > 0)]..bings 1`] = `
+{
+  "evaluatedExpressions": [],
 }
 `;
 
-exports[`analyzeQuery query analysis works for query = {$.foo.bar} + {$.baz.bop} 1`] = `
-Object {
-  "evaluatedExpressions": Array [
-    Object {
+exports[`analyzeQuery > query analysis works for query = {$.foo.bar} + {$.baz.bop} 1`] = `
+{
+  "evaluatedExpressions": [
+    {
       "expressionKind": "root",
       "path": "$",
     },
-    Object {
+    {
       "expressionKind": "childDescent",
       "path": "$",
     },
-    Object {
+    {
       "expressionKind": "propertyAccessor",
       "path": "$",
     },
-    Object {
+    {
       "expressionKind": "childDescent",
       "path": "$.foo",
     },
-    Object {
+    {
       "expressionKind": "propertyAccessor",
       "path": "$.foo",
     },

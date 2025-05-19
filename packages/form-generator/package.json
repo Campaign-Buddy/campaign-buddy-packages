@@ -33,6 +33,7 @@
 		"y-webrtc": "^10.2.5"
 	},
 	"type": "module",
+	"main": "dist/src/index",
 	"module": "dist/src/index",
 	"types": "dist/src/index",
 	"files": [

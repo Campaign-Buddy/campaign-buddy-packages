@@ -16,6 +16,7 @@
 		"remove-local": "node ../../tools/removeLocal"
 	},
 	"type": "module",
+	"main": "dist/src/index",
 	"module": "dist/src/index",
 	"types": "dist/src/index",
 	"files": [

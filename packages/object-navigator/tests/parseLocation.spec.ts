@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'vitest';
 import { parseLocation } from '../src';
 
 describe('parseLocation', () => {

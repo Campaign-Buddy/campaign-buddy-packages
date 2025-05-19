@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'vitest';
 import { applyAggregates } from '../src';
 
 describe('applyAggregates', () => {
@@ -158,7 +159,7 @@ describe('applyAggregates', () => {
 
 		try {
 			const result = applyAggregates(data, aggregates);
-			fail(
+			expect.fail(
 				`expected an exception when circular reference exists instead got\n\n${JSON.stringify(
 					result,
 					null,
