@@ -62,7 +62,7 @@ export function modifyDependency(
 		{ encoding: 'utf-8' }
 	);
 
-	const referencePath = `../${packageName}/tsconfig.json`;
+	const referencePath = `../../packages/${packageName}/tsconfig.json`;
 	if (operation === operationKinds.add) {
 		tsConfig.references.push({
 			path: referencePath,
@@ -96,7 +96,7 @@ export function normalizePackageName(name) {
 function getCurrentVersion(name) {
 	const packageJsonPath = path.join(
 		process.cwd(),
-		'../',
+		'../../packages/',
 		normalizePackageName(name),
 		'/package.json'
 	);
