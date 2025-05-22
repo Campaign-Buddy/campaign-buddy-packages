@@ -392,6 +392,7 @@ export class PaneModel extends ChildPanelModelBase<PanelModel> {
 	private location: TransactableProperty<string>;
 	private tabTitle: TransactableProperty<string>;
 	private tabIcon: TransactableProperty<TabIcon | undefined>;
+	private parameters: TransactableProperty<any>;
 
 	constructor(
 		transactionManager: TransactionManager,
@@ -419,8 +420,17 @@ export class PaneModel extends ChildPanelModelBase<PanelModel> {
 			},
 			this.transactionManager
 		);
+		this.parameters = new TransactableProperty<any | undefined>(
+			pane.parameters,
+			this.transactionManager
+		);
 
-		this.watchProperties(this.location, this.tabTitle, this.tabIcon);
+		this.watchProperties(
+			this.location,
+			this.tabTitle,
+			this.tabIcon,
+			this.parameters
+		);
 	}
 
 	public close = () => {
@@ -457,12 +467,19 @@ export class PaneModel extends ChildPanelModelBase<PanelModel> {
 		this.tabTitle.setValue(title);
 	};
 
+	public setParameters = (parameters: any) => {
+		this.parameters.setValue(parameters);
+	};
+
 	public getTabTitle = () => this.tabTitle.getValue();
 
 	public getLocation = () => this.location.getValue();
 
+	public getParameters = () => this.location.getValue();
+
 	public toJson = (): PaneDto => ({
 		location: this.location.getValue(),
+		parameters: this.location.getValue(),
 		kind: 'pane',
 	});
 }

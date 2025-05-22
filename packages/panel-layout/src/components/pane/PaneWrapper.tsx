@@ -11,18 +11,19 @@ export interface PaneWrapperProps {
 
 export function PaneWrapper({ paneDefinitions, pane }: PaneWrapperProps) {
 	const location = useObserverState(pane, pane.getLocation);
+	const parameters = useObserverState(pane, pane.getParameters);
 
 	const toolname = useMemo(() => {
 		try {
 			const uri = new URL(location);
 
 			if (uri.protocol !== 'campaign-buddy:') {
-				return null;
+				return location;
 			}
 
 			return uri.pathname.split('/')[0];
 		} catch {
-			return null;
+			return location;
 		}
 	}, [location]);
 
@@ -37,5 +38,5 @@ export function PaneWrapper({ paneDefinitions, pane }: PaneWrapperProps) {
 
 	const { Component } = definition;
 
-	return <Component location={location} />;
+	return <Component location={location} parameters={parameters} />;
 }

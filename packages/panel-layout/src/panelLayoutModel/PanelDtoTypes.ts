@@ -17,6 +17,7 @@ export interface PanelDto {
 
 export interface PaneDto {
 	kind: 'pane';
+	parameters?: any;
 	location: string;
 }
 

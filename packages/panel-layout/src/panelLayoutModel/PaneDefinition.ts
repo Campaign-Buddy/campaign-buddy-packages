@@ -15,6 +15,7 @@ export type TabIcon = TabIconNamed | TabIconImage;
 
 export interface PaneComponentProps {
 	location: string;
+	parameters?: any;
 }
 
 export interface PaneDefinition {
