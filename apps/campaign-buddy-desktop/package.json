@@ -28,7 +28,9 @@
 		"@campaign-buddy/themes": "2.1.5",
 		"@electron-toolkit/preload": "^3.0.1",
 		"@electron-toolkit/utils": "^4.0.0",
-		"styled-components": "^5.3.3"
+		"styled-components": "^5.3.3",
+		"@campaign-buddy/panel-layout": "2.1.5",
+		"@campaign-buddy/drag-drop": "2.1.5"
 	},
 	"devDependencies": {
 		"@electron-toolkit/tsconfig": "^1.0.1",

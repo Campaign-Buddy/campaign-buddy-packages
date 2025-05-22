@@ -1,12 +1,61 @@
-import { Button } from '@campaign-buddy/primitive-ui';
-import { useNavigate } from '@renderer/routing';
+import {
+	PaneDefinition,
+	PanelLayout,
+	PanelLayoutModel,
+} from '@campaign-buddy/panel-layout';
+import { Toolbar } from '@renderer/components/Toolbar';
+import { useEffect, useState } from 'react';
+import styled from 'styled-components';
+
+const panes: Record<string, PaneDefinition> = {
+	dummy: {
+		Component: () => <div>I am a dummy</div>,
+		defaultIcon: { kind: 'icon', icon: 'airplane' },
+		defaultTitle: 'Dummy',
+	},
+};
+
+const Background = styled.div`
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+`;
 
 export function CampaignPage() {
-	const navigate = useNavigate();
+	const [panelLayout, setPanelLayout] = useState<PanelLayoutModel>();
+
+	useEffect(() => {
+		const layout = PanelLayoutModel.create({
+			kind: 'panelLayout',
+			children: [
+				{
+					kind: 'panelRow',
+					children: [
+						{
+							kind: 'panel',
+							children: [
+								{
+									kind: 'pane',
+									location: 'campaign-buddy:dummy',
+								},
+							],
+						},
+					],
+					sizes: [100],
+				},
+			],
+			sizes: [100],
+		});
+
+		setPanelLayout(layout);
+	}, []);
+
 	return (
-		<div>
-			<p>This is the campaign page</p>
-			<Button onClick={() => navigate({ page: 'home' })}>Go back</Button>
-		</div>
+		<Background>
+			<Toolbar />
+			{panelLayout && (
+				<PanelLayout panelLayout={panelLayout} paneDefintions={panes} />
+			)}
+		</Background>
 	);
 }
