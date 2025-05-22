@@ -7,7 +7,6 @@ import {
 	Switch,
 	MenuItem,
 } from '@campaign-buddy/core-ui';
-import { AggregationSupport } from '../src/AggregationSupport';
 import { FieldSettings } from '@campaign-buddy/frontend-types';
 
 const adminRole = 'gm';
@@ -23,7 +22,6 @@ const StringWidget: React.FC<
 	updateFieldSettings,
 	fieldSettings,
 	aggregation,
-	aggregationSupport,
 	currentUserRole,
 }) => {
 	const [isFocused, setIsFocused] = useState(false);
@@ -32,7 +30,6 @@ const StringWidget: React.FC<
 
 	return (
 		<WithFieldSettings
-			aggregationSupport={aggregationSupport}
 			updateFieldSettings={updateFieldSettings}
 			currentUserRole={currentUserRole}
 			fieldSettings={fieldSettings}
@@ -54,7 +51,6 @@ const NumberWidget: React.FC<React.PropsWithChildren<WidgetProps<number>>> = ({
 	label,
 	aggregatedValue,
 	aggregation,
-	aggregationSupport,
 	updateFieldSettings,
 	currentUserRole,
 	fieldSettings,
@@ -65,7 +61,6 @@ const NumberWidget: React.FC<React.PropsWithChildren<WidgetProps<number>>> = ({
 
 	return (
 		<WithFieldSettings
-			aggregationSupport={aggregationSupport}
 			updateFieldSettings={updateFieldSettings}
 			currentUserRole={currentUserRole}
 			fieldSettings={fieldSettings}
@@ -89,7 +84,6 @@ const BooleanWidget: React.FC<
 	label,
 	aggregatedValue,
 	aggregation,
-	aggregationSupport,
 	updateFieldSettings,
 	currentUserRole,
 	fieldSettings,
@@ -100,7 +94,6 @@ const BooleanWidget: React.FC<
 
 	return (
 		<WithFieldSettings
-			aggregationSupport={aggregationSupport}
 			updateFieldSettings={updateFieldSettings}
 			currentUserRole={currentUserRole}
 			fieldSettings={fieldSettings}
@@ -131,7 +124,6 @@ export const exampleWidgets: WidgetLookup = {
 };
 
 interface WithFieldSettingsProps<TAggregation> {
-	aggregationSupport: AggregationSupport<TAggregation>;
 	fieldSettings: FieldSettings<TAggregation> | undefined;
 	currentUserRole: string | undefined;
 	updateFieldSettings:
@@ -141,20 +133,10 @@ interface WithFieldSettingsProps<TAggregation> {
 
 const WithFieldSettings: React.FC<
 	React.PropsWithChildren<WithFieldSettingsProps<any>>
-> = ({
-	aggregationSupport,
-	fieldSettings,
-	currentUserRole,
-	updateFieldSettings,
-	children,
-}) => {
+> = ({ fieldSettings, currentUserRole, updateFieldSettings, children }) => {
 	const menuItems: MenuItem[] = [];
 
-	if (
-		currentUserRole === adminRole &&
-		aggregationSupport &&
-		updateFieldSettings
-	) {
+	if (currentUserRole === adminRole && updateFieldSettings) {
 		menuItems.push({
 			displayText: 'Compute this field?',
 			icon: fieldSettings?.aggregationSettings === false ? 'blank' : 'tick',
