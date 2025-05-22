@@ -43,6 +43,16 @@ export class PanelLayoutModel extends ParentPanelModelBase<
 		);
 	}
 
+	public openPane = (pane: Omit<PaneDto, 'kind'>) => {
+		this.transact(() => {
+			const panel = this.getFirstPanel(this);
+			panel.addPane({
+				kind: 'pane',
+				...pane,
+			});
+		});
+	};
+
 	public addFromDrop = (dropData: PaneDragItem, beforeRowId?: string) => {
 		this.transact(() => {
 			const pane = this.popOrCreatePane(dropData);
@@ -89,6 +99,31 @@ export class PanelLayoutModel extends ParentPanelModelBase<
 				location: dropData.location,
 				kind: 'pane',
 			});
+		}
+	};
+
+	private getFirstPanel = (layout: PanelLayoutModel): PanelModel => {
+		if (!layout.getChildren().length) {
+			this.addRow({
+				kind: 'panelRow',
+				children: [],
+				sizes: [100],
+			});
+		}
+
+		const firstRow = layout.getChildren()[0];
+		if (!firstRow.getChildren().length) {
+			firstRow.addPanel({
+				kind: 'panel',
+				children: [],
+			});
+		}
+
+		const firstRowChild = firstRow.getChildren()[0];
+		if (firstRowChild instanceof PanelLayoutModel) {
+			return this.getFirstPanel(firstRowChild);
+		} else {
+			return firstRowChild;
 		}
 	};
 }

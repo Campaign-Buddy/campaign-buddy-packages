@@ -25,26 +25,9 @@ export function CampaignPage() {
 	const [panelLayout, setPanelLayout] = useState<PanelLayoutModel>();
 
 	useEffect(() => {
-		const layout = PanelLayoutModel.create({
-			kind: 'panelLayout',
-			children: [
-				{
-					kind: 'panelRow',
-					children: [
-						{
-							kind: 'panel',
-							children: [
-								{
-									kind: 'pane',
-									location: 'campaign-buddy:dummy',
-								},
-							],
-						},
-					],
-					sizes: [100],
-				},
-			],
-			sizes: [100],
+		const layout = PanelLayoutModel.create();
+		layout.openPane({
+			location: 'dummy',
 		});
 
 		setPanelLayout(layout);
