@@ -23,12 +23,12 @@
 		"remove-local": "node ../../tools/removeLocal"
 	},
 	"dependencies": {
-		"@electron-toolkit/preload": "^3.0.1",
-		"@electron-toolkit/utils": "^4.0.0",
-		"react-router": "^7.6.0",
 		"@campaign-buddy/primitive-ui": "0.0.0",
 		"@campaign-buddy/react-theme-provider": "2.1.5",
-		"@campaign-buddy/themes": "2.1.5"
+		"@campaign-buddy/themes": "2.1.5",
+		"@electron-toolkit/preload": "^3.0.1",
+		"@electron-toolkit/utils": "^4.0.0",
+		"styled-components": "^5.3.3"
 	},
 	"devDependencies": {
 		"@electron-toolkit/tsconfig": "^1.0.1",

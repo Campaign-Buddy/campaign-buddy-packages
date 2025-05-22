@@ -1,25 +1,33 @@
 import { ThemeProvider } from '@campaign-buddy/react-theme-provider';
+import styled from 'styled-components';
 import { themes, semanticThemes } from '@campaign-buddy/themes';
-import { MemoryRouter, Route, Routes } from 'react-router';
 import { HomePage } from './pages/HomePage';
 import { CampaignPage } from './pages/CampaignPage';
+import { PageComponentMap } from './routing/PageProps';
+import { NavigationProvider } from './routing';
+
+const pages: PageComponentMap = {
+	campaign: CampaignPage,
+	home: HomePage,
+};
+
+const Background = styled.div`
+	width: 100%;
+	height: 100%;
+	background-color: ${({ theme }) => theme.colors.background.app};
+	color: ${({ theme }) => theme.colors.primaryText.onBackground};
+`;
 
 function App(): React.JSX.Element {
 	return (
-		<div>
-			<p>The app</p>
-			<ThemeProvider
-				theme={themes.parchment}
-				semanticTheme={semanticThemes.parchment}
-			>
-				<MemoryRouter>
-					<Routes>
-						<Route path="/" Component={HomePage} />
-						<Route path="/campaign/:campaignId" Component={CampaignPage} />
-					</Routes>
-				</MemoryRouter>
-			</ThemeProvider>
-		</div>
+		<ThemeProvider
+			theme={themes.parchment}
+			semanticTheme={semanticThemes.parchment}
+		>
+			<Background>
+				<NavigationProvider pages={pages} initialLocation={{ page: 'home' }} />
+			</Background>
+		</ThemeProvider>
 	);
 }
 
