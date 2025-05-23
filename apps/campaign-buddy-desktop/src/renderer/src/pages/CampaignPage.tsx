@@ -26,8 +26,13 @@ export function CampaignPage() {
 
 	useEffect(() => {
 		const layout = PanelLayoutModel.create();
-		layout.openPane({
-			location: 'campaign-buddy:dummy',
+		layout.transact(() => {
+			layout.openPane({
+				location: 'campaign-buddy:dummy',
+			});
+			layout.openPane({
+				location: 'campaign-buddy:dummy',
+			});
 		});
 
 		setPanelLayout(layout);
