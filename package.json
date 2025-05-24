@@ -14,6 +14,7 @@
   },
   "type": "module",
   "main": "dist/src/index",
+  "module": "dist/src/index",
   "repository": "https://github.com/Campaign-Buddy/campaign-buddy-frontend",
   "devDependencies": {
     "@babel/core": "^7.13.16",

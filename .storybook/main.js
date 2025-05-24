@@ -10,7 +10,7 @@ function getStoriesSubDirectory() {
 
 const subDir = getStoriesSubDirectory();
 
-module.exports = {
+export default {
 	stories: [
 		`../${subDir}/*.stories.mdx`,
 		`../${subDir}/*.stories.@(js|jsx|ts|tsx)`,

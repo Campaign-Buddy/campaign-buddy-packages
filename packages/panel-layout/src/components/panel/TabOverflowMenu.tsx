@@ -1,11 +1,7 @@
 import React, { useCallback, useEffect, useMemo } from 'react';
 import { OverflowedItemsProps } from '@campaign-buddy/overflow';
-import {
-	ToggleButton,
-	MenuPopover,
-	Button,
-	MenuItem,
-} from '@campaign-buddy/core-ui';
+import { ToggleButton, MenuPopover, MenuItem } from '@campaign-buddy/core-ui';
+import { Button, Icon } from '@campaign-buddy/primitive-ui';
 import { PaneTabItem } from './PaneTab';
 import {
 	CloseButtonContainer,
@@ -135,7 +131,7 @@ function OverflowMenuItem({ item, MenuItem }: MenuItemRenderApi<PaneTabItem>) {
 			renderRightElement: () => (
 				<CloseButtonContainer>
 					<Button
-						icon="cross"
+						leftIcon={<Icon name="cross" size="extraSmall" />}
 						size="small"
 						onClick={(event) => {
 							event.preventDefault();

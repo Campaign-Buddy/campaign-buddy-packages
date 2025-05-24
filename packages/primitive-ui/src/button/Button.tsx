@@ -2,7 +2,7 @@ import React from 'react';
 import { RightIconContainer, StyledButton, StyledButtonProps } from './styled';
 
 export interface ButtonProps extends StyledButtonProps {
-	onClick?: () => void;
+	onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
 	leftIcon?: React.ReactNode;
 	rightIcon?: React.ReactNode;
 }

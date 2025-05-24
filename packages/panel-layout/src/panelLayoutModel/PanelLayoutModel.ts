@@ -416,7 +416,7 @@ export class PaneModel extends ChildPanelModelBase<PanelModel> {
 		this.tabIcon = new TransactableProperty<TabIcon | undefined>(
 			{
 				kind: 'icon',
-				icon: 'hat',
+				icon: 'd20',
 			},
 			this.transactionManager
 		);

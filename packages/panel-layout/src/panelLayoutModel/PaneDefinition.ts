@@ -1,4 +1,4 @@
-import type { IconName } from '@campaign-buddy/core-ui';
+import type { IconName } from '@campaign-buddy/primitive-ui';
 import React from 'react';
 
 interface TabIconNamed {

@@ -20,6 +20,9 @@
 		},
 		{
 			"path": "../overflow/tsconfig.json"
+		},
+		{
+			"path": "../../packages/primitive-ui/tsconfig.json"
 		}
 	]
 }

@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 
-const { Command } = require('commander');
-const fs = require('fs/promises');
-const path = require('path');
+import { Command } from 'commander';
+import fs from 'fs/promises';
+import path from 'path';
 
 const packagesPath = path.join(__dirname, '../../packages');
 
