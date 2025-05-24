@@ -107,7 +107,7 @@ export class PanelLayoutModel extends ParentPanelModelBase<
 			this.addRow({
 				kind: 'panelRow',
 				children: [],
-				sizes: [100],
+				sizes: [],
 			});
 		}
 
