@@ -33,6 +33,9 @@ export function CampaignPage() {
 			layout.openPane({
 				location: 'campaign-buddy:dummy',
 			});
+			layout.openPane({
+				location: 'campaign-buddy:dummy',
+			});
 		});
 
 		setPanelLayout(layout);
@@ -40,7 +43,7 @@ export function CampaignPage() {
 
 	return (
 		<Background>
-			<Toolbar />
+			<Toolbar debug={() => console.log(panelLayout?.toJson())} />
 			{panelLayout && (
 				<PanelLayout panelLayout={panelLayout} paneDefintions={panes} />
 			)}

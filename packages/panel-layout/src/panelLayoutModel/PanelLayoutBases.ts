@@ -180,6 +180,28 @@ export class ParentPanelModelBase<
 			}
 		});
 
+		const normalizeSizes = () => {
+			if (!this.trackSizes) {
+				return;
+			}
+
+			const children = this.children.getValue();
+			const sizes = this.sizes.getValue();
+			if (children.length !== sizes.length) {
+				console.warn(
+					'Number of sizes does not match number of children. This is invalid, sizes will be overwritten to match children.',
+					children,
+					sizes
+				);
+
+				const sizePerChild = 100 / children.length;
+				const fixedSizes = children.map(() => sizePerChild);
+				this.sizes.setValue(fixedSizes);
+			}
+		};
+		this.children.addNormalization(normalizeSizes);
+		this.sizes.addNormalization(normalizeSizes);
+
 		this.trackSizes = trackSizes;
 		this.watchProperties(this.children, this.sizes);
 	}
