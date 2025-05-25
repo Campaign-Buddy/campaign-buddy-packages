@@ -131,7 +131,7 @@ function OverflowMenuItem({ item, MenuItem }: MenuItemRenderApi<PaneTabItem>) {
 			renderRightElement: () => (
 				<CloseButtonContainer>
 					<Button
-						leftIcon={<Icon name="cross" size="extraSmall" />}
+						leftIcon="cross"
 						size="small"
 						onClick={(event) => {
 							event.preventDefault();

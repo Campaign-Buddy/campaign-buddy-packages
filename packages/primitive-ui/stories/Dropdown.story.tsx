@@ -14,7 +14,7 @@ export function Primary() {
 			<Dropdown.Reference>
 				<Button
 					onClick={() => setIsOpen((p) => !p)}
-					rightIcon={<Icon name="chevronDown" />}
+					rightIcon="chevronDown"
 				>
 					Click me
 				</Button>

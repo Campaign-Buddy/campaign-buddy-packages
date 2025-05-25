@@ -1,10 +1,17 @@
 import React from 'react';
-import { RightIconContainer, StyledButton, StyledButtonProps } from './styled';
+import {
+	ButtonSize,
+	RightIconContainer,
+	StyledButton,
+	StyledButtonProps,
+} from './styled';
+import { Icon, IconName } from '../icon';
+import { iconNames } from '../icon/iconNames';
 
 export interface ButtonProps extends StyledButtonProps {
 	onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
-	leftIcon?: React.ReactNode;
-	rightIcon?: React.ReactNode;
+	leftIcon?: IconName;
+	rightIcon?: IconName;
 }
 
 export function Button({
@@ -12,7 +19,7 @@ export function Button({
 	leftIcon,
 	rightIcon,
 	disabled,
-	size,
+	size = 'medium',
 	variant,
 	children,
 }: React.PropsWithChildren<ButtonProps>) {
@@ -23,9 +30,27 @@ export function Button({
 			size={size}
 			variant={variant}
 		>
-			{leftIcon}
+			<ButtonIcon icon={leftIcon} size={size} />
 			{children && <span>{children}</span>}
-			{rightIcon && <RightIconContainer>{rightIcon}</RightIconContainer>}
+			{rightIcon && (
+				<RightIconContainer>
+					<ButtonIcon icon={rightIcon} size={size} />
+				</RightIconContainer>
+			)}
 		</StyledButton>
 	);
+}
+
+function ButtonIcon({
+	icon,
+	size,
+}: {
+	icon: React.ReactNode | IconName;
+	size: ButtonSize;
+}) {
+	if (typeof icon === 'string' && icon in iconNames) {
+		return <Icon name={icon as IconName} size={size} />;
+	}
+
+	return icon;
 }

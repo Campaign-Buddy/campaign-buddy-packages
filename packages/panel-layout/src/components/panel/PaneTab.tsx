@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 import { useCombinedRefs } from '@campaign-buddy/common-hooks';
-import { Button } from '@campaign-buddy/core-ui';
+import { Button, Icon } from '@campaign-buddy/primitive-ui';
 import { ItemProps } from '@campaign-buddy/overflow';
 import { PaneModel } from '../../panelLayoutModel';
 import {
@@ -65,7 +65,7 @@ export const PaneTab: React.FC<ItemProps<PaneTabItem, HTMLDivElement>> = ({
 				<span>{title}</span>
 				<ButtonContainer>
 					<Button
-						icon="cross"
+						leftIcon="cross"
 						onClick={(event) => {
 							event.preventDefault();
 							event.stopPropagation();
