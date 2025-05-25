@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-	ButtonSize,
 	RightIconContainer,
 	StyledButton,
 	StyledButtonProps,
@@ -30,27 +29,13 @@ export function Button({
 			size={size}
 			variant={variant}
 		>
-			<ButtonIcon icon={leftIcon} size={size} />
+			{leftIcon && <Icon name={leftIcon} size={size} />}
 			{children && <span>{children}</span>}
 			{rightIcon && (
 				<RightIconContainer>
-					<ButtonIcon icon={rightIcon} size={size} />
+					<Icon name={rightIcon} size={size} />
 				</RightIconContainer>
 			)}
 		</StyledButton>
 	);
-}
-
-function ButtonIcon({
-	icon,
-	size,
-}: {
-	icon: React.ReactNode | IconName;
-	size: ButtonSize;
-}) {
-	if (typeof icon === 'string' && icon in iconNames) {
-		return <Icon name={icon as IconName} size={size} />;
-	}
-
-	return icon;
 }
