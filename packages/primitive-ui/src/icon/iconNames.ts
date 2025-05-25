@@ -8,6 +8,8 @@ export const iconNames = {
 	cross: 'io5/IoClose',
 	d20: 'gi/GiDiceTwentyFacesTwenty',
 	profile: 'io5/IoPeopleCircleOutline',
+	character: 'gi/GiMeeple',
+	note: 'io5/IoDocumentText',
 } as const;
 
 export type IconName = keyof typeof iconNames;

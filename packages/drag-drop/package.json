@@ -33,9 +33,9 @@
 		"storybook": "cross-env STORYBOOK_PACKAGE_SCOPE=drag-drop yarn --cwd ../../ storybook"
 	},
 	"type": "module",
-	"main": "dist/src/index",
-	"module": "dist/src/index",
-	"types": "dist/src/index",
+	"main": "dist/src/index.js",
+	"module": "dist/src/index.js",
+	"types": "dist/src/index.d.ts",
 	"files": [
 		"dist/"
 	]

@@ -10,7 +10,7 @@ import styled from 'styled-components';
 const panes: Record<string, PaneDefinition> = {
 	dummy: {
 		Component: () => <div>I am a dummy</div>,
-		defaultIcon: { kind: 'icon', icon: 'airplane' },
+		defaultIcon: { kind: 'icon', icon: 'd20' },
 		defaultTitle: 'Dummy',
 	},
 };

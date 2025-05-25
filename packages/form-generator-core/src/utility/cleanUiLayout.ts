@@ -3,17 +3,16 @@
 // trying rendering empty sections and
 
 import { EntityFieldSettings } from '@campaign-buddy/frontend-types';
-import { UiLayout } from '@campaign-buddy/json-schema-core';
+import { CampaignBuddySchema, UiLayout } from '@campaign-buddy/json-schema-core';
 import {
 	navigateObject,
 	getSchemaForLocation,
 } from '@campaign-buddy/object-navigator';
-import { JSONSchema4 } from 'json-schema';
 
 // widgets that don't exist
 export function cleanUiLayout(
 	layout: UiLayout,
-	schema: JSONSchema4,
+	schema: CampaignBuddySchema,
 	fieldSettings: EntityFieldSettings,
 	currentUserRole?: string
 ): UiLayout {

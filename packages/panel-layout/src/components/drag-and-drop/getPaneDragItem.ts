@@ -1,5 +1,5 @@
 import { PaneModel } from '../../panelLayoutModel';
-import { PaneDragItem } from './PaneDragItem';
+import type { PaneDragItem } from './PaneDragItem';
 
 export function getPaneDragItem(pane: PaneModel): PaneDragItem {
 	return {

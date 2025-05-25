@@ -13,8 +13,8 @@
     ]
   },
   "type": "module",
-  "main": "dist/src/index",
-  "module": "dist/src/index",
+  "main": "dist/src/index.js",
+  "module": "dist/src/index.js",
   "repository": "https://github.com/Campaign-Buddy/campaign-buddy-frontend",
   "devDependencies": {
     "@babel/core": "^7.13.16",

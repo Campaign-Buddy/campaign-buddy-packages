@@ -1,4 +1,4 @@
-import { PaneDragItem } from '../components';
+import type { PaneDragItem } from '../components';
 import { TabIcon } from './PaneDefinition';
 import {
 	isPanelLayoutModel,

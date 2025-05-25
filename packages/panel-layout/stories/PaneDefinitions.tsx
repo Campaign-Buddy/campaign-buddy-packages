@@ -26,7 +26,7 @@ function NotesTool({ location }: PaneComponentProps) {
 const iconPool: TabIcon[] = [
 	{
 		kind: 'icon',
-		icon: 'lock',
+		icon: 'profile',
 	},
 	{
 		kind: 'image',
@@ -69,17 +69,17 @@ function TitleChangingSubTool() {
 
 export const paneDefinitions: Record<string, PaneDefinition> = {
 	character: {
-		defaultIcon: { kind: 'icon', icon: 'hat' },
+		defaultIcon: { kind: 'icon', icon: 'character' },
 		defaultTitle: 'Character tool',
 		Component: CharacterSheet,
 	},
 	note: {
-		defaultIcon: { kind: 'icon', icon: 'edit' },
+		defaultIcon: { kind: 'icon', icon: 'note' },
 		defaultTitle: 'Notes tool',
 		Component: NotesTool,
 	},
 	tabHookTest: {
-		defaultIcon: { kind: 'icon', icon: 'book' },
+		defaultIcon: { kind: 'icon', icon: 'd20' },
 		defaultTitle: 'Default title',
 		Component: TitleChangingTool,
 	},

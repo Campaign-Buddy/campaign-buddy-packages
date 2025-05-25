@@ -1,5 +1,5 @@
+import { CampaignBuddySchema } from '@campaign-buddy/json-schema-core';
 import { setDataAtLocation } from '@campaign-buddy/object-navigator';
-import { JSONSchema4 } from 'json-schema';
 import cloneDeep from 'lodash.clonedeep';
 import { useCallback, useEffect, useRef } from 'react';
 
@@ -11,7 +11,7 @@ interface Update {
 type DataUpdater = (path: string, update: any) => any;
 
 export function useDataUpdater(
-	schema: JSONSchema4,
+	schema: CampaignBuddySchema,
 	data: any,
 	onChange: (data: any) => void,
 	debounceTime = 300

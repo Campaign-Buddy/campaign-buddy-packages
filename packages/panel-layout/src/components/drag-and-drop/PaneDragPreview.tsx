@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { TabIcon } from '../tab-icon';
-import { PaneDragItem } from './PaneDragItem';
+import type { PaneDragItem } from './PaneDragItem';
 
 interface PaneDragPreviewProps {
 	dragItem: PaneDragItem;

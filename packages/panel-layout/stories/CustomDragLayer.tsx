@@ -1,4 +1,3 @@
-import React from 'react';
 import { useDragLayer } from 'react-dnd';
 import styled from 'styled-components';
 import { PaneDragPreview, isPaneDragItem, PaneDragItemKind } from '../src';
