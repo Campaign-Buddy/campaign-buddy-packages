@@ -6,7 +6,7 @@ export const IconContainer = styled.div`
 `;
 
 export const ImageIcon = styled.img`
-	width: ${({ theme }) => theme.sizes.uiHeights.extraSmall}px;
-	height: ${({ theme }) => theme.sizes.uiHeights.extraSmall}px;
+	width: ${({ theme }) => theme.sizes.iconSizes.medium}px;
+	height: ${({ theme }) => theme.sizes.iconSizes.medium}px;
 	object-fit: contain;
 `;

@@ -10,7 +10,7 @@ export function TabIcon({ tabIcon }: TabIconProps) {
 	if (tabIcon?.kind === 'icon') {
 		return (
 			<IconContainer>
-				<Icon name={tabIcon.icon} size="extraSmall" />
+				<Icon name={tabIcon.icon} size="medium" />
 			</IconContainer>
 		);
 	}
