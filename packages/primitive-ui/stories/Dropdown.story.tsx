@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Button, Dropdown, Icon } from '../src';
 import { Meta } from '@storybook/react';
 

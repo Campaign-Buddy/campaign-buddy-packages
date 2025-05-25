@@ -4,6 +4,8 @@
     "baseUrl": "./packages",
     "paths": {
       "@campaign-buddy/*": ["*/src/index"]
-    }
-  }
+    },
+    "types": ["./typings/env.d.ts"]
+  },
+  "include": ["packages", "typings"]
 }

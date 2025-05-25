@@ -34,7 +34,7 @@ function useLazyIcon(reactIconPath: string) {
 
 		const [group, iconName] = reactIconPath.split('/');
 
-		import(`react-icons/${group}`).then((fontGroup) => {
+		import(`./react-icons/${group}.ts`).then((fontGroup) => {
 			if (!canceled) {
 				setLoadedIcon(() => fontGroup[iconName]);
 			}
