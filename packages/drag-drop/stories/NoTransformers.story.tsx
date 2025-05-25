@@ -10,9 +10,9 @@ import { Bin, Container, Stack } from './ExampleComponents';
 export default {
 	title: 'drag-drop/NoTransformers',
 	decorators: [
-		(Story: React.ComponentType) => (
+		(StoryFn: React.ComponentType) => (
 			<DragProvider>
-				<Story />
+				<StoryFn />
 			</DragProvider>
 		),
 	],

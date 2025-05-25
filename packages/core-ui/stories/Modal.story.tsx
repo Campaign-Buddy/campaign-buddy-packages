@@ -1,7 +1,7 @@
 import React, { ComponentProps, useCallback, useMemo, useState } from 'react';
-import { Meta, Story } from '@storybook/react';
+import { Meta, StoryFn } from '@storybook/react';
 import { Modal, Button, Input } from '../src';
-import { makeStory } from './util';
+import { makeStoryFn } from './util';
 
 export default {
 	title: 'core-ui/Modal',
@@ -73,7 +73,7 @@ const LongContent = () => (
 	</>
 );
 
-const Template: Story = ({ hasInput }) => {
+const Template: StoryFn = ({ hasInput }) => {
 	const [isOpen, setIsOpen] = useState(false);
 	const [content, setContent] = useState('');
 
@@ -110,4 +110,4 @@ const Template: Story = ({ hasInput }) => {
 
 export const Primary = Template.bind({});
 
-export const WithInput = makeStory(Template, { hasInput: true });
+export const WithInput = makeStoryFn(Template, { hasInput: true });

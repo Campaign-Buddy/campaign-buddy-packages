@@ -21,9 +21,9 @@ const transformer = new DragDataTransformer().addTransformer(
 export default {
 	title: 'drag-drop/WithTransformers',
 	decorators: [
-		(Story: React.ComponentType) => (
+		(StoryFn: React.ComponentType) => (
 			<DragProvider dragDataTransformer={transformer}>
-				<Story />
+				<StoryFn />
 			</DragProvider>
 		),
 	],

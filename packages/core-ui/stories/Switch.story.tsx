@@ -1,5 +1,5 @@
 import React from 'react';
-import { Meta, Story } from '@storybook/react';
+import { Meta, StoryFn } from '@storybook/react';
 import { useState } from 'react';
 import { Switch } from '../src';
 
@@ -8,7 +8,7 @@ export default {
 	component: Switch,
 } as Meta;
 
-const Template: Story = () => {
+const Template: StoryFn = () => {
 	const [value, setValue] = useState(false);
 
 	return <Switch value={value} onChange={setValue} label="Please check me" />;

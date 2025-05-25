@@ -1,5 +1,5 @@
 import React from 'react';
-import { Meta, Story } from '@storybook/react';
+import { Meta, StoryFn } from '@storybook/react';
 import { useState } from 'react';
 import { ToggleButton } from '../src';
 
@@ -8,7 +8,7 @@ export default {
 	component: ToggleButton,
 } as Meta;
 
-const Template: Story = () => {
+const Template: StoryFn = () => {
 	const [value, setValue] = useState(false);
 
 	return (

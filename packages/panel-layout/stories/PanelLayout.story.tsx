@@ -24,7 +24,7 @@ const GlobalStyle = createGlobalStyle`
 	}
 `;
 
-const StoryRoot = styled.div`
+const StoryFnRoot = styled.div`
 	height: 100%;
 	padding: 8px;
 	position: relative;
@@ -155,7 +155,7 @@ function serialize() {
 
 export const Primary = () => {
 	return (
-		<StoryRoot>
+		<StoryFnRoot>
 			<DndProvider backend={HTML5Backend}>
 				<GlobalStyle />
 				<div>
@@ -166,7 +166,7 @@ export const Primary = () => {
 				<PanelLayout panelLayout={layout} paneDefintions={paneDefinitions} />
 				<CustomDragLayer />
 			</DndProvider>
-		</StoryRoot>
+		</StoryFnRoot>
 	);
 };
 Primary.parameters = {

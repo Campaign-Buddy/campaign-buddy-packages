@@ -1,3 +1,4 @@
+import { dirname, join } from 'path';
 function getStoriesSubDirectory() {
 	const packageScope = process.env.STORYBOOK_PACKAGE_SCOPE;
 
@@ -12,11 +13,15 @@ const subDir = getStoriesSubDirectory();
 
 export default {
 	stories: [
-		`../${subDir}/*.stories.mdx`,
 		`../${subDir}/*.stories.@(js|jsx|ts|tsx)`,
 		`../${subDir}/*.story.@(js|jsx|ts|tsx)`,
 	],
-	addons: ['@storybook/addon-links', '@storybook/addon-essentials'],
+
+	addons: [
+		getAbsolutePath('@storybook/addon-links'),
+		getAbsolutePath('@storybook/addon-essentials'),
+	],
+
 	babel: async (options) => ({
 		...options,
 		plugins: [
@@ -24,4 +29,17 @@ export default {
 			['babel-plugin-styled-components', { displayName: true }],
 		],
 	}),
+
+	framework: {
+		name: getAbsolutePath('@storybook/react-vite'),
+		options: {},
+	},
+
+	docs: {
+		autodocs: true,
+	},
 };
+
+function getAbsolutePath(value) {
+	return dirname(require.resolve(join(value, 'package.json')));
+}

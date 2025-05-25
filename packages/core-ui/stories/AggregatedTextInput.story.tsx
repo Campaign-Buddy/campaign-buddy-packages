@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Meta, Story } from '@storybook/react';
+import { Meta, StoryFnFn } from '@storybook/react';
 import { AggregatedTextInput } from '../src';
 
 export default {
@@ -7,7 +7,7 @@ export default {
 	component: AggregatedTextInput,
 } as Meta;
 
-const Template: Story = () => {
+const Template: StoryFnFn = () => {
 	const [state, setState] = useState('Base value');
 
 	const aggregatedValue = `Wrapped: ${state}`;

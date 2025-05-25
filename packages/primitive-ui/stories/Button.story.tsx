@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, ButtonProps } from '../src/button/Button';
 import { Meta } from '@storybook/react';
-import { iconElementControl } from './storyUtil';
+import { iconElementControl } from './StoryFnUtil';
 
 export default {
 	title: 'primitive-ui/Button',

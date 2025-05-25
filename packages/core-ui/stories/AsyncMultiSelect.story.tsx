@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Meta, Story } from '@storybook/react';
+import { Meta, StoryFn } from '@storybook/react';
 import { AsyncMultiSelect, IOption } from '../src';
 
 export default {
@@ -31,7 +31,7 @@ async function fetchOptions(
 		.slice(0, 10);
 }
 
-const Template: Story = () => {
+const Template: StoryFn = () => {
 	const [value, setValue] = useState<IOption<Todo>[]>([]);
 
 	return (

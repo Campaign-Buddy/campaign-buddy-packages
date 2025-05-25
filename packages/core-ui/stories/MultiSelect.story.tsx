@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Meta, Story } from '@storybook/react';
+import { Meta, StoryFn } from '@storybook/react';
 import { MultiSelect, IOption } from '../src';
 
 export default {
@@ -35,7 +35,7 @@ const options: IOption[] = [
 	},
 ];
 
-const Template: Story = () => {
+const Template: StoryFn = () => {
 	const [value, setValue] = useState([]);
 
 	return (

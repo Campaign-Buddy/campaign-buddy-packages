@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Meta, Story } from '@storybook/react';
+import { Meta, StoryFnFn } from '@storybook/react';
 import { AggregatedNumberInput, Input } from '../src';
 
 export default {
@@ -7,7 +7,7 @@ export default {
 	component: AggregatedNumberInput,
 } as Meta;
 
-const Template: Story = () => {
+const Template: StoryFnFn = () => {
 	const [state, setState] = useState(0);
 
 	const aggregatedValue = state + 10;

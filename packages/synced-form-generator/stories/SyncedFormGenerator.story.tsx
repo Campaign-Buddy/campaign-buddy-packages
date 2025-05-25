@@ -1,6 +1,6 @@
 import React from 'react';
 import * as Y from 'yjs';
-import { Meta, Story } from '@storybook/react';
+import { Meta, StoryFn } from '@storybook/react';
 import { syncedStore } from '@syncedstore/core';
 import { useSyncedStore } from '@syncedstore/react';
 import { WebrtcProvider } from 'y-webrtc';
@@ -21,7 +21,7 @@ new WebrtcProvider('campaign-buddy-testing', doc, {
 	password: 'password',
 });
 
-const Template: Story = () => {
+const Template: StoryFn = () => {
 	const state = useSyncedStore(store);
 	return (
 		<div>

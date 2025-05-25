@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Meta, Story } from '@storybook/react';
+import { Meta, StoryFn } from '@storybook/react';
 import { TextArea } from '../src';
 
 export default {
@@ -7,7 +7,7 @@ export default {
 	component: TextArea,
 } as Meta;
 
-const Template: Story = () => {
+const Template: StoryFn = () => {
 	const [value, setValue] = useState('');
 
 	return (

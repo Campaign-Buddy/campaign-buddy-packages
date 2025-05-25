@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from 'react';
-import { Meta, Story } from '@storybook/react';
+import { Meta, StoryFn } from '@storybook/react';
 import { NumberInput } from '../src';
 
 export default {
@@ -7,7 +7,7 @@ export default {
 	component: NumberInput,
 } as Meta;
 
-const Template: Story = () => {
+const Template: StoryFn = () => {
 	const [state, setState] = useState(0);
 
 	const handleSetState = useCallback((val: number) => {

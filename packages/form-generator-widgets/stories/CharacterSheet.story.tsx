@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import { FormGenerator } from '@campaign-buddy/form-generator';
-import { Meta, Story } from '@storybook/react';
+import { Meta, StoryFn } from '@storybook/react';
 import {
 	MockMediaApi,
 	MockEntityApi,
@@ -16,7 +16,7 @@ export default {
 const mediaApi = new MockMediaApi();
 const queryClient = new QueryClient();
 
-const Template: Story = () => {
+const Template: StoryFn = () => {
 	const [data, setData] = useState({ name: 'Barry Jazz' });
 	const entityApi = useMemo(
 		() => new MockEntityApi(MockEntityApi.defaultOptions),

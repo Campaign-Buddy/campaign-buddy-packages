@@ -1,5 +1,5 @@
 import React from 'react';
-import { Meta, Story } from '@storybook/react';
+import { Meta, StoryFn } from '@storybook/react';
 import { FormGenerator } from '../src';
 import { exampleSchema, exampleLayout } from '../examples/exampleSchema';
 import { exampleWidgets } from '../examples/exampleWidgets';
@@ -11,7 +11,7 @@ export default {
 	component: FormGenerator,
 } as Meta;
 
-const Template: Story = () => {
+const Template: StoryFn = () => {
 	const [data, setData] = useState({
 		name: 'Joseph Stewart',
 		description: 'This is a description',

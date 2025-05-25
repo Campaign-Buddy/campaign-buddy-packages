@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Meta, Story } from '@storybook/react';
+import { Meta, StoryFn } from '@storybook/react';
 import { Input } from '../src';
 
 export default {
@@ -7,7 +7,7 @@ export default {
 	component: Input,
 } as Meta;
 
-const Template: Story = () => {
+const Template: StoryFn = () => {
 	const [value, setValue] = useState('');
 
 	return <Input value={value} onChange={setValue} label="Please fill me out" />;
