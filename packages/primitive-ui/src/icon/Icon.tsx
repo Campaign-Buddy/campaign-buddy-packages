@@ -21,6 +21,8 @@ export function Icon({ name, size = 'medium' }: IconProps) {
 	);
 }
 
+const iconModules = import.meta.glob('./react-icons/*.(js|ts)');
+
 function useLazyIcon(reactIconPath: string) {
 	const [loadedIcon, setLoadedIcon] =
 		useState<React.ComponentType<IconBaseProps> | null>(null);
@@ -34,9 +36,14 @@ function useLazyIcon(reactIconPath: string) {
 
 		const [group, iconName] = reactIconPath.split('/');
 
-		import(`./react-icons/${group}.ts`).then((fontGroup) => {
+		const importIconModule = iconModules[`./react-icons/${group}.ts`] ?? iconModules[`./react-icons/${group}.js`];
+		if (!importIconModule) {
+			return;
+		}
+
+		importIconModule().then((iconGroup: any) => {
 			if (!canceled) {
-				setLoadedIcon(() => fontGroup[iconName]);
+				setLoadedIcon(() => iconGroup[iconName]);
 			}
 		});
 
