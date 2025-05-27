@@ -1,3 +1,5 @@
+import { CssSerializable } from './CssSerializable';
+
 interface IThickness {
 	top: number;
 	right: number;
@@ -5,7 +7,7 @@ interface IThickness {
 	left: number;
 }
 
-export class Thickness {
+export class Thickness implements CssSerializable {
 	private thickness: IThickness;
 
 	constructor(value: number | string | IThickness) {

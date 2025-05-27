@@ -1,5 +1,6 @@
 import Color from 'color';
 import { ThemeColor } from './ThemeColor';
+import { CssSerializable } from './CssSerializable';
 
 export interface IDropShadow {
 	xOffset: number;
@@ -10,7 +11,7 @@ export interface IDropShadow {
 	color?: ThemeColor;
 }
 
-export class DropShadow {
+export class DropShadow implements CssSerializable {
 	private shadows: IDropShadow[];
 
 	constructor(shadow: IDropShadow | IDropShadow[] | string[]) {

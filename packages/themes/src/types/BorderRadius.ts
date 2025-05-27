@@ -1,3 +1,5 @@
+import { CssSerializable } from './CssSerializable';
+
 interface IBorderRadius {
 	topLeft?: number;
 	topRight?: number;
@@ -5,7 +7,7 @@ interface IBorderRadius {
 	bottomLeft?: number;
 }
 
-export class BorderRadius {
+export class BorderRadius implements CssSerializable {
 	private radius: IBorderRadius;
 
 	constructor(radius: number | IBorderRadius) {
