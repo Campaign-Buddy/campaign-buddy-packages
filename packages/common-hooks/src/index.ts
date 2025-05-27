@@ -12,3 +12,6 @@ export * from './useDomEventHandler';
 export * from './useDomNode';
 export * from './useOnClickOutside';
 export * from './useTaggedChildren';
+export * from './useDataAttribute';
+export * from './useRefEffect';
+export * from './useRefEventHandler';

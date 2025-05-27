@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { AriaRole } from 'react';
 import {
 	RightAligned,
 	StyledButton,
@@ -10,6 +10,7 @@ export interface ButtonProps extends StyledButtonProps {
 	onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
 	leftIcon?: IconName;
 	rightIcon?: IconName;
+	role?: AriaRole;
 }
 
 export function Button({
@@ -20,6 +21,7 @@ export function Button({
 	size = 'medium',
 	variant,
 	children,
+	role,
 }: React.PropsWithChildren<ButtonProps>) {
 	return (
 		<StyledButton
@@ -27,6 +29,7 @@ export function Button({
 			disabled={disabled}
 			size={size}
 			variant={variant}
+			role={role}
 		>
 			{leftIcon && <Icon name={leftIcon} size={size} />}
 			{children && <span>{children}</span>}

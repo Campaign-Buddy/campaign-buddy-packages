@@ -1,23 +1,14 @@
 {
-	"name": "@campaign-buddy/primitive-ui",
+	"name": "@campaign-buddy/accessibility",
 	"publishConfig": {
 		"access": "public"
 	},
 	"version": "0.0.0",
 	"author": "Joseph Stewart",
 	"license": "MIT",
-	"dependencies": {
-		"@campaign-buddy/accessibility": "0.0.0",
-		"@campaign-buddy/common-hooks": "2.1.5",
-		"@campaign-buddy/theme-util": "0.0.0",
-		"@floating-ui/react-dom": "^2.1.2",
-		"is-hotkey": "^0.2.0",
-		"react-icons": "^5.5.0"
-	},
 	"devDependencies": {
 		"@campaign-buddy/react-theme-provider": "*",
 		"@campaign-buddy/themes": "*",
-		"@types/is-hotkey": "^0.1.10",
 		"cross-env": "^7.0.3",
 		"react": "^18.0.9",
 		"styled-components": "^5.3.3",
@@ -32,7 +23,7 @@
 		"build": "tsc -b",
 		"add-local": "node ../../tools/addLocal",
 		"remove-local": "node ../../tools/removeLocal",
-		"storybook": "cross-env STORYBOOK_PACKAGE_SCOPE=primitive-ui yarn --cwd ../../ storybook"
+		"storybook": "cross-env STORYBOOK_PACKAGE_SCOPE=accessibility yarn --cwd ../../ storybook"
 	},
 	"type": "module",
 	"main": "dist/src/index.js",

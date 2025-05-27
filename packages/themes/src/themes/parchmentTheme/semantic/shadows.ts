@@ -148,5 +148,7 @@ export const shadows: SemanticDropShadows = {
 		'0 8px 24px 0 rgba(67, 63, 54, 0.35)',
 		'0 2px 4px 0 rgba(67, 63, 54, 0.20)',
 	]),
-	none: {},
+	none: {
+		focused: focusShadow,
+	},
 };

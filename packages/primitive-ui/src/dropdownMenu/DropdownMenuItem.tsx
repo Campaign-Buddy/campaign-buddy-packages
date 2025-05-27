@@ -1,7 +1,8 @@
 import React, { useCallback, useContext } from 'react';
-import { RightAligned, StyledButton } from '../button/styled';
+import { RightAligned } from '../button/styled';
 import { Icon, IconName } from '../icon';
 import { ReservedIconSpace, StyledMenuButton } from './styled';
+import { useVirtualFocusChild } from '@campaign-buddy/accessibility';
 
 export interface MenuItemContextData {
 	reserveIconSpace: boolean;
@@ -37,8 +38,17 @@ export function DropdownMenuItem({
 		[onClick]
 	);
 
+	const ref = useVirtualFocusChild();
+
 	return (
-		<StyledMenuButton variant={isSelected ? 'selected' : 'minimal'} onClick={handleOuterMenuClick}>
+		<StyledMenuButton
+			tabIndex={-1}
+			variant={isSelected ? 'selected' : 'minimal'}
+			onClick={handleOuterMenuClick}
+			ref={ref}
+			role="menuitem"
+			onFocus={() => console.log('theoretically focused')}
+		>
 			{icon ? (
 				<Icon name={icon} />
 			) : reserveIconSpace ? (

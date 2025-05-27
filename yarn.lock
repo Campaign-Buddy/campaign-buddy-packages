@@ -560,6 +560,23 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@campaign-buddy/accessibility@npm:0.0.0, @campaign-buddy/accessibility@workspace:packages/accessibility":
+  version: 0.0.0-use.local
+  resolution: "@campaign-buddy/accessibility@workspace:packages/accessibility"
+  dependencies:
+    "@campaign-buddy/react-theme-provider": "npm:*"
+    "@campaign-buddy/themes": "npm:*"
+    cross-env: "npm:^7.0.3"
+    react: "npm:^18.0.9"
+    styled-components: "npm:^5.3.3"
+    typescript: "npm:^4.2.4"
+  peerDependencies:
+    "@campaign-buddy/react-theme-provider": "*"
+    react: ^18.0.9
+    styled-components: ^5.3.3
+  languageName: unknown
+  linkType: soft
+
 "@campaign-buddy/apply-aggregates@npm:^2.1.5, @campaign-buddy/apply-aggregates@workspace:packages/apply-aggregates":
   version: 0.0.0-use.local
   resolution: "@campaign-buddy/apply-aggregates@workspace:packages/apply-aggregates"
@@ -877,6 +894,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@campaign-buddy/primitive-ui@workspace:packages/primitive-ui"
   dependencies:
+    "@campaign-buddy/accessibility": "npm:0.0.0"
     "@campaign-buddy/common-hooks": "npm:2.1.5"
     "@campaign-buddy/react-theme-provider": "npm:*"
     "@campaign-buddy/theme-util": "npm:0.0.0"

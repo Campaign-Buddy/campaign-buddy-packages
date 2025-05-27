@@ -12,6 +12,7 @@ import {
 } from './DropdownMenuItem';
 import { useCallback, useMemo } from 'react';
 import { StyledContentContainer } from './styled';
+import { VirtualFocusRoot } from '@campaign-buddy/accessibility';
 
 export interface DropdownMenuProps {
 	isOpen: boolean;
@@ -75,7 +76,9 @@ DropdownMenu.Content = tagComponent(function DropdownMenuContent({
 
 	return (
 		<MenuItemContext.Provider value={menuItemContext}>
-			<StyledContentContainer>{items}</StyledContentContainer>
+			<VirtualFocusRoot initiallyFocused>
+				<StyledContentContainer>{items}</StyledContentContainer>
+			</VirtualFocusRoot>
 		</MenuItemContext.Provider>
 	);
 },
