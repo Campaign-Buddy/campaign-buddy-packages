@@ -1,18 +1,22 @@
 import React from 'react';
 import { useFloating, autoUpdate, flip, shift } from '@floating-ui/react-dom';
-import { tagComponent, useSingleTaggedChild } from './useSingleTaggedChild';
-import { DropdownContentContainer, ReferenceContainer } from './styled';
-import { useDomNode } from './useDomNode';
+import {
+	tagComponent,
+	useSingleTaggedChild,
+	useDomNode,
+	useOnClickOutside,
+	useRefBoundary,
+} from '@campaign-buddy/common-hooks';
+import { DropdownContentContainer, DropdownVariant, ReferenceContainer } from './styled';
 import { createPortal } from 'react-dom';
-import { useOnClickOutside, useRefBoundary } from './useOnClickOutside';
 import { useCombinedRefs } from '@campaign-buddy/common-hooks';
 import { useGlobalHotkeys } from './useGlobalHotkeys';
 
-export interface DropdownProps {
+export interface DropdownProps extends RequireChildren {
 	isOpen: boolean;
-	children: React.ReactNode;
 	setIsOpen: (isOpen: boolean) => void;
 	portalElementSelector?: string;
+	variant?: DropdownVariant;
 }
 
 export function Dropdown({
@@ -20,6 +24,7 @@ export function Dropdown({
 	children,
 	setIsOpen,
 	portalElementSelector,
+	variant,
 }: DropdownProps) {
 	const button = useSingleTaggedChild(children, dropdownReferenceSymbol);
 	const content = useSingleTaggedChild(children, dropdownContentSymbol);
@@ -75,7 +80,7 @@ export function Dropdown({
 			{isOpen &&
 				portalElement &&
 				createPortal(
-					<DropdownContentContainer ref={floatingRef} style={floatingStyles}>
+					<DropdownContentContainer variant={variant ?? 'default'} ref={floatingRef} style={floatingStyles}>
 						{content}
 					</DropdownContentContainer>,
 					portalElement

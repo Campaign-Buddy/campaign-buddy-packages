@@ -32,7 +32,6 @@ function getShadow(
 ) {
 	const shadowKind = variant !== 'primary' ? 'none' : 'raised';
 	const shadow = theme.shadows[shadowKind][uiState];
-	console.log('shadowKind', variant, shadowKind, shadow);
 
 	if (!shadow) {
 		return '';
@@ -117,7 +116,7 @@ export const StyledButton = styled.button<StyledButtonProps>`
 	}
 `;
 
-export const RightIconContainer = styled.span`
+export const RightAligned = styled.span`
 	margin-left: auto;
 	display: inline-flex;
 	align-items: center;

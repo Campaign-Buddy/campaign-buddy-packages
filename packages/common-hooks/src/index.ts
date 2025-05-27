@@ -8,3 +8,7 @@ export * from './useUpdatingRef';
 export * from './useResizeObserver';
 export * from './useCombinedRefs';
 export * from './useDelayedEffect';
+export * from './useDomEventHandler';
+export * from './useDomNode';
+export * from './useOnClickOutside';
+export * from './useTaggedChildren';

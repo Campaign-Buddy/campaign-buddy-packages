@@ -1,7 +1,6 @@
 import { useCallback, useMemo, useRef } from 'react';
 import isHotkey from 'is-hotkey';
-import { useDomEventHandler } from './useDomEventHandler';
-import { useDomNode } from './useDomNode';
+import { useDomEventHandler, useDomNode } from '@campaign-buddy/common-hooks';
 
 type HotkeyHandler = () => void;
 

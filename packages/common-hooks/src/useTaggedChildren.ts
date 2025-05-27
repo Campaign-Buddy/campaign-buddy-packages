@@ -8,21 +8,27 @@ export function tagComponent<T>(
 	return Component;
 }
 
-export function useSingleTaggedChild(
-	children: React.ReactNode,
-	tag: symbol
-): React.ReactNode {
+export function useTaggedChildren(children: React.ReactNode, tag: symbol) {
 	return useMemo(() => {
 		const matchingChildren = React.Children.toArray(children).filter((child) =>
 			hasTag(child, tag)
 		);
 
-		if (matchingChildren.length > 1) {
-			throw new Error('Multiple tagged children encountered');
-		}
-
-		return matchingChildren[0];
+		return matchingChildren;
 	}, [children, tag]);
+}
+
+export function useSingleTaggedChild(
+	children: React.ReactNode,
+	tag: symbol
+): React.ReactNode {
+	const taggedChildren = useTaggedChildren(children, tag);
+
+	if (taggedChildren.length > 1) {
+		throw new Error('Multiple tagged children encountered');
+	}
+
+	return taggedChildren[0];
 }
 
 function hasTag(child: React.ReactNode, tag: symbol) {

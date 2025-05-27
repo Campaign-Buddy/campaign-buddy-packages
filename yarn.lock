@@ -879,6 +879,7 @@ __metadata:
   dependencies:
     "@campaign-buddy/common-hooks": "npm:2.1.5"
     "@campaign-buddy/react-theme-provider": "npm:*"
+    "@campaign-buddy/theme-util": "npm:0.0.0"
     "@campaign-buddy/themes": "npm:*"
     "@floating-ui/react-dom": "npm:^2.1.2"
     "@types/is-hotkey": "npm:^0.1.10"
@@ -976,6 +977,15 @@ __metadata:
     "@campaign-buddy/react-theme-provider": "*"
     react: ^18.0.9
     styled-components: ^5.3.3
+  languageName: unknown
+  linkType: soft
+
+"@campaign-buddy/theme-util@npm:0.0.0, @campaign-buddy/theme-util@workspace:packages/theme-util":
+  version: 0.0.0-use.local
+  resolution: "@campaign-buddy/theme-util@workspace:packages/theme-util"
+  dependencies:
+    "@campaign-buddy/themes": "npm:*"
+    typescript: "npm:^4.2.4"
   languageName: unknown
   linkType: soft
 

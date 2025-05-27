@@ -1,11 +1,16 @@
 import fs from 'fs';
 import path from 'path';
 import { Context } from 'immutability-helper';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 export function getAllLocalPackages() {
 	const packageFolders = fs.readdirSync(path.join('./packages/'));
 
-	const allPackageNames = [];
+	const allPackageNames: string[] = [];
 
 	for (const packageFolder of packageFolders) {
 		const packageJson = readPackageJson(packageFolder);

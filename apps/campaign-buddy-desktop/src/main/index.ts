@@ -1,7 +1,12 @@
 import { app, shell, BrowserWindow, ipcMain } from 'electron';
 import { join } from 'path';
 import { electronApp, optimizer, is } from '@electron-toolkit/utils';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
 import icon from '../../resources/icon.png?asset';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 function createWindow(): void {
 	// Create the browser window.

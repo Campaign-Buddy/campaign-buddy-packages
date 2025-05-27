@@ -1,11 +1,10 @@
 import React from 'react';
 import {
-	RightIconContainer,
+	RightAligned,
 	StyledButton,
 	StyledButtonProps,
 } from './styled';
 import { Icon, IconName } from '../icon';
-import { iconNames } from '../icon/iconNames';
 
 export interface ButtonProps extends StyledButtonProps {
 	onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
@@ -32,9 +31,9 @@ export function Button({
 			{leftIcon && <Icon name={leftIcon} size={size} />}
 			{children && <span>{children}</span>}
 			{rightIcon && (
-				<RightIconContainer>
+				<RightAligned>
 					<Icon name={rightIcon} size={size} />
-				</RightIconContainer>
+				</RightAligned>
 			)}
 		</StyledButton>
 	);
