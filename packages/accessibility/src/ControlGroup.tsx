@@ -10,7 +10,10 @@ import React, {
 import {
 	useCombinedRefs,
 	useDataAttribute,
+	useDomEventHandler,
 	useRefEffect,
+	useRefEventHandler,
+	useUpdatingRef,
 } from '@campaign-buddy/common-hooks';
 import {
 	FocusChildNode,
@@ -42,6 +45,7 @@ interface ControlGroupContextData {
 		setTabIndex: SetTabIndex,
 		meta?: React.RefObject<ControlGroupChildMeta | undefined>
 	) => Unsubscribe;
+	onBlur: () => void;
 }
 
 const ControlGroupContext = React.createContext<
@@ -71,6 +75,7 @@ export interface ControlGroupProps {
 	orientation?: ArrowKeyOrientation;
 	role?: AriaRole;
 	accessibleId?: string;
+	onBlur?: () => void;
 }
 
 /**
@@ -82,6 +87,7 @@ export function ControlGroup({
 	orientation,
 	role,
 	accessibleId,
+	onBlur,
 }: React.PropsWithChildren<ControlGroupProps>) {
 	const childMap = useRef<
 		Record<
@@ -99,6 +105,8 @@ export function ControlGroup({
 	const shouldSetTabIndexOnSelectedNodeEncountered = useRef<boolean>(true);
 	const isInitiallyFocusedRef = useRef(initiallyFocused);
 	const rootElementRef = useRef<HTMLDivElement | null>(null);
+	const onBlurRef = useUpdatingRef(onBlur);
+	const isBlurDisabledRef = useRef(false);
 
 	const setTabIndexId = useCallback((id: string) => {
 		if (tabIndexId.current === id) {
@@ -149,15 +157,31 @@ export function ControlGroup({
 					}
 				};
 			},
+			onBlur: () => {
+				if (
+					!onBlurRef.current ||
+					isBlurDisabledRef.current ||
+					(document.activeElement &&
+						rootElementRef.current?.contains(document.activeElement))
+				) {
+					return;
+				}
+
+				onBlurRef.current();
+			},
 		}),
-		[setTabIndexId]
+		[setTabIndexId, onBlurRef]
 	);
 
 	const focusNode = useCallback((node: FocusChildNode | undefined) => {
 		if (!node) {
 			return;
 		}
+
+		isBlurDisabledRef.current = true;
 		childMap.current[node.id]?.focus();
+		isBlurDisabledRef.current = false;
+
 		shouldSetTabIndexOnSelectedNodeEncountered.current = false;
 		setTabIndexId(node.id);
 	}, []);
@@ -278,5 +302,14 @@ export function useControlGroupChild(meta?: ControlGroupChildMeta) {
 
 	const dataAttributeRef = useDataAttribute('controlGroupNode', id);
 
-	return useCombinedRefs(ref, dataAttributeRef, tabIndexRefEffect);
+	const blurHandlerRef = useRefEventHandler('blur', () => {
+		context.onBlur();
+	});
+
+	return useCombinedRefs(
+		ref,
+		dataAttributeRef,
+		tabIndexRefEffect,
+		blurHandlerRef
+	);
 }

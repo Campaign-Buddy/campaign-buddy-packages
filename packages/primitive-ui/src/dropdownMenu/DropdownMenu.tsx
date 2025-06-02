@@ -13,6 +13,10 @@ import {
 import { useCallback, useMemo } from 'react';
 import { StyledContentContainer, StyledDivider } from './styled';
 import { ControlGroup } from '@campaign-buddy/accessibility';
+import {
+	DropdownMenuContextProvider,
+	useDropdownMenuContext,
+} from './DropdownMenuContext';
 
 export interface DropdownMenuProps {
 	isOpen: boolean;
@@ -34,20 +38,24 @@ export function DropdownMenu({
 	const reference = useSingleTaggedChild(children, referenceTag);
 	const content = useSingleTaggedChild(children, contentTag);
 
-	const handleContentClick = useCallback(() => setIsOpen(false), []);
+	const close = useCallback(() => setIsOpen(false), []);
+
+	const handleContentClick = useCallback(() => close(), []);
 
 	return (
-		<Dropdown
-			variant="flush"
-			isOpen={isOpen}
-			setIsOpen={setIsOpen}
-			portalElementSelector={portalElementSelector}
-		>
-			<Dropdown.Reference>{reference}</Dropdown.Reference>
-			<Dropdown.Content>
-				<div onClick={handleContentClick}>{content}</div>
-			</Dropdown.Content>
-		</Dropdown>
+		<DropdownMenuContextProvider close={close}>
+			<Dropdown
+				variant="flush"
+				isOpen={isOpen}
+				setIsOpen={setIsOpen}
+				portalElementSelector={portalElementSelector}
+			>
+				<Dropdown.Reference>{reference}</Dropdown.Reference>
+				<Dropdown.Content>
+					<div onClick={handleContentClick}>{content}</div>
+				</Dropdown.Content>
+			</Dropdown>
+		</DropdownMenuContextProvider>
 	);
 }
 
@@ -65,6 +73,7 @@ DropdownMenu.Content = tagComponent(function DropdownMenuContent({
 	children: React.ReactNode;
 }) {
 	const items = useTaggedChildren(children, itemTag);
+	const { close } = useDropdownMenuContext();
 
 	const menuItemContext = useMemo<MenuItemContextData>(() => {
 		const anyItemHasIcon = items.some((x) => Boolean((x as any).props?.icon));
@@ -76,7 +85,7 @@ DropdownMenu.Content = tagComponent(function DropdownMenuContent({
 
 	return (
 		<MenuItemContext.Provider value={menuItemContext}>
-			<ControlGroup initiallyFocused>
+			<ControlGroup initiallyFocused onBlur={close}>
 				<StyledContentContainer>{items}</StyledContentContainer>
 			</ControlGroup>
 		</MenuItemContext.Provider>
@@ -86,5 +95,5 @@ contentTag);
 
 DropdownMenu.Item = tagComponent(DropdownMenuItem, itemTag);
 DropdownMenu.Divider = tagComponent(function DropdownMenuDivider() {
-	return <StyledDivider />
+	return <StyledDivider />;
 }, itemTag);

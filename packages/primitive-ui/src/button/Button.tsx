@@ -11,6 +11,7 @@ export interface ButtonProps extends StyledButtonProps {
 	leftIcon?: IconName;
 	rightIcon?: IconName;
 	role?: AriaRole;
+	onFocus?: () => void;
 }
 
 export function Button({
@@ -21,6 +22,7 @@ export function Button({
 	size = 'medium',
 	variant,
 	children,
+	onFocus,
 	role,
 }: React.PropsWithChildren<ButtonProps>) {
 	return (
@@ -30,6 +32,7 @@ export function Button({
 			size={size}
 			variant={variant}
 			role={role}
+			onFocus={onFocus}
 		>
 			{leftIcon && <Icon name={leftIcon} size={size} />}
 			{children && <span>{children}</span>}
