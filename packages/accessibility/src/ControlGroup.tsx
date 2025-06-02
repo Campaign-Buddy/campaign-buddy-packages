@@ -107,7 +107,6 @@ export function ControlGroup({
 	const isInitiallyFocusedRef = useRef(initiallyFocused);
 	const rootElementRef = useRef<HTMLDivElement | null>(null);
 	const onBlurRef = useUpdatingRef(onBlur);
-	const isBlurDisabledRef = useRef(false);
 
 	const setTabIndexId = useCallback((id: string) => {
 		if (tabIndexId.current === id) {
@@ -159,16 +158,17 @@ export function ControlGroup({
 				};
 			},
 			onBlur: () => {
-				if (
-					!onBlurRef.current ||
-					isBlurDisabledRef.current ||
-					(document.activeElement &&
-						rootElementRef.current?.contains(document.activeElement))
-				) {
-					return;
-				}
+				queueMicrotask(() => {
+					if (
+						!onBlurRef.current ||
+						(document.activeElement &&
+							rootElementRef.current?.contains(document.activeElement))
+					) {
+						return;
+					}
 
-				onBlurRef.current();
+					onBlurRef.current();
+				});
 			},
 		}),
 		[setTabIndexId, onBlurRef]
@@ -178,11 +178,7 @@ export function ControlGroup({
 		if (!node) {
 			return;
 		}
-
-		isBlurDisabledRef.current = true;
 		childMap.current[node.id]?.focus();
-		isBlurDisabledRef.current = false;
-
 		shouldSetTabIndexOnSelectedNodeEncountered.current = false;
 		setTabIndexId(node.id);
 	}, []);
