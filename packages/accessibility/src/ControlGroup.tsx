@@ -88,7 +88,8 @@ export function ControlGroup({
 	role,
 	accessibleId,
 	onBlur,
-}: React.PropsWithChildren<ControlGroupProps>) {
+	...ariaAttributes
+}: React.PropsWithChildren<ControlGroupProps & React.AriaAttributes>) {
 	const childMap = useRef<
 		Record<
 			string,
@@ -258,7 +259,7 @@ export function ControlGroup({
 
 	return (
 		<ControlGroupContext.Provider value={contextValue}>
-			<div ref={rootRef} role={role} id={accessibleId}>
+			<div {...ariaAttributes} ref={rootRef} role={role} id={accessibleId}>
 				{children}
 			</div>
 		</ControlGroupContext.Provider>

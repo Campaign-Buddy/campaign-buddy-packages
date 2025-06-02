@@ -10,9 +10,9 @@ import {
 	MenuItemContext,
 	MenuItemContextData,
 } from './DropdownMenuItem';
-import { useCallback, useMemo } from 'react';
+import { useCallback, useId, useMemo } from 'react';
 import { StyledContentContainer, StyledDivider } from './styled';
-import { ControlGroup } from '@campaign-buddy/accessibility';
+import { ControlGroup, useScopedHotkeys } from '@campaign-buddy/accessibility';
 import {
 	DropdownMenuContextProvider,
 	useDropdownMenuContext,
@@ -38,12 +38,19 @@ export function DropdownMenu({
 	const reference = useSingleTaggedChild(children, referenceTag);
 	const content = useSingleTaggedChild(children, contentTag);
 
+	const sharedId = useId();
 	const close = useCallback(() => setIsOpen(false), []);
+	const open = useCallback(() => setIsOpen(true), []);
 
 	const handleContentClick = useCallback(() => close(), []);
 
 	return (
-		<DropdownMenuContextProvider close={close}>
+		<DropdownMenuContextProvider
+			isOpen={isOpen}
+			open={open}
+			close={close}
+			sharedId={sharedId}
+		>
 			<Dropdown
 				variant="flush"
 				isOpen={isOpen}
@@ -63,7 +70,27 @@ export type DropdownMenuButtonProps = ButtonProps;
 DropdownMenu.Button = tagComponent(function DropdownMenuButton(
 	props: React.PropsWithChildren<DropdownMenuButtonProps>
 ) {
-	return <Button {...props} />;
+	const { isOpen, open, sharedId } = useDropdownMenuContext();
+
+	const hotkeys = useScopedHotkeys({
+		up: () => {
+			open();
+		},
+		down: () => {
+			open();
+		},
+	});
+
+	return (
+		<Button
+			aria-haspopup="menu"
+			aria-controls={isOpen ? sharedId : undefined}
+			aria-expanded={isOpen}
+			ref={hotkeys}
+			rightIcon={isOpen ? 'chevronUp' : 'chevronDown'}
+			{...props}
+		/>
+	);
 },
 referenceTag);
 
@@ -73,7 +100,7 @@ DropdownMenu.Content = tagComponent(function DropdownMenuContent({
 	children: React.ReactNode;
 }) {
 	const items = useTaggedChildren(children, itemTag);
-	const { close } = useDropdownMenuContext();
+	const { close, sharedId } = useDropdownMenuContext();
 
 	const menuItemContext = useMemo<MenuItemContextData>(() => {
 		const anyItemHasIcon = items.some((x) => Boolean((x as any).props?.icon));
@@ -85,7 +112,13 @@ DropdownMenu.Content = tagComponent(function DropdownMenuContent({
 
 	return (
 		<MenuItemContext.Provider value={menuItemContext}>
-			<ControlGroup initiallyFocused onBlur={close}>
+			<ControlGroup
+				aria-orientation="vertical"
+				accessibleId={sharedId}
+				role="menu"
+				initiallyFocused
+				onBlur={close}
+			>
 				<StyledContentContainer>{items}</StyledContentContainer>
 			</ControlGroup>
 		</MenuItemContext.Provider>
@@ -95,5 +128,5 @@ contentTag);
 
 DropdownMenu.Item = tagComponent(DropdownMenuItem, itemTag);
 DropdownMenu.Divider = tagComponent(function DropdownMenuDivider() {
-	return <StyledDivider />;
+	return <StyledDivider role="separator" aria-orientation="vertical" />;
 }, itemTag);
