@@ -2,7 +2,7 @@ import React, { useCallback, useContext } from 'react';
 import { RightAligned } from '../button/styled';
 import { Icon, IconName } from '../icon';
 import { ReservedIconSpace, StyledMenuButton } from './styled';
-import { useControlGroupChild } from '@campaign-buddy/accessibility';
+import { useCompositeControlChild } from '@campaign-buddy/accessibility';
 
 export interface MenuItemContextData {
 	reserveIconSpace: boolean;
@@ -38,7 +38,7 @@ export function DropdownMenuItem({
 		[onClick]
 	);
 
-	const ref = useControlGroupChild({
+	const ref = useCompositeControlChild({
 		isSelected,
 	});
 
@@ -48,7 +48,6 @@ export function DropdownMenuItem({
 			onClick={handleOuterMenuClick}
 			ref={ref}
 			role="menuitem"
-			onFocus={() => console.log('theoretically focused')}
 		>
 			{icon ? (
 				<Icon name={icon} />

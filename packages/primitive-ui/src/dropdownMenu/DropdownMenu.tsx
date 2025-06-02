@@ -12,7 +12,7 @@ import {
 } from './DropdownMenuItem';
 import { useCallback, useId, useMemo } from 'react';
 import { StyledContentContainer, StyledDivider } from './styled';
-import { ControlGroup, useScopedHotkeys } from '@campaign-buddy/accessibility';
+import { CompositeControl, useScopedHotkeys } from '@campaign-buddy/accessibility';
 import {
 	DropdownMenuContextProvider,
 	useDropdownMenuContext,
@@ -112,7 +112,7 @@ DropdownMenu.Content = tagComponent(function DropdownMenuContent({
 
 	return (
 		<MenuItemContext.Provider value={menuItemContext}>
-			<ControlGroup
+			<CompositeControl
 				aria-orientation="vertical"
 				accessibleId={sharedId}
 				role="menu"
@@ -120,7 +120,7 @@ DropdownMenu.Content = tagComponent(function DropdownMenuContent({
 				onBlur={close}
 			>
 				<StyledContentContainer>{items}</StyledContentContainer>
-			</ControlGroup>
+			</CompositeControl>
 		</MenuItemContext.Provider>
 	);
 },

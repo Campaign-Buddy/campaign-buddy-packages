@@ -1,2 +1,2 @@
-export * from './ControlGroup';
+export * from './CompositeControl';
 export * from './useHotkeys';

@@ -37,14 +37,14 @@ export function getOrderedNodes() {
 		return [];
 	}
 
-	const domNodes = document.querySelectorAll('[data-control-group-node]');
+	const domNodes = document.querySelectorAll('[data-composite-control-node]');
 	const orderedIds: {
 		isActive: boolean;
 		id: string;
 	}[] = [];
 
 	for (const item of toArray(domNodes)) {
-		const id = (item as HTMLElement).dataset?.controlGroupNode;
+		const id = (item as HTMLElement).dataset?.compositeControlNode;
 		
 		if (!id) {
 			continue;

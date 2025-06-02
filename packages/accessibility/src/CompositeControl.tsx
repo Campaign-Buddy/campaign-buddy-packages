@@ -33,44 +33,44 @@ type GiveFocus = () => void;
 type ValidTabIndex = -1 | 0;
 type SetTabIndex = (index: ValidTabIndex) => void;
 
-export interface ControlGroupChildMeta {
+export interface CompositeControlChildMeta {
 	onActivate?: () => void;
 	isSelected?: boolean;
 }
 
-interface ControlGroupContextData {
+interface CompositeControlContextData {
 	registerChild: (
 		id: string,
 		giveFocus: GiveFocus,
 		setTabIndex: SetTabIndex,
-		meta?: React.RefObject<ControlGroupChildMeta | undefined>
+		meta?: React.RefObject<CompositeControlChildMeta | undefined>
 	) => Unsubscribe;
 	onBlur: () => void;
 }
 
-const ControlGroupContext = React.createContext<
-	ControlGroupContextData | undefined
+const CompositeControlContext = React.createContext<
+	CompositeControlContextData | undefined
 >(undefined);
 
-export interface ControlGroupChild {
+export interface CompositeControlChild {
 	focus: GiveFocus;
 	setTabIndex: SetTabIndex;
-	meta?: ControlGroupChildMeta;
+	meta?: CompositeControlChildMeta;
 }
 
-export interface ControlGroupController {
+export interface CompositeControlController {
 	moveNext: () => void;
 	movePrevious: () => void;
 	moveToStart: () => void;
 	moveToEnd: () => void;
-	getFocused: () => ControlGroupChild | undefined;
+	getFocused: () => CompositeControlChild | undefined;
 	focus: () => void;
 	find: (
-		predicate: (item: ControlGroupChildMeta) => boolean
-	) => ControlGroupChild | undefined;
+		predicate: (item: CompositeControlChildMeta) => boolean
+	) => CompositeControlChild | undefined;
 }
 
-export interface ControlGroupProps {
+export interface CompositeControlProps {
 	initiallyFocused?: boolean;
 	orientation?: ArrowKeyOrientation;
 	role?: AriaRole;
@@ -81,7 +81,7 @@ export interface ControlGroupProps {
 /**
  * Represents a complex control with custom focus management that exists outside of the default browser focus behavior
  */
-export function ControlGroup({
+export function CompositeControl({
 	initiallyFocused,
 	children,
 	orientation,
@@ -89,11 +89,11 @@ export function ControlGroup({
 	accessibleId,
 	onBlur,
 	...ariaAttributes
-}: React.PropsWithChildren<ControlGroupProps & React.AriaAttributes>) {
+}: React.PropsWithChildren<CompositeControlProps & React.AriaAttributes>) {
 	const childMap = useRef<
 		Record<
 			string,
-			Omit<ControlGroupChild, 'meta'> & {
+			Omit<CompositeControlChild, 'meta'> & {
 				meta?: React.RefObject<any>;
 			}
 		>
@@ -129,7 +129,7 @@ export function ControlGroup({
 		}
 	}, []);
 
-	const contextValue = useMemo<ControlGroupContextData>(
+	const contextValue = useMemo<CompositeControlContextData>(
 		() => ({
 			registerChild: (id: string, focus, setTabIndex, meta) => {
 				childMap.current[id] = {
@@ -184,7 +184,7 @@ export function ControlGroup({
 	}, []);
 
 	const find = useCallback(
-		(predicate: (item: ControlGroupChildMeta) => boolean) => {
+		(predicate: (item: CompositeControlChildMeta) => boolean) => {
 			const nodes = getOrderedNodes();
 			const found = nodes.find(
 				({ id }) =>
@@ -220,7 +220,7 @@ export function ControlGroup({
 		}
 	}, [find]);
 
-	const controller = useMemo<ControlGroupController>(
+	const controller = useMemo<CompositeControlController>(
 		() => ({
 			moveNext: () => focusNode(getNext()),
 			movePrevious: () => focusNode(getNext(-1)),
@@ -254,21 +254,21 @@ export function ControlGroup({
 	}, []);
 
 	return (
-		<ControlGroupContext.Provider value={contextValue}>
+		<CompositeControlContext.Provider value={contextValue}>
 			<div {...ariaAttributes} ref={rootRef} role={role} id={accessibleId}>
 				{children}
 			</div>
-		</ControlGroupContext.Provider>
+		</CompositeControlContext.Provider>
 	);
 }
 
 /**
  * A hook that returns a ref to be attached to a virtually focusable DOM node
  */
-export function useControlGroupChild(meta?: ControlGroupChildMeta) {
-	const context = useContext(ControlGroupContext);
+export function useCompositeControlChild(meta?: CompositeControlChildMeta) {
+	const context = useContext(CompositeControlContext);
 	const ref = useRef<HTMLElement | null>(null);
-	const metaRef = useRef<ControlGroupChildMeta | undefined>(meta);
+	const metaRef = useRef<CompositeControlChildMeta | undefined>(meta);
 	const tabIndexRef = useRef<ValidTabIndex>(-1);
 	metaRef.current = meta;
 
@@ -297,7 +297,7 @@ export function useControlGroupChild(meta?: ControlGroupChildMeta) {
 		);
 	}, [id]);
 
-	const dataAttributeRef = useDataAttribute('controlGroupNode', id);
+	const dataAttributeRef = useDataAttribute('compositeControlNode', id);
 
 	const blurHandlerRef = useRefEventHandler('blur', () => {
 		context.onBlur();

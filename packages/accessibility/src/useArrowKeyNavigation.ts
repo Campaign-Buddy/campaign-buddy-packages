@@ -1,11 +1,11 @@
-import { ControlGroupController } from './ControlGroup';
+import { CompositeControlController } from './CompositeControl';
 import { useScopedHotkeys } from './useHotkeys';
 import { useCombinedRefs } from '@campaign-buddy/common-hooks';
 
 export type ArrowKeyOrientation = 'horizontal' | 'vertical';
 
 export function useArrowKeyNavigation(
-	controller: ControlGroupController,
+	controller: CompositeControlController,
 	orientation: ArrowKeyOrientation = 'vertical'
 ): React.Ref<HTMLElement> {
 	const commonHotkeys = useScopedHotkeys({
