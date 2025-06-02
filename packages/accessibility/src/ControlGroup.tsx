@@ -21,47 +21,47 @@ import {
 } from './nodeUtil';
 import {
 	ArrowKeyOrientation,
-	useArrowKeyVirtualFocus,
-} from './useArrowKeyVirtualFocus';
+	useArrowKeyNavigation,
+} from './useArrowKeyNavigation';
 
 type Unsubscribe = () => void;
 type GiveFocus = () => void;
 
-export interface FocusChildMeta {
+export interface ControlGroupChildMeta {
 	onActivate?: () => void;
 	isSelected?: boolean;
 }
 
-interface VirtualFocusContextData {
+interface ControlGroupContextData {
 	registerChild: (
 		id: string,
 		giveFocus: GiveFocus,
-		meta?: React.RefObject<FocusChildMeta | undefined>
+		meta?: React.RefObject<ControlGroupChildMeta | undefined>
 	) => Unsubscribe;
 }
 
-const VirtualFocusContext = React.createContext<
-	VirtualFocusContextData | undefined
+const ControlGroupContext = React.createContext<
+	ControlGroupContextData | undefined
 >(undefined);
 
-export interface VirtualFocusChild {
+export interface ControlGroupChild {
 	focus: GiveFocus;
-	meta?: FocusChildMeta;
+	meta?: ControlGroupChildMeta;
 }
 
-export interface VirtualFocusController {
+export interface ControlGroupController {
 	moveNext: () => void;
 	movePrevious: () => void;
 	moveToStart: () => void;
 	moveToEnd: () => void;
-	getFocused: () => VirtualFocusChild | undefined;
+	getFocused: () => ControlGroupChild | undefined;
 	focus: () => void;
 	find: (
-		predicate: (item: FocusChildMeta) => boolean
-	) => VirtualFocusChild | undefined;
+		predicate: (item: ControlGroupChildMeta) => boolean
+	) => ControlGroupChild | undefined;
 }
 
-export interface VirtualFocusRootProps {
+export interface ControlGroupProps {
 	initiallyFocused?: boolean;
 	orientation?: ArrowKeyOrientation;
 }
@@ -69,11 +69,11 @@ export interface VirtualFocusRootProps {
 /**
  * Represents a complex control with custom focus management that exists outside of the default browser focus behavior
  */
-export function VirtualFocusRoot({
+export function ControlGroup({
 	initiallyFocused,
 	children,
 	orientation,
-}: React.PropsWithChildren<VirtualFocusRootProps>) {
+}: React.PropsWithChildren<ControlGroupProps>) {
 	const childMap = useRef<
 		Record<
 			string,
@@ -86,7 +86,7 @@ export function VirtualFocusRoot({
 	const isInitiallyFocusedRef = useRef(initiallyFocused);
 	const rootElementRef = useRef<HTMLDivElement | null>(null);
 
-	const contextValue = useMemo<VirtualFocusContextData>(
+	const contextValue = useMemo<ControlGroupContextData>(
 		() => ({
 			registerChild: (id: string, focus, meta) => {
 				childMap.current[id] = {
@@ -109,7 +109,7 @@ export function VirtualFocusRoot({
 		childMap.current[node.id]?.focus();
 	}, []);
 
-	const find = useCallback((predicate: (item: FocusChildMeta) => boolean) => {
+	const find = useCallback((predicate: (item: ControlGroupChildMeta) => boolean) => {
 		const nodes = getOrderedNodes();
 		const found = nodes.find(
 			({ id }) =>
@@ -142,7 +142,7 @@ export function VirtualFocusRoot({
 		}
 	}, [find]);
 
-	const controller = useMemo<VirtualFocusController>(
+	const controller = useMemo<ControlGroupController>(
 		() => ({
 			moveNext: () => focusNode(getNext()),
 			movePrevious: () => focusNode(getNext(-1)),
@@ -165,7 +165,7 @@ export function VirtualFocusRoot({
 		[find, focus]
 	);
 
-	const hotkeyRef = useArrowKeyVirtualFocus(controller, orientation);
+	const hotkeyRef = useArrowKeyNavigation(controller, orientation);
 	const rootRef = useCombinedRefs(hotkeyRef, rootElementRef);
 
 	useEffect(() => {
@@ -175,23 +175,23 @@ export function VirtualFocusRoot({
 	}, []);
 
 	return (
-		<VirtualFocusContext.Provider value={contextValue}>
+		<ControlGroupContext.Provider value={contextValue}>
 			<div ref={rootRef}>{children}</div>
-		</VirtualFocusContext.Provider>
+		</ControlGroupContext.Provider>
 	);
 }
 
 /**
  * A hook that returns a ref to be attached to a virtually focusable DOM node
  */
-export function useVirtualFocusChild(meta?: FocusChildMeta) {
-	const context = useContext(VirtualFocusContext);
+export function useControlGroupChild(meta?: ControlGroupChildMeta) {
+	const context = useContext(ControlGroupContext);
 	const ref = useRef<HTMLElement | null>(null);
-	const metaRef = useRef<FocusChildMeta | undefined>(meta);
+	const metaRef = useRef<ControlGroupChildMeta | undefined>(meta);
 	metaRef.current = meta;
 
 	if (!context) {
-		throw new Error('No virtual focus context given');
+		throw new Error('No control group context given');
 	}
 
 	const id = useId();
@@ -207,7 +207,7 @@ export function useVirtualFocusChild(meta?: FocusChildMeta) {
 		);
 	}, [id]);
 
-	const dataAttributeRef = useDataAttribute('virtualFocusNode', id);
+	const dataAttributeRef = useDataAttribute('controlGroupNode', id);
 
 	return useCombinedRefs(ref, dataAttributeRef);
 }

@@ -2,7 +2,7 @@ import React, { useCallback, useContext } from 'react';
 import { RightAligned } from '../button/styled';
 import { Icon, IconName } from '../icon';
 import { ReservedIconSpace, StyledMenuButton } from './styled';
-import { useVirtualFocusChild } from '@campaign-buddy/accessibility';
+import { useControlGroupChild } from '@campaign-buddy/accessibility';
 
 export interface MenuItemContextData {
 	reserveIconSpace: boolean;
@@ -38,7 +38,7 @@ export function DropdownMenuItem({
 		[onClick]
 	);
 
-	const ref = useVirtualFocusChild();
+	const ref = useControlGroupChild();
 
 	return (
 		<StyledMenuButton

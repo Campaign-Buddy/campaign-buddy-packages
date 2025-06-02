@@ -37,14 +37,14 @@ export function getOrderedNodes() {
 		return [];
 	}
 
-	const domNodes = document.querySelectorAll('[data-virtual-focus-node]');
+	const domNodes = document.querySelectorAll('[data-control-group-node]');
 	const orderedIds: {
 		isActive: boolean;
 		id: string;
 	}[] = [];
 
 	for (const item of toArray(domNodes)) {
-		const id = (item as HTMLElement).dataset?.virtualFocusNode;
+		const id = (item as HTMLElement).dataset?.controlGroupNode;
 		
 		if (!id) {
 			continue;

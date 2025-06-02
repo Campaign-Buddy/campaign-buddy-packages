@@ -1,2 +1,2 @@
-export * from './VirtualFocus';
+export * from './ControlGroup';
 export * from './useHotkeys';

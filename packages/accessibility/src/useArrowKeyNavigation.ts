@@ -1,11 +1,11 @@
-import { VirtualFocusController } from './VirtualFocus';
+import { ControlGroupController } from './ControlGroup';
 import { useScopedHotkeys } from './useHotkeys';
 import { useCombinedRefs } from '@campaign-buddy/common-hooks';
 
 export type ArrowKeyOrientation = 'horizontal' | 'vertical';
 
-export function useArrowKeyVirtualFocus(
-	controller: VirtualFocusController,
+export function useArrowKeyNavigation(
+	controller: ControlGroupController,
 	orientation: ArrowKeyOrientation = 'vertical'
 ): React.Ref<HTMLElement> {
 	const commonHotkeys = useScopedHotkeys({
