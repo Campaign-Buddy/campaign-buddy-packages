@@ -1,4 +1,5 @@
 import React, {
+	AriaRole,
 	useCallback,
 	useContext,
 	useEffect,
@@ -68,6 +69,8 @@ export interface ControlGroupController {
 export interface ControlGroupProps {
 	initiallyFocused?: boolean;
 	orientation?: ArrowKeyOrientation;
+	role?: AriaRole;
+	accessibleId?: string;
 }
 
 /**
@@ -77,6 +80,8 @@ export function ControlGroup({
 	initiallyFocused,
 	children,
 	orientation,
+	role,
+	accessibleId,
 }: React.PropsWithChildren<ControlGroupProps>) {
 	const childMap = useRef<
 		Record<
@@ -91,6 +96,7 @@ export function ControlGroup({
 	 * The id of the node that has tab index = 0
 	 */
 	const tabIndexId = useRef<string | undefined>();
+	const shouldSetTabIndexOnSelectedNodeEncountered = useRef<boolean>(true);
 	const isInitiallyFocusedRef = useRef(initiallyFocused);
 	const rootElementRef = useRef<HTMLDivElement | null>(null);
 
@@ -124,7 +130,13 @@ export function ControlGroup({
 					meta,
 				};
 
-				if (!tabIndexId.current) {
+				if (meta?.current?.isSelected) {
+					setTabIndexId(id);
+					shouldSetTabIndexOnSelectedNodeEncountered.current = false;
+				} else if (
+					!tabIndexId.current &&
+					shouldSetTabIndexOnSelectedNodeEncountered.current
+				) {
 					setTabIndexId(id);
 				} else {
 					setTabIndex(-1);
@@ -146,27 +158,31 @@ export function ControlGroup({
 			return;
 		}
 		childMap.current[node.id]?.focus();
+		shouldSetTabIndexOnSelectedNodeEncountered.current = false;
 		setTabIndexId(node.id);
 	}, []);
 
-	const find = useCallback((predicate: (item: ControlGroupChildMeta) => boolean) => {
-		const nodes = getOrderedNodes();
-		const found = nodes.find(
-			({ id }) =>
-				childMap.current[id]?.meta?.current &&
-				predicate(childMap.current[id].meta?.current)
-		);
-		if (!found) {
-			return;
-		}
+	const find = useCallback(
+		(predicate: (item: ControlGroupChildMeta) => boolean) => {
+			const nodes = getOrderedNodes();
+			const found = nodes.find(
+				({ id }) =>
+					childMap.current[id]?.meta?.current &&
+					predicate(childMap.current[id].meta?.current)
+			);
+			if (!found) {
+				return;
+			}
 
-		const result = childMap.current[found.id];
-		return {
-			focus: result.focus,
-			setTabIndex: result.setTabIndex,
-			meta: result.meta?.current,
-		};
-	}, []);
+			const result = childMap.current[found.id];
+			return {
+				focus: result.focus,
+				setTabIndex: result.setTabIndex,
+				meta: result.meta?.current,
+			};
+		},
+		[]
+	);
 
 	const focus = useCallback(() => {
 		const selected = find((x) => Boolean(x.isSelected));
@@ -218,7 +234,9 @@ export function ControlGroup({
 
 	return (
 		<ControlGroupContext.Provider value={contextValue}>
-			<div ref={rootRef}>{children}</div>
+			<div ref={rootRef} role={role} id={accessibleId}>
+				{children}
+			</div>
 		</ControlGroupContext.Provider>
 	);
 }
@@ -240,7 +258,7 @@ export function useControlGroupChild(meta?: ControlGroupChildMeta) {
 	const id = useId();
 	const { registerChild } = context;
 
-	const tabIndexRefEffect = useRefEffect<HTMLElement>(node => {
+	const tabIndexRefEffect = useRefEffect<HTMLElement>((node) => {
 		node.setAttribute('tabindex', tabIndexRef.current.toString());
 	}, []);
 

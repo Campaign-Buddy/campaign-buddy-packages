@@ -38,7 +38,9 @@ export function DropdownMenuItem({
 		[onClick]
 	);
 
-	const ref = useControlGroupChild();
+	const ref = useControlGroupChild({
+		isSelected,
+	});
 
 	return (
 		<StyledMenuButton
