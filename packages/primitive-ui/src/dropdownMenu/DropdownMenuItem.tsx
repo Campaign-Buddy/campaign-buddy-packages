@@ -42,7 +42,6 @@ export function DropdownMenuItem({
 
 	return (
 		<StyledMenuButton
-			tabIndex={-1}
 			variant={isSelected ? 'selected' : 'minimal'}
 			onClick={handleOuterMenuClick}
 			ref={ref}

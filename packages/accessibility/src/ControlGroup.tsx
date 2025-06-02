@@ -26,6 +26,8 @@ import {
 
 type Unsubscribe = () => void;
 type GiveFocus = () => void;
+type ValidTabIndex = -1 | 0;
+type SetTabIndex = (index: ValidTabIndex) => void;
 
 export interface ControlGroupChildMeta {
 	onActivate?: () => void;
@@ -36,6 +38,7 @@ interface ControlGroupContextData {
 	registerChild: (
 		id: string,
 		giveFocus: GiveFocus,
+		setTabIndex: SetTabIndex,
 		meta?: React.RefObject<ControlGroupChildMeta | undefined>
 	) => Unsubscribe;
 }
@@ -46,6 +49,7 @@ const ControlGroupContext = React.createContext<
 
 export interface ControlGroupChild {
 	focus: GiveFocus;
+	setTabIndex: SetTabIndex;
 	meta?: ControlGroupChildMeta;
 }
 
@@ -77,36 +81,72 @@ export function ControlGroup({
 	const childMap = useRef<
 		Record<
 			string,
-			{
+			Omit<ControlGroupChild, 'meta'> & {
 				meta?: React.RefObject<any>;
-				focus: GiveFocus;
 			}
 		>
 	>({});
+
+	/**
+	 * The id of the node that has tab index = 0
+	 */
+	const tabIndexId = useRef<string | undefined>();
 	const isInitiallyFocusedRef = useRef(initiallyFocused);
 	const rootElementRef = useRef<HTMLDivElement | null>(null);
 
+	const setTabIndexId = useCallback((id: string) => {
+		if (tabIndexId.current === id) {
+			return;
+		}
+
+		tabIndexId.current = id;
+
+		if (!id) {
+			return;
+		}
+
+		const nodes = getOrderedNodes();
+		for (const { id } of nodes) {
+			if (id === tabIndexId.current) {
+				childMap.current[id]?.setTabIndex(0);
+			} else {
+				childMap.current[id]?.setTabIndex(-1);
+			}
+		}
+	}, []);
+
 	const contextValue = useMemo<ControlGroupContextData>(
 		() => ({
-			registerChild: (id: string, focus, meta) => {
+			registerChild: (id: string, focus, setTabIndex, meta) => {
 				childMap.current[id] = {
 					focus,
+					setTabIndex,
 					meta,
 				};
+
+				if (!tabIndexId.current) {
+					setTabIndexId(id);
+				} else {
+					setTabIndex(-1);
+				}
+
 				return () => {
 					delete childMap.current[id];
+					if (tabIndexId.current === id) {
+						setTabIndexId(getFirst()?.id);
+					}
 				};
 			},
 		}),
-		[]
+		[setTabIndexId]
 	);
 
 	const focusNode = useCallback((node: FocusChildNode | undefined) => {
-		console.log('focusing', node);
 		if (!node) {
 			return;
 		}
 		childMap.current[node.id]?.focus();
+		setTabIndexId(node.id);
 	}, []);
 
 	const find = useCallback((predicate: (item: ControlGroupChildMeta) => boolean) => {
@@ -123,6 +163,7 @@ export function ControlGroup({
 		const result = childMap.current[found.id];
 		return {
 			focus: result.focus,
+			setTabIndex: result.setTabIndex,
 			meta: result.meta?.current,
 		};
 	}, []);
@@ -154,6 +195,7 @@ export function ControlGroup({
 					const result = childMap.current[active.id];
 					return {
 						focus: result.focus,
+						setTabIndex: result.setTabIndex,
 						meta: result.meta?.current ?? undefined,
 					};
 				}
@@ -188,6 +230,7 @@ export function useControlGroupChild(meta?: ControlGroupChildMeta) {
 	const context = useContext(ControlGroupContext);
 	const ref = useRef<HTMLElement | null>(null);
 	const metaRef = useRef<ControlGroupChildMeta | undefined>(meta);
+	const tabIndexRef = useRef<ValidTabIndex>(-1);
 	metaRef.current = meta;
 
 	if (!context) {
@@ -197,11 +240,19 @@ export function useControlGroupChild(meta?: ControlGroupChildMeta) {
 	const id = useId();
 	const { registerChild } = context;
 
+	const tabIndexRefEffect = useRefEffect<HTMLElement>(node => {
+		node.setAttribute('tabindex', tabIndexRef.current.toString());
+	}, []);
+
 	useEffect(() => {
 		return registerChild(
 			id,
 			() => {
 				ref.current?.focus();
+			},
+			(index) => {
+				tabIndexRef.current = index;
+				ref.current?.setAttribute('tabindex', index.toString());
 			},
 			metaRef
 		);
@@ -209,5 +260,5 @@ export function useControlGroupChild(meta?: ControlGroupChildMeta) {
 
 	const dataAttributeRef = useDataAttribute('controlGroupNode', id);
 
-	return useCombinedRefs(ref, dataAttributeRef);
+	return useCombinedRefs(ref, dataAttributeRef, tabIndexRefEffect);
 }
