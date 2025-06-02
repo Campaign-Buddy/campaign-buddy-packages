@@ -39,7 +39,15 @@ export function DropdownMenu({
 	const content = useSingleTaggedChild(children, contentTag);
 
 	const sharedId = useId();
-	const close = useCallback(() => setIsOpen(false), []);
+
+	const focusButton = useCallback(() => {
+		document.getElementById(`${sharedId}-button`)?.focus();
+	}, []);
+
+	const close = useCallback(() => {
+		setIsOpen(false);
+		queueMicrotask(() => focusButton());
+	}, []);
 	const open = useCallback(() => setIsOpen(true), []);
 
 	const handleContentClick = useCallback(() => close(), []);
@@ -87,6 +95,7 @@ DropdownMenu.Button = tagComponent(function DropdownMenuButton(
 			aria-controls={isOpen ? sharedId : undefined}
 			aria-expanded={isOpen}
 			ref={hotkeys}
+			id={`${sharedId}-button`}
 			rightIcon={isOpen ? 'chevronUp' : 'chevronDown'}
 			{...props}
 		/>

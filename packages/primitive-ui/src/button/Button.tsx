@@ -8,6 +8,7 @@ export interface ButtonProps extends BaseButtonProps {
 	leftIcon?: IconName;
 	rightIcon?: IconName;
 	role?: AriaRole;
+	id?: string;
 	onFocus?: () => void;
 }
 
@@ -26,6 +27,7 @@ export const Button = React.forwardRef<
 			children,
 			onFocus,
 			role,
+			id,
 			...ariaAttributes
 		},
 		ref
@@ -39,6 +41,7 @@ export const Button = React.forwardRef<
 				role={role}
 				onFocus={onFocus}
 				ref={ref}
+				id={id}
 				{...ariaAttributes}
 			>
 				{leftIcon && <Icon name={leftIcon} size={size} />}
