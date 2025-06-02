@@ -6,6 +6,11 @@ export const ReservedIconSpace = styled.div`
 	width: ${themed.sizes.iconSizes.medium};
 `;
 
+export const StyledDivider = styled.div`
+	border-bottom: ${themed.colors.border} 2px solid;
+	margin: ${themed.sizes.uiContentPadding.small};
+`;
+
 export const StyledContentContainer = styled.div`
 	min-width: 150px;
 	display: flex;

@@ -11,7 +11,7 @@ import {
 	MenuItemContextData,
 } from './DropdownMenuItem';
 import { useCallback, useMemo } from 'react';
-import { StyledContentContainer } from './styled';
+import { StyledContentContainer, StyledDivider } from './styled';
 import { ControlGroup } from '@campaign-buddy/accessibility';
 
 export interface DropdownMenuProps {
@@ -85,3 +85,6 @@ DropdownMenu.Content = tagComponent(function DropdownMenuContent({
 contentTag);
 
 DropdownMenu.Item = tagComponent(DropdownMenuItem, itemTag);
+DropdownMenu.Divider = tagComponent(function DropdownMenuDivider() {
+	return <StyledDivider />
+}, itemTag);

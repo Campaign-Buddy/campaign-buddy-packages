@@ -31,6 +31,7 @@ export function Primary() {
 				>
 					Select me!
 				</DropdownMenu.Item>
+				<DropdownMenu.Divider />
 				<DropdownMenu.Item
 					isSelected={!isSelected}
 					onClick={() => setIsSelected(false)}
