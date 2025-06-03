@@ -3,15 +3,15 @@
 	"publishConfig": {
 		"access": "public"
 	},
-	"version": "3.0.1",
+	"version": "3.0.2",
 	"author": "Joseph Stewart",
 	"license": "MIT",
 	"dependencies": {
 		"@campaign-buddy/common-hooks": "^3.0.1",
-		"@campaign-buddy/core-ui": "^3.0.1",
+		"@campaign-buddy/core-ui": "^3.0.2",
 		"@campaign-buddy/frontend-types": "^3.0.1",
 		"@campaign-buddy/image-grid": "^3.0.1",
-		"@campaign-buddy/image-picker-menu": "^3.0.1",
+		"@campaign-buddy/image-picker-menu": "^3.0.2",
 		"cuid": "^2.1.8",
 		"is-hotkey": "^0.2.0",
 		"react-query": "^3.34.12",

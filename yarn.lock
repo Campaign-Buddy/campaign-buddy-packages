@@ -595,7 +595,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@campaign-buddy/core-ui@npm:^3.0.1, @campaign-buddy/core-ui@workspace:packages/core-ui":
+"@campaign-buddy/core-ui@npm:^3.0.2, @campaign-buddy/core-ui@workspace:packages/core-ui":
   version: 0.0.0-use.local
   resolution: "@campaign-buddy/core-ui@workspace:packages/core-ui"
   dependencies:
@@ -628,12 +628,12 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@campaign-buddy/drag-drop@npm:^3.0.1, @campaign-buddy/drag-drop@workspace:packages/drag-drop":
+"@campaign-buddy/drag-drop@npm:^3.0.2, @campaign-buddy/drag-drop@workspace:packages/drag-drop":
   version: 0.0.0-use.local
   resolution: "@campaign-buddy/drag-drop@workspace:packages/drag-drop"
   dependencies:
     "@campaign-buddy/common-hooks": "npm:^3.0.1"
-    "@campaign-buddy/core-ui": "npm:^3.0.1"
+    "@campaign-buddy/core-ui": "npm:^3.0.2"
     "@campaign-buddy/react-theme-provider": "npm:^3.0.1"
     "@campaign-buddy/themes": "npm:^3.0.1"
     cross-env: "npm:^7.0.3"
@@ -687,13 +687,13 @@ __metadata:
   resolution: "@campaign-buddy/form-generator-widgets@workspace:packages/form-generator-widgets"
   dependencies:
     "@campaign-buddy/common-hooks": "npm:^3.0.1"
-    "@campaign-buddy/core-ui": "npm:^3.0.1"
-    "@campaign-buddy/form-generator": "npm:^3.0.1"
+    "@campaign-buddy/core-ui": "npm:^3.0.2"
+    "@campaign-buddy/form-generator": "npm:^3.0.2"
     "@campaign-buddy/frontend-types": "npm:^3.0.1"
-    "@campaign-buddy/image-picker-menu": "npm:^3.0.1"
+    "@campaign-buddy/image-picker-menu": "npm:^3.0.2"
     "@campaign-buddy/json-schema-core": "npm:^3.0.1"
     "@campaign-buddy/mock-apis": "npm:^3.0.1"
-    "@campaign-buddy/rich-text": "npm:^3.0.1"
+    "@campaign-buddy/rich-text": "npm:^3.0.2"
     "@types/json-schema": "npm:^7.0.9"
     "@types/lodash.clonedeep": "npm:^4.5.6"
     "@types/semver": "npm:^7.3.9"
@@ -710,11 +710,11 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@campaign-buddy/form-generator@npm:^3.0.1, @campaign-buddy/form-generator@workspace:packages/form-generator":
+"@campaign-buddy/form-generator@npm:^3.0.2, @campaign-buddy/form-generator@workspace:packages/form-generator":
   version: 0.0.0-use.local
   resolution: "@campaign-buddy/form-generator@workspace:packages/form-generator"
   dependencies:
-    "@campaign-buddy/core-ui": "npm:^3.0.1"
+    "@campaign-buddy/core-ui": "npm:^3.0.2"
     "@campaign-buddy/form-generator-core": "npm:^3.0.1"
     "@campaign-buddy/frontend-types": "npm:^3.0.1"
     "@campaign-buddy/json-schema-core": "npm:^3.0.1"
@@ -777,12 +777,12 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@campaign-buddy/image-picker-menu@npm:^3.0.1, @campaign-buddy/image-picker-menu@workspace:packages/image-picker-menu":
+"@campaign-buddy/image-picker-menu@npm:^3.0.2, @campaign-buddy/image-picker-menu@workspace:packages/image-picker-menu":
   version: 0.0.0-use.local
   resolution: "@campaign-buddy/image-picker-menu@workspace:packages/image-picker-menu"
   dependencies:
     "@campaign-buddy/common-hooks": "npm:^3.0.1"
-    "@campaign-buddy/core-ui": "npm:^3.0.1"
+    "@campaign-buddy/core-ui": "npm:^3.0.2"
     "@campaign-buddy/frontend-types": "npm:^3.0.1"
     "@campaign-buddy/image-grid": "npm:^3.0.1"
     "@campaign-buddy/mock-apis": "npm:^3.0.1"
@@ -851,12 +851,12 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@campaign-buddy/panel-layout@npm:^3.0.1, @campaign-buddy/panel-layout@workspace:packages/panel-layout":
+"@campaign-buddy/panel-layout@npm:^3.0.2, @campaign-buddy/panel-layout@workspace:packages/panel-layout":
   version: 0.0.0-use.local
   resolution: "@campaign-buddy/panel-layout@workspace:packages/panel-layout"
   dependencies:
     "@campaign-buddy/common-hooks": "npm:^3.0.1"
-    "@campaign-buddy/core-ui": "npm:^3.0.1"
+    "@campaign-buddy/core-ui": "npm:^3.0.2"
     "@campaign-buddy/overflow": "npm:^3.0.1"
     "@campaign-buddy/primitive-ui": "npm:^3.0.1"
     "@campaign-buddy/react-theme-provider": "npm:^3.0.1"
@@ -920,15 +920,15 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@campaign-buddy/rich-text@npm:^3.0.1, @campaign-buddy/rich-text@workspace:packages/rich-text":
+"@campaign-buddy/rich-text@npm:^3.0.2, @campaign-buddy/rich-text@workspace:packages/rich-text":
   version: 0.0.0-use.local
   resolution: "@campaign-buddy/rich-text@workspace:packages/rich-text"
   dependencies:
     "@campaign-buddy/common-hooks": "npm:^3.0.1"
-    "@campaign-buddy/core-ui": "npm:^3.0.1"
+    "@campaign-buddy/core-ui": "npm:^3.0.2"
     "@campaign-buddy/frontend-types": "npm:^3.0.1"
     "@campaign-buddy/image-grid": "npm:^3.0.1"
-    "@campaign-buddy/image-picker-menu": "npm:^3.0.1"
+    "@campaign-buddy/image-picker-menu": "npm:^3.0.2"
     "@campaign-buddy/mock-apis": "npm:^3.0.1"
     cuid: "npm:^2.1.8"
     is-hotkey: "npm:^0.2.0"
@@ -1018,7 +1018,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@campaign-buddy/toolbar@workspace:packages/toolbar"
   dependencies:
-    "@campaign-buddy/core-ui": "npm:^3.0.1"
+    "@campaign-buddy/core-ui": "npm:^3.0.2"
     "@campaign-buddy/react-theme-provider": "npm:^3.0.1"
     "@campaign-buddy/themes": "npm:^3.0.1"
     cross-env: "npm:^7.0.3"
@@ -5837,8 +5837,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "campaign-buddy-desktop@workspace:apps/campaign-buddy-desktop"
   dependencies:
-    "@campaign-buddy/drag-drop": "npm:^3.0.1"
-    "@campaign-buddy/panel-layout": "npm:^3.0.1"
+    "@campaign-buddy/drag-drop": "npm:^3.0.2"
+    "@campaign-buddy/panel-layout": "npm:^3.0.2"
     "@campaign-buddy/primitive-ui": "npm:^3.0.1"
     "@campaign-buddy/react-theme-provider": "npm:^3.0.1"
     "@campaign-buddy/themes": "npm:^3.0.1"
