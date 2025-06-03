@@ -6,6 +6,9 @@
 	"version": "0.0.0",
 	"author": "Joseph Stewart",
 	"license": "MIT",
+	"dependencies": {
+		"@campaign-buddy/common-hooks": "^2.1.5"
+	},
 	"devDependencies": {
 		"@campaign-buddy/react-theme-provider": "*",
 		"@campaign-buddy/themes": "*",

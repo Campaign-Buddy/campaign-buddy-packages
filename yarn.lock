@@ -555,6 +555,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@campaign-buddy/accessibility@workspace:packages/accessibility"
   dependencies:
+    "@campaign-buddy/common-hooks": "npm:^2.1.5"
     "@campaign-buddy/react-theme-provider": "npm:*"
     "@campaign-buddy/themes": "npm:*"
     cross-env: "npm:^7.0.3"
@@ -741,7 +742,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@campaign-buddy/frontend-types@npm:^2.1.5, @campaign-buddy/frontend-types@workspace:packages/frontend-types":
+"@campaign-buddy/frontend-types@npm:2.1.5, @campaign-buddy/frontend-types@npm:^2.1.5, @campaign-buddy/frontend-types@workspace:packages/frontend-types":
   version: 0.0.0-use.local
   resolution: "@campaign-buddy/frontend-types@workspace:packages/frontend-types"
   dependencies:
@@ -823,7 +824,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@campaign-buddy/object-navigator@npm:^2.1.5, @campaign-buddy/object-navigator@workspace:packages/object-navigator":
+"@campaign-buddy/object-navigator@npm:2.1.5, @campaign-buddy/object-navigator@npm:^2.1.5, @campaign-buddy/object-navigator@workspace:packages/object-navigator":
   version: 0.0.0-use.local
   resolution: "@campaign-buddy/object-navigator@workspace:packages/object-navigator"
   dependencies:
@@ -970,6 +971,7 @@ __metadata:
   dependencies:
     "@campaign-buddy/common-hooks": "npm:^2.1.5"
     "@campaign-buddy/form-generator-core": "npm:^2.1.5"
+    "@campaign-buddy/frontend-types": "npm:2.1.5"
     "@campaign-buddy/json-schema-core": "npm:^2.1.5"
     "@campaign-buddy/object-navigator": "npm:^2.1.5"
     "@campaign-buddy/react-theme-provider": "npm:^2.1.5"
@@ -995,6 +997,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@campaign-buddy/theme-util@workspace:packages/theme-util"
   dependencies:
+    "@campaign-buddy/object-navigator": "npm:2.1.5"
     "@campaign-buddy/themes": "npm:*"
     typescript: "npm:^5.8.3"
   languageName: unknown

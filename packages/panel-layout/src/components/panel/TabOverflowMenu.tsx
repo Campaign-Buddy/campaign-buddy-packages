@@ -14,7 +14,7 @@ import {
 	useCombinedRefs,
 	useDelayedEffect,
 } from '@campaign-buddy/common-hooks';
-import { MenuItemRenderApi } from '@campaign-buddy/core-ui/src/menu/Menu';
+import { MenuItemRenderApi } from '@campaign-buddy/core-ui';
 import {
 	coordinateTransformers,
 	isPaneDragItem,

@@ -18,6 +18,7 @@
 		"yjs": "^13.5.51"
 	},
 	"devDependencies": {
+		"@campaign-buddy/frontend-types": "2.1.5",
 		"@campaign-buddy/json-schema-core": "^2.1.5",
 		"@campaign-buddy/react-theme-provider": "^2.1.5",
 		"@campaign-buddy/themes": "^2.1.5",

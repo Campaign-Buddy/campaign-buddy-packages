@@ -13,6 +13,9 @@
 		},
 		{
 			"path": "../../packages/object-navigator/tsconfig.json"
+		},
+		{
+			"path": "../../packages/object-navigator/tsconfig.json"
 		}
 	]
 }

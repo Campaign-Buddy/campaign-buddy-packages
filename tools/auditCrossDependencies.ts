@@ -29,7 +29,18 @@ function validateAllCrossPackageDeps(packageName: string) {
 
 	const tsConfigReferences =
 		tsConfig.references
-			?.map((x: any) => x.path.split('/')[1])
+			?.map((x: any) => {
+				const resolved = path.resolve(
+					path.resolve(packageSrcDir, '..'),
+					x.path
+				);
+				const match = /packages(?:\/|\\)([^/\\]+)(?:\/|\\)tsconfig\.json/.exec(
+					resolved
+				);
+				if (match) {
+					return match[1];
+				}
+			})
 			.map((x: string) => `@campaign-buddy/${x}`) ?? [];
 
 	if (!allDependencies.every((x) => tsConfigReferences.includes(x))) {

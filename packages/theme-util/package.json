@@ -6,6 +6,9 @@
 	"version": "0.0.0",
 	"author": "Joseph Stewart",
 	"license": "MIT",
+	"dependencies": {
+		"@campaign-buddy/object-navigator": "2.1.5"
+	},
 	"devDependencies": {
 		"@campaign-buddy/themes": "*",
 		"typescript": "^5.8.3"
