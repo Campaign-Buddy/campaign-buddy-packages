@@ -10,7 +10,7 @@ jobs:
           fetch-depth: "0"
       - uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version: 20
       - run: yarn install --frozen-lockfile
       - run: npx lerna run build
       - run: yarn audit-deps
