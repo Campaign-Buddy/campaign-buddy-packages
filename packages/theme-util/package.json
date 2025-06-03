@@ -3,14 +3,14 @@
 	"publishConfig": {
 		"access": "public"
 	},
-	"version": "0.0.0",
+	"version": "3.0.0",
 	"author": "Joseph Stewart",
 	"license": "MIT",
 	"dependencies": {
-		"@campaign-buddy/object-navigator": "2.1.5"
+		"@campaign-buddy/object-navigator": "^3.0.0"
 	},
 	"devDependencies": {
-		"@campaign-buddy/themes": "*",
+		"@campaign-buddy/themes": "^3.0.0",
 		"typescript": "^5.8.3"
 	},
 	"scripts": {

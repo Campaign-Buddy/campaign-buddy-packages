@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.0.0](https://github.com/Campaign-Buddy/campaign-buddy-packages/compare/v2.1.5...v3.0.0) (2025-06-03)
+
+**Note:** Version bump only for package @campaign-buddy/game-systems
+
 ## [2.1.5](https://github.com/Campaign-Buddy/campaign-buddy-packages/compare/v2.1.4...v2.1.5) (2023-04-15)
 
 **Note:** Version bump only for package @campaign-buddy/game-systems

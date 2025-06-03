@@ -3,6 +3,29 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.0.0](https://github.com/Campaign-Buddy/campaign-buddy-packages/compare/v2.1.5...v3.0.0) (2025-06-03)
+
+### Bug Fixes
+
+- **button:** fix button styles. ([4542054](https://github.com/Campaign-Buddy/campaign-buddy-packages/commit/45420546096619bbeea238bfb0f1e493c28fada2))
+- **core-ui:** make react-theme-provider peer dependency of core UI. ([6e54c45](https://github.com/Campaign-Buddy/campaign-buddy-packages/commit/6e54c45304390e74858632649c79fa24287729e0))
+- fix cross dependency issues. ([99520f4](https://github.com/Campaign-Buddy/campaign-buddy-packages/commit/99520f49845f976eceaf3b7d27a34bcc969c676e))
+- fix deps issues and module-ize tools. ([55b8759](https://github.com/Campaign-Buddy/campaign-buddy-packages/commit/55b8759031f96da96d54ed92753f483d2c598122))
+- fix react type package duplication. ([ad53bd0](https://github.com/Campaign-Buddy/campaign-buddy-packages/commit/ad53bd0881124deff48317ba39a3044e50e02e1b))
+- get all packages building. ([fa97eb4](https://github.com/Campaign-Buddy/campaign-buddy-packages/commit/fa97eb46c6d90a32344c224082646b067049761f))
+- **select:** update button styles for select. ([56bb332](https://github.com/Campaign-Buddy/campaign-buddy-packages/commit/56bb332e9d0b7dece8018f3e607d4521608030a9))
+- **theme:** fix input backgrounds. ([50c9f9c](https://github.com/Campaign-Buddy/campaign-buddy-packages/commit/50c9f9c48e06a83f10680c694e3a4b4625aefae8))
+- **themes|core-ui:** fix button styles. ([03eb95e](https://github.com/Campaign-Buddy/campaign-buddy-packages/commit/03eb95e5d355613696a3745883f2ab376f6c40bd))
+- use react types from workspace. ([b849ec9](https://github.com/Campaign-Buddy/campaign-buddy-packages/commit/b849ec920f8e3ffe84af22463e3df1c5e21b2e8e))
+
+### Features
+
+- use esm. ([fc51aa4](https://github.com/Campaign-Buddy/campaign-buddy-packages/commit/fc51aa47a266d1f766a4a7ad125b1643d1b9893c))
+
+### BREAKING CHANGES
+
+- **core-ui:** added a new peer dependency.
+
 ## [2.1.5](https://github.com/Campaign-Buddy/campaign-buddy-packages/compare/v2.1.4...v2.1.5) (2023-04-15)
 
 ### Bug Fixes

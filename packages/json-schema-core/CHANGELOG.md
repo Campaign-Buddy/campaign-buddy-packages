@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.0.0](https://github.com/Campaign-Buddy/campaign-buddy-packages/compare/v2.1.5...v3.0.0) (2025-06-03)
+
+### Bug Fixes
+
+- fix build issues from clean install. ([1c23bcb](https://github.com/Campaign-Buddy/campaign-buddy-packages/commit/1c23bcbdb7043e22c3d43ee457a074d54785cd83))
+- get all packages building. ([fa97eb4](https://github.com/Campaign-Buddy/campaign-buddy-packages/commit/fa97eb46c6d90a32344c224082646b067049761f))
+
+### Features
+
+- use esm. ([fc51aa4](https://github.com/Campaign-Buddy/campaign-buddy-packages/commit/fc51aa47a266d1f766a4a7ad125b1643d1b9893c))
+
 ## [2.1.5](https://github.com/Campaign-Buddy/campaign-buddy-packages/compare/v2.1.4...v2.1.5) (2023-04-15)
 
 **Note:** Version bump only for package @campaign-buddy/json-schema-core
