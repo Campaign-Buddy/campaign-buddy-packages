@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Button, Dropdown, Icon } from '../src';
+import { Button, Dropdown } from '../src';
 import { Meta } from '@storybook/react';
 
 export default {
@@ -12,10 +12,7 @@ export function Primary() {
 	return (
 		<Dropdown isOpen={isOpen} setIsOpen={setIsOpen}>
 			<Dropdown.Reference>
-				<Button
-					onClick={() => setIsOpen((p) => !p)}
-					rightIcon="chevronDown"
-				>
+				<Button onClick={() => setIsOpen((p) => !p)} rightIcon="chevronDown">
 					Click me
 				</Button>
 			</Dropdown.Reference>

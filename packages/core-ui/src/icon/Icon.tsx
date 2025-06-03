@@ -1,5 +1,4 @@
 import { Icon as IconCore, IconName } from '@blueprintjs/core';
-import React from 'react';
 import styled from 'styled-components';
 import { defaultTheme } from '../theme';
 import { CampaignBuddyIcon } from './IconType';

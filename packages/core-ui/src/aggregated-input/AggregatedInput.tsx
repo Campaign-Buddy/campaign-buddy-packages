@@ -65,7 +65,7 @@ export type AggregatedInputProps<
 > = AggregatedInputPropsCore<T, any> & BaseInputProps<T, TInputType>;
 
 export const AggregatedInput = <
-	T extends any,
+	T,
 	TInputType extends keyof JSX.IntrinsicElements
 >({
 	aggregatedDisplayValue,

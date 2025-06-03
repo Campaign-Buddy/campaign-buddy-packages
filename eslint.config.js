@@ -1,5 +1,6 @@
 import { globalIgnores } from 'eslint/config';
 
+import globals from 'globals';
 import storybook from 'eslint-plugin-storybook';
 import eslint from '@eslint/js';
 import tseslint from 'typescript-eslint';
@@ -15,6 +16,13 @@ export default tseslint.config(
 	storybook.configs['flat/recommended'],
 	eslintPluginPrettierRecommended,
 	{
+		languageOptions: {
+			globals: {
+				...globals.browser,
+				...globals.node,
+			},
+		},
+
 		rules: {
 			indent: ['off'],
 			'linebreak-style': ['error', 'unix'],
@@ -29,7 +37,7 @@ export default tseslint.config(
 			'react-hooks/exhaustive-deps': [
 				'error',
 				{
-					additionalHooks: '(useDebouncedAsyncMemo)',
+					additionalHooks: '(useDebouncedAsyncMemo|useRefEffect)',
 				},
 			],
 

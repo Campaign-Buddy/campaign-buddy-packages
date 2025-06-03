@@ -36,7 +36,9 @@ function useLazyIcon(reactIconPath: string) {
 
 		const [group, iconName] = reactIconPath.split('/');
 
-		const importIconModule = iconModules[`./react-icons/${group}.ts`] ?? iconModules[`./react-icons/${group}.js`];
+		const importIconModule =
+			iconModules[`./react-icons/${group}.ts`] ??
+			iconModules[`./react-icons/${group}.js`];
 		if (!importIconModule) {
 			return;
 		}

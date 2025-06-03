@@ -1,4 +1,3 @@
-import React from 'react';
 import { ThemeProvider } from '@campaign-buddy/react-theme-provider';
 import { themes, semanticThemes } from '@campaign-buddy/themes';
 import { createGlobalStyle } from 'styled-components';

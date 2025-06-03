@@ -1,4 +1,4 @@
-import { CssValue, isCssSerializable } from "@campaign-buddy/themes";
+import { CssValue, isCssSerializable } from '@campaign-buddy/themes';
 
 export function toCss(value: CssValue): string {
 	if (isCssSerializable(value)) {

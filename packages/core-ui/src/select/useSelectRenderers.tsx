@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 import { ItemListRenderer, ItemRenderer } from '@blueprintjs/select';
 import { IOption } from './IOption';
 import { StyledMenu, StyledMenuItem } from '../menu/Menu.styled';

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { types, UiLayout } from '@campaign-buddy/json-schema-core';
 import { FormGenerator } from '../src';
 import { exampleWidgets } from '../examples/exampleWidgets';

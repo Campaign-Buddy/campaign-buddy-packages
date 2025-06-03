@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { IOption, Select, Switch } from '@campaign-buddy/core-ui';
 import { MockMediaApi, MockEntityApi } from '@campaign-buddy/mock-apis';
 import { FormGenerator } from '@campaign-buddy/form-generator';

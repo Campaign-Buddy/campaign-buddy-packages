@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import { useCallback } from 'react';
 import { Button } from '@campaign-buddy/core-ui';
 import { useBooleanState } from '@campaign-buddy/common-hooks';
 import { MockMediaApi } from '@campaign-buddy/mock-apis';

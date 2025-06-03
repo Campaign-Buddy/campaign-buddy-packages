@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 import { useCombinedRefs } from '@campaign-buddy/common-hooks';
-import { Button, Icon } from '@campaign-buddy/primitive-ui';
+import { Button } from '@campaign-buddy/primitive-ui';
 import { ItemProps } from '@campaign-buddy/overflow';
 import { PaneModel } from '../../panelLayoutModel';
 import {

@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 import { QueryClient } from 'react-query';
 import { Image, ImageGrid } from '../src';
 

@@ -1,4 +1,3 @@
-import React from 'react';
 import * as Y from 'yjs';
 import { Meta, StoryFn } from '@storybook/react';
 import { syncedStore } from '@syncedstore/core';

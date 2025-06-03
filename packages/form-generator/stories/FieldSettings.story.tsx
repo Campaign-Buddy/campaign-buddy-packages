@@ -1,4 +1,3 @@
-import React from 'react';
 import { Meta } from '@storybook/react';
 import { IOption, Select } from '@campaign-buddy/core-ui';
 import { FormGenerator } from '../src';

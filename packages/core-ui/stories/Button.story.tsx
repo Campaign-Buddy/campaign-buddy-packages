@@ -1,8 +1,7 @@
-import React from 'react';
 import { StoryFn, Meta } from '@storybook/react';
 import { ComponentProps } from 'react';
 import { Button } from '../src';
-import { makeStoryFn } from './util';
+import { makeStory } from './util';
 
 export default {
 	title: 'core-ui/Button',
@@ -13,15 +12,14 @@ const Template: StoryFn<ComponentProps<typeof Button>> = (props) => (
 	<Button {...props} />
 );
 
-// eslint-disable-next-line @typescript-eslint/no-empty-function
 const onClick = () => {};
 
-export const PrimaryStyle = makeStoryFn(Template, {
+export const PrimaryStyle = makeStory(Template, {
 	children: 'Click Me!',
 	onClick,
 });
 
-export const MinimalStyle = makeStoryFn(Template, {
+export const MinimalStyle = makeStory(Template, {
 	children: 'Click Me!',
 	onClick,
 	variant: 'minimal',

@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { Meta, StoryFn } from '@storybook/react';
 import { NumberInput } from '../src';
 

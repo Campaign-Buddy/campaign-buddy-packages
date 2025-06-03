@@ -10,7 +10,6 @@ import React, {
 import {
 	useCombinedRefs,
 	useDataAttribute,
-	useDomEventHandler,
 	useRefEffect,
 	useRefEventHandler,
 	useUpdatingRef,
@@ -174,14 +173,17 @@ export function CompositeControl({
 		[setTabIndexId, onBlurRef]
 	);
 
-	const focusNode = useCallback((node: FocusChildNode | undefined) => {
-		if (!node) {
-			return;
-		}
-		childMap.current[node.id]?.focus();
-		shouldSetTabIndexOnSelectedNodeEncountered.current = false;
-		setTabIndexId(node.id);
-	}, []);
+	const focusNode = useCallback(
+		(node: FocusChildNode | undefined) => {
+			if (!node) {
+				return;
+			}
+			childMap.current[node.id]?.focus();
+			shouldSetTabIndexOnSelectedNodeEncountered.current = false;
+			setTabIndexId(node.id);
+		},
+		[setTabIndexId]
+	);
 
 	const find = useCallback(
 		(predicate: (item: CompositeControlChildMeta) => boolean) => {
@@ -218,7 +220,7 @@ export function CompositeControl({
 		} else {
 			focusNode(getFirst());
 		}
-	}, [find]);
+	}, [find, focusNode]);
 
 	const controller = useMemo<CompositeControlController>(
 		() => ({
@@ -241,7 +243,7 @@ export function CompositeControl({
 			find,
 			focus,
 		}),
-		[find, focus]
+		[find, focus, focusNode]
 	);
 
 	const hotkeyRef = useArrowKeyNavigation(controller, orientation);
@@ -251,7 +253,7 @@ export function CompositeControl({
 		if (isInitiallyFocusedRef.current) {
 			focus();
 		}
-	}, []);
+	}, [focus]);
 
 	return (
 		<CompositeControlContext.Provider value={contextValue}>
@@ -295,7 +297,7 @@ export function useCompositeControlChild(meta?: CompositeControlChildMeta) {
 			},
 			metaRef
 		);
-	}, [id]);
+	}, [id, registerChild]);
 
 	const dataAttributeRef = useDataAttribute('compositeControlNode', id);
 

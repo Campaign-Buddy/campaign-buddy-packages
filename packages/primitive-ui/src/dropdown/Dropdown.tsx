@@ -7,7 +7,11 @@ import {
 	useOnClickOutside,
 	useRefBoundary,
 } from '@campaign-buddy/common-hooks';
-import { DropdownContentContainer, DropdownVariant, ReferenceContainer } from './styled';
+import {
+	DropdownContentContainer,
+	DropdownVariant,
+	ReferenceContainer,
+} from './styled';
 import { createPortal } from 'react-dom';
 import { useCombinedRefs } from '@campaign-buddy/common-hooks';
 import { useGlobalHotkeys } from './useGlobalHotkeys';
@@ -80,7 +84,11 @@ export function Dropdown({
 			{isOpen &&
 				portalElement &&
 				createPortal(
-					<DropdownContentContainer variant={variant ?? 'default'} ref={floatingRef} style={floatingStyles}>
+					<DropdownContentContainer
+						variant={variant ?? 'default'}
+						ref={floatingRef}
+						style={floatingStyles}
+					>
 						{content}
 					</DropdownContentContainer>,
 					portalElement

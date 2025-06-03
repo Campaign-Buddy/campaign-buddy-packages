@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { FormGroup } from '@campaign-buddy/core-ui';
 import { MockMediaApi } from '@campaign-buddy/mock-apis';
 import { Meta, StoryFn } from '@storybook/react';

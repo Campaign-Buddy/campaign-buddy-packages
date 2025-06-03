@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 import { PaneModel, PaneDefinition } from '../../panelLayoutModel';
 import { useTabTitle } from '../pane-hooks';
 import { useTabIcon } from '../pane-hooks/useTabIcon';

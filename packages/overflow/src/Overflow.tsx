@@ -29,7 +29,6 @@ export interface Overflow<TItem, TRef extends HTMLElement> {
 	ContainerComponent?: React.ComponentType<OverflowContainerProps>;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-empty-function
 const noop = () => {};
 
 export function Overflow<TItem, TRef extends HTMLElement>({

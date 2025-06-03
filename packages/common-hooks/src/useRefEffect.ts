@@ -1,7 +1,9 @@
-import { useCallback, useRef } from "react";
+import { useCallback, useRef } from 'react';
 
 export type RefEffectCleanup = () => void;
-export type RefEffect<TItem> = (item: TItem) => RefEffectCleanup | undefined | void;
+export type RefEffect<TItem> = (
+	item: TItem
+) => RefEffectCleanup | undefined | void;
 
 export function useRefEffect<TItem>(effect: RefEffect<TItem>, deps: any[]) {
 	const storedCleanup = useRef<RefEffectCleanup | undefined | void>(undefined);
@@ -10,5 +12,6 @@ export function useRefEffect<TItem>(effect: RefEffect<TItem>, deps: any[]) {
 		if (item) {
 			storedCleanup.current = effect(item);
 		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, deps);
 }

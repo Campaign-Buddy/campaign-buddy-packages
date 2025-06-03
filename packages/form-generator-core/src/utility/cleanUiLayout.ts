@@ -3,7 +3,10 @@
 // trying rendering empty sections and
 
 import { EntityFieldSettings } from '@campaign-buddy/frontend-types';
-import { CampaignBuddySchema, UiLayout } from '@campaign-buddy/json-schema-core';
+import {
+	CampaignBuddySchema,
+	UiLayout,
+} from '@campaign-buddy/json-schema-core';
 import {
 	navigateObject,
 	getSchemaForLocation,

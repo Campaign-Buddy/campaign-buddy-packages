@@ -1,4 +1,3 @@
-import React from 'react';
 import { SyncedFormGenerator } from '../src';
 import { WebrtcProvider } from 'y-webrtc';
 import { Y } from '@syncedstore/core';

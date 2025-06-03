@@ -68,6 +68,7 @@ export function useAsyncOptions(
 			setQuery(newQuery);
 			debouncedRefreshOptions(newQuery);
 		},
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 		[debouncedRefreshOptions]
 	);
 

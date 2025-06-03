@@ -3,7 +3,7 @@ import { ElementNodeKind } from './NodeKind';
 
 export interface ElementBase<
 	T extends ElementNodeKind,
-	TChildren extends any = ElementNode | LeafNode
+	TChildren = ElementNode | LeafNode
 > {
 	kind: T;
 	children: TChildren[];

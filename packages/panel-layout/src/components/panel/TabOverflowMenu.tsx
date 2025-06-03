@@ -1,7 +1,7 @@
-import React, { useCallback, useEffect, useMemo } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 import { OverflowedItemsProps } from '@campaign-buddy/overflow';
 import { ToggleButton, MenuPopover, MenuItem } from '@campaign-buddy/core-ui';
-import { Button, Icon } from '@campaign-buddy/primitive-ui';
+import { Button } from '@campaign-buddy/primitive-ui';
 import { PaneTabItem } from './PaneTab';
 import {
 	CloseButtonContainer,

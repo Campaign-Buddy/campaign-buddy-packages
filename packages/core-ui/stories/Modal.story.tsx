@@ -1,7 +1,7 @@
-import React, { ComponentProps, useCallback, useMemo, useState } from 'react';
+import { ComponentProps, useCallback, useMemo, useState } from 'react';
 import { Meta, StoryFn } from '@storybook/react';
 import { Modal, Button, Input } from '../src';
-import { makeStoryFn } from './util';
+import { makeStory } from './util';
 
 export default {
 	title: 'core-ui/Modal',
@@ -110,4 +110,4 @@ const Template: StoryFn = ({ hasInput }) => {
 
 export const Primary = Template.bind({});
 
-export const WithInput = makeStoryFn(Template, { hasInput: true });
+export const WithInput = makeStory(Template, { hasInput: true });

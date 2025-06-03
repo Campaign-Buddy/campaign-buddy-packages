@@ -32,7 +32,6 @@ interface InternalSmartContext<TData> extends SmartContext<TData> {
 
 export function createSmartContext<T>(defaultValue: T): SmartContext<T> {
 	const ReactContext = React.createContext<InternalSmartContextData<T>>({
-		// eslint-disable-next-line @typescript-eslint/no-empty-function
 		subscribe: () => () => {},
 		getDataAtPath: (path) =>
 			navigateObject({ root: defaultValue, location: path }),

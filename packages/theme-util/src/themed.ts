@@ -21,7 +21,7 @@ function makeThemed<TTheme>(location: (string | symbol)[]): Themed<TTheme> {
 	}
 
 	return new Proxy(getValue, {
-		get(target, prop, receiver) {
+		get(target, prop) {
 			if (prop === 'prototype') {
 				return Object.prototype;
 			}

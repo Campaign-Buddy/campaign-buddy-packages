@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useBooleanState } from '@campaign-buddy/common-hooks';
 import {
 	List,

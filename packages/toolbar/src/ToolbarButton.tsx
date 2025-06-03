@@ -1,4 +1,3 @@
-import React from 'react';
 import { CampaignBuddyIcon, Button } from '@campaign-buddy/core-ui';
 import {
 	ToolbarOrientation,

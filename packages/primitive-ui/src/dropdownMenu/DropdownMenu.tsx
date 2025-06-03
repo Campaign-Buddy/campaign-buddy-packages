@@ -12,7 +12,10 @@ import {
 } from './DropdownMenuItem';
 import { useCallback, useId, useMemo } from 'react';
 import { StyledContentContainer, StyledDivider } from './styled';
-import { CompositeControl, useScopedHotkeys } from '@campaign-buddy/accessibility';
+import {
+	CompositeControl,
+	useScopedHotkeys,
+} from '@campaign-buddy/accessibility';
 import {
 	DropdownMenuContextProvider,
 	useDropdownMenuContext,
@@ -42,15 +45,15 @@ export function DropdownMenu({
 
 	const focusButton = useCallback(() => {
 		document.getElementById(`${sharedId}-button`)?.focus();
-	}, []);
+	}, [sharedId]);
 
 	const close = useCallback(() => {
 		setIsOpen(false);
 		queueMicrotask(() => focusButton());
-	}, []);
-	const open = useCallback(() => setIsOpen(true), []);
+	}, [focusButton, setIsOpen]);
+	const open = useCallback(() => setIsOpen(true), [setIsOpen]);
 
-	const handleContentClick = useCallback(() => close(), []);
+	const handleContentClick = useCallback(() => close(), [close]);
 
 	return (
 		<DropdownMenuContextProvider
@@ -117,7 +120,7 @@ DropdownMenu.Content = tagComponent(function DropdownMenuContent({
 		return {
 			reserveIconSpace: anyItemHasIcon,
 		};
-	}, []);
+	}, [items]);
 
 	return (
 		<MenuItemContext.Provider value={menuItemContext}>

@@ -13,12 +13,12 @@ export function getLast() {
 }
 
 export function getActive() {
-	return getOrderedNodes().find(x => x.isActive);
+	return getOrderedNodes().find((x) => x.isActive);
 }
 
 export function getNext(inc = 1) {
 	const nodes = getOrderedNodes();
-	const activeIndex = nodes.findIndex(x => x.isActive);
+	const activeIndex = nodes.findIndex((x) => x.isActive);
 
 	if (activeIndex === -1) {
 		return nodes[0];
@@ -45,12 +45,13 @@ export function getOrderedNodes() {
 
 	for (const item of toArray(domNodes)) {
 		const id = (item as HTMLElement).dataset?.compositeControlNode;
-		
+
 		if (!id) {
 			continue;
 		}
 
-		const isActive = document.activeElement === item || item.contains(document.activeElement);
+		const isActive =
+			document.activeElement === item || item.contains(document.activeElement);
 
 		orderedIds.push({
 			id,
@@ -61,8 +62,10 @@ export function getOrderedNodes() {
 	return orderedIds;
 }
 
-function toArray<TElement extends Node>(nodeList: NodeListOf<TElement>): TElement[] {
+function toArray<TElement extends Node>(
+	nodeList: NodeListOf<TElement>
+): TElement[] {
 	const result: TElement[] = [];
-	nodeList.forEach(node => result.push(node));
+	nodeList.forEach((node) => result.push(node));
 	return result;
 }
