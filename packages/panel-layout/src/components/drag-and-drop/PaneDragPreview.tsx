@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { TabIcon } from '../tab-icon';
 import type { PaneDragItem } from './PaneDragItem';
+import { backgroundColor, themed } from '@campaign-buddy/theme-util';
 
 interface PaneDragPreviewProps {
 	dragItem: PaneDragItem;
@@ -20,10 +21,10 @@ export const PaneDragPreview: React.FC<
 
 const TabPreview = styled.div`
 	display: flex;
-	color: ${({ theme }) => theme.colors.primaryText.onBackground};
+	color: ${themed.colors.primaryText.onBackground};
 	width: fit-content;
-	background-color: ${({ theme }) => theme.colors.background.panel};
-	border-radius: ${({ theme }) => theme.borderRadii.default.toCss()};
+	${backgroundColor(themed.colors.background.panel)}
+	border-radius: ${themed.borderRadii.default};
 	opacity: 0.75;
-	padding: ${({ theme }) => theme.sizes.uiInputPadding.medium.toCss()};
+	padding: ${themed.sizes.uiInputPadding.medium};
 `;

@@ -27,6 +27,7 @@
 		"@campaign-buddy/panel-layout": "^3.0.1",
 		"@campaign-buddy/primitive-ui": "^3.0.1",
 		"@campaign-buddy/react-theme-provider": "^3.0.1",
+		"@campaign-buddy/theme-util": "3.0.1",
 		"@campaign-buddy/themes": "^3.0.1",
 		"@electron-toolkit/preload": "^3.0.1",
 		"@electron-toolkit/utils": "^4.0.0",

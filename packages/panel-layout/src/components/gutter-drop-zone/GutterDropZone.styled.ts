@@ -1,3 +1,4 @@
+import { backgroundColor, themed } from '@campaign-buddy/theme-util';
 import styled, { css } from 'styled-components';
 
 const draggingOverStyle = css<{ direction: 'vertical' | 'horizontal' }>`
@@ -9,7 +10,7 @@ const draggingOverStyle = css<{ direction: 'vertical' | 'horizontal' }>`
 			direction === 'horizontal' ? '64px' : '100%'};
 		width: ${({ direction }) => (direction === 'vertical' ? '64px' : '100%')};
 		opacity: 1;
-		background-color: ${({ theme }) => theme.colors.background.dropzone};
+		${backgroundColor(themed.colors.background.dropzone)}
 		z-index: 1000;
 
 		top: ${({ direction, theme }) =>
@@ -17,7 +18,7 @@ const draggingOverStyle = css<{ direction: 'vertical' | 'horizontal' }>`
 		left: ${({ direction, theme }) =>
 			direction === 'vertical' ? (64 - theme.sizes.gaps.medium) / -2 : 0}px;
 
-		border-radius: ${({ theme }) => theme.borderRadii.default.toCss()};
+		border-radius: ${themed.borderRadii.default};
 	}
 `;
 

@@ -6,6 +6,7 @@ import { HomePage } from './pages/HomePage';
 import { CampaignPage } from './pages/CampaignPage';
 import { PageComponentMap } from './routing/PageProps';
 import { NavigationProvider } from './routing';
+import { backgroundColor, themed } from '@campaign-buddy/theme-util';
 
 const pages: PageComponentMap = {
 	campaign: CampaignPage,
@@ -15,8 +16,8 @@ const pages: PageComponentMap = {
 const Background = styled.div`
 	width: 100%;
 	height: 100%;
-	background-color: ${({ theme }) => theme.colors.background.app};
-	color: ${({ theme }) => theme.colors.primaryText.onBackground};
+	${backgroundColor(themed.colors.background.app)}
+	color: ${themed.colors.primaryText.onBackground};
 `;
 
 function App(): React.JSX.Element {

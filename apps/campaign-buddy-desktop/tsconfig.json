@@ -21,6 +21,9 @@
 		},
 		{
 			"path": "../../packages/drag-drop/tsconfig.json"
+		},
+		{
+			"path": "../../packages/theme-util/tsconfig.json"
 		}
 	]
 }

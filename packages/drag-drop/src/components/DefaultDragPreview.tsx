@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { Icon } from '@campaign-buddy/core-ui';
 import { DefaultDragPreviewData } from '../types';
+import { backgroundColor, themed } from '@campaign-buddy/theme-util';
 
 export const DefaultDragPreview: React.FC<
 	React.PropsWithChildren<DefaultDragPreviewData>
@@ -16,10 +17,10 @@ export const DefaultDragPreview: React.FC<
 
 const DragPreviewContainer = styled.div`
 	display: flex;
-	color: ${({ theme }) => theme.textColor};
+	color: ${themed.colors.primaryText.onBackground};
 	width: fit-content;
-	background-color: ${({ theme }) => theme.colors.background.panel};
-	border-radius: ${({ theme }) => theme.borderRadii.default.toCss()};
+	${backgroundColor(themed.colors.background.panel)}
+	border-radius: ${themed.borderRadii.default};
 	opacity: 0.75;
-	padding: ${({ theme }) => theme.sizes.uiInputPadding.medium.toCss()};
+	padding: ${themed.sizes.uiInputPadding.medium};
 `;

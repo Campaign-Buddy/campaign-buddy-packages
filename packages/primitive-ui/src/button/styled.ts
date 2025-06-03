@@ -1,3 +1,4 @@
+import { backgroundColor } from '@campaign-buddy/theme-util';
 import {
 	FocusableUiState,
 	ISemanticTheme,
@@ -22,7 +23,7 @@ function getBackgroundColor(
 	uiState: UiState
 ) {
 	const semanticColor = variant === 'selected' ? 'primary' : variant;
-	return `background-color: ${theme.colors[semanticColor][uiState]};`;
+	return backgroundColor(theme.colors[semanticColor][uiState]);
 }
 
 function getShadow(

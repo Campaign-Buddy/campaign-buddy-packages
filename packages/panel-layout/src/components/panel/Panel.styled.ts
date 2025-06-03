@@ -1,10 +1,11 @@
+import { backgroundColor, themed } from '@campaign-buddy/theme-util';
 import styled from 'styled-components';
 
 export const PanelContentContainer = styled.div<{ isFirstTabActive: boolean }>`
-	border-radius: ${({ theme }) => theme.borderRadii.default.toCss()};
+	border-radius: ${themed.borderRadii.default};
 	border-top-left-radius: ${({ isFirstTabActive, theme }) =>
 		isFirstTabActive ? '0' : `${theme.borderRadii.default.topLeft}px`};
-	background-color: ${({ theme }) => theme.colors.background.panel};
+	${backgroundColor(themed.colors.background.panel)}
 	height: 100%;
 `;
 
@@ -55,9 +56,9 @@ export const DropPreview = styled.div<{
 }>`
 	position: absolute;
 	opacity: 1;
-	background-color: ${({ theme }) => theme.colors.background.dropzone};
+	${backgroundColor(themed.colors.background.dropzone)}
 	pointer-events: none;
-	border-radius: ${({ theme }) => theme.borderRadii.default.toCss()};
+	border-radius: ${themed.borderRadii.default};
 	top: ${({ hoveringLocation }) => topValues[hoveringLocation]};
 	left: ${({ hoveringLocation }) => leftValues[hoveringLocation]};
 	width: ${({ hoveringLocation }) => widthValues[hoveringLocation]};

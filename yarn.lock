@@ -635,6 +635,7 @@ __metadata:
     "@campaign-buddy/common-hooks": "npm:^3.0.1"
     "@campaign-buddy/core-ui": "npm:^3.0.1"
     "@campaign-buddy/react-theme-provider": "npm:^3.0.1"
+    "@campaign-buddy/theme-util": "npm:3.0.1"
     "@campaign-buddy/themes": "npm:^3.0.1"
     cross-env: "npm:^7.0.3"
     lodash: "npm:^4.17.21"
@@ -860,6 +861,7 @@ __metadata:
     "@campaign-buddy/overflow": "npm:^3.0.1"
     "@campaign-buddy/primitive-ui": "npm:^3.0.1"
     "@campaign-buddy/react-theme-provider": "npm:^3.0.1"
+    "@campaign-buddy/theme-util": "npm:3.0.1"
     "@types/lodash.clonedeep": "npm:^4.5.6"
     "@types/lodash.isequal": "npm:^4.5.6"
     "@types/react-dnd": "npm:^3.0.2"
@@ -993,7 +995,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@campaign-buddy/theme-util@npm:^3.0.1, @campaign-buddy/theme-util@workspace:packages/theme-util":
+"@campaign-buddy/theme-util@npm:3.0.1, @campaign-buddy/theme-util@npm:^3.0.1, @campaign-buddy/theme-util@workspace:packages/theme-util":
   version: 0.0.0-use.local
   resolution: "@campaign-buddy/theme-util@workspace:packages/theme-util"
   dependencies:
@@ -5841,6 +5843,7 @@ __metadata:
     "@campaign-buddy/panel-layout": "npm:^3.0.1"
     "@campaign-buddy/primitive-ui": "npm:^3.0.1"
     "@campaign-buddy/react-theme-provider": "npm:^3.0.1"
+    "@campaign-buddy/theme-util": "npm:3.0.1"
     "@campaign-buddy/themes": "npm:^3.0.1"
     "@electron-toolkit/preload": "npm:^3.0.1"
     "@electron-toolkit/tsconfig": "npm:^1.0.1"

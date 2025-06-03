@@ -1,7 +1,8 @@
+import { backgroundColor, themed } from '@campaign-buddy/theme-util';
 import styled, { css } from 'styled-components';
 
 const isOverStyle = css`
-	background-color: ${({ theme }) => theme.colors.background.dropzone};
+	${backgroundColor(themed.colors.background.dropzone)}
 
 	:before {
 		content: '';
@@ -11,7 +12,7 @@ const isOverStyle = css`
 		width: ${({ theme }) => theme.borderRadii.default.topLeft}px;
 		height: ${({ theme }) => theme.borderRadii.default.topLeft}px;
 		z-index: -10;
-		background-color: ${({ theme }) => theme.colors.background.dropzone};
+		${backgroundColor(themed.colors.background.dropzone)}
 	}
 
 	:after {
@@ -22,7 +23,7 @@ const isOverStyle = css`
 		width: ${({ theme }) => theme.borderRadii.default.topRight}px;
 		height: ${({ theme }) => theme.borderRadii.default.topRight}px;
 		z-index: -10;
-		background-color: ${({ theme }) => theme.colors.background.dropzone};
+		${backgroundColor(themed.colors.background.dropzone)}
 	}
 `;
 
@@ -32,6 +33,6 @@ export const TabBarContainer = styled.div<{ isOver?: boolean }>`
 		${({ theme }) => theme.borderRadii.default.topRight}px 0 0;
 	position: relative;
 	// The tabs may flicker away for a second for measuring to occur
-	min-height: ${({ theme }) => theme.sizes.uiHeights.medium}px;
+	min-height: ${themed.sizes.uiHeights.medium};
 	${({ isOver }) => isOver && isOverStyle}
 `;

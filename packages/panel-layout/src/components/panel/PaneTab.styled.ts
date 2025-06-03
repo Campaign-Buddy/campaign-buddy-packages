@@ -1,3 +1,4 @@
+import { backgroundColor, themed } from '@campaign-buddy/theme-util';
 import styled, { css } from 'styled-components';
 
 const hoverStyle = css<{ hoveringSide?: 'left' | 'right' }>`
@@ -37,7 +38,7 @@ export const TabContainer = styled.div<{
 	}
 
 	&:not(.campaign-buddy-active-tab):hover {
-		background-color: ${({ theme }) => theme.colors.minimal.hover};
+		${backgroundColor(themed.colors.minimal.hover)}
 
 		&:first-child:before {
 			position: absolute;
@@ -47,7 +48,7 @@ export const TabContainer = styled.div<{
 			z-index: -10;
 			width: ${({ theme }) => theme.borderRadii.default.topLeft}px;
 			height: ${({ theme }) => theme.borderRadii.default.topLeft}px;
-			background-color: ${({ theme }) => theme.colors.minimal.hover};
+			${backgroundColor(themed.colors.minimal.hover)}
 		}
 	}
 
@@ -61,8 +62,10 @@ export const TabContainer = styled.div<{
 			.map((x) => `${x}px`)
 			.join(' ')};
 
-	background-color: ${({ theme, isActive }) =>
-		isActive ? theme.colors.background.panel : theme.colors.minimal.default};
+	${({ isActive, theme }) =>
+		backgroundColor(
+			isActive ? theme.colors.background.panel : theme.colors.minimal.default
+		)};
 
 	${({ isDragging }) => (isDragging ? 'opacity: 0.5;' : '')};
 `;

@@ -23,6 +23,9 @@
 		},
 		{
 			"path": "../../packages/primitive-ui/tsconfig.json"
+		},
+		{
+			"path": "../../packages/theme-util/tsconfig.json"
 		}
 	]
 }

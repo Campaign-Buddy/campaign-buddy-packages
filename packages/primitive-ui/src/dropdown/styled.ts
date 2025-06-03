@@ -1,4 +1,4 @@
-import { themed, variant } from '@campaign-buddy/theme-util';
+import { backgroundColor, themed, variant } from '@campaign-buddy/theme-util';
 import styled from 'styled-components';
 
 export type DropdownVariant = 'default' | 'flush';
@@ -15,6 +15,6 @@ export const DropdownContentContainer = styled.div<{
 		_: themed.sizes.uiContentPadding.medium,
 		flush: 0,
 	})};
-	background-color: ${themed.colors.background.dropdown};
+	${backgroundColor(themed.colors.background.dropdown)}
 	border-radius: ${themed.borderRadii.default};
 `;
