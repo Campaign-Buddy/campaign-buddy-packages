@@ -49,7 +49,9 @@ export function usePartialDataPublisher<TData>(data: TData) {
 			return;
 		}
 
-		const changes = diff(dataRef.current, data, { cyclesFix: false });
+		const changes = diff(dataRef.current as any, data as any, {
+			cyclesFix: false,
+		});
 		dataRef.current = data;
 
 		if (changes.length === 0) {

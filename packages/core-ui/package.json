@@ -24,11 +24,13 @@
 	"devDependencies": {
 		"@types/lodash.isequal": "^4.5.5",
 		"@types/math-expression-evaluator": "^1.2.0",
+		"@types/node": "^22.15.29",
 		"@types/styled-components": "^5.1.9",
 		"react": "^18.0.9",
 		"react-dom": "^18.0.9",
 		"styled-components": "^5.3.3",
-		"typescript": "^5.8.3"
+		"typescript": "^5.8.3",
+		"vite": "^6.3.5"
 	},
 	"type": "module",
 	"main": "dist/src/index.js",
