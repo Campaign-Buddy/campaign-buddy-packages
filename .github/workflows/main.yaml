@@ -28,7 +28,7 @@ jobs:
         run: npx lerna version --yes --no-commit-hooks --conventional-commits --create-release github --message "Version [skip ci]"
       - name: Authenticate NPM user
         run: |
-          yarn logout
+          yarn npm logout
           echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" >> .npmrc
           npm whoami
         env:
