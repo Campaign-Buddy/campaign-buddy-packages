@@ -4,13 +4,13 @@ jobs:
     runs-on: ubuntu-latest
     name: Run Tests
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
         with:
           token: ${{ secrets.GH_PAT }}
           fetch-depth: "0"
-      - uses: actions/setup-node@v1
+      - uses: actions/setup-node@v4
         with:
-          node-version: 18.x
+          node-version: 22.x
       - run: yarn
       - run: npx lerna run build
       - run: yarn audit-deps
