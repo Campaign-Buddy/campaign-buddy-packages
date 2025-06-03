@@ -1,0 +1,4 @@
+import{j as n}from"./jsx-runtime-PJfywvQB.js";import"./parchmentTheme-CF6Ki9yW.js";import{L as i}from"./useShowToast-CjhSvX3m.js";import{m as s}from"./util-Cz5dgSLR.js";import"./index-tnPESBdE.js";import"./fuse.esm-DpGxg_dX.js";import"./index-BJt650PE.js";import"./index-aBkx2qY1.js";import"./inheritsLoose-XbxvykFZ.js";import"./index-C4WGByT4.js";import"./styled-components.browser.esm-CuL3HyEV.js";import"./index-DwWHXmyK.js";import"./useCombinedRefs-G3-tKQwR.js";import"./index-CNLxx85X.js";const T={title:"core-ui/LinkButton",component:i},m=p=>n.jsx(i,{...p}),a=()=>{},o=s(m,{children:"Click Me",onClick:a});m.__docgenInfo={description:"",methods:[],displayName:"Template"};var t,r,e;o.parameters={...o.parameters,docs:{...(t=o.parameters)==null?void 0:t.docs,source:{originalSource:`makeStory(Template, {
+  children: 'Click Me',
+  onClick
+})`,...(e=(r=o.parameters)==null?void 0:r.docs)==null?void 0:e.source}}};export{o as PrimaryStyle,T as default};

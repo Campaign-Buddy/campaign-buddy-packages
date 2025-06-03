@@ -1,0 +1,7 @@
+import{j as o}from"./jsx-runtime-PJfywvQB.js";import{S as i,u as n,a as c,E as p,b as d,c as S,D as u,s as y,W as l}from"./ExampleUiSection-D--R1Kmp.js";import"./createSmartContext-lZxL_nvM.js";import"./index-tnPESBdE.js";import"./index-C4WGByT4.js";import"./navigateObject-ZMXbUPar.js";import"./jsonSchemaTypes-BjqZX6rF.js";import"./parchmentTheme-CF6Ki9yW.js";import"./useShowToast-xIu4UuDl.js";import"./fuse.esm-DpGxg_dX.js";import"./index-BJt650PE.js";import"./index-aBkx2qY1.js";import"./inheritsLoose-XbxvykFZ.js";import"./styled-components.browser.esm-CuL3HyEV.js";import"./index-DwWHXmyK.js";import"./useCombinedRefs-G3-tKQwR.js";import"./index-CNLxx85X.js";const R={title:"synced-form-generator/SyncedFormGenerator",component:i},t=new u,x=y({data:{}},t);new l("campaign-buddy-testing",t,{password:"password"});const g=()=>{const m=n(x);return o.jsxs("div",{children:[o.jsx(i,{doc:t,schema:S,widgets:d,UiSection:p,uiLayout:c}),JSON.stringify(m)]})},e=g.bind({});var r,s,a;e.parameters={...e.parameters,docs:{...(r=e.parameters)==null?void 0:r.docs,source:{originalSource:`() => {
+  const state = useSyncedStore(store);
+  return <div>
+            <SyncedFormGenerator doc={doc} schema={exampleSchema} widgets={exampleWidgets} UiSection={ExampleUiSection} uiLayout={exampleLayout} />
+            {JSON.stringify(state)}
+        </div>;
+}`,...(a=(s=e.parameters)==null?void 0:s.docs)==null?void 0:a.source}}};export{e as Primary,R as default};
