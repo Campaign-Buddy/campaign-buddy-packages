@@ -1,61 +1,20 @@
-import { defineConfig, globalIgnores } from 'eslint/config';
+import { globalIgnores } from 'eslint/config';
 
-import globals from 'globals';
-import tsParser from '@typescript-eslint/parser';
-import js from '@eslint/js';
-
+import storybook from 'eslint-plugin-storybook';
+import eslint from '@eslint/js';
+import tseslint from 'typescript-eslint';
 import reactPlugin from 'eslint-plugin-react';
-import typescriptEslintPlugin from '@typescript-eslint/eslint-plugin';
 import reactHooksPlugin from 'eslint-plugin-react-hooks';
+import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended';
 
-import { fixupPluginRules } from '@eslint/compat';
-import { FlatCompat } from '@eslint/eslintrc';
-
-import { fileURLToPath } from 'url';
-import { dirname } from 'path';
-
-const __dirname = dirname(fileURLToPath(import.meta.url));
-
-const compat = new FlatCompat({
-	baseDirectory: __dirname,
-	recommendedConfig: js.configs.recommended,
-	allConfig: js.configs.all,
-});
-
-export default defineConfig([
+export default tseslint.config(
+	eslint.configs.recommended,
+	tseslint.configs.recommended,
+	reactPlugin.configs.flat['jsx-runtime'],
+	reactHooksPlugin.configs['recommended-latest'],
+	storybook.configs['flat/recommended'],
+	eslintPluginPrettierRecommended,
 	{
-		languageOptions: {
-			globals: {
-				...globals.browser,
-				...globals.node,
-			},
-
-			parser: tsParser,
-			ecmaVersion: 12,
-			sourceType: 'module',
-
-			parserOptions: {
-				ecmaFeatures: {
-					jsx: true,
-				},
-			},
-		},
-
-		extends: compat.extends(
-			'eslint:recommended',
-			'plugin:react/recommended',
-			'plugin:@typescript-eslint/recommended',
-			'prettier',
-			'plugin:prettier/recommended',
-			'plugin:storybook/recommended'
-		),
-
-		plugins: {
-			react: reactPlugin,
-			'@typescript-eslint': typescriptEslintPlugin,
-			'react-hooks': fixupPluginRules(reactHooksPlugin),
-		},
-
 		rules: {
 			indent: ['off'],
 			'linebreak-style': ['error', 'unix'],
@@ -65,11 +24,10 @@ export default defineConfig([
 			'@typescript-eslint/no-unused-vars': ['error'],
 			'@typescript-eslint/explicit-module-boundary-types': ['off'],
 			'@typescript-eslint/no-explicit-any': ['off'],
-			'react/prop-types': ['off'],
 			'react-hooks/rules-of-hooks': 'error',
 
 			'react-hooks/exhaustive-deps': [
-				'warn',
+				'error',
 				{
 					additionalHooks: '(useDebouncedAsyncMemo)',
 				},
@@ -83,5 +41,5 @@ export default defineConfig([
 		'**/node_modules/**/*',
 		'node_modules/**/*',
 		'**/out/**/*',
-	]),
-]);
+	])
+);
