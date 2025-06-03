@@ -3,16 +3,16 @@
 	"publishConfig": {
 		"access": "public"
 	},
-	"version": "3.0.0",
+	"version": "3.0.1",
 	"author": "Joseph Stewart",
 	"license": "MIT",
 	"dependencies": {
-		"@campaign-buddy/apply-aggregates": "^3.0.0",
-		"@campaign-buddy/json-path-ex": "^3.0.0",
-		"@campaign-buddy/json-schema-core": "^3.0.0"
+		"@campaign-buddy/apply-aggregates": "^3.0.1",
+		"@campaign-buddy/json-path-ex": "^3.0.1",
+		"@campaign-buddy/json-schema-core": "^3.0.1"
 	},
 	"devDependencies": {
-		"@campaign-buddy/frontend-types": "^3.0.0",
+		"@campaign-buddy/frontend-types": "^3.0.1",
 		"@campaign-buddy/json-schema-core": "*",
 		"typescript": "^5.8.3"
 	},

@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.1](https://github.com/Campaign-Buddy/campaign-buddy-frontend/compare/v3.0.0...v3.0.1) (2025-06-03)
+
+### Bug Fixes
+
+- regenerate lockfile. ([06681ca](https://github.com/Campaign-Buddy/campaign-buddy-frontend/commit/06681caa359a7f30ec4d736372835d3b7c415611))
+
 # [3.0.0](https://github.com/Campaign-Buddy/campaign-buddy-frontend/compare/v2.1.5...v3.0.0) (2025-06-03)
 
 ### Bug Fixes

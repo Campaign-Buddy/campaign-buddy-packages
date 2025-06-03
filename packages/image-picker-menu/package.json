@@ -3,18 +3,18 @@
 	"publishConfig": {
 		"access": "public"
 	},
-	"version": "3.0.0",
+	"version": "3.0.1",
 	"author": "Joseph Stewart",
 	"license": "MIT",
 	"dependencies": {
-		"@campaign-buddy/common-hooks": "^3.0.0",
-		"@campaign-buddy/core-ui": "^3.0.0",
-		"@campaign-buddy/image-grid": "^3.0.0",
+		"@campaign-buddy/common-hooks": "^3.0.1",
+		"@campaign-buddy/core-ui": "^3.0.1",
+		"@campaign-buddy/image-grid": "^3.0.1",
 		"react-query": "^3.34.12"
 	},
 	"devDependencies": {
-		"@campaign-buddy/frontend-types": "^3.0.0",
-		"@campaign-buddy/mock-apis": "^3.0.0",
+		"@campaign-buddy/frontend-types": "^3.0.1",
+		"@campaign-buddy/mock-apis": "^3.0.1",
 		"styled-components": "^5.3.3",
 		"typescript": "^5.8.3"
 	},

@@ -3,14 +3,14 @@
 	"publishConfig": {
 		"access": "public"
 	},
-	"version": "3.0.0",
+	"version": "3.0.1",
 	"author": "Joseph Stewart",
 	"license": "MIT",
 	"dependencies": {
-		"@campaign-buddy/common-hooks": "^3.0.0",
-		"@campaign-buddy/form-generator-core": "^3.0.0",
-		"@campaign-buddy/object-navigator": "^3.0.0",
-		"@campaign-buddy/smart-context": "^3.0.0",
+		"@campaign-buddy/common-hooks": "^3.0.1",
+		"@campaign-buddy/form-generator-core": "^3.0.1",
+		"@campaign-buddy/object-navigator": "^3.0.1",
+		"@campaign-buddy/smart-context": "^3.0.1",
 		"@syncedstore/core": "^0.4.3",
 		"@syncedstore/react": "^0.4.3",
 		"lib0": "^0.2.73",
@@ -18,10 +18,10 @@
 		"yjs": "^13.5.51"
 	},
 	"devDependencies": {
-		"@campaign-buddy/frontend-types": "^3.0.0",
-		"@campaign-buddy/json-schema-core": "^3.0.0",
-		"@campaign-buddy/react-theme-provider": "^3.0.0",
-		"@campaign-buddy/themes": "^3.0.0",
+		"@campaign-buddy/frontend-types": "^3.0.1",
+		"@campaign-buddy/json-schema-core": "^3.0.1",
+		"@campaign-buddy/react-theme-provider": "^3.0.1",
+		"@campaign-buddy/themes": "^3.0.1",
 		"cross-env": "^7.0.3",
 		"react": "^18.0.9",
 		"styled-components": "^5.3.3",
