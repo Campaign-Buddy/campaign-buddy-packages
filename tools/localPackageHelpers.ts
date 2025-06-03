@@ -1,8 +1,7 @@
 import fs from 'fs';
-import path from 'path';
+import path, { dirname } from 'path';
 import { Context } from 'immutability-helper';
 import { fileURLToPath } from 'url';
-import { dirname } from 'path';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
