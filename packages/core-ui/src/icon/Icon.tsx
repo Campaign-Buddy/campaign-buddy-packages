@@ -1,4 +1,4 @@
-import { Icon as IconCore, IconName } from '@blueprintjs/core';
+import { Icon as IconCore, type IconName } from '@blueprintjs/core';
 import styled from 'styled-components';
 import { defaultTheme } from '../theme';
 import { CampaignBuddyIcon } from './IconType';
