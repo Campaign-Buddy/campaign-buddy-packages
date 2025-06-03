@@ -3,11 +3,11 @@
 	"publishConfig": {
 		"access": "public"
 	},
-	"version": "2.1.5",
+	"version": "3.0.0",
 	"author": "Joseph Stewart",
 	"license": "MIT",
 	"devDependencies": {
-		"@campaign-buddy/json-schema-core": "^2.1.5",
+		"@campaign-buddy/json-schema-core": "^3.0.0",
 		"typescript": "^5.8.3"
 	},
 	"scripts": {
@@ -24,7 +24,7 @@
 		"dist"
 	],
 	"dependencies": {
-		"@campaign-buddy/json-path-ex": "^2.1.5",
+		"@campaign-buddy/json-path-ex": "^3.0.0",
 		"lodash.clonedeep": "^4.5.0"
 	}
 }
