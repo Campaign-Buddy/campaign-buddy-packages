@@ -10,7 +10,7 @@
 		"@campaign-buddy/json-schema-core": "^2.1.5"
 	},
 	"devDependencies": {
-		"typescript": "^4.2.4"
+		"typescript": "^5.8.3"
 	},
 	"scripts": {
 		"build": "tsc -b",

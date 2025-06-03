@@ -14,7 +14,7 @@
 	"devDependencies": {
 		"@campaign-buddy/frontend-types": "^2.1.5",
 		"@campaign-buddy/json-schema-core": "*",
-		"typescript": "^4.2.4"
+		"typescript": "^5.8.3"
 	},
 	"scripts": {
 		"build": "tsc -b",

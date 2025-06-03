@@ -29,7 +29,7 @@
 		"@types/lodash.isequal": "^4.5.5",
 		"react": "^18.0.9",
 		"styled-components": "^5.3.3",
-		"typescript": "^4.2.4",
+		"typescript": "^5.8.3",
 		"y-webrtc": "^10.2.5"
 	},
 	"type": "module",
