@@ -73,7 +73,7 @@
     "audit-deps": "tsx tools/auditCrossDependencies.ts",
     "modify-tsconfigs": "tsx tools/modifyTsConfigs.ts",
     "prettier": "prettier --write ./packages",
-    "prepare": "husky install"
+    "postinstall": "husky install"
   },
   "packageManager": "yarn@4.9.1"
 }
