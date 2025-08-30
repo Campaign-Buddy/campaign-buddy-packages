@@ -1,8 +1,9 @@
 import { useDragLayer } from 'react-dnd';
 import styled from 'styled-components';
-import { PaneDragPreview, isPaneDragItem, PaneDragItemKind } from '../src';
+import { PaneDragItemKind, isPaneDragItem } from './PaneDragItem';
+import { PaneDragPreview } from './PaneDragPreview';
 
-export const CustomDragLayer = () => {
+export const PanelLayoutDragLayer = () => {
 	const { itemType, isDragging, item, currentOffset } = useDragLayer(
 		(monitor) => ({
 			item: monitor.getItem(),

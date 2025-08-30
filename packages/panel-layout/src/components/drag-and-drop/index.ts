@@ -5,3 +5,4 @@ export { PaneDragPreview } from './PaneDragPreview';
 export { useSectionedDropZone } from './useSectionedDropZone';
 export * from './coordinateTransformers';
 export * from './usePaneDrag';
+export * from './PanelLayoutDragLayer';

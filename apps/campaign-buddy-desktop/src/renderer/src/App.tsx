@@ -7,6 +7,7 @@ import { CampaignPage } from './pages/CampaignPage';
 import { PageComponentMap } from './routing/PageProps';
 import { NavigationProvider } from './routing';
 import { backgroundColor, themed } from '@campaign-buddy/theme-util';
+import { DragLayer } from './components/DragLayer';
 
 const pages: PageComponentMap = {
 	campaign: CampaignPage,
@@ -14,6 +15,7 @@ const pages: PageComponentMap = {
 };
 
 const Background = styled.div`
+	position: relative;
 	width: 100%;
 	height: 100%;
 	${backgroundColor(themed.colors.background.app)}
@@ -26,14 +28,15 @@ function App(): React.JSX.Element {
 			theme={themes.parchment}
 			semanticTheme={semanticThemes.parchment}
 		>
-			<DragProvider>
-				<Background>
+			<Background>
+				<DragProvider>
 					<NavigationProvider
 						pages={pages}
 						initialLocation={{ page: 'home' }}
 					/>
-				</Background>
-			</DragProvider>
+					<DragLayer />
+				</DragProvider>
+			</Background>
 		</ThemeProvider>
 	);
 }

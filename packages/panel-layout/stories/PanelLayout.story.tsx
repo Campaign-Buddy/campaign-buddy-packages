@@ -6,8 +6,8 @@ import {
 	PanelLayoutDto,
 	PanelLayoutModel,
 	PanelModel,
+	PanelLayoutDragLayer,
 } from '../src';
-import { CustomDragLayer } from './CustomDragLayer';
 import { paneDefinitions } from './PaneDefinitions';
 
 export default {
@@ -163,7 +163,7 @@ export const Primary = () => {
 					<button onClick={serialize}>Serialize</button>
 				</div>
 				<PanelLayout panelLayout={layout} paneDefintions={paneDefinitions} />
-				<CustomDragLayer />
+				<PanelLayoutDragLayer />
 			</DndProvider>
 		</StoryFnRoot>
 	);
