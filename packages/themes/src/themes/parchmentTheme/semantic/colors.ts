@@ -34,6 +34,7 @@ export const colors: SemanticColors = {
 		panel: parchmentLight,
 		dropdown: parchmentLight,
 	},
+	currentBackground: `var(--cb-background-color, ${parchmentLight})`,
 	primaryText: {
 		onBackground: barkBrown,
 		onDropdown: barkBrown,

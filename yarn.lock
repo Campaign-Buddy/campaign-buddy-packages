@@ -580,7 +580,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@campaign-buddy/common-hooks@npm:^3.0.1, @campaign-buddy/common-hooks@workspace:packages/common-hooks":
+"@campaign-buddy/common-hooks@npm:3.0.1, @campaign-buddy/common-hooks@npm:^3.0.1, @campaign-buddy/common-hooks@workspace:packages/common-hooks":
   version: 0.0.0-use.local
   resolution: "@campaign-buddy/common-hooks@workspace:packages/common-hooks"
   dependencies:
@@ -891,7 +891,7 @@ __metadata:
   resolution: "@campaign-buddy/primitive-ui@workspace:packages/primitive-ui"
   dependencies:
     "@campaign-buddy/accessibility": "npm:^3.0.1"
-    "@campaign-buddy/common-hooks": "npm:^3.0.1"
+    "@campaign-buddy/common-hooks": "npm:3.0.1"
     "@campaign-buddy/react-theme-provider": "npm:^3.0.1"
     "@campaign-buddy/theme-util": "npm:^3.0.1"
     "@campaign-buddy/themes": "npm:^3.0.1"

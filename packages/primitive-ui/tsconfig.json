@@ -23,6 +23,9 @@
 		},
 		{
 			"path": "../../packages/accessibility/tsconfig.json"
+		},
+		{
+			"path": "../../packages/common-hooks/tsconfig.json"
 		}
 	]
 }

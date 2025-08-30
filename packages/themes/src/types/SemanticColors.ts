@@ -21,6 +21,7 @@ export interface SemanticColors {
 		panel: ThemeColor;
 		dropdown: ThemeColor;
 	};
+	currentBackground: ThemeColor;
 	primaryText: ContextualTextColors;
 	secondaryText: ContextualTextColors;
 	input: StatefulColor;

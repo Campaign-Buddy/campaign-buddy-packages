@@ -8,7 +8,7 @@
 	"license": "MIT",
 	"dependencies": {
 		"@campaign-buddy/accessibility": "^3.0.1",
-		"@campaign-buddy/common-hooks": "^3.0.1",
+		"@campaign-buddy/common-hooks": "3.0.1",
 		"@campaign-buddy/theme-util": "^3.0.1",
 		"@floating-ui/react-dom": "^2.1.2",
 		"is-hotkey": "^0.2.0",
