@@ -1,6 +1,7 @@
 import React, { useMemo } from 'react';
 import { Fader, TruncatedContainer, TruncatedContent } from './styled';
 import { useResizeObserver } from '@campaign-buddy/common-hooks';
+import { Tooltip } from '../tooltip';
 
 export function Truncated({ children }: React.PropsWithChildren) {
 	const [containerRef, containerSize] = useResizeObserver();
@@ -19,7 +20,12 @@ export function Truncated({ children }: React.PropsWithChildren) {
 
 	return (
 		<TruncatedContainer ref={containerRef}>
-			<TruncatedContent ref={contentRef}>{children}</TruncatedContent>
+			<TruncatedContent ref={contentRef}>
+				<Tooltip disabled={!shouldShowFader}>
+					<Tooltip.Reference>{children}</Tooltip.Reference>
+					<Tooltip.Content>{children}</Tooltip.Content>
+				</Tooltip>
+			</TruncatedContent>
 			{shouldShowFader && <Fader />}
 		</TruncatedContainer>
 	);

@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 import { useCombinedRefs } from '@campaign-buddy/common-hooks';
-import { Button } from '@campaign-buddy/primitive-ui';
+import { Button, Truncated } from '@campaign-buddy/primitive-ui';
 import { ItemProps } from '@campaign-buddy/overflow';
 import { PaneModel } from '../../panelLayoutModel';
 import {
@@ -11,7 +11,12 @@ import {
 	usePaneDrag,
 } from '../drag-and-drop';
 import { useObserverState } from '../useObservedState';
-import { StyledTab, ButtonContainer, TabContainer } from './PaneTab.styled';
+import {
+	StyledTab,
+	ButtonContainer,
+	TabContainer,
+	TabTitleContainer,
+} from './PaneTab.styled';
 import { TabIcon } from '../tab-icon';
 
 export interface PaneTabItem {
@@ -62,7 +67,9 @@ export const PaneTab: React.FC<ItemProps<PaneTabItem, HTMLDivElement>> = ({
 				hoveringSide={hoveringLocation}
 			>
 				<TabIcon tabIcon={icon} />
-				<span>{title}</span>
+				<TabTitleContainer>
+					<Truncated>{title}</Truncated>
+				</TabTitleContainer>
 				<ButtonContainer>
 					<Button
 						leftIcon="cross"

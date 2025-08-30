@@ -75,6 +75,7 @@ export const StyledTab = styled.div<{
 }>`
 	min-height: ${({ theme }) => theme.sizes.uiHeights.medium}px;
 	max-height: ${({ theme }) => theme.sizes.uiHeights.medium}px;
+	max-width: 200px;
 	height: ${({ theme }) => theme.sizes.uiHeights.medium}px;
 	padding: 0 ${({ theme }) => theme.sizes.gaps.medium}px;
 	white-space: nowrap;
@@ -85,4 +86,10 @@ export const StyledTab = styled.div<{
 	align-items: center;
 
 	${({ hoveringSide }) => hoveringSide && hoverStyle}
+`;
+
+export const TabTitleContainer = styled.span`
+	display: inline-block;
+	max-width: 100%;
+	overflow: hidden;
 `;

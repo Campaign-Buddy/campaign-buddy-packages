@@ -1,5 +1,11 @@
 import React from 'react';
-import { useFloating, autoUpdate, flip, shift } from '@floating-ui/react-dom';
+import {
+	useFloating,
+	autoUpdate,
+	flip,
+	shift,
+	offset,
+} from '@floating-ui/react-dom';
 import {
 	tagComponent,
 	useSingleTaggedChild,
@@ -15,12 +21,15 @@ import {
 import { createPortal } from 'react-dom';
 import { useCombinedRefs } from '@campaign-buddy/common-hooks';
 import { useGlobalHotkeys } from './useGlobalHotkeys';
+import { SizeStep } from '@campaign-buddy/themes';
+import { useTheme } from '@campaign-buddy/react-theme-provider';
 
 export interface DropdownProps extends RequireChildren {
 	isOpen: boolean;
 	setIsOpen: (isOpen: boolean) => void;
 	portalElementSelector?: string;
 	variant?: DropdownVariant;
+	referenceGap?: SizeStep;
 }
 
 export function Dropdown({
@@ -29,10 +38,12 @@ export function Dropdown({
 	setIsOpen,
 	portalElementSelector,
 	variant,
+	referenceGap,
 }: DropdownProps) {
 	const button = useSingleTaggedChild(children, dropdownReferenceSymbol);
 	const content = useSingleTaggedChild(children, dropdownContentSymbol);
 	const portalElement = useDomNode(portalElementSelector ?? 'body');
+	const theme = useTheme();
 
 	useGlobalHotkeys(
 		{
@@ -57,7 +68,13 @@ export function Dropdown({
 
 	const { refs, floatingStyles } = useFloating({
 		whileElementsMounted: autoUpdate,
-		middleware: [flip(), shift()],
+		middleware: [
+			flip(),
+			shift(),
+			offset({
+				mainAxis: referenceGap ? theme.sizes.gaps[referenceGap] : 0,
+			}),
+		],
 		placement: 'bottom-start',
 	});
 
