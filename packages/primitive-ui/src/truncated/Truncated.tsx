@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { Fader, TruncatedContainer, TruncatedContent } from './styled';
+import { TruncatedContainer, TruncatedContent } from './styled';
 import { useResizeObserver } from '@campaign-buddy/common-hooks';
 import { Tooltip } from '../tooltip';
 
@@ -19,14 +19,13 @@ export function Truncated({ children }: React.PropsWithChildren) {
 	console.log(shouldShowFader);
 
 	return (
-		<TruncatedContainer ref={containerRef}>
+		<TruncatedContainer ref={containerRef} showFader={shouldShowFader}>
 			<TruncatedContent ref={contentRef}>
 				<Tooltip disabled={!shouldShowFader}>
 					<Tooltip.Reference>{children}</Tooltip.Reference>
 					<Tooltip.Content>{children}</Tooltip.Content>
 				</Tooltip>
 			</TruncatedContent>
-			{shouldShowFader && <Fader />}
 		</TruncatedContainer>
 	);
 }

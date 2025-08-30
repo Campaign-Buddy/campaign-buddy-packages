@@ -1,28 +1,20 @@
-import { themed } from '@campaign-buddy/theme-util';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
-export const TruncatedContainer = styled.span`
+const fader = css`
+	mask-image: linear-gradient(to left, transparent, black 30px);
+	mask-repeat: no-repeat;
+`;
+
+export const TruncatedContainer = styled.span<{ showFader: boolean }>`
 	display: inline-block;
 	white-space: nowrap;
 	overflow: hidden;
 	max-width: 100%;
 	position: relative;
+	${({ showFader: isTruncated }) => (isTruncated ? fader : '')}
 `;
 
 export const TruncatedContent = styled.span`
 	display: inline-block;
 	white-space: nowrap;
-`;
-
-export const Fader = styled.span`
-	position: absolute;
-	right: 0;
-	top: 0;
-	bottom: 0;
-	width: 10px;
-	background: linear-gradient(
-		90deg,
-		transparent,
-		${themed.colors.currentBackground}
-	);
 `;
