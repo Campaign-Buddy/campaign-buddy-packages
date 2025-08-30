@@ -1,7 +1,11 @@
-import React, { useCallback } from 'react';
-import { useCombinedRefs } from '@campaign-buddy/common-hooks';
-import { Button, Truncated } from '@campaign-buddy/primitive-ui';
-import { ItemProps } from '@campaign-buddy/overflow';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import {
+	useBooleanState,
+	useCombinedRefs,
+	useDelayedEffect,
+} from '@campaign-buddy/common-hooks';
+import { Button, DropdownMenu, Truncated } from '@campaign-buddy/primitive-ui';
+import { ItemProps, OverflowedItemsProps } from '@campaign-buddy/overflow';
 import { PaneModel } from '../../panelLayoutModel';
 import {
 	PaneDragItemKind,
@@ -16,6 +20,7 @@ import {
 	ButtonContainer,
 	TabContainer,
 	TabTitleContainer,
+	OverflowTabContainer,
 } from './PaneTab.styled';
 import { TabIcon } from '../tab-icon';
 
@@ -86,3 +91,99 @@ export const PaneTab: React.FC<ItemProps<PaneTabItem, HTMLDivElement>> = ({
 		</TabContainer>
 	);
 };
+
+export function OverflowTab({ items }: OverflowedItemsProps<PaneTabItem>) {
+	if (items.length === 0) {
+		return null;
+	}
+
+	return <OverflowTabCore items={items} />;
+}
+
+function OverflowTabCore({ items }: OverflowedItemsProps<PaneTabItem>) {
+	const { isActive, pane, onActivePaneIdChange } = useMemo(
+		() => items.find((x) => x.isActive) ?? items[0],
+		[items]
+	);
+
+	const title = useObserverState(pane, pane.getTabTitle);
+	const icon = useObserverState(pane, pane.getTabIcon);
+	const paneId = useObserverState(pane, pane.getId);
+
+	const { isDragging: isDraggingPane, dragRef } = usePaneDrag(pane);
+
+	const [isMenuOpen, setIsMenuOpen] = useState(false);
+	const [isMouseOverMenu, onMouseEnter, onMouseLeave] = useBooleanState(false);
+
+	useEffect(() => {
+		if (items.length === 0) {
+			setIsMenuOpen(false);
+		}
+	}, [items.length]);
+
+	const {
+		hoveringLocation,
+		dropRef,
+		isDragging: isInDragOperation,
+	} = useSectionedDropZone(
+		PaneDragItemKind,
+		coordinateTransformers.isOver,
+		undefined
+	);
+
+	useDelayedEffect(
+		() => {
+			setIsMenuOpen(true);
+		},
+		Boolean(hoveringLocation),
+		700
+	);
+
+	useDelayedEffect(
+		() => {
+			setIsMenuOpen(true);
+		},
+		!isMouseOverMenu && isInDragOperation,
+		700
+	);
+
+	const handleTabClick = useCallback(
+		() => onActivePaneIdChange(paneId),
+		[onActivePaneIdChange, paneId]
+	);
+
+	const containerRef = useCombinedRefs(dragRef, dropRef);
+
+	return (
+		<OverflowTabContainer
+			isActive={isActive}
+			isDragging={isDraggingPane}
+			onDragOver={onMouseEnter}
+			onDragLeave={onMouseLeave}
+			className={isActive ? 'campaign-buddy-active-tab' : undefined}
+		>
+			<StyledTab ref={containerRef} onClick={handleTabClick}>
+				<TabIcon tabIcon={icon} />
+				<TabTitleContainer>
+					<Truncated>{title}</Truncated>
+				</TabTitleContainer>
+				<ButtonContainer>
+					<DropdownMenu isOpen={isMenuOpen} setIsOpen={setIsMenuOpen}>
+						<DropdownMenu.Button
+							variant="minimal"
+							size="small"
+							onClick={() => setIsMenuOpen(true)}
+						/>
+						<DropdownMenu.Content>
+							{items.map((item) => (
+								<DropdownMenu.Item key={item.pane.getId()}>
+									{item.pane.getTabTitle()}
+								</DropdownMenu.Item>
+							))}
+						</DropdownMenu.Content>
+					</DropdownMenu>
+				</ButtonContainer>
+			</StyledTab>
+		</OverflowTabContainer>
+	);
+}

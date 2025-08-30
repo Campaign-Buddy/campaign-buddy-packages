@@ -70,6 +70,11 @@ export const TabContainer = styled.div<{
 	${({ isDragging }) => (isDragging ? 'opacity: 0.5;' : '')};
 `;
 
+export const OverflowTabContainer = styled(TabContainer)`
+	width: 100px;
+	max-width: 100px;
+`;
+
 export const StyledTab = styled.div<{
 	hoveringSide?: 'left' | 'right';
 }>`

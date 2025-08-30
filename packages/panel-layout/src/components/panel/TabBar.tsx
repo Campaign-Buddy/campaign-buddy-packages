@@ -8,8 +8,7 @@ import {
 	useSectionedDropZone,
 } from '../drag-and-drop';
 import { TabBarContainer } from './TabBar.styled';
-import { PaneTabItem, PaneTab } from './PaneTab';
-import { TabOverflowMenu } from './TabOverflowMenu';
+import { PaneTabItem, PaneTab, OverflowTab } from './PaneTab';
 
 export interface ITabBarProps {
 	panes: PaneModel[];
@@ -58,7 +57,7 @@ export const TabBar: React.FC<React.PropsWithChildren<ITabBarProps>> = ({
 				items={paneItems}
 				getItemId={getPaneId}
 				ItemComponent={PaneTab}
-				OverflowedItemsComponent={TabOverflowMenu}
+				OverflowedItemsComponent={OverflowTab}
 			/>
 		</TabBarContainer>
 	);
