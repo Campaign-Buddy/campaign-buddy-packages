@@ -169,15 +169,11 @@ function OverflowTabCore({ items }: OverflowedItemsProps<PaneTabItem>) {
 				</TabTitleContainer>
 				<ButtonContainer>
 					<DropdownMenu isOpen={isMenuOpen} setIsOpen={setIsMenuOpen}>
-						<DropdownMenu.Button
-							variant="minimal"
-							size="small"
-							onClick={() => setIsMenuOpen(true)}
-						/>
+						<DropdownMenu.Button variant="minimal" size="small" />
 						<DropdownMenu.Content>
 							{items.map((item) => (
 								<DropdownMenu.Item key={item.pane.getId()}>
-									{item.pane.getTabTitle()}
+									<OverflowTabMenuItem item={item} />
 								</DropdownMenu.Item>
 							))}
 						</DropdownMenu.Content>
@@ -186,4 +182,9 @@ function OverflowTabCore({ items }: OverflowedItemsProps<PaneTabItem>) {
 			</StyledTab>
 		</OverflowTabContainer>
 	);
+}
+
+function OverflowTabMenuItem({ item }: { item: PaneTabItem }) {
+	const title = useObserverState(item.pane, item.pane.getTabTitle);
+	return title;
 }

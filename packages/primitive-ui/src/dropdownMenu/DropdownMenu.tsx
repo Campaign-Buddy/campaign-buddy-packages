@@ -79,9 +79,11 @@ export function DropdownMenu({
 
 export type DropdownMenuButtonProps = ButtonProps;
 DropdownMenu.Button = tagComponent(function DropdownMenuButton(
-	props: React.PropsWithChildren<DropdownMenuButtonProps>
+	props: React.PropsWithChildren<
+		Omit<DropdownMenuButtonProps, 'leftIcon' | 'rightIcon' | 'onClick'>
+	>
 ) {
-	const { isOpen, open, sharedId } = useDropdownMenuContext();
+	const { isOpen, open, close, sharedId } = useDropdownMenuContext();
 
 	const hotkeys = useScopedHotkeys({
 		up: () => {
@@ -100,6 +102,7 @@ DropdownMenu.Button = tagComponent(function DropdownMenuButton(
 			ref={hotkeys}
 			id={`${sharedId}-button`}
 			rightIcon={isOpen ? 'chevronUp' : 'chevronDown'}
+			onClick={() => (isOpen ? close() : open())}
 			{...props}
 		/>
 	);
