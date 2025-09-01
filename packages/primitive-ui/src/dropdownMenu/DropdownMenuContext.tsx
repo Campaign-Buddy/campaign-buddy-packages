@@ -5,6 +5,7 @@ interface DropdownMenuContextData {
 	isOpen: boolean;
 	open: () => void;
 	sharedId: string;
+	buttonRef: React.MutableRefObject<HTMLButtonElement | null>;
 }
 
 const DropdownMenuContext = createContext<DropdownMenuContextData>({
@@ -12,6 +13,7 @@ const DropdownMenuContext = createContext<DropdownMenuContextData>({
 	open: () => {},
 	isOpen: false,
 	sharedId: '',
+	buttonRef: { current: null },
 });
 
 export function useDropdownMenuContext() {

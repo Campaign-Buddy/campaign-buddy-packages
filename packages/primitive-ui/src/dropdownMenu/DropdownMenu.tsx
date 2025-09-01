@@ -1,5 +1,6 @@
 import {
 	tagComponent,
+	useCombinedRefs,
 	useSingleTaggedChild,
 	useTaggedChildren,
 } from '@campaign-buddy/common-hooks';
@@ -10,7 +11,7 @@ import {
 	MenuItemContext,
 	MenuItemContextData,
 } from './DropdownMenuItem';
-import { useCallback, useId, useMemo } from 'react';
+import { useCallback, useId, useMemo, useRef } from 'react';
 import { StyledContentContainer, StyledDivider } from './styled';
 import {
 	CompositeControl,
@@ -40,6 +41,7 @@ export function DropdownMenu({
 }: DropdownMenuProps) {
 	const reference = useSingleTaggedChild(children, referenceTag);
 	const content = useSingleTaggedChild(children, contentTag);
+	const buttonRef = useRef<HTMLButtonElement | null>(null);
 
 	const sharedId = useId();
 
@@ -61,6 +63,7 @@ export function DropdownMenu({
 			open={open}
 			close={close}
 			sharedId={sharedId}
+			buttonRef={buttonRef}
 		>
 			<Dropdown
 				variant="flush"
@@ -83,7 +86,7 @@ DropdownMenu.Button = tagComponent(function DropdownMenuButton(
 		Omit<DropdownMenuButtonProps, 'leftIcon' | 'rightIcon' | 'onClick'>
 	>
 ) {
-	const { isOpen, open, close, sharedId } = useDropdownMenuContext();
+	const { isOpen, open, close, sharedId, buttonRef } = useDropdownMenuContext();
 
 	const hotkeys = useScopedHotkeys({
 		up: () => {
@@ -94,12 +97,14 @@ DropdownMenu.Button = tagComponent(function DropdownMenuButton(
 		},
 	});
 
+	const combinedRefs = useCombinedRefs(buttonRef, hotkeys);
+
 	return (
 		<Button
 			aria-haspopup="menu"
 			aria-controls={isOpen ? sharedId : undefined}
 			aria-expanded={isOpen}
-			ref={hotkeys}
+			ref={combinedRefs}
 			id={`${sharedId}-button`}
 			rightIcon={isOpen ? 'chevronUp' : 'chevronDown'}
 			onClick={() => (isOpen ? close() : open())}
@@ -115,7 +120,7 @@ DropdownMenu.Content = tagComponent(function DropdownMenuContent({
 	children: React.ReactNode;
 }) {
 	const items = useTaggedChildren(children, itemTag);
-	const { close, sharedId } = useDropdownMenuContext();
+	const { close, sharedId, buttonRef } = useDropdownMenuContext();
 
 	const menuItemContext = useMemo<MenuItemContextData>(() => {
 		const anyItemHasIcon = items.some((x) => Boolean((x as any).props?.icon));
@@ -125,6 +130,18 @@ DropdownMenu.Content = tagComponent(function DropdownMenuContent({
 		};
 	}, [items]);
 
+	const handleBlur = useCallback(
+		(event: FocusEvent) => {
+			// The button will handle closing the dropdown
+			if (buttonRef.current?.contains(event.relatedTarget as Node)) {
+				return;
+			}
+
+			close();
+		},
+		[buttonRef, close]
+	);
+
 	return (
 		<MenuItemContext.Provider value={menuItemContext}>
 			<CompositeControl
@@ -132,7 +149,7 @@ DropdownMenu.Content = tagComponent(function DropdownMenuContent({
 				accessibleId={sharedId}
 				role="menu"
 				initiallyFocused
-				onBlur={close}
+				onBlur={handleBlur}
 			>
 				<StyledContentContainer>{items}</StyledContentContainer>
 			</CompositeControl>

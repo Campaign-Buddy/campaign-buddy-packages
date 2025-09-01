@@ -12,9 +12,7 @@ export function Primary() {
 
 	return (
 		<DropdownMenu isOpen={isOpen} setIsOpen={setIsOpen}>
-			<DropdownMenu.Button onClick={() => setIsOpen((p) => !p)}>
-				Open
-			</DropdownMenu.Button>
+			<DropdownMenu.Button>Open</DropdownMenu.Button>
 			<DropdownMenu.Content>
 				<DropdownMenu.Item icon="note" onClick={() => alert('hi')}>
 					Say Hi

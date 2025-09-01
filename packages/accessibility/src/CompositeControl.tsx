@@ -44,7 +44,7 @@ interface CompositeControlContextData {
 		setTabIndex: SetTabIndex,
 		meta?: React.RefObject<CompositeControlChildMeta | undefined>
 	) => Unsubscribe;
-	onBlur: () => void;
+	onBlur: (event: FocusEvent) => void;
 }
 
 const CompositeControlContext = React.createContext<
@@ -74,7 +74,7 @@ export interface CompositeControlProps {
 	orientation?: ArrowKeyOrientation;
 	role?: AriaRole;
 	accessibleId?: string;
-	onBlur?: () => void;
+	onBlur?: (vent: FocusEvent) => void;
 }
 
 /**
@@ -156,7 +156,7 @@ export function CompositeControl({
 					}
 				};
 			},
-			onBlur: () => {
+			onBlur: (event) => {
 				queueMicrotask(() => {
 					if (
 						!onBlurRef.current ||
@@ -166,7 +166,7 @@ export function CompositeControl({
 						return;
 					}
 
-					onBlurRef.current();
+					onBlurRef.current(event);
 				});
 			},
 		}),
@@ -301,8 +301,8 @@ export function useCompositeControlChild(meta?: CompositeControlChildMeta) {
 
 	const dataAttributeRef = useDataAttribute('compositeControlNode', id);
 
-	const blurHandlerRef = useRefEventHandler('blur', () => {
-		context.onBlur();
+	const blurHandlerRef = useRefEventHandler('blur', (event) => {
+		context.onBlur(event);
 	});
 
 	return useCombinedRefs(
