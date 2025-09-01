@@ -1,0 +1,9 @@
+import{j as r}from"./jsx-runtime-PJfywvQB.js";import{r as e}from"./index-tnPESBdE.js";import{F as d,a as u,w as y}from"./index-DAGpjJtu.js";import{a as o,M as g,c as a}from"./ImageGrid-BPNgWImq.js";import"./index.esm-CPT3nVmo.js";import{Q as h}from"./queryClient-C86Hojab.js";import"./createSmartContext-BVs5Jhf5.js";import"./navigateObject-ZMXbUPar.js";import"./index-C4WGByT4.js";import"./fuse.esm-BSXXkDLL.js";import"./index-BJt650PE.js";import"./index-aBkx2qY1.js";import"./inheritsLoose-XbxvykFZ.js";import"./styled-components.browser.esm-CuL3HyEV.js";import"./index-D_0btrl3.js";import"./useShowToast-DNWSesNN.js";import"./useBooleanState-BvRGCuoP.js";import"./useCombinedRefs-Dfiq_Z7b.js";import"./index-B9gZL0fq.js";import"./ImagePickerMenu-CLHp6kTt.js";import"./isObjectLike-C4XLuBz8.js";import"./index-ChYhBiAs.js";import"./index-go6VP56j.js";import"./jsonSchemaTypes-BjqZX6rF.js";const T={title:"form-generator-widgets/CharacterSheet"},A=new g,l=new h,w=()=>{const[s,p]=e.useState({name:"Barry Jazz"}),c=e.useMemo(()=>new o(o.defaultOptions),[]);return r.jsx(d,{mediaApi:A,queryClient:l,showAggregationIndicator:!0,children:r.jsx(u,{schema:a.schema,data:s,onChange:p,widgets:y,uiLayout:a.uiLayout,entityApi:c})})},t=w.bind({});var i,n,m;t.parameters={...t.parameters,docs:{...(i=t.parameters)==null?void 0:i.docs,source:{originalSource:`() => {
+  const [data, setData] = useState({
+    name: 'Barry Jazz'
+  });
+  const entityApi = useMemo(() => new MockEntityApi(MockEntityApi.defaultOptions), []);
+  return <FormWidgetProvider mediaApi={mediaApi} queryClient={queryClient} showAggregationIndicator>
+            <FormGenerator schema={characterEntity.schema} data={data} onChange={setData} widgets={widgets} uiLayout={characterEntity.uiLayout} entityApi={entityApi} />
+        </FormWidgetProvider>;
+}`,...(m=(n=t.parameters)==null?void 0:n.docs)==null?void 0:m.source}}};export{t as Primary,T as default};

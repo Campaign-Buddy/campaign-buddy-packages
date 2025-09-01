@@ -1,4 +1,0 @@
-import{j as p}from"./jsx-runtime-PJfywvQB.js";import{r as u}from"./index-tnPESBdE.js";import"./parchmentTheme-CF6Ki9yW.js";import{I as a}from"./useShowToast-CjhSvX3m.js";import"./fuse.esm-DpGxg_dX.js";import"./index-BJt650PE.js";import"./index-aBkx2qY1.js";import"./inheritsLoose-XbxvykFZ.js";import"./index-C4WGByT4.js";import"./styled-components.browser.esm-CuL3HyEV.js";import"./index-DwWHXmyK.js";import"./useCombinedRefs-G3-tKQwR.js";import"./index-CNLxx85X.js";const V={title:"core-ui/Input",component:a},i=()=>{const[s,m]=u.useState("");return p.jsx(a,{value:s,onChange:m,label:"Please fill me out"})},t=i.bind({});var e,r,o;t.parameters={...t.parameters,docs:{...(e=t.parameters)==null?void 0:e.docs,source:{originalSource:`() => {
-  const [value, setValue] = useState('');
-  return <Input value={value} onChange={setValue} label="Please fill me out" />;
-}`,...(o=(r=t.parameters)==null?void 0:r.docs)==null?void 0:o.source}}};export{t as Primary,V as default};

@@ -1,0 +1,1 @@
+import{r as t}from"./index-tnPESBdE.js";function u(e){const[o,s]=t.useState(e??!1),a=t.useCallback(()=>s(r=>!r),[]),l=t.useCallback(()=>s(!0),[]),c=t.useCallback(()=>s(!1),[]);return[o,l,c,a]}export{u};

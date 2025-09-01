@@ -1,4 +1,0 @@
-import{j as n}from"./jsx-runtime-PJfywvQB.js";import{r as i}from"./index-tnPESBdE.js";import"./parchmentTheme-CF6Ki9yW.js";import{s}from"./useShowToast-CjhSvX3m.js";import"./fuse.esm-DpGxg_dX.js";import"./index-BJt650PE.js";import"./index-aBkx2qY1.js";import"./inheritsLoose-XbxvykFZ.js";import"./index-C4WGByT4.js";import"./styled-components.browser.esm-CuL3HyEV.js";import"./index-DwWHXmyK.js";import"./useCombinedRefs-G3-tKQwR.js";import"./index-CNLxx85X.js";const V={title:"core-ui/ToggleButton",component:s},l=()=>{const[a,m]=i.useState(!1);return n.jsx(s,{value:a,onChange:m,icon:"bold",size:"small"})},t=l.bind({});var o,e,r;t.parameters={...t.parameters,docs:{...(o=t.parameters)==null?void 0:o.docs,source:{originalSource:`() => {
-  const [value, setValue] = useState(false);
-  return <ToggleButton value={value} onChange={setValue} icon="bold" size="small" />;
-}`,...(r=(e=t.parameters)==null?void 0:e.docs)==null?void 0:r.source}}};export{t as Primary,V as default};

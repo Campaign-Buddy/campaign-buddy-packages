@@ -1,4 +1,0 @@
-import{j as i}from"./jsx-runtime-PJfywvQB.js";import{r as c}from"./index-tnPESBdE.js";import"./parchmentTheme-CF6Ki9yW.js";import{q as a}from"./useShowToast-CjhSvX3m.js";import"./fuse.esm-DpGxg_dX.js";import"./index-BJt650PE.js";import"./index-aBkx2qY1.js";import"./inheritsLoose-XbxvykFZ.js";import"./index-C4WGByT4.js";import"./styled-components.browser.esm-CuL3HyEV.js";import"./index-DwWHXmyK.js";import"./useCombinedRefs-G3-tKQwR.js";import"./index-CNLxx85X.js";const P={title:"core-ui/Switch",component:a},p=()=>{const[s,m]=c.useState(!1);return i.jsx(a,{value:s,onChange:m,label:"Please check me"})},e=p.bind({});var t,r,o;e.parameters={...e.parameters,docs:{...(t=e.parameters)==null?void 0:t.docs,source:{originalSource:`() => {
-  const [value, setValue] = useState(false);
-  return <Switch value={value} onChange={setValue} label="Please check me" />;
-}`,...(o=(r=e.parameters)==null?void 0:r.docs)==null?void 0:o.source}}};export{e as Primary,P as default};

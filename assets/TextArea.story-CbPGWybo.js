@@ -1,0 +1,4 @@
+import{j as i}from"./jsx-runtime-PJfywvQB.js";import{r as p}from"./index-tnPESBdE.js";import"./index-D_0btrl3.js";import{T as a}from"./useShowToast-BNVfI4Yq.js";import"./styled-components.browser.esm-CuL3HyEV.js";import"./useBooleanState-BvRGCuoP.js";import"./index-C4WGByT4.js";import"./fuse.esm-BSXXkDLL.js";import"./index-BJt650PE.js";import"./index-aBkx2qY1.js";import"./inheritsLoose-XbxvykFZ.js";import"./useCombinedRefs-Dfiq_Z7b.js";import"./index-B9gZL0fq.js";const S={title:"core-ui/TextArea",component:a},l=()=>{const[s,m]=p.useState("");return i.jsx(a,{value:s,onChange:m,label:"Please fill me out"})},e=l.bind({});var t,r,o;e.parameters={...e.parameters,docs:{...(t=e.parameters)==null?void 0:t.docs,source:{originalSource:`() => {
+  const [value, setValue] = useState('');
+  return <TextArea value={value} onChange={setValue} label="Please fill me out" />;
+}`,...(o=(r=e.parameters)==null?void 0:r.docs)==null?void 0:o.source}}};export{e as Primary,S as default};

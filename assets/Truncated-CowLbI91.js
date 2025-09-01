@@ -1,0 +1,44 @@
+import{j as n}from"./jsx-runtime-PJfywvQB.js";import{r as i,R}from"./index-tnPESBdE.js";import"./index-C4WGByT4.js";import{u as v,a as U}from"./useCombinedRefs-Dfiq_Z7b.js";import{v as G,u as D,a as K,b as C,c as j,d as J,e as Q,f as V,s as W,o as X,g as Y,t as y,h as Z,i as ee,j as ne,C as te}from"./CompositeControl-06XT_jRg.js";import{S as oe,I as re,R as se,B as ae}from"./Button-CSgIS09r.js";import{t as h,b as ie}from"./backgroundColor-DgtptAGf.js";import{u as de}from"./index-D_0btrl3.js";import{H as p,C as ce}from"./styled-components.browser.esm-CuL3HyEV.js";import{i as le}from"./index-ChYhBiAs.js";import{u as k}from"./useResizeObserver-Dyd7CEVH.js";import{r as ue}from"./index-BJt650PE.js";const pe=p.div`
+	display: inline-block;
+`,me=p.div`
+	box-shadow: ${h.shadows.dropdown};
+	padding: ${G({_:h.sizes.uiContentPadding.medium,flush:0})};
+	${ie(h.colors.background.dropdown)}
+	border-radius: ${h.borderRadii.default};
+`;function fe(e,t=!0){const o=he(e),r=D("body");K(r,"keydown",o,t)}function he(e){const t=i.useRef(e);t.current=e;const o=i.useMemo(()=>Object.keys(e).map(r=>({handler:()=>{var s,a;return(a=(s=t.current)[r])==null?void 0:a.call(s)},eventIsHotkey:le(r)})),Object.keys(e));return i.useCallback(r=>{for(const{handler:s,eventIsHotkey:a}of o)a(r)&&s()},[o])}function f({isOpen:e,children:t,setIsOpen:o,portalElementSelector:r,variant:s,referenceGap:a}){const c=C(t,I),d=C(t,M),l=D(r??"body"),u=de();fe({esc:()=>o(!1)},e);const m=j(),x=j();J(()=>{e&&o(!1)},m,x);const{refs:g,floatingStyles:z}=Q({whileElementsMounted:Y,middleware:[V(),W(),X({mainAxis:a?u.sizes.gaps[a]:0})],placement:"bottom-start"}),A=v(g.setFloating,m),L=v(g.setReference,x);if(!c||!d)throw new Error("Exactly one button and one content child is required for Dropdown");return n.jsxs(n.Fragment,{children:[n.jsx(pe,{ref:L,children:c}),e&&l&&ue.createPortal(n.jsx(me,{variant:s??"default",ref:A,style:z,children:d}),l)]})}const I=Symbol("DropdownReference component");f.Reference=y(function({children:t}){return n.jsx(n.Fragment,{children:t})},I);const M=Symbol("DropdownContent component");f.Content=y(function({children:t}){return n.jsx(n.Fragment,{children:t})},M);f.__docgenInfo={description:"",methods:[],displayName:"Dropdown",props:{children:{required:!0,tsType:{name:"ReactReactNode",raw:"React.ReactNode"},description:""},isOpen:{required:!0,tsType:{name:"boolean"},description:""},setIsOpen:{required:!0,tsType:{name:"signature",type:"function",raw:"(isOpen: boolean) => void",signature:{arguments:[{type:{name:"boolean"},name:"isOpen"}],return:{name:"void"}}},description:""},portalElementSelector:{required:!1,tsType:{name:"string"},description:""},variant:{required:!1,tsType:{name:"union",raw:"'default' | 'flush'",elements:[{name:"literal",value:"'default'"},{name:"literal",value:"'flush'"}]},description:""},referenceGap:{required:!1,tsType:{name:"Stepped",elements:[{name:"any"}],raw:"Stepped<any>"},description:""}}};const ye=p.div`
+	width: ${h.sizes.iconSizes.medium};
+`,be=p.div`
+	border-bottom: ${h.colors.border} 2px solid;
+	margin: ${h.sizes.uiContentPadding.small};
+`,Ce=p.div`
+	min-width: 150px;
+	display: flex;
+	flex-direction: column;
+	padding-top: ${({theme:e})=>e.sizes.uiContentPadding.small.top}px;
+	padding-bottom: ${({theme:e})=>e.sizes.uiContentPadding.small.bottom}px;
+`,ge=p(oe)`
+	width: 100%;
+	flex-grow: 1;
+	border-radius: 0;
+
+	// Add extra padding for the content of the dropdown, but put it inside the button
+	padding-left: ${({theme:e,size:t="medium"})=>e.sizes.uiContentPadding[t].left+e.sizes.uiContentPadding.small.left}px;
+	padding-right: ${({theme:e,size:t="medium"})=>e.sizes.uiContentPadding[t].right+e.sizes.uiContentPadding.small.right}px;
+`,S=R.createContext({reserveIconSpace:!1}),q=R.forwardRef(({onClick:e,icon:t,children:o,secondaryAction:r,isSelected:s},a)=>{const{reserveIconSpace:c}=i.useContext(S),d=i.useCallback(m=>{m.defaultPrevented||e==null||e()},[e]),l=Z({isSelected:s}),u=v(l,a);return n.jsxs(ge,{variant:s?"selected":"minimal",onClick:d,ref:u,role:"menuitem",children:[t?n.jsx(re,{name:t}):c?n.jsx(ye,{}):null,o&&n.jsx("span",{children:o}),r&&n.jsx(se,{children:r})]})});q.__docgenInfo={description:"",methods:[],displayName:"DropdownMenuItem",props:{onClick:{required:!1,tsType:{name:"signature",type:"function",raw:"() => void",signature:{arguments:[],return:{name:"void"}}},description:""},icon:{required:!1,tsType:{name:"union",raw:"keyof typeof iconNames",elements:[{name:"literal",value:"character"},{name:"literal",value:"chevronDown"},{name:"literal",value:"chevronLeft"},{name:"literal",value:"chevronRight"},{name:"literal",value:"chevronUp"},{name:"literal",value:"cross"},{name:"literal",value:"d20"},{name:"literal",value:"note"},{name:"literal",value:"profile"}]},description:""},secondaryAction:{required:!1,tsType:{name:"ReactReactNode",raw:"React.ReactNode"},description:""},isSelected:{required:!1,tsType:{name:"boolean"},description:""}}};const B=i.createContext({close:()=>{},open:()=>{},isOpen:!1,sharedId:"",buttonRef:{current:null}});function N(){return i.useContext(B)}function $({children:e,...t}){return n.jsx(B.Provider,{value:t,children:e})}$.__docgenInfo={description:"",methods:[],displayName:"DropdownMenuContextProvider"};const E=Symbol("DropdownMenu reference"),O=Symbol("DropdownMenu content"),T=Symbol("DropdownMenu item");function w({isOpen:e,setIsOpen:t,children:o,portalElementSelector:r}){const s=C(o,E),a=C(o,O),c=i.useRef(null),d=i.useId(),l=i.useCallback(()=>{var g;(g=document.getElementById(`${d}-button`))==null||g.focus()},[d]),u=i.useCallback(()=>{t(!1),queueMicrotask(()=>l())},[l,t]),m=i.useCallback(()=>t(!0),[t]),x=i.useCallback(()=>u(),[u]);return n.jsx($,{isOpen:e,open:m,close:u,sharedId:d,buttonRef:c,children:n.jsxs(f,{variant:"flush",isOpen:e,setIsOpen:t,portalElementSelector:r,children:[n.jsx(f.Reference,{children:s}),n.jsx(f.Content,{children:n.jsx("div",{onClick:x,children:a})})]})})}w.Button=y(function(t){const{isOpen:o,open:r,close:s,sharedId:a,buttonRef:c}=N(),d=ee({up:()=>{r()},down:()=>{r()}}),l=v(c,d);return n.jsx(ae,{"aria-haspopup":"menu","aria-controls":o?a:void 0,"aria-expanded":o,ref:l,id:`${a}-button`,rightIcon:o?"chevronUp":"chevronDown",onClick:()=>o?s():r(),...t})},E);w.Content=y(R.forwardRef(({children:e},t)=>{const o=ne(e,T),{close:r,sharedId:s,buttonRef:a}=N(),c=i.useMemo(()=>({reserveIconSpace:o.some(u=>{var m;return!!((m=u.props)!=null&&m.icon)})}),[o]),d=i.useCallback(l=>{var u;(u=a.current)!=null&&u.contains(l.relatedTarget)||r()},[a,r]);return n.jsx(S.Provider,{value:c,children:n.jsx(te,{"aria-orientation":"vertical",accessibleId:s,role:"menu",initiallyFocused:!0,onBlur:d,children:n.jsx(Ce,{ref:t,children:e})})})}),O);w.Item=y(q,T);w.Divider=y(function(){return n.jsx(be,{role:"separator","aria-orientation":"vertical"})},T);w.__docgenInfo={description:"",methods:[],displayName:"DropdownMenu",props:{isOpen:{required:!0,tsType:{name:"boolean"},description:""},children:{required:!0,tsType:{name:"ReactReactNode",raw:"React.ReactNode"},description:""},setIsOpen:{required:!0,tsType:{name:"signature",type:"function",raw:"(isOpen: boolean) => void",signature:{arguments:[{type:{name:"boolean"},name:"isOpen"}],return:{name:"void"}}},description:""},portalElementSelector:{required:!1,tsType:{name:"string"},description:""}}};const we=ce`
+	mask-image: linear-gradient(to left, transparent, black 30px);
+	mask-repeat: no-repeat;
+`,xe=p.span`
+	display: inline-block;
+	white-space: nowrap;
+	overflow: hidden;
+	max-width: 100%;
+	position: relative;
+	${({showFader:e})=>e?we:""}
+`,ve=p.span`
+	display: inline-block;
+	white-space: nowrap;
+`,Re=p.div`
+	display: inline-block;
+`,Te=p.div`
+	color: ${h.colors.primaryText.onBackground};
+`,P=Symbol("TooltipReference"),H=Symbol("TooltipContent");function b({children:e,disabled:t}){const[o,r]=i.useState(!1),s=C(e,H),a=C(e,P),c=U(r,500),d=i.useCallback(()=>c(!0),[c]),l=i.useCallback(()=>c(!1),[c]);return n.jsxs(f,{isOpen:o&&!t,setIsOpen:r,referenceGap:"small",children:[n.jsx(f.Reference,{children:n.jsx(Re,{onMouseEnter:d,onMouseLeave:l,onFocus:d,onBlur:d,children:a})}),n.jsx(f.Content,{children:n.jsx(Te,{onMouseEnter:d,onMouseLeave:l,children:s})})]})}const _=y(({children:e})=>n.jsx(n.Fragment,{children:e}),H);_.displayName="TooltipContent";const F=y(({children:e})=>n.jsx(n.Fragment,{children:e}),P);F.displayName="TooltipReference";b.Content=_;b.Reference=F;b.__docgenInfo={description:"",methods:[],displayName:"Tooltip"};function je({children:e}){const[t,o]=k(),[r,s]=k(),a=i.useMemo(()=>!(o!=null&&o.width)||!(s!=null&&s.width)?!1:s.width>o.width,[o==null?void 0:o.width,s==null?void 0:s.width]);return n.jsx(xe,{ref:t,showFader:a,children:n.jsx(ve,{ref:r,children:n.jsxs(b,{disabled:!a,children:[n.jsx(b.Reference,{children:e}),n.jsx(b.Content,{children:e})]})})})}je.__docgenInfo={description:"",methods:[],displayName:"Truncated"};export{f as D,b as T,w as a,je as b};
