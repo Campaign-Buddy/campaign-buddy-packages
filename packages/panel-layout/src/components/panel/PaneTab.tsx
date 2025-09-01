@@ -141,7 +141,7 @@ function OverflowTabCore({ items }: OverflowedItemsProps<PaneTabItem>) {
 
 	useDelayedEffect(
 		() => {
-			setIsMenuOpen(true);
+			setIsMenuOpen(false);
 		},
 		!isMouseOverMenu && isInDragOperation,
 		700
