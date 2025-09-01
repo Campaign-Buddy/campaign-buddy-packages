@@ -1,4 +1,3 @@
-export { getPaneDragItem } from './getPaneDragItem';
 export { PaneDragItemKind, isPaneDragItem } from './PaneDragItem';
 export type { PaneDragItem } from './PaneDragItem';
 export { PaneDragPreview } from './PaneDragPreview';
