@@ -98,3 +98,8 @@ export const TabTitleContainer = styled.span`
 	max-width: 100%;
 	overflow: hidden;
 `;
+
+export const TabMenuItem = styled.div`
+	display: flex;
+	align-items: center;
+`;

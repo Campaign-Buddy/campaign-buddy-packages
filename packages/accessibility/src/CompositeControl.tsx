@@ -161,7 +161,9 @@ export function CompositeControl({
 					if (
 						!onBlurRef.current ||
 						(document.activeElement &&
-							rootElementRef.current?.contains(document.activeElement))
+							rootElementRef.current?.contains(document.activeElement)) ||
+						(event.relatedTarget &&
+							rootElementRef.current?.contains(event.relatedTarget as Node))
 					) {
 						return;
 					}

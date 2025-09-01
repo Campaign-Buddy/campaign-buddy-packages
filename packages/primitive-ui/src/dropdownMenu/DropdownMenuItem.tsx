@@ -3,6 +3,7 @@ import { RightAligned } from '../button/styled';
 import { Icon, IconName } from '../icon';
 import { ReservedIconSpace, StyledMenuButton } from './styled';
 import { useCompositeControlChild } from '@campaign-buddy/accessibility';
+import { useCombinedRefs } from '@campaign-buddy/common-hooks';
 
 export interface MenuItemContextData {
 	reserveIconSpace: boolean;
@@ -12,20 +13,17 @@ export const MenuItemContext = React.createContext<MenuItemContextData>({
 	reserveIconSpace: false,
 });
 
-export interface DropdownMenuItem {
+export interface DropdownMenuItemProps {
 	onClick?: () => void;
 	icon?: IconName;
 	secondaryAction?: React.ReactNode;
 	isSelected?: boolean;
 }
 
-export function DropdownMenuItem({
-	onClick,
-	icon,
-	children,
-	secondaryAction,
-	isSelected,
-}: React.PropsWithChildren<DropdownMenuItem>) {
+export const DropdownMenuItem = React.forwardRef<
+	HTMLButtonElement | null,
+	React.PropsWithChildren<DropdownMenuItemProps>
+>(({ onClick, icon, children, secondaryAction, isSelected }, forwardedRef) => {
 	const { reserveIconSpace } = useContext(MenuItemContext);
 	const handleOuterMenuClick = useCallback(
 		(event: React.MouseEvent) => {
@@ -38,9 +36,11 @@ export function DropdownMenuItem({
 		[onClick]
 	);
 
-	const ref = useCompositeControlChild({
+	const compositeControlRef = useCompositeControlChild({
 		isSelected,
 	});
+
+	const ref = useCombinedRefs(compositeControlRef, forwardedRef);
 
 	return (
 		<StyledMenuButton
@@ -58,4 +58,4 @@ export function DropdownMenuItem({
 			{secondaryAction && <RightAligned>{secondaryAction}</RightAligned>}
 		</StyledMenuButton>
 	);
-}
+});

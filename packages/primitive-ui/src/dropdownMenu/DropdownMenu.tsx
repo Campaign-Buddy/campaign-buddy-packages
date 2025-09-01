@@ -1,3 +1,4 @@
+import React from 'react';
 import {
 	tagComponent,
 	useCombinedRefs,
@@ -114,49 +115,53 @@ DropdownMenu.Button = tagComponent(function DropdownMenuButton(
 },
 referenceTag);
 
-DropdownMenu.Content = tagComponent(function DropdownMenuContent({
-	children,
-}: {
-	children: React.ReactNode;
-}) {
-	const items = useTaggedChildren(children, itemTag);
-	const { close, sharedId, buttonRef } = useDropdownMenuContext();
+DropdownMenu.Content = tagComponent(
+	React.forwardRef<HTMLDivElement | null, { children: React.ReactNode }>(
+		({ children }, ref) => {
+			const items = useTaggedChildren(children, itemTag);
+			const { close, sharedId, buttonRef } = useDropdownMenuContext();
 
-	const menuItemContext = useMemo<MenuItemContextData>(() => {
-		const anyItemHasIcon = items.some((x) => Boolean((x as any).props?.icon));
+			const menuItemContext = useMemo<MenuItemContextData>(() => {
+				const anyItemHasIcon = items.some((x) =>
+					Boolean((x as any).props?.icon)
+				);
 
-		return {
-			reserveIconSpace: anyItemHasIcon,
-		};
-	}, [items]);
+				return {
+					reserveIconSpace: anyItemHasIcon,
+				};
+			}, [items]);
 
-	const handleBlur = useCallback(
-		(event: FocusEvent) => {
-			// The button will handle closing the dropdown
-			if (buttonRef.current?.contains(event.relatedTarget as Node)) {
-				return;
-			}
+			const handleBlur = useCallback(
+				(event: FocusEvent) => {
+					// The button will handle closing the dropdown
+					if (buttonRef.current?.contains(event.relatedTarget as Node)) {
+						return;
+					}
 
-			close();
-		},
-		[buttonRef, close]
-	);
+					close();
+				},
+				[buttonRef, close]
+			);
 
-	return (
-		<MenuItemContext.Provider value={menuItemContext}>
-			<CompositeControl
-				aria-orientation="vertical"
-				accessibleId={sharedId}
-				role="menu"
-				initiallyFocused
-				onBlur={handleBlur}
-			>
-				<StyledContentContainer>{items}</StyledContentContainer>
-			</CompositeControl>
-		</MenuItemContext.Provider>
-	);
-},
-contentTag);
+			return (
+				<MenuItemContext.Provider value={menuItemContext}>
+					<CompositeControl
+						aria-orientation="vertical"
+						accessibleId={sharedId}
+						role="menu"
+						initiallyFocused
+						onBlur={handleBlur}
+					>
+						<StyledContentContainer ref={ref}>
+							{children}
+						</StyledContentContainer>
+					</CompositeControl>
+				</MenuItemContext.Provider>
+			);
+		}
+	),
+	contentTag
+);
 
 DropdownMenu.Item = tagComponent(DropdownMenuItem, itemTag);
 DropdownMenu.Divider = tagComponent(function DropdownMenuDivider() {

@@ -20,7 +20,6 @@ export const StyledDivider = styled.div<DirectionAwareProps>`
 	flex-basis: ${({ theme }) => theme.sizes.gaps.medium}px;
 	flex-shrink: 0;
 	flex-grow: 0;
-	z-index: 1000;
 	cursor: ${({ direction }) =>
 		direction === 'horizontal' ? 'ew-resize' : 'ns-resize'};
 `;

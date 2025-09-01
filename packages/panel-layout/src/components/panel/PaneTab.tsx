@@ -1,4 +1,10 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, {
+	useCallback,
+	useEffect,
+	useMemo,
+	useRef,
+	useState,
+} from 'react';
 import {
 	useBooleanState,
 	useCombinedRefs,
@@ -21,6 +27,7 @@ import {
 	TabContainer,
 	TabTitleContainer,
 	OverflowTabContainer,
+	TabMenuItem,
 } from './PaneTab.styled';
 import { TabIcon } from '../tab-icon';
 
@@ -106,6 +113,8 @@ function OverflowTabCore({ items }: OverflowedItemsProps<PaneTabItem>) {
 		[items]
 	);
 
+	const buttonContainerRef = useRef<HTMLDivElement | null>(null);
+
 	const title = useObserverState(pane, pane.getTabTitle);
 	const icon = useObserverState(pane, pane.getTabIcon);
 	const paneId = useObserverState(pane, pane.getId);
@@ -148,11 +157,21 @@ function OverflowTabCore({ items }: OverflowedItemsProps<PaneTabItem>) {
 	);
 
 	const handleTabClick = useCallback(
-		() => onActivePaneIdChange(paneId),
+		(event: React.MouseEvent) => {
+			if (
+				buttonContainerRef.current?.contains(event.target as Node) ||
+				dropdownContentRef.current?.contains(event.target as Node)
+			) {
+				return;
+			}
+
+			onActivePaneIdChange(paneId);
+		},
 		[onActivePaneIdChange, paneId]
 	);
 
 	const containerRef = useCombinedRefs(dragRef, dropRef);
+	const dropdownContentRef = useRef<HTMLDivElement | null>(null);
 
 	return (
 		<OverflowTabContainer
@@ -167,14 +186,17 @@ function OverflowTabCore({ items }: OverflowedItemsProps<PaneTabItem>) {
 				<TabTitleContainer>
 					<Truncated>{title}</Truncated>
 				</TabTitleContainer>
-				<ButtonContainer>
+				<ButtonContainer ref={buttonContainerRef}>
 					<DropdownMenu isOpen={isMenuOpen} setIsOpen={setIsMenuOpen}>
 						<DropdownMenu.Button variant="minimal" size="small" />
-						<DropdownMenu.Content>
+						<DropdownMenu.Content ref={dropdownContentRef}>
 							{items.map((item) => (
-								<DropdownMenu.Item key={item.pane.getId()}>
-									<OverflowTabMenuItem item={item} />
-								</DropdownMenu.Item>
+								<OverflowTabMenuItem
+									isActive={item.isActive}
+									pane={item.pane}
+									onActivePaneIdChange={item.onActivePaneIdChange}
+									key={item.pane.getId()}
+								/>
 							))}
 						</DropdownMenu.Content>
 					</DropdownMenu>
@@ -184,7 +206,32 @@ function OverflowTabCore({ items }: OverflowedItemsProps<PaneTabItem>) {
 	);
 }
 
-function OverflowTabMenuItem({ item }: { item: PaneTabItem }) {
-	const title = useObserverState(item.pane, item.pane.getTabTitle);
-	return title;
+function OverflowTabMenuItem({
+	isActive,
+	pane,
+	onActivePaneIdChange,
+}: {
+	isActive: boolean;
+	pane: PaneModel;
+	onActivePaneIdChange: (paneId: string) => void;
+}) {
+	const title = useObserverState(pane, pane.getTabTitle);
+	const icon = useObserverState(pane, pane.getTabIcon);
+	const paneId = useObserverState(pane, pane.getId);
+
+	const selectItem = useCallback(() => {
+		console.log('select', paneId);
+		onActivePaneIdChange(paneId);
+	}, [onActivePaneIdChange, paneId]);
+
+	// HACK: Normally, DropdownMenu.Item should be a direct child of DropdownMenu.Content.
+	// However this is a somewhat special case because we need to support drag and drop here.
+	return (
+		<DropdownMenu.Item isSelected={isActive} onClick={selectItem}>
+			<TabMenuItem>
+				<TabIcon tabIcon={icon} />
+				<span>{title}</span>
+			</TabMenuItem>
+		</DropdownMenu.Item>
+	);
 }
