@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.1.0](https://github.com/Campaign-Buddy/campaign-buddy-packages/compare/v3.0.2...v3.1.0) (2025-09-01)
+
+### Features
+
+- **primitive-ui:** add truncated text component. ([dff3692](https://github.com/Campaign-Buddy/campaign-buddy-packages/commit/dff369285c6ee66bb76f4383e882998f285cb67c))
+
 ## [3.0.1](https://github.com/Campaign-Buddy/campaign-buddy-packages/compare/v3.0.0...v3.0.1) (2025-06-03)
 
 **Note:** Version bump only for package @campaign-buddy/themes

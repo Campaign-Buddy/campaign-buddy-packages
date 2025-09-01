@@ -3,14 +3,14 @@
 	"publishConfig": {
 		"access": "public"
 	},
-	"version": "3.0.2",
+	"version": "3.1.0",
 	"author": "Joseph Stewart",
 	"license": "MIT",
 	"dependencies": {
-		"@campaign-buddy/form-generator-core": "^3.0.1",
+		"@campaign-buddy/form-generator-core": "^3.1.0",
 		"@campaign-buddy/frontend-types": "^3.0.1",
 		"@campaign-buddy/object-navigator": "^3.0.1",
-		"@campaign-buddy/smart-context": "^3.0.1",
+		"@campaign-buddy/smart-context": "^3.1.0",
 		"@syncedstore/core": "^0.4.3",
 		"@syncedstore/react": "^0.4.3",
 		"cuid": "^2.1.8",
@@ -20,7 +20,7 @@
 		"yjs": "^13.5.51"
 	},
 	"devDependencies": {
-		"@campaign-buddy/core-ui": "^3.0.2",
+		"@campaign-buddy/core-ui": "^3.1.0",
 		"@campaign-buddy/json-schema-core": "^3.0.1",
 		"@types/hash-sum": "^1.0.0",
 		"@types/json-schema": "^7.0.7",

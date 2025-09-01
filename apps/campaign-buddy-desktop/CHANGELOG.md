@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.1.0](https://github.com/Campaign-Buddy/campaign-buddy-packages/compare/v3.0.2...v3.1.0) (2025-09-01)
+
+### Bug Fixes
+
+- set background color variable wherever background-color is set. ([38b0e39](https://github.com/Campaign-Buddy/campaign-buddy-packages/commit/38b0e398b7ca5ad3b7f7728c6c9400e4fc7812a9))
+
+### Features
+
+- export drag layer from panel layout package. ([d1302eb](https://github.com/Campaign-Buddy/campaign-buddy-packages/commit/d1302eb66793ed26b55361b275ece286492dd216))
+
 ## [3.0.2](https://github.com/Campaign-Buddy/campaign-buddy-packages/compare/v3.0.1...v3.0.2) (2025-06-03)
 
 **Note:** Version bump only for package campaign-buddy-desktop

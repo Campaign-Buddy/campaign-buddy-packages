@@ -3,21 +3,21 @@
 	"publishConfig": {
 		"access": "public"
 	},
-	"version": "3.0.2",
+	"version": "3.1.0",
 	"author": "Joseph Stewart",
 	"license": "MIT",
 	"dependencies": {
 		"@campaign-buddy/common-hooks": "^3.0.1",
-		"@campaign-buddy/core-ui": "^3.0.2",
+		"@campaign-buddy/core-ui": "^3.1.0",
 		"@campaign-buddy/frontend-types": "^3.0.1",
-		"@campaign-buddy/image-picker-menu": "^3.0.2",
-		"@campaign-buddy/rich-text": "^3.0.2",
+		"@campaign-buddy/image-picker-menu": "^3.1.0",
+		"@campaign-buddy/rich-text": "^3.1.0",
 		"lodash.clonedeep": "^4.5.0",
 		"react-query": "^3.34.12",
 		"semver": "^7.3.5"
 	},
 	"devDependencies": {
-		"@campaign-buddy/form-generator": "^3.0.2",
+		"@campaign-buddy/form-generator": "^3.1.0",
 		"@campaign-buddy/json-schema-core": "^3.0.1",
 		"@campaign-buddy/mock-apis": "^3.0.1",
 		"@types/json-schema": "^7.0.9",
