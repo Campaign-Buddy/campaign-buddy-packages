@@ -1,6 +1,6 @@
 {
 	"name": "campaign-buddy-desktop",
-	"version": "3.0.1",
+	"version": "3.0.2",
 	"description": "An Electron application with React and TypeScript",
 	"main": "./out/main/index.js",
 	"author": "example.com",
@@ -23,8 +23,8 @@
 		"remove-local": "node ../../tools/removeLocal"
 	},
 	"dependencies": {
-		"@campaign-buddy/drag-drop": "^3.0.1",
-		"@campaign-buddy/panel-layout": "^3.0.1",
+		"@campaign-buddy/drag-drop": "^3.0.2",
+		"@campaign-buddy/panel-layout": "^3.0.2",
 		"@campaign-buddy/primitive-ui": "^3.0.1",
 		"@campaign-buddy/react-theme-provider": "^3.0.1",
 		"@campaign-buddy/theme-util": "3.0.1",

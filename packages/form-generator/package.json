@@ -3,7 +3,7 @@
 	"publishConfig": {
 		"access": "public"
 	},
-	"version": "3.0.1",
+	"version": "3.0.2",
 	"author": "Joseph Stewart",
 	"license": "MIT",
 	"dependencies": {
@@ -20,7 +20,7 @@
 		"yjs": "^13.5.51"
 	},
 	"devDependencies": {
-		"@campaign-buddy/core-ui": "^3.0.1",
+		"@campaign-buddy/core-ui": "^3.0.2",
 		"@campaign-buddy/json-schema-core": "^3.0.1",
 		"@types/hash-sum": "^1.0.0",
 		"@types/json-schema": "^7.0.7",
